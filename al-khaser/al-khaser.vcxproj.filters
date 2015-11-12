@@ -23,6 +23,7 @@
   <ItemGroup>
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
+    <None Include="..\.gitignore" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Anti Debug\CheckRemoteDebuggerPresentAPI.cpp">
