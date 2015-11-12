@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Shared">
+      <UniqueIdentifier>{c91c22f6-3dce-47b0-bc3f-833cd0dcaeab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti Debug">
+      <UniqueIdentifier>{5fdefd19-5e38-47db-bad0-7679e2e73119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti Debug\Source">
+      <UniqueIdentifier>{d3d4f819-45fe-4ff8-a642-40938d5bbf63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared\Source">
+      <UniqueIdentifier>{30aa9622-31b8-47de-a64b-f0503cefe90b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti Debug\Header">
+      <UniqueIdentifier>{00aafaa3-1584-43fd-a9cb-d169398d3f98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared\Header">
+      <UniqueIdentifier>{8980166c-8adb-44bb-9c23-35e28cddc865}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE" />
+    <None Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Anti Debug\CheckRemoteDebuggerPresentAPI.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Debug\IsDebuggerPresent.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Debug\PEB_BeingDebugged.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Debug\ProcessHeap_Flags.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Debug\ProcessHeap_ForceFlags.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Debug\ProcessHeap_NtGlobalFlag.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Shared\Common.cpp">
+      <Filter>Shared\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Shared\Utils.cpp">
+      <Filter>Shared\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Al-khaser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shared\VersionHelpers.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\winapifamily.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\Common.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\Utils.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\Main.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\CheckRemoteDebuggerPresentAPI.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\IsDebuggerPresent.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\PEB_BeingDebugged.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\ProcessHeap_Flags.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\ProcessHeap_ForceFlags.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\ProcessHeap_NtGlobalFlag.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
