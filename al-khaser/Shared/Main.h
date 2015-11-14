@@ -8,6 +8,10 @@
 #include "..\Anti Debug\ProcessHeap_Flags.h"
 #include "..\Anti Debug\ProcessHeap_ForceFlags.h"
 #include "..\Anti Debug\ProcessHeap_NtGlobalFlag.h"
+#include "..\Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h"
+#include "..\Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h"
+#include "..\Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h"
+
 
 
 

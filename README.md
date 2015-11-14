@@ -10,9 +10,10 @@ It performs a bunch of nowadays malwares tricks and the goal is to see if you ca
 Please, if you encounter any of the anti-analysis tricks which you have seen in a malware, don't hesitate to contribute.
 
 # Anti-debugging attacks
-- IsDebuggerPresent API call
+- IsDebuggerPresent
 - PEB.BeingDebugged
 - PEB.NtGlobalFlag
 - ProcessHeap.Flags
 - ProcessHeap.ForceFlags
+- NtQueryInformationProcess (ProcessDbgPort)
 

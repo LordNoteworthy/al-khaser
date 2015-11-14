@@ -14,6 +14,9 @@ int main(void)
 	exec_check(&NtGlobalFlag, TEXT("Checking PEB.NtGlobalFlag "));
 	exec_check(&HeapFlags, TEXT("Checking ProcessHeap.Flags "));
 	exec_check(&HeapForceFlags, TEXT("Checking ProcessHeap.ForceFlags "));
+	exec_check(&NtQueryInformationProcess_ProcessDebugPort, TEXT("Checking NtQueryInformationProcess with ProcessDebugPort "));
+	exec_check(&NtQueryInformationProcess_ProcessDebugFlags, TEXT("Checking NtQueryInformationProcess with ProcessDebugFlags "));
+	exec_check(&NtQueryInformationProcess_ProcessDebugObject, TEXT("Checking NtQueryInformationProcess with ProcessDebugObject "));
 
 	system("PAUSE");
 	return 0;

@@ -4,6 +4,12 @@
 *.o
 *.obj
 
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -26,3 +32,17 @@
 *.exe
 *.out
 *.app
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
