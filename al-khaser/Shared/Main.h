@@ -11,6 +11,9 @@
 #include "..\Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h"
 #include "..\Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h"
 #include "..\Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h"
+#include "..\Anti Debug\CloseHandle_InvalidHandle.h"
+
+
 
 
 
