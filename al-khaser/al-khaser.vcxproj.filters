@@ -51,10 +51,13 @@
       <Filter>Shared\Source</Filter>
     </ClCompile>
     <ClCompile Include="Al-khaser.cpp" />
-    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDbgPort.cpp">
+    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.cpp">
+    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,10 +95,13 @@
     <ClInclude Include="Anti Debug\ProcessHeap_NtGlobalFlag.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDbgPort.h">
+    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h">
+    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>

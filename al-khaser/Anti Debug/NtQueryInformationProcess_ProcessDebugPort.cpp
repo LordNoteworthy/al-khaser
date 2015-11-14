@@ -1,11 +1,11 @@
-#include "NtQueryInformationProcess_ProcessDbgPort.h"
+#include "NtQueryInformationProcess_ProcessDebugPort.h"
 
 /* I
 nstead of calling CheckRemoteDebuggerPresent an individual could also make directly the call to
 NtQueryInformationProcess process theirself.
 */
 
-BOOL NtQueryInformationProcess_ProcessDbgPort ()
+BOOL NtQueryInformationProcess_ProcessDebugPort ()
 {
 	// Function Pointer Typedef for NtQueryInformationProcess
 	typedef NTSTATUS (WINAPI *pNtQueryInformationProcess)(IN  HANDLE, IN  UINT, OUT PVOID, IN ULONG, OUT PULONG);

@@ -84,7 +84,8 @@
     <ClCompile Include="Al-khaser.cpp" />
     <ClCompile Include="Anti Debug\CheckRemoteDebuggerPresentAPI.cpp" />
     <ClCompile Include="Anti Debug\IsDebuggerPresent.cpp" />
-    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDbgPort.cpp" />
+    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.cpp" />
+    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.cpp" />
     <ClCompile Include="Anti Debug\PEB_BeingDebugged.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_Flags.cpp" />
@@ -96,7 +97,8 @@
   <ItemGroup>
     <ClInclude Include="Anti Debug\CheckRemoteDebuggerPresentAPI.h" />
     <ClInclude Include="Anti Debug\IsDebuggerPresent.h" />
-    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDbgPort.h" />
+    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h" />
+    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h" />
     <ClInclude Include="Anti Debug\PEB_BeingDebugged.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_Flags.h" />
