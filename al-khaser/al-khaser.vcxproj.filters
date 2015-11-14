@@ -51,6 +51,12 @@
       <Filter>Shared\Source</Filter>
     </ClCompile>
     <ClCompile Include="Al-khaser.cpp" />
+    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDbgPort.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -84,6 +90,12 @@
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\ProcessHeap_NtGlobalFlag.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDbgPort.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>
