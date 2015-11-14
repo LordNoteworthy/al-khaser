@@ -8,11 +8,6 @@
  As with all anti-debugs that rely on information made directly available.
 */
 
-LONG WINAPI MyVectorExceptionFilter(PEXCEPTION_POINTERS p)
-{
-	_tprintf(_T("in my vectored exxc handler\r\n"));
-	return EXCEPTION_CONTINUE_SEARCH;
-}
 
 BOOL NtClose_InvalideHandle()
 {
@@ -52,8 +47,6 @@ BOOL NtClose_InvalideHandle()
 
 BOOL CloseHandle_InvalideHandle()
 {
-
-	AddVectoredExceptionHandler(1, MyVectorExceptionFilter);
 
 	/* Let's try first with user mode API: CloseHandle*/
 	__try {

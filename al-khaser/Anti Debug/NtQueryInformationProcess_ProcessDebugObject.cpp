@@ -22,6 +22,15 @@ BOOL NtQueryInformationProcess_ProcessDebugObject()
 	NTSTATUS Status;
 	HANDLE hDebugObject = NULL; 
 
+#if defined (ENV64BIT)
+	DWORD dProcessInformationLength = sizeof(ULONG) * 2;
+	DWORD64 IsRemotePresent = 0;
+
+#elif defined(ENV32BIT)
+	DWORD dProcessInformationLength = sizeof(ULONG);
+	DWORD32 IsRemotePresent = 0;
+#endif
+
 	HMODULE hNtDll = LoadLibrary(TEXT("ntdll.dll"));
 	if(hNtDll == NULL)
 	{
@@ -39,7 +48,7 @@ BOOL NtQueryInformationProcess_ProcessDebugObject()
 	}
 
 	// Time to finally make the call
-	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDebugObjectHandle, &hDebugObject, sizeof(DWORD), NULL);
+	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDebugObjectHandle, &hDebugObject, dProcessInformationLength, NULL);
     
 	if (Status == 0x00000000 && hDebugObject)
         return TRUE;
