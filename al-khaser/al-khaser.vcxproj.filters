@@ -60,6 +60,9 @@
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\CloseHandle_InvalidHandle.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -102,6 +105,9 @@
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\CloseHandle_InvalidHandle.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,9 +11,11 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 # Anti-debugging attacks
 - IsDebuggerPresent
-- PEB.BeingDebugged
-- PEB.NtGlobalFlag
-- ProcessHeap.Flags
-- ProcessHeap.ForceFlags
-- NtQueryInformationProcess (ProcessDbgPort)
+- Process Environement Block (BeingDebugged)
+- Process Environement Block (NtGlobalFlag)
+- ProcessHeap (Flags)
+- ProcessHeap (ForceFlags)
+- NtQueryInformationProcess (ProcessDebugPort)
+- NtQueryInformationProcess (ProcessDebugFlags)
+- NtQueryInformationProcess (ProcessDebugObject)
 
