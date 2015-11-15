@@ -72,6 +72,9 @@
     <ClCompile Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\HardwareBreakpoints.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -126,6 +129,9 @@
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\HardwareBreakpoints.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>

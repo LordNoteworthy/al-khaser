@@ -21,5 +21,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - CloseHanlde (NtClose) Invalide Handle
 - UnhandledExceptionFilter
 - OutputDebugString (GetLastError())
+- NtSetInformationThread (HideThreadFromDebugger)
 
 

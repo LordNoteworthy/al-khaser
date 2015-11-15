@@ -8,7 +8,6 @@ the process isn't being debugged
 
 BOOL NtQueryInformationProcess_ProcessDebugObject()
 {
-
    	// Function Pointer Typedef for NtQueryInformationProcess
 	typedef NTSTATUS (WINAPI *pNtQueryInformationProcess)(IN  HANDLE, IN  UINT, OUT PVOID, IN ULONG, OUT PULONG);
 

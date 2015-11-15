@@ -159,6 +159,7 @@
     <ClCompile Include="Al-khaser.cpp" />
     <ClCompile Include="Anti Debug\CheckRemoteDebuggerPresentAPI.cpp" />
     <ClCompile Include="Anti Debug\CloseHandle_InvalidHandle.cpp" />
+    <ClCompile Include="Anti Debug\HardwareBreakpoints.cpp" />
     <ClCompile Include="Anti Debug\IsDebuggerPresent.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="Anti Debug\CheckRemoteDebuggerPresentAPI.h" />
     <ClInclude Include="Anti Debug\CloseHandle_InvalidHandle.h" />
+    <ClInclude Include="Anti Debug\HardwareBreakpoints.h" />
     <ClInclude Include="Anti Debug\IsDebuggerPresent.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h" />
