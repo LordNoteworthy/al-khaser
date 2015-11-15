@@ -144,8 +144,6 @@ IsWindowsServer()
     return !VerifyVersionInfoW(&osvi, VER_PRODUCT_TYPE, dwlConditionMask);
 }
 
-
-
 VERSIONHELPERAPI
 IsWindowsXPOr2k()
 {
