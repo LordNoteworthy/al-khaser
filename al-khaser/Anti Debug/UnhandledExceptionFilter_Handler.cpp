@@ -21,9 +21,5 @@ BOOL UnhandledExcepFilterTest ()
 {
 	SetUnhandledExceptionFilter(UnhandledExcepFilter);
 	RaiseException(EXCEPTION_FLT_DIVIDE_BY_ZERO, 0, 0, NULL); 
-
-    // Execution resumes here if there is no debugger
-    // or if there is a debugger it will never
-    // reach this point of execution
 	return bIsBeinDbg;
 }

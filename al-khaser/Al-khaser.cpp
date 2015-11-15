@@ -7,7 +7,7 @@ int main(void)
 	print_os();
 
 	/* Debugger Detection */
-	/*print_category(TEXT("VirtualBox Detection"));
+	print_category(TEXT("Debugger Detection"));
 	exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API () "));
 	exec_check(&IsDebuggerPresentPEB, TEXT("Checking PEB.BeingDebugged "));
 	exec_check(&IsDebuggerPresentPEB, TEXT("Checking CheckRemoteDebuggerPresentAPI () "));
@@ -17,8 +17,9 @@ int main(void)
 	exec_check(&NtQueryInformationProcess_ProcessDebugPort, TEXT("Checking NtQueryInformationProcess with ProcessDebugPort "));
 	exec_check(&NtQueryInformationProcess_ProcessDebugFlags, TEXT("Checking NtQueryInformationProcess with ProcessDebugFlags "));
 	exec_check(&NtQueryInformationProcess_ProcessDebugObject, TEXT("Checking NtQueryInformationProcess with ProcessDebugObject "));
-	exec_check(&CloseHandle_InvalideHandle, TEXT("Checking CloseHandle with an invalide handle "));*/
-	exec_check(&UnhandledExcepFilterTest, TEXT("Checking UnhandledExcepFilterTest "));
+	//exec_check(&CloseHandle_InvalideHandle, TEXT("Checking CloseHandle with an invalide handle "));
+	//exec_check(&UnhandledExcepFilterTest, TEXT("Checking UnhandledExcepFilterTest "));
+	exec_check(&OutputDebugStringAPI, TEXT("Checking OutputDebugString "));
 
 	system("PAUSE");
 	return 0;

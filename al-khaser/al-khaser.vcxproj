@@ -163,6 +163,7 @@
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.cpp" />
+    <ClCompile Include="Anti Debug\OutputDebugStringAPI.cpp" />
     <ClCompile Include="Anti Debug\PEB_BeingDebugged.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_Flags.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_ForceFlags.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h" />
+    <ClInclude Include="Anti Debug\OutputDebugStringAPI.h" />
     <ClInclude Include="Anti Debug\PEB_BeingDebugged.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_Flags.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_ForceFlags.h" />
