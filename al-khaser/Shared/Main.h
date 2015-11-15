@@ -15,6 +15,7 @@
 #include "..\Anti Debug\CloseHandle_InvalidHandle.h"
 #include "..\Anti Debug\UnhandledExceptionFilter_Handler.h"
 #include "..\Anti Debug\OutputDebugStringAPI.h"
+#include "..\Anti Debug\HardwareBreakpoints.h"
 
 
 

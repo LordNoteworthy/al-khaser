@@ -1,7 +1,7 @@
 #include "NtQueryInformationProcess_ProcessDebugPort.h"
 
-/* I
-nstead of calling CheckRemoteDebuggerPresent an individual could also make directly the call to
+/* 
+Instead of calling CheckRemoteDebuggerPresent an individual could also make directly the call to
 NtQueryInformationProcess process theirself.
 */
 
