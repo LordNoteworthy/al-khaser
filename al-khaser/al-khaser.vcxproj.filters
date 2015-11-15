@@ -63,6 +63,9 @@
     <ClCompile Include="Anti Debug\CloseHandle_InvalidHandle.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -108,6 +111,9 @@
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\CloseHandle_InvalidHandle.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>

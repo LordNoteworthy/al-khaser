@@ -47,8 +47,7 @@ BOOL NtClose_InvalideHandle()
 
 BOOL CloseHandle_InvalideHandle()
 {
-
-	/* Let's try first with user mode API: CloseHandle*/
+	// Let's try first with user mode API: CloseHandle
 	__try {
 		CloseHandle((HANDLE)0x99999999);
 	}
@@ -57,7 +56,7 @@ BOOL CloseHandle_InvalideHandle()
 		return TRUE;
 	}
 
-	/* Direct call to NtClose to bypass user mode hooks */
+	// Direct call to NtClose to bypass user mode hooks
 	if (NtClose_InvalideHandle())
 		return TRUE;
 	else
