@@ -22,7 +22,7 @@ BOOL NtQueryInformationProcess_ProcessDebugFlags()
 	NTSTATUS Status;
 	DWORD NoDebugInherit = 0; 
 
-	HMODULE hNtDll = LoadLibrary(TEXT("ntdll.dll"));
+	HMODULE hNtDll = LoadLibrary(_T("ntdll.dll"));
 	if(hNtDll == NULL)
 	{
 		// Handle however.. chances of this failing

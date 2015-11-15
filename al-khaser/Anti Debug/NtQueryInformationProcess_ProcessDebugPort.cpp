@@ -28,7 +28,7 @@ BOOL NtQueryInformationProcess_ProcessDebugPort ()
 	DWORD32 IsRemotePresent = 0;
 #endif
 
-	HMODULE hNtdll = LoadLibrary(TEXT("ntdll.dll"));
+	HMODULE hNtdll = LoadLibrary(_T("ntdll.dll"));
 	if (hNtdll == NULL)
 	{
 		// Handle however.. chances of this failing

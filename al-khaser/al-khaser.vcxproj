@@ -87,6 +87,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -102,6 +103,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,6 +121,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +141,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,10 +163,13 @@
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.cpp" />
+    <ClCompile Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.cpp" />
+    <ClCompile Include="Anti Debug\OutputDebugStringAPI.cpp" />
     <ClCompile Include="Anti Debug\PEB_BeingDebugged.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_Flags.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_ForceFlags.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_NtGlobalFlag.cpp" />
+    <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp" />
     <ClCompile Include="Shared\Common.cpp" />
     <ClCompile Include="Shared\Utils.cpp" />
   </ItemGroup>
@@ -173,10 +180,13 @@
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h" />
+    <ClInclude Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.h" />
+    <ClInclude Include="Anti Debug\OutputDebugStringAPI.h" />
     <ClInclude Include="Anti Debug\PEB_BeingDebugged.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_Flags.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_ForceFlags.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_NtGlobalFlag.h" />
+    <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="Shared\Common.h" />
     <ClInclude Include="Shared\Main.h" />
     <ClInclude Include="Shared\Utils.h" />
