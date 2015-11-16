@@ -11,6 +11,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 # Anti-debugging attacks
 - IsDebuggerPresent
+- CheckRemoteDebuggerPresent
 - Process Environement Block (BeingDebugged)
 - Process Environement Block (NtGlobalFlag)
 - ProcessHeap (Flags)
@@ -18,9 +19,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - NtQueryInformationProcess (ProcessDebugPort)
 - NtQueryInformationProcess (ProcessDebugFlags)
 - NtQueryInformationProcess (ProcessDebugObject)
+- NtSetInformationThread (HideThreadFromDebugger)
 - CloseHanlde (NtClose) Invalide Handle
 - UnhandledExceptionFilter
 - OutputDebugString (GetLastError())
-- NtSetInformationThread (HideThreadFromDebugger)
+- Hardware Breakpoints (SEH / GetThreadContext)
+- Software Breakpoints (INT3 / 0xCC)
+
 
 

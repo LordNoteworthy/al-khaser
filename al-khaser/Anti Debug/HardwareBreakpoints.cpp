@@ -34,14 +34,11 @@ BOOL HardwareBreakpoints_SEH ()
 	return IsDbgPresent;
 }
 
-
 BOOL HardwareBreakpoints_GetThreadContext ()
 {
-
 	// This structure is key to the function and is the 
 	// medium for detection and removal
-	PCONTEXT ctx;
-	ctx = PCONTEXT(VirtualAlloc(NULL, sizeof(ctx), MEM_COMMIT, PAGE_READWRITE));
+	PCONTEXT ctx = PCONTEXT(VirtualAlloc(NULL, sizeof(ctx), MEM_COMMIT, PAGE_READWRITE));
 	SecureZeroMemory(ctx, sizeof(CONTEXT));
 
 	// The CONTEXT structure is an in/out parameter therefore we have
@@ -62,6 +59,7 @@ BOOL HardwareBreakpoints_GetThreadContext ()
 
 BOOL HardwareBreakpoints()
 {
+	/* Check either by using GetThreadContext or SEH method */
 	if (HardwareBreakpoints_GetThreadContext() || HardwareBreakpoints_SEH())
 		return TRUE;
 	else

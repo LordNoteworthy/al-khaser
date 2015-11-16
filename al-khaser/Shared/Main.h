@@ -16,9 +16,7 @@
 #include "..\Anti Debug\UnhandledExceptionFilter_Handler.h"
 #include "..\Anti Debug\OutputDebugStringAPI.h"
 #include "..\Anti Debug\HardwareBreakpoints.h"
-
-
-
+#include "..\Anti Debug\SoftwareBreakpoints.h"
 
 
 

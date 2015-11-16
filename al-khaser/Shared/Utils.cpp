@@ -7,7 +7,6 @@
 #include <Iphlpapi.h>
 #pragma comment(lib, "Iphlpapi.lib")
 #pragma comment(lib, "Shlwapi.lib")
-
 #include "Utils.h"
 
 
@@ -81,7 +80,6 @@ BOOL is_DirectoryExists(TCHAR* szPath)
 	return (dwAttrib != INVALID_FILE_ATTRIBUTES) && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY);
 }
 
-
 BOOL check_mac_addr(TCHAR* szMac)
 {
 	BOOL bResult = FALSE;
@@ -136,8 +134,8 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 	BOOL bOsVersionInfoEx;
 	DWORD dwType;
 
-	ZeroMemory(&si, sizeof(SYSTEM_INFO));
-	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+	SecureZeroMemory(&si, sizeof(SYSTEM_INFO));
+	SecureZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
 
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*)&osvi);
@@ -351,5 +349,3 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 		return FALSE;
 	}
 }
-
-
