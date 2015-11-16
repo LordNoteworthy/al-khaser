@@ -75,6 +75,9 @@
     <ClCompile Include="Anti Debug\HardwareBreakpoints.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\SoftwareBreakpoints.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -132,6 +135,9 @@
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\HardwareBreakpoints.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\SoftwareBreakpoints.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>

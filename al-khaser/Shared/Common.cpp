@@ -9,7 +9,7 @@ VOID print_detected()
 	/* Get handle to standard output */
 	HANDLE nStdHandle = GetStdHandle(STD_OUTPUT_HANDLE);  
 	CONSOLE_SCREEN_BUFFER_INFO ConsoleScreenBufferInfo;
-	ZeroMemory(&ConsoleScreenBufferInfo, sizeof(CONSOLE_SCREEN_BUFFER_INFO));
+	SecureZeroMemory(&ConsoleScreenBufferInfo, sizeof(CONSOLE_SCREEN_BUFFER_INFO));
 
 	/* Save the original console color */
 	GetConsoleScreenBufferInfo(nStdHandle, &ConsoleScreenBufferInfo);
@@ -25,7 +25,7 @@ VOID print_not_detected()
 	/* Get handle to standard output */
 	HANDLE nStdHandle = GetStdHandle(STD_OUTPUT_HANDLE);  
 	CONSOLE_SCREEN_BUFFER_INFO ConsoleScreenBufferInfo;
-	ZeroMemory(&ConsoleScreenBufferInfo, sizeof(CONSOLE_SCREEN_BUFFER_INFO));
+	SecureZeroMemory(&ConsoleScreenBufferInfo, sizeof(CONSOLE_SCREEN_BUFFER_INFO));
 
 	/* Save the original console color */
 	GetConsoleScreenBufferInfo(nStdHandle, &ConsoleScreenBufferInfo);
@@ -41,7 +41,7 @@ VOID print_category(TCHAR* text)
 	/* Get handle to standard output */
 	HANDLE nStdHandle = GetStdHandle(STD_OUTPUT_HANDLE);  
 	CONSOLE_SCREEN_BUFFER_INFO ConsoleScreenBufferInfo;
-	ZeroMemory(&ConsoleScreenBufferInfo, sizeof(CONSOLE_SCREEN_BUFFER_INFO));
+	SecureZeroMemory(&ConsoleScreenBufferInfo, sizeof(CONSOLE_SCREEN_BUFFER_INFO));
 
 	/* Save the original console color */
 	GetConsoleScreenBufferInfo(nStdHandle, &ConsoleScreenBufferInfo);

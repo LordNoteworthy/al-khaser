@@ -170,6 +170,7 @@
     <ClCompile Include="Anti Debug\ProcessHeap_Flags.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_ForceFlags.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_NtGlobalFlag.cpp" />
+    <ClCompile Include="Anti Debug\SoftwareBreakpoints.cpp" />
     <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp" />
     <ClCompile Include="Shared\Common.cpp" />
     <ClCompile Include="Shared\Utils.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Anti Debug\ProcessHeap_Flags.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_ForceFlags.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_NtGlobalFlag.h" />
+    <ClInclude Include="Anti Debug\SoftwareBreakpoints.h" />
     <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="Shared\Common.h" />
     <ClInclude Include="Shared\Main.h" />
