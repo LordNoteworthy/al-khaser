@@ -78,6 +78,12 @@
     <ClCompile Include="Anti Debug\SoftwareBreakpoints.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\Interrupt_0x2d.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Debug\Interrupt_3.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -138,6 +144,12 @@
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\SoftwareBreakpoints.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\Interrupt_0x2d.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\Interrupt_3.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>

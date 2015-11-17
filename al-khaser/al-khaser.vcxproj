@@ -160,6 +160,8 @@
     <ClCompile Include="Anti Debug\CheckRemoteDebuggerPresentAPI.cpp" />
     <ClCompile Include="Anti Debug\CloseHandle_InvalidHandle.cpp" />
     <ClCompile Include="Anti Debug\HardwareBreakpoints.cpp" />
+    <ClCompile Include="Anti Debug\Interrupt_0x2d.cpp" />
+    <ClCompile Include="Anti Debug\Interrupt_3.cpp" />
     <ClCompile Include="Anti Debug\IsDebuggerPresent.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.cpp" />
@@ -179,6 +181,8 @@
     <ClInclude Include="Anti Debug\CheckRemoteDebuggerPresentAPI.h" />
     <ClInclude Include="Anti Debug\CloseHandle_InvalidHandle.h" />
     <ClInclude Include="Anti Debug\HardwareBreakpoints.h" />
+    <ClInclude Include="Anti Debug\Interrupt_0x2d.h" />
+    <ClInclude Include="Anti Debug\Interrupt_3.h" />
     <ClInclude Include="Anti Debug\IsDebuggerPresent.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h" />

@@ -17,6 +17,8 @@
 #include "..\Anti Debug\OutputDebugStringAPI.h"
 #include "..\Anti Debug\HardwareBreakpoints.h"
 #include "..\Anti Debug\SoftwareBreakpoints.h"
+#include "..\Anti Debug\Interrupt_0x2d.h"
+#include "..\Anti Debug\Interrupt_3.h"
 
 
 
