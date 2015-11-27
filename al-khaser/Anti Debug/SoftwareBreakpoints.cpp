@@ -1,5 +1,6 @@
 #include "SoftwareBreakpoints.h"
 
+
 /*
 Software breakpoints aka INT 3 represented in the IA-32 instruction set with the opcode CC (0xCC).
 Given a memory addresse and size, it is relatively simple to scan for the byte 0xCC -> if(pTmp[i] == 0xCC)
@@ -8,7 +9,6 @@ An obfuscated method would be to check if our memory byte xored with 0x55 is equ
 
 VOID My_Critical_Function()
 {
-	/* Setting INT 3 BP here would be detected */
 	int a = 1;
 	int b = 2;
 	int c = a + b;
