@@ -13,17 +13,17 @@ BOOL Interrupt_0x2d()
 
 	__try
 	{
-		__asm
-		{
-			xor eax, eax
-			int 0x2d
-			inc eax
-			je DebuggerFound
-			jmp Exit
-		DebuggerFound :
-			mov IsBeingDbg, 1
-		Exit:
-		}
+		//__asm
+		//{
+		//	xor eax, eax
+		//	int 0x2d
+		//	inc eax
+		//	je DebuggerFound
+		//	jmp Exit
+		//DebuggerFound :
+		//	mov IsBeingDbg, 1
+		//Exit:
+		//}
 
 	}
 	__except (GetExceptionCode() == EXCEPTION_BREAKPOINT ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
