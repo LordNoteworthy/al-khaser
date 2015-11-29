@@ -25,6 +25,9 @@ int main(void)
 	exec_check(&SoftwareBreakpoints, TEXT("Checking Software Breakpoints "));
 	exec_check(&Interrupt_0x2d, TEXT("Checking Interupt 0x2d "));
 	exec_check(&Interrupt_3, TEXT("Checking Interupt 1 "));
+	exec_check(&MemoryBreakpoints_PageGuard, TEXT("Checking Memory Breakpoints PAGE GUARD: "));
+
+
 	system("PAUSE");
 	return 0;
 }

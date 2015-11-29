@@ -51,8 +51,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -163,6 +162,7 @@
     <ClCompile Include="Anti Debug\Interrupt_0x2d.cpp" />
     <ClCompile Include="Anti Debug\Interrupt_3.cpp" />
     <ClCompile Include="Anti Debug\IsDebuggerPresent.cpp" />
+    <ClCompile Include="Anti Debug\MemoryBreakpoints_PageGuard.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.cpp" />
@@ -184,6 +184,7 @@
     <ClInclude Include="Anti Debug\Interrupt_0x2d.h" />
     <ClInclude Include="Anti Debug\Interrupt_3.h" />
     <ClInclude Include="Anti Debug\IsDebuggerPresent.h" />
+    <ClInclude Include="Anti Debug\MemoryBreakpoints_PageGuard.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h" />
@@ -202,6 +203,5 @@
     <ClInclude Include="Shared\winapifamily.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

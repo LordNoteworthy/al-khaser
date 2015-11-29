@@ -25,6 +25,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - OutputDebugString (GetLastError())
 - Hardware Breakpoints (SEH / GetThreadContext)
 - Software Breakpoints (INT3 / 0xCC)
+- Memory Breakpoints (PAGE_GUARD)
 - Interrupt 0x2d
 - Interrupt 1
 
