@@ -349,3 +349,47 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 		return FALSE;
 	}
 }
+
+#include <Psapi.h>
+#pragma comment(lib, "Psapi.lib")
+DWORD GetProccessIDByName(TCHAR* szProcessNameTarget)
+{
+	DWORD processIds[1024];
+	DWORD dBytesReturned;
+	BOOL bStatus;
+	HMODULE hMod;
+	DWORD cbNeeded;
+	TCHAR szProcessName[MAX_PATH] = _T("");
+
+	// Get the list of process identifiers.
+	bStatus = EnumProcesses(processIds, sizeof(processIds), &dBytesReturned);
+	if (!bStatus)
+	{
+		// Something bad happened
+	}
+
+	// Calculate how many process identifiers were returned.
+	int cProcesses = dBytesReturned / sizeof(DWORD);
+
+	for (int i = 0; i < cProcesses; i++)
+	{
+		// Get a handle to the process.
+		HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION + PROCESS_VM_READ + PROCESS_TERMINATE, FALSE, processIds[i]);
+
+		// Get the process name.
+		if (hProcess != NULL)
+		{
+			EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded);
+			GetModuleBaseName(hProcess, hMod, szProcessName, sizeof(szProcessName) / sizeof(TCHAR));
+
+			// Make the comparaison
+			if (StrCmpI(szProcessName, szProcessNameTarget) == 0)
+				return processIds[i];
+
+		}
+
+		_tprintf(TEXT("%s  (PID: %u)\n"), szProcessName, processIds[i]);
+	}
+
+	return FALSE;
+}

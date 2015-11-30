@@ -20,6 +20,7 @@
 #include "..\Anti Debug\Interrupt_0x2d.h"
 #include "..\Anti Debug\Interrupt_3.h"
 #include "..\Anti Debug\MemoryBreakpoints_PageGuard.h"
+#include "..\Anti Debug\ParentProcess.h"
 
 
 
