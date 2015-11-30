@@ -10,7 +10,7 @@ is called, the thread will continue  to run but a debugger will no longer receiv
 BOOL NtSetInformationThread_ThreadHideFromDebugger()
 {
 	// Function Pointer Typedef for NtQueryInformationProcess
-	typedef NTSTATUS (WINAPI *pNtSetInformationThread)(IN HANDLE, IN UINT, IN PVOID, IN ULONG);
+	typedef NTSTATUS (WINAPI *pNtSetInformationThread)(HANDLE, UINT, PVOID, ULONG);
 
 	// ThreadHideFromDebugger
 	const int ThreadHideFromDebugger =  0x11;

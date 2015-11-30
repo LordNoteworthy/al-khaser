@@ -87,6 +87,9 @@
     <ClCompile Include="Anti Debug\MemoryBreakpoints_PageGuard.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\ParentProcess.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -156,6 +159,9 @@
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\MemoryBreakpoints_PageGuard.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\ParentProcess.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,7 @@ BOOL is_FileExists(TCHAR* szPath);
 BOOL is_DirectoryExists(TCHAR* szPath);
 BOOL check_mac_addr(TCHAR* szMac);
 BOOL GetOSDisplayString(LPTSTR pszOS);
+DWORD GetProccessIDByName(TCHAR* szProcessNameTarget);
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
 #define FREE(x)		HeapFree(GetProcessHeap(), 0, x)

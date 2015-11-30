@@ -38,11 +38,9 @@ BOOL NtQueryInformationProcess_ProcessDebugPort ()
  
 	NtQueryInfoProcess = (pNtQueryInformationProcess)GetProcAddress(hNtdll, "NtQueryInformationProcess");
 
-	if(NtQueryInfoProcess == NULL)
-	{
-		// Handle however it fits your needs but as before,
-		// if this is missing there are some SERIOUS issues with the OS
-	}
+	// Sanity check although there's no reason for it to have failed
+	if (NtQueryInfoProcess == NULL)
+		return 0;
  
 	// Time to finally make the call
 	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDbgPort, &IsRemotePresent, dProcessInformationLength, NULL);
