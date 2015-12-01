@@ -1,14 +1,4 @@
-#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
-#include <strsafe.h>
-#include <IPTypes.h>
-#include <Shlwapi.h>
-#include <Iphlpapi.h>
-#pragma comment(lib, "Iphlpapi.lib")
-#pragma comment(lib, "Shlwapi.lib")
 #include "Utils.h"
-
 
 
 BOOL IsWoW64()
@@ -374,7 +364,7 @@ DWORD GetProccessIDByName(TCHAR* szProcessNameTarget)
 	for (int i = 0; i < cProcesses; i++)
 	{
 		// Get a handle to the process.
-		HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION + PROCESS_VM_READ + PROCESS_TERMINATE, FALSE, processIds[i]);
+		HANDLE hProcess = OpenProcess(PROCESS_VM_READ | PROCESS_QUERY_INFORMATION, FALSE, processIds[i]);
 
 		// Get the process name.
 		if (hProcess != NULL)
@@ -393,3 +383,121 @@ DWORD GetProccessIDByName(TCHAR* szProcessNameTarget)
 
 	return FALSE;
 }
+
+BOOL SetPrivilege(
+	HANDLE hToken,          // token handle
+	LPCTSTR Privilege,      // Privilege to enable/disable
+	BOOL bEnablePrivilege   // TRUE to enable.  FALSE to disable
+	)
+{
+	TOKEN_PRIVILEGES tp;
+	LUID luid;
+	TOKEN_PRIVILEGES tpPrevious;
+	DWORD cbPrevious = sizeof(TOKEN_PRIVILEGES);
+
+	if (!LookupPrivilegeValue(NULL, Privilege, &luid)) 
+		return FALSE;
+
+	/* first pass.  get current privilege setting */
+	tp.PrivilegeCount = 1;
+	tp.Privileges[0].Luid = luid;
+	tp.Privileges[0].Attributes = 0;
+
+	AdjustTokenPrivileges(
+		hToken,
+		FALSE,
+		&tp,
+		sizeof(TOKEN_PRIVILEGES),
+		&tpPrevious,
+		&cbPrevious
+		);
+
+	if (GetLastError() != ERROR_SUCCESS) return FALSE;
+
+	// 
+	// second pass.  set privilege based on previous setting
+	// 
+	tpPrevious.PrivilegeCount = 1;
+	tpPrevious.Privileges[0].Luid = luid;
+
+	if (bEnablePrivilege) {
+		tpPrevious.Privileges[0].Attributes |= (SE_PRIVILEGE_ENABLED);
+	}
+	else {
+		tpPrevious.Privileges[0].Attributes ^= (SE_PRIVILEGE_ENABLED &
+			tpPrevious.Privileges[0].Attributes);
+	}
+
+	AdjustTokenPrivileges(
+		hToken,
+		FALSE,
+		&tpPrevious,
+		cbPrevious,
+		NULL,
+		NULL
+		);
+
+	if (GetLastError() != ERROR_SUCCESS) return FALSE;
+
+	return TRUE;
+}
+
+
+
+
+#include <TlHelp32.h>
+DWORD GetProcessIdFromName(LPCTSTR ProcessName)
+{
+	PROCESSENTRY32 pe32;
+	HANDLE hSnapshot = NULL;
+	ZeroMemory(&pe32, sizeof(PROCESSENTRY32));
+
+	// We want a snapshot of processes
+	hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+
+	// Check for a valid handle, in this case we need to check for
+	// INVALID_HANDLE_VALUE instead of NULL
+	if (hSnapshot == INVALID_HANDLE_VALUE)
+		return 0;
+
+	// Now we can enumerate the running process, also 
+	// we can't forget to set the PROCESSENTRY32.dwSize member
+	// otherwise the following functions will fail
+	pe32.dwSize = sizeof(PROCESSENTRY32);
+
+	if (Process32First(hSnapshot, &pe32) == FALSE)
+	{
+		// Cleanup the mess
+		CloseHandle(hSnapshot);
+		return 0;
+	}
+
+	// Do our first comparison
+	if (_tcscmp(pe32.szExeFile, ProcessName) == FALSE)
+	{
+		// Cleanup the mess
+		CloseHandle(hSnapshot);
+		return pe32.th32ProcessID;
+	}
+
+	// Most likely it won't match on the first try so 
+	// we loop through the rest of the entries until
+	// we find the matching entry or not one at all
+	while (Process32Next(hSnapshot, &pe32))
+	{
+		if (_tcscmp(pe32.szExeFile, ProcessName) == 0)
+		{
+			// Cleanup the mess
+			CloseHandle(hSnapshot);
+			return pe32.th32ProcessID;
+		}
+	}
+
+	// If we made it this far there wasn't a match
+	// so we'll return 0
+	CloseHandle(hSnapshot);
+	return 0;
+}
+
+
+

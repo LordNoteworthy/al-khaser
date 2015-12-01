@@ -58,3 +58,6 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+
+# Visual C++ Solution
+*.sln

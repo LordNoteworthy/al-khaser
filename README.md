@@ -28,6 +28,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Memory Breakpoints (PAGE_GUARD)
 - Interrupt 0x2d
 - Interrupt 1
+- Parent Process (Explorer.exe)
+- SeDebugPrivilege (Csrss.exe)
 
 
 
