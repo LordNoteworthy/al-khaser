@@ -39,12 +39,12 @@ DWORD GetParentProcessId()
 		return 0;
 
 	// Now we can call NtQueryInformationProcess, the second param 0 == ProcessBasicInformation
-	Status = NtQueryInfoProcess(GetCurrentProcess(), 0, (void*)&pbi, sizeof(PROCESS_BASIC_INFORMATION), 0);
+	Status = NtQueryInfoProcess(GetCurrentProcess(), 0, (PVOID)&pbi, sizeof(PROCESS_BASIC_INFORMATION), 0);
 
 	if (Status != 0x00000000)
 		return 0;
 	else
-		return pbi.ParentProcessId;
+		return (DWORD)pbi.ParentProcessId;
 }
 
 

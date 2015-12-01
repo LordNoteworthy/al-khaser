@@ -1,4 +1,12 @@
-#include <Windows.h>
+#include <windows.h>
+#include <tchar.h>
+#include <stdio.h>
+#include <strsafe.h>
+#include <IPTypes.h>
+#include <Shlwapi.h>
+#include <Iphlpapi.h>
+#pragma comment(lib, "Iphlpapi.lib")
+#pragma comment(lib, "Shlwapi.lib")
 
 BOOL IsWoW64();
 BOOL Is_RegKeyValueExists(HKEY hKey, TCHAR* lpSubKey, TCHAR* lpValueName, TCHAR* search_str);
@@ -8,6 +16,7 @@ BOOL is_DirectoryExists(TCHAR* szPath);
 BOOL check_mac_addr(TCHAR* szMac);
 BOOL GetOSDisplayString(LPTSTR pszOS);
 DWORD GetProccessIDByName(TCHAR* szProcessNameTarget);
+DWORD GetProcessIdFromName(LPCTSTR ProcessName);
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
 #define FREE(x)		HeapFree(GetProcessHeap(), 0, x)
