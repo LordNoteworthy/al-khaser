@@ -23,6 +23,9 @@
 #include "..\Anti Debug\ParentProcess.h"
 #include "..\Anti Debug\SeDebugPrivilege.h"
 
+/* Anti dumping headers */
+#include "..\Anti Dump\ErasePEHeaderFromMemory.h"
+
 
 
 

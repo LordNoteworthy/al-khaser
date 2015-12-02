@@ -1,5 +1,5 @@
 #include "Interrupt_0x2d.h"
-#include <tchar.h>
+
 /*
 The Interrupt_0x2d function will check to see if a debugger is attached to the current process. It does this by setting up
 SEH and using the Int 2D instruction which will only cause an exception if there is no debugger. Also when used in OllyDBG
@@ -13,17 +13,17 @@ BOOL Interrupt_0x2d()
 
 	__try
 	{
-		//__asm
-		//{
-		//	xor eax, eax
-		//	int 0x2d
-		//	inc eax
-		//	je DebuggerFound
-		//	jmp Exit
-		//DebuggerFound :
-		//	mov IsBeingDbg, 1
-		//Exit:
-		//}
+		__asm
+		{
+			xor eax, eax
+			int 0x2d
+			inc eax
+			je DebuggerFound
+			jmp Exit
+		DebuggerFound :
+			mov IsBeingDbg, 1
+		Exit:
+		}
 
 	}
 	__except (GetExceptionCode() == EXCEPTION_BREAKPOINT ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
