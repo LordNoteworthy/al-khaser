@@ -28,6 +28,15 @@
     <Filter Include="Anti Dump\Header">
       <UniqueIdentifier>{93973427-9250-43d9-a191-7dd8a214487f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Anti VM">
+      <UniqueIdentifier>{edbd865b-9e3e-4fe6-8f22-59fa166bd962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti VM\Source">
+      <UniqueIdentifier>{ae89ce38-87c4-4d79-af26-a878b21e966d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti VM\Header">
+      <UniqueIdentifier>{9c454b48-8d37-4daf-b957-3a8a5924a444}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\LICENSE" />
@@ -104,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="Anti Dump\ErasePEHeaderFromMemory.cpp">
       <Filter>Anti Dump\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti VM\VirtualBox.cpp">
+      <Filter>Anti VM\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="Anti Dump\ErasePEHeaderFromMemory.h">
       <Filter>Anti Dump\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti VM\VirtualBox.h">
+      <Filter>Anti VM\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

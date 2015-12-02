@@ -28,6 +28,11 @@
 
 
 
+/* Anti VM headers */
+#include "..\Anti VM\VirtualBox.h"
+
+
+
 
 
 
