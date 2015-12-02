@@ -34,6 +34,22 @@ int main(void)
 	print_category(TEXT("Anti Dumping"));
 	exec_check(&ErasePEHeaderFromMemory, TEXT("Checking SeDebugPrivilege : "));
 
+
+	/* VirtualBox Detection */
+	print_category(TEXT("VirtualBox Detection"));
+	exec_check(&IsWoW64, TEXT("Checking if process is running under WOW64: "));
+	exec_check(&vbox_scsi, TEXT("Checking Reg key HKLM\\HARDWARE\\DEVICEMAP\\Scsi\\...: "));
+	exec_check(&vbox_SystemBiosVersion, TEXT("Checking Reg key HARDWARE\\Description\\System - SystemBiosVersion: "));
+	exec_check(&vbox_VideoBiosVersion, TEXT("Checking Reg key HARDWARE\\Description\\System - VideoBiosVersion: "));
+	exec_check(&vbox_SystemBiosDate, TEXT("Checking Reg key HARDWARE\\Description\\System - SystemBiosDate: "));
+	exec_check(&vbox_check_dir, TEXT("Checking dir oracle\\virtualbox guest additions\\: "));
+	vbox_check_files();
+	vbox_check_registry_keys();
+	exec_check(&vbox_check_mac, TEXT("Checking Mac Address start with 08:00:27: "));
+	vbox_devices();
+	exec_check(&vbox_window_class, TEXT("Checking VBoxTrayToolWndClass / VBoxTrayToolWnd: "));
+	exec_check(&vbox_network_share, TEXT("Checking VirtualBox Shared Folders network provider: "));
+
 	system("PAUSE");
 	return 0;
 }
