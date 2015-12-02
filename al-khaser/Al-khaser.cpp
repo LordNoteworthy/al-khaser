@@ -30,6 +30,10 @@ int main(void)
 	exec_check(&CanOpenCsrss, TEXT("Checking SeDebugPrivilege : "));
 
 
+	/* Anti Dumping */
+	print_category(TEXT("Anti Dumping"));
+	exec_check(&ErasePEHeaderFromMemory, TEXT("Checking SeDebugPrivilege : "));
+
 	system("PAUSE");
 	return 0;
 }

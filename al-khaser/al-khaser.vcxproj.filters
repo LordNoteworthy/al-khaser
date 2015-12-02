@@ -19,6 +19,15 @@
     <Filter Include="Shared\Header">
       <UniqueIdentifier>{8980166c-8adb-44bb-9c23-35e28cddc865}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Anti Dump">
+      <UniqueIdentifier>{32fd265e-9b6e-4a03-a556-03f9496e0400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti Dump\Source">
+      <UniqueIdentifier>{db9f9f1a-82bd-495c-a3a5-bc75bb91d9a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti Dump\Header">
+      <UniqueIdentifier>{93973427-9250-43d9-a191-7dd8a214487f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\LICENSE" />
@@ -92,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="Anti Debug\SeDebugPrivilege.cpp">
       <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Dump\ErasePEHeaderFromMemory.cpp">
+      <Filter>Anti Dump\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="Anti Debug\SeDebugPrivilege.h">
       <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Dump\ErasePEHeaderFromMemory.h">
+      <Filter>Anti Dump\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

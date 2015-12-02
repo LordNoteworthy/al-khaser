@@ -31,5 +31,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Parent Process (Explorer.exe)
 - SeDebugPrivilege (Csrss.exe)
 
+# Anti Dumping
+- Erase PE header from memory
 
 
