@@ -128,9 +128,15 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 	SecureZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
 
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*)&osvi);
 
-	if (bOsVersionInfoEx == NULL) return 1;
+	typedef LONG(WINAPI* tRtlGetVersion)(RTL_OSVERSIONINFOEXW*);
+	HMODULE h_NtDll = GetModuleHandleW(L"ntdll.dll");
+	tRtlGetVersion f_RtlGetVersion = (tRtlGetVersion)GetProcAddress(h_NtDll, "RtlGetVersion");
+
+	bOsVersionInfoEx = f_RtlGetVersion((RTL_OSVERSIONINFOEXW*)&osvi);
+
+	if (!f_RtlGetVersion)
+		return FALSE; // This will never happen (all processes load ntdll.dll)
 
 	pGNSI = (PGNSI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
 	if (NULL != pGNSI)
@@ -142,8 +148,20 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 		StringCchCopy(pszOS, MAX_PATH, TEXT("Microsoft "));
 
 		// Test for the specific product.
+		// todo: Not working in Win10, I should use VersionHelpers
+		if (osvi.dwMajorVersion == 10)
+		{
+			if (osvi.dwMinorVersion == 0)
+			{
+				if (osvi.wProductType == VER_NT_WORKSTATION)
+					StringCchCat(pszOS, MAX_PATH, TEXT("Windows 10 "));
+				else
+					StringCchCat(pszOS, MAX_PATH, TEXT("Windows Server 2016 Technical Preview "));
+			}
 
-		if (osvi.dwMajorVersion == 6)
+		}
+
+		else if (osvi.dwMajorVersion == 6)
 		{
 			if (osvi.dwMinorVersion == 0)
 			{
@@ -233,7 +251,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 			}
 		}
 
-		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2)
+		else if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2)
 		{
 			if (GetSystemMetrics(SM_SERVERR2))
 				StringCchCat(pszOS, MAX_PATH, TEXT("Windows Server 2003 R2, "));
@@ -283,7 +301,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 			}
 		}
 
-		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1)
+		else if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1)
 		{
 			StringCchCat(pszOS, MAX_PATH, TEXT("Windows XP "));
 			if (osvi.wSuiteMask & VER_SUITE_PERSONAL)
@@ -291,7 +309,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 			else StringCchCat(pszOS, MAX_PATH, TEXT("Professional"));
 		}
 
-		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0)
+		else if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0)
 		{
 			StringCchCat(pszOS, MAX_PATH, TEXT("Windows 2000 "));
 

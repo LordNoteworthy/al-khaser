@@ -20,6 +20,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - NtQueryInformationProcess (ProcessDebugFlags)
 - NtQueryInformationProcess (ProcessDebugObject)
 - NtSetInformationThread (HideThreadFromDebugger)
+- NtQueryObject (ObjectTypeInformation)
 - CloseHanlde (NtClose) Invalide Handle
 - UnhandledExceptionFilter
 - OutputDebugString (GetLastError())

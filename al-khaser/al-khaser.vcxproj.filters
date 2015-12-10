@@ -65,9 +65,6 @@
     <ClCompile Include="Shared\Common.cpp">
       <Filter>Shared\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Shared\Utils.cpp">
-      <Filter>Shared\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Al-khaser.cpp" />
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.cpp">
       <Filter>Anti Debug\Source</Filter>
@@ -116,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="Anti VM\VirtualBox.cpp">
       <Filter>Anti VM\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Shared\Utils.cpp">
+      <Filter>Shared\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Debug\NtQueryObject_ObjectTypeInformation.cpp">
+      <Filter>Anti Debug\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="Anti VM\VirtualBox.h">
       <Filter>Anti VM\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\NtQueryObject_ObjectTypeInformation.h">
+      <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

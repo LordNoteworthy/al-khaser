@@ -22,6 +22,7 @@
 #include "..\Anti Debug\MemoryBreakpoints_PageGuard.h"
 #include "..\Anti Debug\ParentProcess.h"
 #include "..\Anti Debug\SeDebugPrivilege.h"
+#include "..\Anti Debug\NtQueryObject_ObjectTypeInformation.h"
 
 /* Anti dumping headers */
 #include "..\Anti Dump\ErasePEHeaderFromMemory.h"
