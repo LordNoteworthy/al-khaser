@@ -28,7 +28,8 @@ int main(void)
 	//exec_check(&MemoryBreakpoints_PageGuard, TEXT("Checking Memory Breakpoints PAGE GUARD: "));
 	//exec_check(&IsParentExplorerExe, TEXT("Checking If Parent Process is explorer.exe: "));
 	//exec_check(&CanOpenCsrss, TEXT("Checking SeDebugPrivilege : "));
-	exec_check(&NtQueryObject_ObjectTypeInformation, TEXT("Checking NtQueryObject with ObjectTypeInformation : "));
+	//exec_check(&NtQueryObject_ObjectTypeInformation, TEXT("Checking NtQueryObject with ObjectTypeInformation : "));
+	exec_check(&NtQueryObject_ObjectAllTypesInformation, TEXT("Checking NtQueryObject with ObjectAllTypesInformation : "));
 
 
 	/* Anti Dumping */

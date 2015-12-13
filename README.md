@@ -21,6 +21,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - NtQueryInformationProcess (ProcessDebugObject)
 - NtSetInformationThread (HideThreadFromDebugger)
 - NtQueryObject (ObjectTypeInformation)
+- NtQueryObject (ObjectAllTypesInformation)
 - CloseHanlde (NtClose) Invalide Handle
 - UnhandledExceptionFilter
 - OutputDebugString (GetLastError())
@@ -35,7 +36,5 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 # Anti Dumping
 - Erase PE header from memory
 
-# Anti VM
-- 
 
 
