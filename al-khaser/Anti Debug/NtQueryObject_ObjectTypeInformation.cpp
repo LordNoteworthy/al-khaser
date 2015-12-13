@@ -1,4 +1,10 @@
-#include "NtQueryObject_ObjectTypeInformation.h"
+#include "NtQueryObject_ObjectInformation.h"
+
+/* 
+Windows XP introduced a "debug object". When a debugging session begins, a debug object is created,
+and a handle is associated with it. Using the ntdll NtQueryObject() function  with class: ObjectTypeInformation. 
+ObjectTypeInformation will return the type information of the supplied handle.
+*/
 
 
 BOOL NtQueryObject_ObjectTypeInformation()
