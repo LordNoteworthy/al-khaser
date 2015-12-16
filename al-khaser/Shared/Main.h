@@ -23,6 +23,7 @@
 #include "..\Anti Debug\ParentProcess.h"
 #include "..\Anti Debug\SeDebugPrivilege.h"
 #include "..\Anti Debug\NtQueryObject_ObjectInformation.h"
+#include "..\Anti Debug\NtYieldExecution.h"
 
 /* Anti dumping headers */
 #include "..\Anti Dump\ErasePEHeaderFromMemory.h"
