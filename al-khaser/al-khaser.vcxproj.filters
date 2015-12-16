@@ -123,6 +123,9 @@
     <ClCompile Include="Anti Debug\NtQueryObject_AllTypesInformation.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\NtYieldExecution.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -207,6 +210,9 @@
       <Filter>Anti VM\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\NtQueryObject_ObjectInformation.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\NtYieldExecution.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>

@@ -58,6 +58,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+*.VC.opendb
 
 # Visual C++ Solution
 *.sln

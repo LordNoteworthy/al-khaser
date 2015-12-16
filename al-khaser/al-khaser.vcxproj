@@ -169,6 +169,7 @@
     <ClCompile Include="Anti Debug\NtQueryObject_AllTypesInformation.cpp" />
     <ClCompile Include="Anti Debug\NtQueryObject_ObjectTypeInformation.cpp" />
     <ClCompile Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.cpp" />
+    <ClCompile Include="Anti Debug\NtYieldExecution.cpp" />
     <ClCompile Include="Anti Debug\OutputDebugStringAPI.cpp" />
     <ClCompile Include="Anti Debug\ParentProcess.cpp" />
     <ClCompile Include="Anti Debug\PEB_BeingDebugged.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h" />
     <ClInclude Include="Anti Debug\NtQueryObject_ObjectInformation.h" />
     <ClInclude Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.h" />
+    <ClInclude Include="Anti Debug\NtYieldExecution.h" />
     <ClInclude Include="Anti Debug\OutputDebugStringAPI.h" />
     <ClInclude Include="Anti Debug\ParentProcess.h" />
     <ClInclude Include="Anti Debug\PEB_BeingDebugged.h" />

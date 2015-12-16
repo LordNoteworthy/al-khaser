@@ -32,6 +32,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Interrupt 1
 - Parent Process (Explorer.exe)
 - SeDebugPrivilege (Csrss.exe)
+- NtYieldExecution / SwitchToThread
 
 # Anti Dumping
 - Erase PE header from memory
