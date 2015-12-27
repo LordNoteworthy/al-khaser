@@ -31,6 +31,9 @@
 /* Anti VM headers */
 #include "..\Anti VM\VirtualBox.h"
 
+/* Code Injections Headers */
+#include "..\Code Injections\CreateRemoteThread_LoadLibrary.h"
+
 
 
 

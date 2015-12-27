@@ -181,6 +181,7 @@
     <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp" />
     <ClCompile Include="Anti Dump\ErasePEHeaderFromMemory.cpp" />
     <ClCompile Include="Anti VM\VirtualBox.cpp" />
+    <ClCompile Include="Code Injections\CreateRemoteThread_LoadLibrary.cpp" />
     <ClCompile Include="Shared\Common.cpp" />
     <ClCompile Include="Shared\Utils.cpp" />
   </ItemGroup>
@@ -209,6 +210,7 @@
     <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="Anti Dump\ErasePEHeaderFromMemory.h" />
     <ClInclude Include="Anti VM\VirtualBox.h" />
+    <ClInclude Include="Code Injections\CreateRemoteThread_LoadLibrary.h" />
     <ClInclude Include="Shared\Common.h" />
     <ClInclude Include="Shared\Main.h" />
     <ClInclude Include="Shared\Utils.h" />

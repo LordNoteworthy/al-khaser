@@ -37,6 +37,15 @@
     <Filter Include="Anti VM\Header">
       <UniqueIdentifier>{9c454b48-8d37-4daf-b957-3a8a5924a444}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code Injections">
+      <UniqueIdentifier>{2099a16e-7aac-4042-8043-76b4f4790657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code Injections\Header">
+      <UniqueIdentifier>{3ef29626-8e77-42c9-a616-21c712448e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code Injections\Source">
+      <UniqueIdentifier>{a27683d8-3c18-4558-8023-a2bfedb3253f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\LICENSE" />
@@ -126,6 +135,9 @@
     <ClCompile Include="Anti Debug\NtYieldExecution.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Code Injections\CreateRemoteThread_LoadLibrary.cpp">
+      <Filter>Code Injections\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -214,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="Anti Debug\NtYieldExecution.h">
       <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code Injections\CreateRemoteThread_LoadLibrary.h">
+      <Filter>Code Injections\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
