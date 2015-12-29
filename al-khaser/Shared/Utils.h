@@ -17,6 +17,9 @@ BOOL check_mac_addr(TCHAR* szMac);
 BOOL GetOSDisplayString(LPTSTR pszOS);
 DWORD GetProccessIDByName(TCHAR* szProcessNameTarget);
 DWORD GetProcessIdFromName(LPCTSTR ProcessName);
+BOOL SetPrivilege(HANDLE, LPCTSTR, BOOL);
+INT SetDebugPrivileges(VOID);
+
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
 #define FREE(x)		HeapFree(GetProcessHeap(), 0, x)
