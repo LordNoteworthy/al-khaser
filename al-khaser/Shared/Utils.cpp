@@ -462,6 +462,25 @@ BOOL SetPrivilege(
 
 
 
+INT SetDebugPrivileges(VOID) {
+	TOKEN_PRIVILEGES priv = { 0 };
+	HANDLE hToken = NULL;
+
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
+		priv.PrivilegeCount = 1;
+		priv.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+		if (LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &priv.Privileges[0].Luid)) {
+			if (AdjustTokenPrivileges(hToken, FALSE, &priv, 0, NULL, NULL) == 0) {
+				printf("AdjustTokenPrivilege Error! [%u]\n", GetLastError());
+			}
+		}
+
+		CloseHandle(hToken);
+	}
+	return GetLastError();
+}
+
 
 #include <TlHelp32.h>
 DWORD GetProcessIdFromName(LPCTSTR ProcessName)

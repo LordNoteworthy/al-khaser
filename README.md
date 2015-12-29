@@ -1,14 +1,32 @@
+##Al-Khaser v0.3
+
+![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
+
+## Content
+
+- [Introduction](#introduction)
+- [Possible uses](#uses)
+- [Features](#features)
+ - [Anti-debugging attacks](#antidebug)
+ - [Anti-virtualization attacks](#antivm)
+ - [Anti-Dumping attacks](#antivm)
+- [Requirements](#requirements)
+- [License](#license)
+
+
+## Introduction
+
 al-khaser is a PoC malware with good intentions that aimes to stress your anti-malware system.
 It performs a bunch of nowadays malwares tricks and the goal is to see if you catch them all.
 
-# Possible uses :
+## Possible uses
 - You are making an anti-debug plugin and you want to check its effectiveness.
 - You want to ensure that your sandbox solution is hidden enough.
 - Or you want to ensure that your malware analysis environement is well hidden.
 
-
 Please, if you encounter any of the anti-analysis tricks which you have seen in a malware, don't hesitate to contribute.
 
+## Features
 # Anti-debugging attacks
 - IsDebuggerPresent
 - CheckRemoteDebuggerPresent
@@ -33,6 +51,11 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Parent Process (Explorer.exe)
 - SeDebugPrivilege (Csrss.exe)
 - NtYieldExecution / SwitchToThread
+
+# Anti-virtualization
+
+
+
 
 # Anti Dumping
 - Erase PE header from memory
