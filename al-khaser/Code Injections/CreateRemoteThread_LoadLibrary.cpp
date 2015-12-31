@@ -9,7 +9,7 @@ BOOL CreateRemoteThread_LoadLibrary()
 	FARPROC LoadLibraryAddress;
 	LPVOID lpBaseAddress;
 	TCHAR lpDllName[] = _T("InjectedDLL.dll");
-	TCHAR lpDllPath[MAX_PATH] = _T("");
+	TCHAR lpDllPath[MAX_PATH];
 	BOOL bStatus;
 	
 	/* Get Process ID from Process name */
@@ -35,7 +35,7 @@ BOOL CreateRemoteThread_LoadLibrary()
 
 	/* Get LoadLibrary address */
 	_tprintf(_T("\t[+] Looking for LoadLibrary in kernel32\n"));
-	LoadLibraryAddress = GetProcAddress(hKernel32, "LoadLibraryA");
+	LoadLibraryAddress = GetProcAddress(hKernel32, "LoadLibraryW");
 	if (LoadLibraryAddress == NULL) {
 		print_last_error(_T("GetProcAddress"));
 		return FALSE;
@@ -46,9 +46,14 @@ BOOL CreateRemoteThread_LoadLibrary()
 	GetFullPathName(lpDllName, MAX_PATH, lpDllPath, NULL);
 	_tprintf(_T("\t[+] Full DLL Path: %s\n"), lpDllPath);
 
+	
+	/* Calculate the number of bytes needed for the DLL's pathname */
+	SIZE_T dwSize = _tcslen(lpDllPath) * sizeof(TCHAR);
+
+
 	/* Allocate memory into the remote process */
 	_tprintf(_T("\t[+] Allocating space for the path of the DLL\n"));
-	lpBaseAddress = VirtualAllocEx(hProcess, NULL, MAX_PATH, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+	lpBaseAddress = VirtualAllocEx(hProcess, NULL, dwSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 	if (lpBaseAddress == NULL) {
 		print_last_error(_T("VirtualAllocEx"));
 		return FALSE;
@@ -56,7 +61,7 @@ BOOL CreateRemoteThread_LoadLibrary()
 
 	/* Write to the remote process */
 	printf("\t[+] Writing into the current process space at 0x%08x\n", lpBaseAddress);
-	bStatus = WriteProcessMemory(hProcess, lpBaseAddress, lpDllPath, _tcslen(lpDllPath), NULL);
+	bStatus = WriteProcessMemory(hProcess, lpBaseAddress, lpDllPath, dwSize, NULL);
 	if (bStatus == NULL) {
 		print_last_error(_T("WriteProcessMemory"));
 		return FALSE;
@@ -71,10 +76,13 @@ BOOL CreateRemoteThread_LoadLibrary()
 
 	else {
 		_tprintf(_T("Remote thread has been created successfully ...\n"));
+		WaitForSingleObject(hThreadId, INFINITE);
+
+		// Clean up
+		CloseHandle(hProcess);
+		VirtualFreeEx(hProcess, lpBaseAddress, dwSize, MEM_RELEASE);
 		return TRUE;
 	}
 
 
-	// Close the handle to the process
-	CloseHandle(hProcess);
 }

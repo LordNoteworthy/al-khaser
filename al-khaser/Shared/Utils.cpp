@@ -537,4 +537,32 @@ DWORD GetProcessIdFromName(LPCTSTR ProcessName)
 }
 
 
+DWORD GetMainThreadId(DWORD pid)
+{
+	/* Get main thread id from process id */
+	HANDLE h = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+	if (h != INVALID_HANDLE_VALUE){
+		THREADENTRY32 te;
+		te.dwSize = sizeof(te);
+		if (Thread32First(h, &te))
+		{
+			do
+			{
+				if (te.dwSize >= FIELD_OFFSET(THREADENTRY32, th32OwnerProcessID) + sizeof(te.th32OwnerProcessID)) {
+					if (te.th32OwnerProcessID == pid) {
+						HANDLE hThread = OpenThread(READ_CONTROL, FALSE, te.th32ThreadID);
+						if (!hThread)
+							print_last_error(_T("OpenThread"));
+						else
+							return te.th32ThreadID;	
+					}
+				}
+
+			} while (Thread32Next(h, &te));
+		}
+	}
+
+	CloseHandle(h);
+	return (DWORD)0;
+}
 

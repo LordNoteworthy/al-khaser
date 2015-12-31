@@ -138,6 +138,9 @@
     <ClCompile Include="Code Injections\CreateRemoteThread_LoadLibrary.cpp">
       <Filter>Code Injections\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Code Injections\SetWindowsHookEx.cpp">
+      <Filter>Code Injections\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -228,6 +231,9 @@
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
     <ClInclude Include="Code Injections\CreateRemoteThread_LoadLibrary.h">
+      <Filter>Code Injections\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code Injections\SetWindowsHooksEx.h">
       <Filter>Code Injections\Header</Filter>
     </ClInclude>
   </ItemGroup>
