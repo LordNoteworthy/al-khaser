@@ -90,7 +90,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "oracle\\virtualbox guest additions\\"
 - Virtualbox MAC Address:
 	- "\x08\x00\x27"
-
+- Virtualbox virtual devices:
+	- "\\\\.\\VBoxMiniRdrDN"
+	- "\\\\.\\VBoxGuest"
+	- "\\\\.\\pipe\\VBoxMiniRdDN"
+	- "\\\\.\\VBoxTrayIPC"
+	- "\\\\.\\pipe\\VBoxTrayIPC")
 
 # Anti Dumping
 - Erase PE header from memory
