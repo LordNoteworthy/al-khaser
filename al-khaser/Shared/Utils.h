@@ -20,7 +20,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS);
 DWORD GetProccessIDByName(TCHAR* szProcessNameTarget);
 DWORD GetProcessIdFromName(LPCTSTR ProcessName);
 BOOL SetPrivilege(HANDLE, LPCTSTR, BOOL);
-INT SetDebugPrivileges(VOID);
+BOOL SetDebugPrivileges(VOID);
 DWORD GetMainThreadId(DWORD pid);
 
 

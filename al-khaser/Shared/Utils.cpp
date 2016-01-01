@@ -462,28 +462,45 @@ BOOL SetPrivilege(
 
 
 
-INT SetDebugPrivileges(VOID) {
+BOOL SetDebugPrivileges(VOID) {
 	TOKEN_PRIVILEGES priv = { 0 };
 	HANDLE hToken = NULL;
 
-	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) 
+	{
 		priv.PrivilegeCount = 1;
 		priv.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
 
-		if (LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &priv.Privileges[0].Luid)) {
+		if (LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &priv.Privileges[0].Luid))
 			if (AdjustTokenPrivileges(hToken, FALSE, &priv, 0, NULL, NULL) == 0) {
-				printf("AdjustTokenPrivilege Error! [%u]\n", GetLastError());
+				print_last_error(_T("AdjustTokenPrivileges"));
+				CloseHandle(hToken);
+				return 0;
 			}
-		}
 
-		CloseHandle(hToken);
+			else
+				return 1;
+
+		else {
+			print_last_error(_T("LookupPrivilegeValue"));
+			CloseHandle(hToken);
+			return 0;
+		}
 	}
-	return GetLastError();
+
+	else 
+	{
+		print_last_error(_T("OpenProcessToken"));
+		CloseHandle(hToken);
+		return 0;
+	}
+
+
 }
 
 
 #include <TlHelp32.h>
-DWORD GetProcessIdFromName(LPCTSTR ProcessName)
+DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 {
 	PROCESSENTRY32 pe32;
 	HANDLE hSnapshot = NULL;
@@ -494,8 +511,10 @@ DWORD GetProcessIdFromName(LPCTSTR ProcessName)
 
 	// Check for a valid handle, in this case we need to check for
 	// INVALID_HANDLE_VALUE instead of NULL
-	if (hSnapshot == INVALID_HANDLE_VALUE)
+	if (hSnapshot == INVALID_HANDLE_VALUE) {
+		print_last_error(_T("CreateToolhelp32Snapshot"));
 		return 0;
+	}
 
 	// Now we can enumerate the running process, also 
 	// we can't forget to set the PROCESSENTRY32.dwSize member
@@ -505,14 +524,16 @@ DWORD GetProcessIdFromName(LPCTSTR ProcessName)
 	if (Process32First(hSnapshot, &pe32) == FALSE)
 	{
 		// Cleanup the mess
+		print_last_error(_T("Process32First"));
 		CloseHandle(hSnapshot);
 		return 0;
 	}
 
 	// Do our first comparison
-	if (_tcscmp(pe32.szExeFile, ProcessName) == FALSE)
+	if (_tcscmp(pe32.szExeFile, szProcessName) == FALSE)
 	{
 		// Cleanup the mess
+		print_last_error(_T("_tcscmp"));
 		CloseHandle(hSnapshot);
 		return pe32.th32ProcessID;
 	}
@@ -522,16 +543,18 @@ DWORD GetProcessIdFromName(LPCTSTR ProcessName)
 	// we find the matching entry or not one at all
 	while (Process32Next(hSnapshot, &pe32))
 	{
-		if (_tcscmp(pe32.szExeFile, ProcessName) == 0)
+		if (_tcscmp(pe32.szExeFile, szProcessName) == 0)
 		{
 			// Cleanup the mess
+			print_last_error(_T("Process32Next"));
 			CloseHandle(hSnapshot);
 			return pe32.th32ProcessID;
 		}
 	}
 
-	// If we made it this far there wasn't a match
-	// so we'll return 0
+	// If we made it this far there wasn't a match, so we'll return 0
+	_tprintf(_T("\t[+] Process %s is not running on this system ...\n"), szProcessName);
+
 	CloseHandle(hSnapshot);
 	return 0;
 }
@@ -562,6 +585,7 @@ DWORD GetMainThreadId(DWORD pid)
 		}
 	}
 
+	print_last_error(_T("CreateToolhelp32Snapshot"));
 	CloseHandle(h);
 	return (DWORD)0;
 }

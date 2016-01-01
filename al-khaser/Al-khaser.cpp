@@ -54,8 +54,8 @@ int main(void)
 	//exec_check(&vbox_network_share, TEXT("Checking VirtualBox Shared Folders network provider: "));
 
 	/* Code injections techniques */
-	// CreateRemoteThread_LoadLibrary();
-	SetWindowsHooksEx_Injection();
+	CreateRemoteThread_LoadLibrary();
+	// SetWindowsHooksEx_Injection();
 	
 	system("PAUSE");
 	return 0;

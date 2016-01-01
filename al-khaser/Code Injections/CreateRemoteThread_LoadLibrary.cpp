@@ -14,10 +14,14 @@ BOOL CreateRemoteThread_LoadLibrary()
 	
 	/* Get Process ID from Process name */
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
+	if (dwProcessId == NULL)
+		return FALSE;
+	_tprintf(_T("\t[+] Getting proc id: %d\n"), dwProcessId);
 
 	/* Set Debug privilege */
 	_tprintf(_T("\t[+] Setting Debug Privileges [%d]\n"), SetDebugPrivileges());
-	SetDebugPrivileges();
+	if (SetDebugPrivileges() == NULL)
+		return FALSE;
 
 	/* Obtain a handle the process */
 	hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);

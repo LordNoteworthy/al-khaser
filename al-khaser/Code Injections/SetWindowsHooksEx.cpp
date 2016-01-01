@@ -12,10 +12,14 @@ BOOL SetWindowsHooksEx_Injection()
 
 	/* Get Process ID from Process name */
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
+	if (dwProcessId == NULL)
+		return FALSE;
 	_tprintf(_T("\t[+] Getting proc id: %d\n"), dwProcessId);
 
 	/* Get thread id from process id */
 	dwThreadId = GetMainThreadId(dwProcessId);
+	if (dwThreadId == NULL)
+		return FALSE;
 	_tprintf(_T("\t[+] Getting main thread id of proc id: %d\n"), dwThreadId);
 
 	/* Get the full path of the dll to be injected */
@@ -29,9 +33,9 @@ BOOL SetWindowsHooksEx_Injection()
 		return FALSE;
 	}
 	
-	/* Get 'myFunction' address */
-	_tprintf(_T("\t[+] Looking for myFunction in our dll\n"));
-	 myFunctionAddress = (HOOKPROC)GetProcAddress(hOurDll, "myFunction");
+	/* Get 'MyProc' address */
+	_tprintf(_T("\t[+] Looking for 'MyProc' in our dll\n"));
+	 myFunctionAddress = (HOOKPROC)GetProcAddress(hOurDll, "MyProc");
 	if (myFunctionAddress == NULL) {
 		print_last_error(_T("GetProcAddress"));
 		return FALSE;
@@ -46,7 +50,11 @@ BOOL SetWindowsHooksEx_Injection()
 	}
 
 	/* Unhook */
-	UnhookWindowsHookEx(hHook); //When we want to remove the hook
+	_tprintf(_T("SetWindowsHookEx created successfully ...\n"));
 
+	/* When we want to remove the hook */
+	// UnhookWindowsHookEx(hHook);
+
+	return TRUE;
 
 }

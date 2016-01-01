@@ -138,7 +138,7 @@
     <ClCompile Include="Code Injections\CreateRemoteThread_LoadLibrary.cpp">
       <Filter>Code Injections\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Code Injections\SetWindowsHookEx.cpp">
+    <ClCompile Include="Code Injections\SetWindowsHooksEx.cpp">
       <Filter>Code Injections\Source</Filter>
     </ClCompile>
   </ItemGroup>

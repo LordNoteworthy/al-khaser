@@ -182,7 +182,7 @@
     <ClCompile Include="Anti Dump\ErasePEHeaderFromMemory.cpp" />
     <ClCompile Include="Anti VM\VirtualBox.cpp" />
     <ClCompile Include="Code Injections\CreateRemoteThread_LoadLibrary.cpp" />
-    <ClCompile Include="Code Injections\SetWindowsHookEx.cpp" />
+    <ClCompile Include="Code Injections\SetWindowsHooksEx.cpp" />
     <ClCompile Include="Shared\Common.cpp" />
     <ClCompile Include="Shared\Utils.cpp" />
   </ItemGroup>
