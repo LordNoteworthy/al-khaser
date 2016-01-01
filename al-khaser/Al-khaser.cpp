@@ -53,7 +53,9 @@ int main(void)
 	//exec_check(&vbox_window_class, TEXT("Checking VBoxTrayToolWndClass / VBoxTrayToolWnd: "));
 	//exec_check(&vbox_network_share, TEXT("Checking VirtualBox Shared Folders network provider: "));
 
+	/* Code injections techniques */
 	CreateRemoteThread_LoadLibrary();
+	// SetWindowsHooksEx_Injection();
 	
 	system("PAUSE");
 	return 0;

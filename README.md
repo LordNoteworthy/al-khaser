@@ -56,9 +56,13 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 
 
-
 # Anti Dumping
 - Erase PE header from memory
 
+
+# Code Injections techniques
+- CreateRemoteThread (DLL Injection)
+- CreateRemoteThread (ShellCode)
+- SetWindowsHooksEx
 
 

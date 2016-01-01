@@ -8,6 +8,8 @@
 #pragma comment(lib, "Iphlpapi.lib")
 #pragma comment(lib, "Shlwapi.lib")
 
+#include "Common.h"
+
 BOOL IsWoW64();
 BOOL Is_RegKeyValueExists(HKEY hKey, TCHAR* lpSubKey, TCHAR* lpValueName, TCHAR* search_str);
 BOOL Is_RegKeyExists(HKEY hKey, TCHAR* lpSubKey);
@@ -18,7 +20,8 @@ BOOL GetOSDisplayString(LPTSTR pszOS);
 DWORD GetProccessIDByName(TCHAR* szProcessNameTarget);
 DWORD GetProcessIdFromName(LPCTSTR ProcessName);
 BOOL SetPrivilege(HANDLE, LPCTSTR, BOOL);
-INT SetDebugPrivileges(VOID);
+BOOL SetDebugPrivileges(VOID);
+DWORD GetMainThreadId(DWORD pid);
 
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
