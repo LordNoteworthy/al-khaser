@@ -53,11 +53,11 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - NtYieldExecution / SwitchToThread
 
 # Anti-virtualization
-- Virtualbox registry key values artifacts
-  - "HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier)
-  - HARDWARE\\Description\\System (SystemBiosVersion)
-  - HARDWARE\\Description\\System (VideoBiosVersion)
-  - HARDWARE\\Description\\System (SystemBiosDate)
+- Virtualbox registry key values artifacts:
+	- "HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier)
+	- HARDWARE\\Description\\System (SystemBiosVersion)
+	- HARDWARE\\Description\\System (VideoBiosVersion)
+	- HARDWARE\\Description\\System (SystemBiosDate)
  - Virtualbox registry Keys artifacts
 	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
 	- "HARDWARE\\ACPI\\FADT\\VBOX__"
@@ -68,7 +68,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "SYSTEM\\ControlSet001\\Services\\VBoxService"
 	- "SYSTEM\\ControlSet001\\Services\\VBoxSF"
 	- "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
-- Virtualbox file system artifacts
+- Virtualbox file system artifacts:
 	- "system32\\drivers\\VBoxMouse.sys"
 	- "system32\\drivers\\VBoxGuest.sys"
 	- "system32\\drivers\\VBoxSF.sys"
@@ -86,10 +86,10 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "system32\\vboxservice.exe"
 	- "system32\\vboxtray.exe"
 	- "system32\\VBoxControl.exe"
-- Virtualbox directories artifacts
+- Virtualbox directories artifacts:
 	- "oracle\\virtualbox guest additions\\"
-
-
+- Virtualbox MAC Address:
+	- "\x08\x00\x27"
 
 
 # Anti Dumping
