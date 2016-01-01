@@ -53,7 +53,11 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - NtYieldExecution / SwitchToThread
 
 # Anti-virtualization
-
+- Registry key values
+  - "HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier)
+  - HARDWARE\\Description\\System (SystemBiosVersion)
+  - HARDWARE\\Description\\System (VideoBiosVersion)
+  - HARDWARE\\Description\\System (SystemBiosDate)
 
 
 # Anti Dumping
