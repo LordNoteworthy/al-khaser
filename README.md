@@ -53,12 +53,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - NtYieldExecution / SwitchToThread
 
 # Anti-virtualization
-- Registry key values
+- Virtualbox registry key values artifacts
   - "HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier)
   - HARDWARE\\Description\\System (SystemBiosVersion)
   - HARDWARE\\Description\\System (VideoBiosVersion)
   - HARDWARE\\Description\\System (SystemBiosDate)
- - Registry Keys:
+ - Virtualbox registry Keys artifacts
 	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
 	- "HARDWARE\\ACPI\\FADT\\VBOX__"
 	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
@@ -68,6 +68,28 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "SYSTEM\\ControlSet001\\Services\\VBoxService"
 	- "SYSTEM\\ControlSet001\\Services\\VBoxSF"
 	- "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
+- Virtualbox file system artifacts
+	- "system32\\drivers\\VBoxMouse.sys"
+	- "system32\\drivers\\VBoxGuest.sys"
+	- "system32\\drivers\\VBoxSF.sys"
+	- "system32\\drivers\\VBoxVideo.sys"
+	- "system32\\vboxdisp.dll"
+	- "system32\\vboxhook.dll"
+	- "system32\\vboxmrxnp.dll"
+	- "system32\\vboxogl.dll"
+	- "system32\\vboxoglarrayspu.dll"
+	- "system32\\vboxoglcrutil.dll"
+	- "system32\\vboxoglerrorspu.dll"
+	- "system32\\vboxoglfeedbackspu.dll"
+	- "system32\\vboxoglpackspu.dll"
+	- "system32\\vboxoglpassthroughspu.dll"
+	- "system32\\vboxservice.exe"
+	- "system32\\vboxtray.exe"
+	- "system32\\VBoxControl.exe"
+- Virtualbox directories artifacts
+	- "oracle\\virtualbox guest additions\\"
+
+
 
 
 # Anti Dumping
