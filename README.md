@@ -96,6 +96,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "\\\\.\\pipe\\VBoxMiniRdDN"
 	- "\\\\.\\VBoxTrayIPC"
 	- "\\\\.\\pipe\\VBoxTrayIPC")
+- Virtualbox Windows Class
+	- VBoxTrayToolWndClass
+	- VBoxTrayToolWnd
+- Virtualbox network share
+	- VirtualBox Shared Folders
+
 
 # Anti Dumping
 - Erase PE header from memory
