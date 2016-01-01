@@ -58,6 +58,16 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - HARDWARE\\Description\\System (SystemBiosVersion)
   - HARDWARE\\Description\\System (VideoBiosVersion)
   - HARDWARE\\Description\\System (SystemBiosDate)
+ - Registry Keys:
+	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
+	- "HARDWARE\\ACPI\\FADT\\VBOX__"
+	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
+	- "SOFTWARE\\Oracle\\VirtualBox Guest Additions"
+	- "SYSTEM\\ControlSet001\\Services\\VBoxGuest"
+	- "SYSTEM\\ControlSet001\\Services\\VBoxMouse"
+	- "SYSTEM\\ControlSet001\\Services\\VBoxService"
+	- "SYSTEM\\ControlSet001\\Services\\VBoxSF"
+	- "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
 
 
 # Anti Dumping
