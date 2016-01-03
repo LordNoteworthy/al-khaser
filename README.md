@@ -111,5 +111,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - CreateRemoteThread (DLL Injection)
 - CreateRemoteThread (ShellCode)
 - SetWindowsHooksEx
+- NtCreateThreadEx
 
 
