@@ -108,9 +108,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 
 # Code Injections techniques
-- CreateRemoteThread (DLL Injection)
-- CreateRemoteThread (ShellCode)
+- CreateRemoteThread 
 - SetWindowsHooksEx
 - NtCreateThreadEx
+- RtlCreateUserThread_Injection
 
 
