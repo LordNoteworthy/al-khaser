@@ -39,11 +39,6 @@ BOOL NtCreateThreadEx_Injection()
 		return FALSE;
 	_tprintf(_T("\t[+] Getting proc id: %d\n"), dwProcessId);
 
-	/* Set Debug privilege */
-	_tprintf(_T("\t[+] Setting Debug Privileges [%d]\n"), SetDebugPrivileges());
-	if (SetDebugPrivileges() == NULL)
-		return FALSE;
-
 	/* Obtain a handle the process */
 	hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);
 	if (hProcess == NULL) {
@@ -72,7 +67,7 @@ BOOL NtCreateThreadEx_Injection()
 		print_last_error(_T("GetProcAddress"));
 		return FALSE;
 	}
-	_tprintf(_T("\t[+] Found at 0x%08x\n"), NtCreateThreadEx);
+	_tprintf(_T("\t[+] Found at 0x%08x\n"), (UINT)NtCreateThreadEx);
 
 	/* Get LoadLibrary address */
 	_tprintf(_T("\t[+] Looking for LoadLibrary in kernel32\n"));
@@ -81,7 +76,7 @@ BOOL NtCreateThreadEx_Injection()
 		print_last_error(_T("GetProcAddress"));
 		return FALSE;
 	}
-	_tprintf(_T("\t[+] Found at 0x%08x\n"), LoadLibraryAddress);
+	_tprintf(_T("\t[+] Found at 0x%08x\n"), (UINT)LoadLibraryAddress);
 
 	/* Get the full path of the dll */
 	GetFullPathName(lpDllName, MAX_PATH, lpDllPath, NULL);
@@ -99,7 +94,7 @@ BOOL NtCreateThreadEx_Injection()
 	}
 
 	/* Write to the remote process */
-	printf("\t[+] Writing into the current process space at 0x%08x\n", lpBaseAddress);
+	printf("\t[+] Writing into the current process space at 0x%08x\n", (UINT)lpBaseAddress);
 	bStatus = WriteProcessMemory(hProcess, lpBaseAddress, lpDllPath, dwSize, NULL);
 	if (bStatus == NULL) {
 		print_last_error(_T("WriteProcessMemory"));
@@ -107,8 +102,8 @@ BOOL NtCreateThreadEx_Injection()
 	}
 
 	/* Create the more thread */
-	NtCreateThreadEx(&hRemoteThread, GENERIC_ALL, NULL, hProcess, (LPTHREAD_START_ROUTINE)LoadLibraryAddress, lpBaseAddress, FALSE, NULL, NULL, NULL, NULL);
-	if (bStatus == NULL) {
+	bStatus = NtCreateThreadEx(&hRemoteThread, GENERIC_ALL, NULL, hProcess, (LPTHREAD_START_ROUTINE)LoadLibraryAddress, lpBaseAddress, FALSE, NULL, NULL, NULL, NULL);
+	if (bStatus < 0) {
 		print_last_error(_T("NtCreateThreadEx"));
 		return FALSE;
 	}

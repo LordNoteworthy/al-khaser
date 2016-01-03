@@ -35,6 +35,7 @@
 #include "..\Code Injections\CreateRemoteThread_LoadLibrary.h"
 #include "..\Code Injections\SetWindowsHooksEx.h"
 #include "..\Code Injections\NtCreateThreadEx.h"
+#include "..\Code Injections\RtlCreateUserThread.h"
 
 
 

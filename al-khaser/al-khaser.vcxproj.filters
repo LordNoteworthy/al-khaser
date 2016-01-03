@@ -144,6 +144,9 @@
     <ClCompile Include="Code Injections\NtCreateThreadEx.cpp">
       <Filter>Code Injections\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Code Injections\RtlCreateUserThread.cpp">
+      <Filter>Code Injections\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -240,6 +243,9 @@
       <Filter>Code Injections\Header</Filter>
     </ClInclude>
     <ClInclude Include="Code Injections\NtCreateThreadEx.h">
+      <Filter>Code Injections\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code Injections\RtlCreateUserThread.h">
       <Filter>Code Injections\Header</Filter>
     </ClInclude>
   </ItemGroup>

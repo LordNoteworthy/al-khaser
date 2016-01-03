@@ -34,7 +34,7 @@ int main(void)
 
 
 	/* Anti Dumping */
-	//print_category(TEXT("Anti Dumping"));
+	print_category(TEXT("Anti Dumping"));
 	exec_check(&ErasePEHeaderFromMemory, TEXT("Checking ErasePEHeaderFromMemory : "));
 
 
@@ -57,6 +57,7 @@ int main(void)
 	CreateRemoteThread_LoadLibrary();
 	SetWindowsHooksEx_Injection();
 	NtCreateThreadEx_Injection();
+	RtlCreateUserThread_Injection();
 	
 	system("PAUSE");
 	return 0;

@@ -533,7 +533,6 @@ DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 	if (_tcscmp(pe32.szExeFile, szProcessName) == FALSE)
 	{
 		// Cleanup the mess
-		print_last_error(_T("_tcscmp"));
 		CloseHandle(hSnapshot);
 		return pe32.th32ProcessID;
 	}
@@ -546,7 +545,6 @@ DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 		if (_tcscmp(pe32.szExeFile, szProcessName) == 0)
 		{
 			// Cleanup the mess
-			print_last_error(_T("Process32Next"));
 			CloseHandle(hSnapshot);
 			return pe32.th32ProcessID;
 		}

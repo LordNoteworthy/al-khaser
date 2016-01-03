@@ -111,7 +111,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
@@ -183,6 +183,7 @@
     <ClCompile Include="Anti VM\VirtualBox.cpp" />
     <ClCompile Include="Code Injections\CreateRemoteThread_LoadLibrary.cpp" />
     <ClCompile Include="Code Injections\NtCreateThreadEx.cpp" />
+    <ClCompile Include="Code Injections\RtlCreateUserThread.cpp" />
     <ClCompile Include="Code Injections\SetWindowsHooksEx.cpp" />
     <ClCompile Include="Shared\Common.cpp" />
     <ClCompile Include="Shared\Utils.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Anti VM\VirtualBox.h" />
     <ClInclude Include="Code Injections\CreateRemoteThread_LoadLibrary.h" />
     <ClInclude Include="Code Injections\NtCreateThreadEx.h" />
+    <ClInclude Include="Code Injections\RtlCreateUserThread.h" />
     <ClInclude Include="Code Injections\SetWindowsHooksEx.h" />
     <ClInclude Include="Shared\Common.h" />
     <ClInclude Include="Shared\Main.h" />

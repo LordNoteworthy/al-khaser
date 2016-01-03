@@ -1,32 +1,54 @@
-#include "CreateRemoteThread_LoadLibrary.h"
+#include "RtlCreateUserThread.h"
 
-BOOL CreateRemoteThread_LoadLibrary()
+
+BOOL RtlCreateUserThread_Injection()
 {
-	/* Some vars */
+	// some vars
+	HMODULE hNtdll;
 	DWORD dwProcessId;
-	HANDLE hProcess, hThreadId;
-	HMODULE hKernel32;
-	FARPROC LoadLibraryAddress;
-	LPVOID lpBaseAddress;
+	HANDLE hProcess;
 	TCHAR lpDllName[] = _T("InjectedDLL.dll");
 	TCHAR lpDllPath[MAX_PATH];
+	LPVOID lpBaseAddress;
 	BOOL bStatus;
-	
+	HMODULE hKernel32;
+	FARPROC LoadLibraryAddress;
+	HANDLE  hRemoteThread = NULL;
+
+	// Function Pointer Typedef for RtlCreateUserThread
+	typedef DWORD(WINAPI * pRtlCreateUserThread)(
+		IN HANDLE 					ProcessHandle,
+		IN PSECURITY_DESCRIPTOR 	SecurityDescriptor,
+		IN BOOL 					CreateSuspended,
+		IN ULONG					StackZeroBits,
+		IN OUT PULONG				StackReserved,
+		IN OUT PULONG				StackCommit,
+		IN LPVOID					StartAddress,
+		IN LPVOID					StartParameter,
+		OUT HANDLE 					ThreadHandle,
+		OUT LPVOID					ClientID
+		);
+
+	// we have to import our function
+	pRtlCreateUserThread RtlCreateUserThread = NULL;
+
 	/* Get Process ID from Process name */
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
 	if (dwProcessId == NULL)
 		return FALSE;
 	_tprintf(_T("\t[+] Getting proc id: %d\n"), dwProcessId);
 
-	/* Set Debug privilege */
-	_tprintf(_T("\t[+] Setting Debug Privileges [%d]\n"), SetDebugPrivileges());
-	if (SetDebugPrivileges() == NULL)
-		return FALSE;
-
 	/* Obtain a handle the process */
 	hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);
 	if (hProcess == NULL) {
 		print_last_error(_T("OpenProcess"));
+		return FALSE;
+	}
+
+	/* Get module handle of ntdll */
+	hNtdll = GetModuleHandle(_T("ntdll.dll"));
+	if (hNtdll == NULL) {
+		print_last_error(_T("GetModuleHandle"));
 		return FALSE;
 	}
 
@@ -36,6 +58,15 @@ BOOL CreateRemoteThread_LoadLibrary()
 		print_last_error(_T("GetModuleHandle"));
 		return FALSE;
 	}
+
+	// Get the address RtlCreateUserThread
+	_tprintf(_T("\t[+] Looking for RtlCreateUserThread in ntdll\n"));
+	RtlCreateUserThread = (pRtlCreateUserThread)GetProcAddress(hNtdll, "RtlCreateUserThread");
+	if (RtlCreateUserThread == NULL) {
+		print_last_error(_T("GetProcAddress"));
+		return FALSE;
+	}
+	_tprintf(_T("\t[+] Found at 0x%08x\n"), (UINT)RtlCreateUserThread);
 
 	/* Get LoadLibrary address */
 	_tprintf(_T("\t[+] Looking for LoadLibrary in kernel32\n"));
@@ -70,21 +101,19 @@ BOOL CreateRemoteThread_LoadLibrary()
 	}
 
 	/* Create the more thread */
-	hThreadId = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLibraryAddress, lpBaseAddress, NULL, 0);
-	if (bStatus == NULL) {
-		print_last_error(_T("CreateRemoteThread"));
+	bStatus = RtlCreateUserThread(hProcess, NULL, 0, 0, 0, 0, LoadLibraryAddress, lpBaseAddress, &hRemoteThread, NULL);
+	if (bStatus < 0) {
+		print_last_error(_T("RtlCreateUserThread"));
 		return FALSE;
 	}
 
 	else {
 		_tprintf(_T("Remote thread has been created successfully ...\n"));
-		WaitForSingleObject(hThreadId, INFINITE);
+		WaitForSingleObject(hRemoteThread, INFINITE);
 
 		// Clean up
 		CloseHandle(hProcess);
 		VirtualFreeEx(hProcess, lpBaseAddress, dwSize, MEM_RELEASE);
 		return TRUE;
 	}
-
-
 }
