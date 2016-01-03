@@ -29,7 +29,6 @@ BOOL NtQueryInformationProcess_ProcessDebugFlags()
 	}
  
     NtQueryInfoProcess = (pNtQueryInformationProcess)GetProcAddress(hNtDll, "NtQueryInformationProcess");
-	
 	if(NtQueryInfoProcess == NULL)
 	{
 		// Handle however it fits your needs but as before,
