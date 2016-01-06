@@ -6,8 +6,7 @@ BOOL SetWindowsHooksEx_Injection()
 	TCHAR lpDllPath[MAX_PATH];
 	HOOKPROC myFunctionAddress;
 	HMODULE hOurDll;
-	DWORD dwProcessId;
-	DWORD dwThreadId;
+	DWORD dwProcessId, dwThreadId;
 	HHOOK hHook;
 
 	/* Get Process ID from Process name */

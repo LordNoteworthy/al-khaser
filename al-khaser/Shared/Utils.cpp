@@ -494,8 +494,6 @@ BOOL SetDebugPrivileges(VOID) {
 		CloseHandle(hToken);
 		return 0;
 	}
-
-
 }
 
 
