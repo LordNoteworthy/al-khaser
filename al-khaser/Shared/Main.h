@@ -36,6 +36,7 @@
 #include "..\Code Injections\SetWindowsHooksEx.h"
 #include "..\Code Injections\NtCreateThreadEx.h"
 #include "..\Code Injections\RtlCreateUserThread.h"
+#include "..\Code Injections\QueueUserAPC.h"
 
 
 

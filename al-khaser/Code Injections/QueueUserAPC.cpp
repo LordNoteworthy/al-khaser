@@ -1,21 +1,22 @@
-#include "RtlCreateUserThread.h"
+#include "QueueUserAPC.h"
 
-BOOL RtlCreateUserThread_Injection()
+
+BOOL QueueUserAPC_Injection()
 {
-	// some vars
-	HMODULE hNtdll;
-	DWORD dwProcessId;
-	HANDLE hProcess;
+	// Some vars
 	TCHAR lpDllName[] = _T("InjectedDLL.dll");
 	TCHAR lpDllPath[MAX_PATH];
+	HMODULE hKernel32;
+	HANDLE hProcess, hFileMappingObject, hThread;
+	DWORD dwProcessId, dwThreadId;
+	LPVOID StartAdrMapView = NULL;
+	FARPROC LoadLibraryAddress;
 	LPVOID lpBaseAddress;
 	BOOL bStatus;
-	HMODULE hKernel32;
-	FARPROC LoadLibraryAddress;
-	HANDLE  hRemoteThread = NULL;
+	DWORD dResult;
 
-	// we have to import our function
-	pRtlCreateUserThread RtlCreateUserThread = NULL;
+	// We have to import our function
+	pNtMapViewOfSection NtMapViewOfSection = NULL;
 
 	/* Get Process ID from Process name */
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
@@ -30,12 +31,14 @@ BOOL RtlCreateUserThread_Injection()
 		return FALSE;
 	}
 
-	/* Get module handle of ntdll */
-	hNtdll = GetModuleHandle(_T("ntdll.dll"));
-	if (hNtdll == NULL) {
-		print_last_error(_T("GetModuleHandle"));
+	/* Get thread id from process id */
+	dwThreadId = GetMainThreadId(dwProcessId);
+	if (hThread == NULL)
 		return FALSE;
-	}
+	_tprintf(_T("\t[+] Getting main thread id of proc id: %d\n"), dwThreadId);
+
+	/* Getting thread hanlle from thread id */
+	hThread = OpenThread(THREAD_ALL_ACCESS, FALSE, dwThreadId);
 
 	/* Obtain a handle to kernel32 */
 	hKernel32 = GetModuleHandle(_T("kernel32.dll"));
@@ -43,16 +46,6 @@ BOOL RtlCreateUserThread_Injection()
 		print_last_error(_T("GetModuleHandle"));
 		return FALSE;
 	}
-
-	// Get the address RtlCreateUserThread
-	_tprintf(_T("\t[+] Looking for RtlCreateUserThread in ntdll\n"));
-	RtlCreateUserThread = (pRtlCreateUserThread)GetProcAddress(hNtdll, "RtlCreateUserThread");
-	if (RtlCreateUserThread == NULL) {
-		print_last_error(_T("GetProcAddress"));
-		return FALSE;
-	}
-	_tprintf(_T("\t[+] Found at 0x%08x\n"), (UINT)RtlCreateUserThread);
-
 	/* Get LoadLibrary address */
 	_tprintf(_T("\t[+] Looking for LoadLibrary in kernel32\n"));
 	LoadLibraryAddress = GetProcAddress(hKernel32, "LoadLibraryW");
@@ -66,8 +59,8 @@ BOOL RtlCreateUserThread_Injection()
 	GetFullPathName(lpDllName, MAX_PATH, lpDllPath, NULL);
 	_tprintf(_T("\t[+] Full DLL Path: %s\n"), lpDllPath);
 
-	/* Calculate the number of bytes needed for the DLL's pathname */
-	SIZE_T dwSize = _tcslen(lpDllPath) * sizeof(TCHAR);
+	// The low-order DWORD of the maximum size of the file mapping object.
+	DWORD dwSize = _tcslen(lpDllPath) * sizeof(TCHAR);
 
 	/* Allocate memory into the remote process */
 	_tprintf(_T("\t[+] Allocating space for the path of the DLL\n"));
@@ -85,16 +78,16 @@ BOOL RtlCreateUserThread_Injection()
 		return FALSE;
 	}
 
-	/* Create the more thread */
-	bStatus = RtlCreateUserThread(hProcess, NULL, 0, 0, 0, 0, LoadLibraryAddress, lpBaseAddress, &hRemoteThread, NULL);
-	if (bStatus < 0) {
-		print_last_error(_T("RtlCreateUserThread"));
+	/* Injection Happen here */
+	dResult = QueueUserAPC((PAPCFUNC)LoadLibraryAddress, hThread, (ULONG_PTR)lpBaseAddress);
+	if (dResult == NULL) {
+		print_last_error(_T("QueueUserAPC"));
 		return FALSE;
 	}
 
 	else {
 		_tprintf(_T("Remote thread has been created successfully ...\n"));
-		WaitForSingleObject(hRemoteThread, INFINITE);
+		WaitForSingleObject(hThread, INFINITE);
 
 		// Clean up
 		CloseHandle(hProcess);
