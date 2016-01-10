@@ -3,10 +3,10 @@
 
 int main(void)
 {
-	///* Display OS details */
-	//print_os();
+	/* Display OS details */
+	print_os();
 
-	///* Debugger Detection */
+	/* Debugger Detection */
 	//print_category(TEXT("Debugger Detection"));
 	//exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API () "));
 	//exec_check(&IsDebuggerPresentPEB, TEXT("Checking PEB.BeingDebugged "));
@@ -54,12 +54,12 @@ int main(void)
 	//exec_check(&vbox_network_share, TEXT("Checking VirtualBox Shared Folders network provider: "));
 
 	///* Code injections techniques */
-	//CreateRemoteThread_LoadLibrary();
+	//CreateRemoteThread_Injection();
 	//SetWindowsHooksEx_Injection();
 	//NtCreateThreadEx_Injection();
 	//RtlCreateUserThread_Injection();
-
-	QueueUserAPC_Injection();
+	//QueueUserAPC_Injection();
+	GetSetThreadContext_Injection();
 	
 	system("PAUSE");
 	return 0;

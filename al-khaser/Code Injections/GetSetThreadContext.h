@@ -1,4 +1,7 @@
 #include <Windows.h>
+#include <tchar.h>
+
 #include "..\Shared\Utils.h"
 #include "..\Shared\Common.h"
-BOOL CreateRemoteThread_LoadLibrary();
+
+BOOL GetSetThreadContext_Injection();

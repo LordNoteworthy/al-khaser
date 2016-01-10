@@ -107,10 +107,11 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Erase PE header from memory
 
 
-# Code Injections techniques
+# Code/DLL Injections techniques
 - CreateRemoteThread 
 - SetWindowsHooksEx
 - NtCreateThreadEx
-- RtlCreateUserThread_Injection
+- RtlCreateUserThread
+- APC (QueueUserAPC / NtQueueApcThread)
 
 

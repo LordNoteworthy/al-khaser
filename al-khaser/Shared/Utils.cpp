@@ -42,7 +42,6 @@ BOOL Is_RegKeyValueExists(HKEY hKey, TCHAR* lpSubKey, TCHAR* lpValueName, TCHAR*
 
 }
 
-
 BOOL Is_RegKeyExists(HKEY hKey, TCHAR* lpSubKey)
 {
 	HKEY hkResult = FALSE;
@@ -502,7 +501,7 @@ DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 {
 	PROCESSENTRY32 pe32;
 	HANDLE hSnapshot = NULL;
-	ZeroMemory(&pe32, sizeof(PROCESSENTRY32));
+	SecureZeroMemory(&pe32, sizeof(PROCESSENTRY32));
 
 	// We want a snapshot of processes
 	hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);

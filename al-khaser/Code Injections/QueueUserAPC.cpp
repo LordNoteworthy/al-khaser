@@ -7,16 +7,12 @@ BOOL QueueUserAPC_Injection()
 	TCHAR lpDllName[] = _T("InjectedDLL.dll");
 	TCHAR lpDllPath[MAX_PATH];
 	HMODULE hKernel32;
-	HANDLE hProcess, hFileMappingObject, hThread;
+	HANDLE hProcess, hThread;
 	DWORD dwProcessId, dwThreadId;
-	LPVOID StartAdrMapView = NULL;
 	FARPROC LoadLibraryAddress;
 	LPVOID lpBaseAddress;
 	BOOL bStatus;
 	DWORD dResult;
-
-	// We have to import our function
-	pNtMapViewOfSection NtMapViewOfSection = NULL;
 
 	/* Get Process ID from Process name */
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
@@ -91,7 +87,13 @@ BOOL QueueUserAPC_Injection()
 
 		// Clean up
 		CloseHandle(hProcess);
+		CloseHandle(hThread);
 		VirtualFreeEx(hProcess, lpBaseAddress, dwSize, MEM_RELEASE);
 		return TRUE;
 	}
 }
+
+
+
+
+

@@ -135,9 +135,6 @@
     <ClCompile Include="Anti Debug\NtYieldExecution.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Code Injections\CreateRemoteThread_LoadLibrary.cpp">
-      <Filter>Code Injections\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Code Injections\SetWindowsHooksEx.cpp">
       <Filter>Code Injections\Source</Filter>
     </ClCompile>
@@ -148,6 +145,12 @@
       <Filter>Code Injections\Source</Filter>
     </ClCompile>
     <ClCompile Include="Code Injections\QueueUserAPC.cpp">
+      <Filter>Code Injections\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code Injections\GetSetThreadContext.cpp">
+      <Filter>Code Injections\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code Injections\CreateRemoteThread.cpp">
       <Filter>Code Injections\Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -239,9 +242,6 @@
     <ClInclude Include="Anti Debug\NtYieldExecution.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Code Injections\CreateRemoteThread_LoadLibrary.h">
-      <Filter>Code Injections\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Code Injections\SetWindowsHooksEx.h">
       <Filter>Code Injections\Header</Filter>
     </ClInclude>
@@ -252,6 +252,12 @@
       <Filter>Code Injections\Header</Filter>
     </ClInclude>
     <ClInclude Include="Code Injections\QueueUserAPC.h">
+      <Filter>Code Injections\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code Injections\GetSetThreadContext.h">
+      <Filter>Code Injections\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code Injections\CreateRemoteThread.h">
       <Filter>Code Injections\Header</Filter>
     </ClInclude>
   </ItemGroup>
