@@ -25,4 +25,5 @@ BOOL vbox_check_mac();
 VOID vbox_devices();
 BOOL vbox_window_class();
 BOOL vbox_network_share();
+VOID vbox_processes();
 

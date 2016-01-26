@@ -91,4 +91,6 @@ BOOL GetSetThreadContext_Injection()
 			
 		}
 	}
+
+	return TRUE;
 }

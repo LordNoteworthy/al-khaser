@@ -191,3 +191,25 @@ BOOL vbox_network_share()
 	}
 	return FALSE;
 }
+
+/*
+Check for process list
+*/
+
+VOID vbox_processes()
+{
+	TCHAR *szProcesses[] = {
+		_T("vboxservice.exe"),
+		_T("cmd.exe")
+	};
+
+	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
+	for (int i = 0; i < iLength; i++)
+	{
+		_tprintf(TEXT("[*] Checking virtual box processe %s: "), szProcesses[i]);
+		if (GetProcessIdFromName(szProcesses[i]))
+			print_detected();
+		else
+			print_not_detected();
+	}
+}
