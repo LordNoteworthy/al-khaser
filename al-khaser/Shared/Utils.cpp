@@ -42,7 +42,6 @@ BOOL Is_RegKeyValueExists(HKEY hKey, TCHAR* lpSubKey, TCHAR* lpValueName, TCHAR*
 
 }
 
-
 BOOL Is_RegKeyExists(HKEY hKey, TCHAR* lpSubKey)
 {
 	HKEY hkResult = FALSE;
@@ -111,12 +110,11 @@ BOOL check_mac_addr(TCHAR* szMac)
 return bResult;
 }
 
-typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
-typedef BOOL(WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
-
-
 BOOL GetOSDisplayString(LPTSTR pszOS)
 {
+	typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
+	typedef BOOL(WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
+
 	OSVERSIONINFOEX osvi;
 	SYSTEM_INFO si;
 	PGNSI pGNSI;
@@ -358,8 +356,6 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 	}
 }
 
-#include <Psapi.h>
-#pragma comment(lib, "Psapi.lib")
 DWORD GetProccessIDByName(TCHAR* szProcessNameTarget)
 {
 	DWORD processIds[1024];
@@ -497,12 +493,11 @@ BOOL SetDebugPrivileges(VOID) {
 }
 
 
-#include <TlHelp32.h>
 DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 {
 	PROCESSENTRY32 pe32;
 	HANDLE hSnapshot = NULL;
-	ZeroMemory(&pe32, sizeof(PROCESSENTRY32));
+	SecureZeroMemory(&pe32, sizeof(PROCESSENTRY32));
 
 	// We want a snapshot of processes
 	hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);

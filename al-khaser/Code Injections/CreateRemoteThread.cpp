@@ -1,6 +1,6 @@
-#include "CreateRemoteThread_LoadLibrary.h"
+#include "CreateRemoteThread.h"
 
-BOOL CreateRemoteThread_LoadLibrary()
+BOOL CreateRemoteThread_Injection()
 {
 	/* Some vars */
 	DWORD dwProcessId;

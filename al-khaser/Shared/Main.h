@@ -32,11 +32,12 @@
 #include "..\Anti VM\VirtualBox.h"
 
 /* Code Injections Headers */
-#include "..\Code Injections\CreateRemoteThread_LoadLibrary.h"
+#include "..\Code Injections\CreateRemoteThread.h"
 #include "..\Code Injections\SetWindowsHooksEx.h"
 #include "..\Code Injections\NtCreateThreadEx.h"
 #include "..\Code Injections\RtlCreateUserThread.h"
 #include "..\Code Injections\QueueUserAPC.h"
+#include "..\Code Injections\GetSetThreadContext.h"
 
 
 

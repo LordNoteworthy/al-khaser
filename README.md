@@ -58,7 +58,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- HARDWARE\\Description\\System (SystemBiosVersion)
 	- HARDWARE\\Description\\System (VideoBiosVersion)
 	- HARDWARE\\Description\\System (SystemBiosDate)
- - Virtualbox registry Keys artifacts
+- Virtualbox registry Keys artifacts
 	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
 	- "HARDWARE\\ACPI\\FADT\\VBOX__"
 	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
@@ -107,10 +107,11 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Erase PE header from memory
 
 
-# Code Injections techniques
+# Code/DLL Injections techniques
 - CreateRemoteThread 
 - SetWindowsHooksEx
 - NtCreateThreadEx
-- RtlCreateUserThread_Injection
+- RtlCreateUserThread
+- APC (QueueUserAPC / NtQueueApcThread)
 
 

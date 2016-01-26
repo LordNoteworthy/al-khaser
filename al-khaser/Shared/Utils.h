@@ -5,8 +5,12 @@
 #include <IPTypes.h>
 #include <Shlwapi.h>
 #include <Iphlpapi.h>
+#include <Psapi.h>
+#include <TlHelp32.h>
+
 #pragma comment(lib, "Iphlpapi.lib")
 #pragma comment(lib, "Shlwapi.lib")
+#pragma comment(lib, "Psapi.lib")
 
 #include "Common.h"
 
