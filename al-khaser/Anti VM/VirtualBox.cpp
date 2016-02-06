@@ -200,7 +200,7 @@ VOID vbox_processes()
 {
 	TCHAR *szProcesses[] = {
 		_T("vboxservice.exe"),
-		_T("cmd.exe")
+		_T("vboxtray.exe")
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
@@ -213,3 +213,6 @@ VOID vbox_processes()
 			print_not_detected();
 	}
 }
+
+/*
+Check */

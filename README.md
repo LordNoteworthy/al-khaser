@@ -101,7 +101,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- VBoxTrayToolWnd
 - Virtualbox network share
 	- VirtualBox Shared Folders
-
+- Virtualbox process list
+	- vboxservice.exe
+	- vboxtray.exe
 
 # Anti Dumping
 - Erase PE header from memory
@@ -113,5 +115,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - NtCreateThreadEx
 - RtlCreateUserThread
 - APC (QueueUserAPC / NtQueueApcThread)
+- RunPE (GetThreadContext / SetThreadContext)
 
 
