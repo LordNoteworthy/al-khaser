@@ -8,9 +8,11 @@
 #include <Psapi.h>
 #include <TlHelp32.h>
 #include <Wbemidl.h>
+
 #pragma comment(lib, "Iphlpapi.lib")
 #pragma comment(lib, "Shlwapi.lib")
 #pragma comment(lib, "Psapi.lib")
+#pragma comment(lib, "wbemuuid.lib")
 
 #include "Common.h"
 
@@ -26,6 +28,8 @@ DWORD GetProcessIdFromName(LPCTSTR ProcessName);
 BOOL SetPrivilege(HANDLE, LPCTSTR, BOOL);
 BOOL SetDebugPrivileges(VOID);
 DWORD GetMainThreadId(DWORD pid);
+BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, TCHAR* szQuery);
+BOOL QueryWMI(IWbemServices **pSvc, IWbemLocator **pLoc);
 
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)

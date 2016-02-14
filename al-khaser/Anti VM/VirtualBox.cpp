@@ -215,4 +215,17 @@ VOID vbox_processes()
 }
 
 /*
-Check */
+Check vbox devices using WMI */
+BOOL vbox_devices_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+
+	TCHAR szQuery[] = _T("SELECT DeviceId FROM Win32_PnPEntity");
+
+	BOOL status1 = QueryWMI(&pSvc, &pLoc);
+	BOOL status = ExecWMIQuery(&pSvc, &pLoc, szQuery);
+	return TRUE;
+
+	
+}

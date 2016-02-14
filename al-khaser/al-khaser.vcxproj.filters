@@ -46,6 +46,15 @@
     <Filter Include="Code Injections\Source">
       <UniqueIdentifier>{a27683d8-3c18-4558-8023-a2bfedb3253f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Timing Attacks">
+      <UniqueIdentifier>{1a1926b1-e8e3-4083-8082-6b4907f195cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Timing Attacks\Source">
+      <UniqueIdentifier>{f6bec4e5-29b8-484e-8438-bbf8747222de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Timing Attacks\Header">
+      <UniqueIdentifier>{bacf628e-5c25-4a94-976b-0063f79ae80e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\LICENSE" />
@@ -153,6 +162,9 @@
     <ClCompile Include="Code Injections\CreateRemoteThread.cpp">
       <Filter>Code Injections\Source</Filter>
     </ClCompile>
+    <ClCompile Include="timing-attacks\timing.cpp">
+      <Filter>Timing Attacks\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -259,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="Code Injections\CreateRemoteThread.h">
       <Filter>Code Injections\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="timing-attacks\timing.h">
+      <Filter>Timing Attacks\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

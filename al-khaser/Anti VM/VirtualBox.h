@@ -3,8 +3,9 @@
 #include <ShlObj.h>
 #include <strsafe.h>
 #include <Shlwapi.h>
+#include <Wbemidl.h>
 
-
+# pragma comment(lib, "wbemuuid.lib")
 #pragma comment(lib, "Shlwapi.lib")
 #pragma comment(lib, "Mpr.lib")
 
@@ -26,4 +27,4 @@ VOID vbox_devices();
 BOOL vbox_window_class();
 BOOL vbox_network_share();
 VOID vbox_processes();
-
+BOOL vbox_devices_wmi();
