@@ -119,5 +119,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 # Timing Attacks
 - Sleep -> SleepEx -> NtDelayExecution
+- SetTimer (Standard Windows Timers)
+- timeSetEvent (Multimedia Timers)
+
 
 

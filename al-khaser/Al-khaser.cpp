@@ -65,10 +65,9 @@ int main(void)
 
 
 	///* Timing Attacks */
-	timing_Sleep();
-	timing_SleepEx();
-	timing_NtDelayexecution();
-	
+	//timing_NtDelayexecution();
+	//timing_SetTimer();
+	timing_timeSetEvent();
 	system("PAUSE");
 	return 0;
 }
