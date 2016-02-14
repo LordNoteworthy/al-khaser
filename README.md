@@ -117,4 +117,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - APC (QueueUserAPC / NtQueueApcThread)
 - RunPE (GetThreadContext / SetThreadContext)
 
+# Timing Attacks
+- Sleep -> SleepEx -> NtDelayExecution
+
 

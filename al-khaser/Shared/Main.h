@@ -39,7 +39,8 @@
 #include "..\Code Injections\QueueUserAPC.h"
 #include "..\Code Injections\GetSetThreadContext.h"
 
-
+/* Delay Execution */
+#include "..\timing-attacks\timing.h"
 
 
 
