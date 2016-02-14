@@ -67,7 +67,10 @@ int main(void)
 	///* Timing Attacks */
 	//timing_NtDelayexecution();
 	//timing_SetTimer();
-	timing_timeSetEvent();
+	//timing_timeSetEvent();
+	timing_WaitForSingleObject();
+	
+	
 	system("PAUSE");
 	return 0;
 }

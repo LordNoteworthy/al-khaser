@@ -121,6 +121,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Sleep -> SleepEx -> NtDelayExecution
 - SetTimer (Standard Windows Timers)
 - timeSetEvent (Multimedia Timers)
-
+- WaitForSingleObject -> WaitForSingleObjectEx -> NtWaitForSingleObject
+- WaitForMultipleObjects -> WaitForMultipleObjectsEx -> NtWaitForMultipleObjects (todo)
+- CreateWaitableTimer (todo)
+- CreateTimerQueueTimer (todo)
 
 
