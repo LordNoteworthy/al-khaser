@@ -106,3 +106,20 @@ VOID timing_timeSetEvent()
 }
 
 
+VOID timing_WaitForSingleObject()
+{
+	HANDLE hEvent;
+
+	// Create a nonsignaled event
+	hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	if (hEvent == NULL)
+		print_last_error(_T("CreateEvent"));
+
+	// Wait until timeout 
+	DWORD x = WaitForSingleObject(hEvent, 5000);
+
+	// Malicious code goes here
+
+}
+
+
