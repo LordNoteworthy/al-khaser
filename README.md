@@ -8,8 +8,10 @@
 - [Possible uses](#uses)
 - [Features](#features)
  - [Anti-debugging attacks](#antidebug)
- - [Anti-virtualization attacks](#antivm)
- - [Anti-Dumping attacks](#antivm)
+ - [Anti-Dumping](#antidump)
+ - [Timing Attacks](#timingattack)
+ - [Human Interaction](#antidump)
+ - [Anti-VM](#antivm)
 - [Requirements](#requirements)
 - [License](#license)
 
@@ -52,11 +54,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - SeDebugPrivilege (Csrss.exe)
 - NtYieldExecution / SwitchToThread
 
-### Anti Dumping
+### Anti-Dumping
 - Erase PE header from memory
 
 ### Timing Attacks [Anti-Sandbox]
-- Sleep -> SleepEx -> NtDelayExecution- Sleep (in a loop a small delay) (todo)
+- Sleep -> SleepEx -> NtDelayExecution
+- Sleep (in a loop a small delay) (todo)
 - Sleep and check if accelerated (todo)
 - SetTimer (Standard Windows Timers)
 - timeSetEvent (Multimedia Timers)
