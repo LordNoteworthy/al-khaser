@@ -27,7 +27,7 @@ It performs a bunch of nowadays malwares tricks and the goal is to see if you ca
 Please, if you encounter any of the anti-analysis tricks which you have seen in a malware, don't hesitate to contribute.
 
 ## Features
-# Anti-debugging attacks
+### Anti-debugging attacks
 - IsDebuggerPresent
 - CheckRemoteDebuggerPresent
 - Process Environement Block (BeingDebugged)
@@ -52,7 +52,31 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - SeDebugPrivilege (Csrss.exe)
 - NtYieldExecution / SwitchToThread
 
-# Anti-virtualization
+### Anti Dumping
+- Erase PE header from memory
+
+### Timing Attacks [Anti-Sandbox]
+- Sleep -> SleepEx -> NtDelayExecution- Sleep (in a loop a small delay) (todo)
+- Sleep and check if accelerated (todo)
+- SetTimer (Standard Windows Timers)
+- timeSetEvent (Multimedia Timers)
+- WaitForSingleObject -> WaitForSingleObjectEx -> NtWaitForSingleObject
+- WaitForMultipleObjects -> WaitForMultipleObjectsEx -> NtWaitForMultipleObjects (todo)
+- CreateWaitableTimer (todo)
+- CreateTimerQueueTimer (todo)
+- Big crypto loops (todo)
+
+### Human Interaction [Anti-Sandbox]
+- Mouse (Single click / Double click) (todo)
+- DialogBox (todo)
+- Scrolling (todo)
+- Execution after reboot (todo)
+- CPU cores (todo) (Win32/Tinba)
+- Sandbox known product IDs (todo)
+- Color of background pixel
+- Keyboard layout (Win32/Banload) (todo)
+
+### Anti-VM
 - Virtualbox registry key values artifacts:
 	- "HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier)
 	- HARDWARE\\Description\\System (SystemBiosVersion)
@@ -105,39 +129,10 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- vboxservice.exe
 	- vboxtray.exe
 
-# Anti Dumping
-- Erase PE header from memory
-
-
-# Code/DLL Injections techniques
+### Code/DLL Injections techniques
 - CreateRemoteThread 
 - SetWindowsHooksEx
 - NtCreateThreadEx
 - RtlCreateUserThread
 - APC (QueueUserAPC / NtQueueApcThread)
 - RunPE (GetThreadContext / SetThreadContext)
-
-# Timing Attacks
-- Sleep -> SleepEx -> NtDelayExecution
-- SetTimer (Standard Windows Timers)
-- timeSetEvent (Multimedia Timers)
-- WaitForSingleObject -> WaitForSingleObjectEx -> NtWaitForSingleObject
-- WaitForMultipleObjects -> WaitForMultipleObjectsEx -> NtWaitForMultipleObjects (todo)
-- CreateWaitableTimer (todo)
-- CreateTimerQueueTimer (todo)
-- Sleep (in a loop a small delay) (todo)
-- Sleep and check if sit was not accelerated (todo)
-
-
-# Human Interaction
-- Mouse (Single click / Double click) (todo)
-- DialogBox (todo)
-- Scrolling (todo)
-- Execution after reboot (todo)
-- CPU cores (todo) (Win32/Tinba)
-- Sandbox known product IDs (todo)
-- Color of background pixel
-- Keyboard layout (Win32/Banload) (todo)
-
-
-
