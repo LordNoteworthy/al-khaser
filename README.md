@@ -125,5 +125,19 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - WaitForMultipleObjects -> WaitForMultipleObjectsEx -> NtWaitForMultipleObjects (todo)
 - CreateWaitableTimer (todo)
 - CreateTimerQueueTimer (todo)
+- Sleep (in a loop a small delay) (todo)
+- Sleep and check if sit was not accelerated (todo)
+
+
+# Human Interaction
+- Mouse (Single click / Double click) (todo)
+- DialogBox (todo)
+- Scrolling (todo)
+- Execution after reboot (todo)
+- CPU cores (todo) (Win32/Tinba)
+- Sandbox known product IDs (todo)
+- Color of background pixel
+- Keyboard layout (Win32/Banload) (todo)
+
 
 

@@ -227,5 +227,4 @@ BOOL vbox_devices_wmi()
 	BOOL status = ExecWMIQuery(&pSvc, &pLoc, szQuery);
 	return TRUE;
 
-	
 }
