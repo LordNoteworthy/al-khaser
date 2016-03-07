@@ -43,7 +43,6 @@ VOID vbox_check_registry_keys()
 		_T("SYSTEM\\ControlSet001\\Services\\VBoxVideo")
 	};
 
-
 	WORD dwlength = sizeof(szKeys) / sizeof(szKeys[0]);
 
 	/* Check one by one */
@@ -130,7 +129,7 @@ Check virtualbox NIC MAC address
 BOOL vbox_check_mac()
 {
 	/* VirtualBox mac starts with 08:00:27 */
-	return check_mac_addr(_T("\x08\x00\x27"));
+	return check_mac_addr("\x08\x00\x27");
 }
 
 

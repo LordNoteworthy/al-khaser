@@ -36,7 +36,7 @@ int main(void)
 	///* Anti Dumping */
 	//print_category(TEXT("Anti Dumping"));
 	//exec_check(&ErasePEHeaderFromMemory, TEXT("Checking ErasePEHeaderFromMemory : "));
-
+	//SizeOfImage();
 
 	///* VirtualBox Detection */
 	//print_category(TEXT("VirtualBox Detection"));
@@ -55,6 +55,12 @@ int main(void)
 	//vbox_processes();
 	//vbox_devices_wmi();
 
+	//vmware_reg_key_value();
+	//vmware_reg_keys();
+	//vmware_files();
+	//vmware_mac();
+	exec_check(&vmware_adapter_name, TEXT("Checking VMWAre network adapter name: "));
+
 	///* Code injections techniques */
 	//CreateRemoteThread_Injection();
 	//SetWindowsHooksEx_Injection();
@@ -68,7 +74,7 @@ int main(void)
 	//timing_NtDelayexecution();
 	//timing_SetTimer();
 	//timing_timeSetEvent();
-	timing_WaitForSingleObject();
+	//timing_WaitForSingleObject();
 	
 	
 	system("PAUSE");

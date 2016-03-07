@@ -27,9 +27,11 @@
 
 /* Anti dumping headers */
 #include "..\Anti Dump\ErasePEHeaderFromMemory.h"
+#include "..\Anti Dump\SizeOfImage.h"
 
 /* Anti VM headers */
 #include "..\Anti VM\VirtualBox.h"
+#include "..\Anti VM\VMware.h"
 
 /* Code Injections Headers */
 #include "..\Code Injections\CreateRemoteThread.h"
