@@ -43,7 +43,6 @@ VOID vbox_check_registry_keys()
 		_T("SYSTEM\\ControlSet001\\Services\\VBoxVideo")
 	};
 
-
 	WORD dwlength = sizeof(szKeys) / sizeof(szKeys[0]);
 
 	/* Check one by one */
