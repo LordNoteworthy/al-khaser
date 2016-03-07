@@ -55,9 +55,10 @@ int main(void)
 	//vbox_processes();
 	//vbox_devices_wmi();
 
-	vmware_reg_key_value();
-	vmware_reg_keys();
-	vmware_files();
+	//vmware_reg_key_value();
+	//vmware_reg_keys();
+	//vmware_files();
+	vmware_mac();
 
 	///* Code injections techniques */
 	//CreateRemoteThread_Injection();

@@ -77,3 +77,34 @@ VOID vmware_files()
 			print_not_detected();
 	}
 }
+
+
+
+/*
+Check VMWare NIC MAC addresses
+*/
+VOID vmware_mac()
+{
+	/* VMWre blacklisted mac adr */
+	CHAR *szMac[] = {
+		"\x00\x05\x69",
+		"\x00\x0C\x29",
+		"\x00\x1C\x14",
+		"\x00\x50\x56",
+
+	};
+
+	WORD dwLength = sizeof(szMac) / sizeof(szMac[0]);
+
+	/* Check one by one */
+	//for (int i = 0; i < dwLength; i++)
+	//{
+	//	_tprintf(TEXT("[*] Checking MAC %s: "), szMac[i]);
+	//	if (check_mac_addr(szMac[i]))
+	//		print_detected();
+	//	else
+	//		print_not_detected();
+	//}
+}
+
+
