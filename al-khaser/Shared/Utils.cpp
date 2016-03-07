@@ -74,7 +74,6 @@ BOOL check_mac_addr(CHAR* szMac)
 	BOOL bResult = FALSE;
 	PIP_ADAPTER_INFO pAdapterInfo;
 	ULONG ulOutBufLen = sizeof (IP_ADAPTER_INFO); 
-	TCHAR szMacAddr [] = _T("");
 
 	pAdapterInfo = (PIP_ADAPTER_INFO) MALLOC(sizeof(IP_ADAPTER_INFO));
 	if (pAdapterInfo == NULL)
@@ -108,6 +107,46 @@ BOOL check_mac_addr(CHAR* szMac)
 	}
 
 return bResult;
+}
+
+BOOL check_adapter_name(TCHAR* szName)
+{
+	BOOL bResult = FALSE;
+	PIP_ADAPTER_INFO pAdapterInfo;
+	ULONG ulOutBufLen = sizeof(IP_ADAPTER_INFO);
+
+	pAdapterInfo = (PIP_ADAPTER_INFO)MALLOC(sizeof(IP_ADAPTER_INFO));
+	if (pAdapterInfo == NULL)
+	{
+		_tprintf(_T("Error allocating memory needed to call GetAdaptersinfo.\n"));
+		return -1;
+	}
+
+	// Make an initial call to GetAdaptersInfo to get the necessary size into the ulOutBufLen variable
+	if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == ERROR_BUFFER_OVERFLOW)
+	{
+		FREE(pAdapterInfo);
+		pAdapterInfo = (PIP_ADAPTER_INFO)MALLOC(ulOutBufLen);
+		if (pAdapterInfo == NULL) {
+			printf("Error allocating memory needed to call GetAdaptersinfo\n");
+			return 1;
+		}
+	}
+
+	if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == ERROR_SUCCESS)
+	{
+		while (pAdapterInfo)
+		{
+			if (StrCmpI(ascii_to_wide_str(pAdapterInfo->Description), szName) == 0)
+			{
+				bResult = TRUE;
+				break;
+			}
+			pAdapterInfo = pAdapterInfo->Next;
+		}
+	}
+
+	return bResult;
 }
 
 BOOL GetOSDisplayString(LPTSTR pszOS)
@@ -492,7 +531,6 @@ BOOL SetDebugPrivileges(VOID) {
 	}
 }
 
-
 DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 {
 	PROCESSENTRY32 pe32;
@@ -550,7 +588,6 @@ DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 	return 0;
 }
 
-
 DWORD GetMainThreadId(DWORD pid)
 {
 	/* Get main thread id from process id */
@@ -580,7 +617,6 @@ DWORD GetMainThreadId(DWORD pid)
 	CloseHandle(h);
 	return (DWORD)0;
 }
-
 
 BOOL QueryWMI(IWbemServices **pSvc, IWbemLocator **pLoc)
 {

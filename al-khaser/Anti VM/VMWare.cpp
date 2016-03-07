@@ -79,7 +79,6 @@ VOID vmware_files()
 }
 
 
-
 /*
 Check VMWare NIC MAC addresses
 */
@@ -97,14 +96,25 @@ VOID vmware_mac()
 	WORD dwLength = sizeof(szMac) / sizeof(szMac[0]);
 
 	/* Check one by one */
-	//for (int i = 0; i < dwLength; i++)
-	//{
-	//	_tprintf(TEXT("[*] Checking MAC %s: "), szMac[i]);
-	//	if (check_mac_addr(szMac[i]))
-	//		print_detected();
-	//	else
-	//		print_not_detected();
-	//}
+	for (int i = 0; i < dwLength; i++)
+	{
+		_tprintf(TEXT("[*] Checking MAC %s: "), szMac[i]);
+		if (check_mac_addr(szMac[i]))
+			print_detected();
+		else
+			print_not_detected();
+	}
 }
 
 
+/*
+Check against VMWAre adapter name
+*/
+BOOL vmware_adapter_name()
+{
+	TCHAR* szAdapterName = _T("VMWare");
+	if (check_adapter_name(szAdapterName))
+		return TRUE;
+	else
+		return FALSE;
+}

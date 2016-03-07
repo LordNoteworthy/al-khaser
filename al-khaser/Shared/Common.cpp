@@ -111,4 +111,16 @@ VOID print_last_error(LPTSTR lpszFunction)
     LocalFree(lpDisplayBuf);
 }
 
+TCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)
+{
 
+	/* Get the required size */
+	CONST INT iSizeRequired = MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, NULL, 0);
+
+	TCHAR *lpWideCharStr = (TCHAR*)MALLOC(12 * sizeof(TCHAR));
+
+	/* Do the conversion */
+	INT iNumChars =  MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, lpWideCharStr, iSizeRequired);
+
+	return lpWideCharStr;
+}

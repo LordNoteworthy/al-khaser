@@ -58,7 +58,8 @@ int main(void)
 	//vmware_reg_key_value();
 	//vmware_reg_keys();
 	//vmware_files();
-	vmware_mac();
+	//vmware_mac();
+	exec_check(&vmware_adapter_name, TEXT("Checking VMWAre network adapter name: "));
 
 	///* Code injections techniques */
 	//CreateRemoteThread_Injection();

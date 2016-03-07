@@ -22,6 +22,7 @@ BOOL Is_RegKeyExists(HKEY hKey, TCHAR* lpSubKey);
 BOOL is_FileExists(TCHAR* szPath);
 BOOL is_DirectoryExists(TCHAR* szPath);
 BOOL check_mac_addr(CHAR* szMac);
+BOOL check_adapter_name(TCHAR* szName);
 BOOL GetOSDisplayString(LPTSTR pszOS);
 DWORD GetProccessIDByName(TCHAR* szProcessNameTarget);
 DWORD GetProcessIdFromName(LPCTSTR ProcessName);
