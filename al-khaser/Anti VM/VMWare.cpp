@@ -26,7 +26,7 @@ VOID vmware_reg_key_value()
 
 
 /*
-Check against VMWre registry keys
+Check against VMWare registry keys
 */
 VOID vmware_reg_keys()
 {
@@ -108,7 +108,7 @@ VOID vmware_mac()
 
 
 /*
-Check against VMWAre adapter name
+Check against VMWare adapter name
 */
 BOOL vmware_adapter_name()
 {
@@ -117,4 +117,27 @@ BOOL vmware_adapter_name()
 		return TRUE;
 	else
 		return FALSE;
+}
+
+
+/*
+Check against VMWare pseaudo-devices
+*/
+VOID vmware_devices()
+{
+	TCHAR *devices[] = {
+		_T("\\\\.\\HGFS"),
+		_T("\\\\.\\vmci"),
+	};
+
+	WORD iLength = sizeof(devices) / sizeof(devices[0]);
+	for (int i = 0; i < iLength; i++)
+	{
+		HANDLE hFile = CreateFile(devices[i], GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		_tprintf(TEXT("[*] Checking device %s: "), devices[i]);
+		if (hFile != INVALID_HANDLE_VALUE)
+			print_detected();
+		else
+			print_not_detected();
+	}
 }
