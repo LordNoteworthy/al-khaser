@@ -165,6 +165,12 @@
     <ClCompile Include="timing-attacks\timing.cpp">
       <Filter>Timing Attacks\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Dump\SizeOfImage.cpp">
+      <Filter>Anti Dump\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti VM\VMWare.cpp">
+      <Filter>Anti VM\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -274,6 +280,12 @@
     </ClInclude>
     <ClInclude Include="timing-attacks\timing.h">
       <Filter>Timing Attacks\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Dump\SizeOfImage.h">
+      <Filter>Anti Dump\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti VM\VMWare.h">
+      <Filter>Anti VM\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
