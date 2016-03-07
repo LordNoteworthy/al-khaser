@@ -47,3 +47,33 @@ VOID vmware_reg_keys()
 			print_not_detected();
 	}
 }
+
+
+/*
+Check against VMWare blacklisted files
+*/
+VOID vmware_files()
+{
+	/* Array of strings of blacklisted paths */
+	TCHAR* szPaths[] = {
+		_T("system32\\drivers\\vmmouse.sys"),
+		_T("system32\\drivers\\vmhgfs.sys"),
+	};
+
+	/* Getting Windows Directory */
+	WORD dwlength = sizeof(szPaths) / sizeof(szPaths[0]);
+	TCHAR szWinDir[MAX_PATH] = _T("");
+	TCHAR szPath[MAX_PATH] = _T("");
+	GetWindowsDirectory(szWinDir, MAX_PATH);
+
+	/* Check one by one */
+	for (int i = 0; i < dwlength; i++)
+	{
+		PathCombine(szPath, szWinDir, szPaths[i]);
+		_tprintf(TEXT("[*] Checking file %s: "), szPath);
+		if (is_FileExists(szPath))
+			print_detected();
+		else
+			print_not_detected();
+	}
+}
