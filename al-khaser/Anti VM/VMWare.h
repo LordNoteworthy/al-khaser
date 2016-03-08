@@ -7,3 +7,4 @@ VOID vmware_reg_keys();
 VOID vmware_files();
 VOID vmware_mac();
 BOOL vmware_adapter_name();
+VOID vmware_devices();
