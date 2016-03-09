@@ -141,3 +141,21 @@ VOID vmware_devices()
 			print_not_detected();
 	}
 }
+
+
+
+/*
+Check VMWare bios using WMI 
+*/
+BOOL vmware_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+
+	TCHAR szQuery[] = _T("SELECT * FROM Win32_Bios");
+
+	BOOL status1 = InitWMI(&pSvc, &pLoc);
+	BOOL status = ExecWMIQuery(&pSvc, &pLoc, szQuery);
+	return TRUE;
+
+}

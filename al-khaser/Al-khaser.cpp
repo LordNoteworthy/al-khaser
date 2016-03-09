@@ -55,12 +55,13 @@ int main(void)
 	//vbox_processes();
 	//vbox_devices_wmi();
 
-	vmware_reg_key_value();
+	/*vmware_reg_key_value();
 	vmware_reg_keys();
 	vmware_files();
 	vmware_mac();
-	exec_check(&vmware_adapter_name, TEXT("Checking VMWAre network adapter name: "));
-	vmware_devices();
+	exec_check(&vmware_adapter_name, TEXT("Checking VMWare network adapter name: "));
+	vmware_devices();*/
+	exec_check(&vmware_wmi, TEXT("Checking VMWare Bios using WMI: "));
 
 	///* Code injections techniques */
 	//CreateRemoteThread_Injection();

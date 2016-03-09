@@ -139,3 +139,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - RtlCreateUserThread
 - APC (QueueUserAPC / NtQueueApcThread)
 - RunPE (GetThreadContext / SetThreadContext)
+
+
+## References
+
+- An Anti-Reverse Engineering Guide By Josh Jackson.
+- Anti-Unpacker Tricks By Peter Ferrie.
+- The Art Of Unpacking By Mark Vincent Yason.
+- Walied Assar's blog http://waleedassar.blogspot.de/
+- Pafish tool: https://github.com/a0rtega/pafish

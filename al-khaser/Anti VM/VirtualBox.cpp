@@ -222,7 +222,7 @@ BOOL vbox_devices_wmi()
 
 	TCHAR szQuery[] = _T("SELECT DeviceId FROM Win32_PnPEntity");
 
-	BOOL status1 = QueryWMI(&pSvc, &pLoc);
+	BOOL status1 = InitWMI(&pSvc, &pLoc);
 	BOOL status = ExecWMIQuery(&pSvc, &pLoc, szQuery);
 	return TRUE;
 

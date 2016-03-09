@@ -30,7 +30,7 @@ BOOL SetPrivilege(HANDLE, LPCTSTR, BOOL);
 BOOL SetDebugPrivileges(VOID);
 DWORD GetMainThreadId(DWORD pid);
 BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, TCHAR* szQuery);
-BOOL QueryWMI(IWbemServices **pSvc, IWbemLocator **pLoc);
+BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc);
 
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
