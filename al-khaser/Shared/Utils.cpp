@@ -618,7 +618,7 @@ DWORD GetMainThreadId(DWORD pid)
 	return (DWORD)0;
 }
 
-BOOL QueryWMI(IWbemServices **pSvc, IWbemLocator **pLoc)
+BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc)
 {
 	// Initialize COM.
 	HRESULT hres;
@@ -644,10 +644,7 @@ BOOL QueryWMI(IWbemServices **pSvc, IWbemLocator **pLoc)
 		return 0;
 	}
 
-	// Connect to WMI through the IWbemLocator::ConnectServer method
-	// Connect to the root\cimv2 namespace with
-	// the current user and obtain pointer pSvc
-	// to make IWbemServices calls.
+	// Connect to the root\cimv2 namespace 
 	hres = (*pLoc)->ConnectServer(_T("ROOT\\CIMV2"), NULL, NULL, 0, NULL, 0, 0, pSvc);
 	if (FAILED(hres)) {
 		print_last_error(_T("ConnectServer"));
@@ -672,11 +669,10 @@ BOOL QueryWMI(IWbemServices **pSvc, IWbemLocator **pLoc)
 
 BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, TCHAR* szQuery)
 {
-	HRESULT hres;
-	// Use the IWbemServices pointer to make requests of WMI ----
-
 	// For example, get the name of the operating system
 	IEnumWbemClassObject* pEnumerator = NULL;
+	HRESULT hres;
+
 	hres = (*pSvc)->ExecQuery(_T("WQL"), szQuery, WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
 	if (FAILED(hres))
 	{
@@ -700,9 +696,10 @@ BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, TCHAR* szQuery)
 
 		
 		// Get the value of the Name property
-		hr = pclsObj->Get(_T("DeviceId"), 0, &vtProp, 0, 0);
-		_tprintf(_T("Devide ID name: %s", vtProp.bstrVal));
+		hr = pclsObj->Get(_T("SerialNumber"), 0, &vtProp, 0, 0);
+		_tprintf(_T("SerialNumber : %s"), vtProp.bstrVal);
 
+		// release the current result object
 		VariantClear(&vtProp);
 		pclsObj->Release();
 	}
