@@ -4,7 +4,7 @@
 Registry key values
 */
 
-BOOL vbox_reg_key_value()
+VOID vbox_reg_key_value()
 {
 	/* Array of strings of blacklisted registry key values */
 	TCHAR *szEntries[][3] = {
@@ -108,7 +108,7 @@ VOID vbox_files()
 /*
 Check against virtualbox blacklisted directories
 */
-BOOL vbox_check_dir()
+BOOL vbox_dir()
 {
 	TCHAR szProgramFile[MAX_PATH];
 	TCHAR szPath[MAX_PATH] = _T("");

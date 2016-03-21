@@ -78,6 +78,24 @@ VOID vmware_files()
 	}
 }
 
+/*
+Check against VMWare blacklisted directories
+*/
+BOOL vmware_dir()
+{
+	TCHAR szProgramFile[MAX_PATH];
+	TCHAR szPath[MAX_PATH] = _T("");
+	TCHAR szTarget[MAX_PATH] = _T("VMWare\\");
+
+	if (IsWoW64())
+		ExpandEnvironmentStrings(_T("%ProgramW6432%"), szProgramFile, ARRAYSIZE(szProgramFile));
+	else
+		SHGetSpecialFolderPath(NULL, szProgramFile, CSIDL_PROGRAM_FILES, FALSE);
+
+	PathCombine(szPath, szProgramFile, szTarget);
+	return is_DirectoryExists(szPath);
+}
+
 
 /*
 Check VMWare NIC MAC addresses
@@ -142,6 +160,27 @@ VOID vmware_devices()
 	}
 }
 
+
+/*
+Check for process list
+*/
+
+VOID vmware_processes()
+{
+	TCHAR *szProcesses[] = {
+		_T("vmtoolsd.exe"),
+	};
+
+	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
+	for (int i = 0; i < iLength; i++)
+	{
+		_tprintf(TEXT("[*] Checking vmware processe %s: "), szProcesses[i]);
+		if (GetProcessIdFromName(szProcesses[i]))
+			print_detected();
+		else
+			print_not_detected();
+	}
+}
 
 
 /*

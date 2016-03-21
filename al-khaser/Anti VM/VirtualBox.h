@@ -15,10 +15,10 @@
 
 
 
-BOOL vbox_reg_key_value();
+VOID vbox_reg_key_value();
 VOID vbox_reg_keys();
 VOID vbox_files();
-BOOL vbox_check_dir();
+BOOL vbox_dir();
 
 BOOL vbox_check_mac();
 VOID vbox_devices();
