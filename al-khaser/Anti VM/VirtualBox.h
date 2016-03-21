@@ -13,14 +13,12 @@
 #include "../Shared/Utils.h"
 
 
-BOOL vbox_scsi();
-BOOL vbox_SystemBiosVersion();
-BOOL vbox_VideoBiosVersion();
-BOOL vbox_SystemBiosDate();
 
-VOID vbox_check_registry_keys();
-VOID vbox_check_files();
-BOOL vbox_check_dir();
+
+VOID vbox_reg_key_value();
+VOID vbox_reg_keys();
+VOID vbox_files();
+BOOL vbox_dir();
 
 BOOL vbox_check_mac();
 VOID vbox_devices();

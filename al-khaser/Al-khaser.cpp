@@ -41,13 +41,10 @@ int main(void)
 	///* VirtualBox Detection */
 	//print_category(TEXT("VirtualBox Detection"));
 	//exec_check(&IsWoW64, TEXT("Checking if process is running under WOW64: "));
-	//exec_check(&vbox_scsi, TEXT("Checking Reg key HKLM\\HARDWARE\\DEVICEMAP\\Scsi\\...: "));
-	//exec_check(&vbox_SystemBiosVersion, TEXT("Checking Reg key HARDWARE\\Description\\System - SystemBiosVersion: "));
-	//exec_check(&vbox_VideoBiosVersion, TEXT("Checking Reg key HARDWARE\\Description\\System - VideoBiosVersion: "));
-	//exec_check(&vbox_SystemBiosDate, TEXT("Checking Reg key HARDWARE\\Description\\System - SystemBiosDate: "));
-	//exec_check(&vbox_check_dir, TEXT("Checking dir oracle\\virtualbox guest additions\\: "));
-	//vbox_check_files();
-	//vbox_check_registry_keys();
+	//vbox_reg_key_value();
+	//exec_check(&vbox_dir, TEXT("Checking dir oracle\\virtualbox guest additions\\: "));
+	//vbox_files();
+	//vbox_reg_keys();
 	//exec_check(&vbox_check_mac, TEXT("Checking Mac Address start with 08:00:27: "));
 	//vbox_devices();
 	//exec_check(&vbox_window_class, TEXT("Checking VBoxTrayToolWndClass / VBoxTrayToolWnd: "));
@@ -61,7 +58,8 @@ int main(void)
 	vmware_mac();
 	exec_check(&vmware_adapter_name, TEXT("Checking VMWare network adapter name: "));
 	vmware_devices();*/
-	exec_check(&vmware_wmi, TEXT("Checking VMWare Bios using WMI: "));
+	// exec_check(&vmware_wmi, TEXT("Checking VMWare Bios using WMI: "));
+	exec_check(&vmware_dir, TEXT("Checking vmware directory: "));
 
 	///* Code injections techniques */
 	//CreateRemoteThread_Injection();
