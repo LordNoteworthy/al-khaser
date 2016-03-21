@@ -79,12 +79,18 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Color of background pixel
 - Keyboard layout (Win32/Banload) (todo)
 
-### Anti-VM
-- Virtualbox registry key values artifacts:
-	- "HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier)
+### Anti-Virtualization
+# Registry key value artifacts:
+- Virtualbox:
+	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier)
 	- HARDWARE\\Description\\System (SystemBiosVersion)
 	- HARDWARE\\Description\\System (VideoBiosVersion)
 	- HARDWARE\\Description\\System (SystemBiosDate)
+- VMWare:
+	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier)
+	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 1\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier)
+	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 2\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier)
+
 - Virtualbox registry Keys artifacts
 	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
 	- "HARDWARE\\ACPI\\FADT\\VBOX__"

@@ -4,31 +4,32 @@
 Registry key values
 */
 
-BOOL vbox_scsi()
+BOOL vbox_reg_key_value()
 {
-	return Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, _T("HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0"), _T("Identifier"), _T("VBOX"));
-}
+	/* Array of strings of blacklisted registry key values */
+	TCHAR *szEntries[][3] = {
+		{ _T("HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0"), _T("Identifier"), _T("VBOX") },
+		{ _T("HARDWARE\\Description\\System"), _T("SystemBiosVersion"), _T("VBOX") },
+		{ _T("HARDWARE\\Description\\System"), _T("VideoBiosVersion"), _T("VIRTUALBOX") },
+		{ _T("HARDWARE\\Description\\System"), _T("SystemBiosDate"), _T("06/23/99") },
+	};
 
-BOOL vbox_SystemBiosVersion()
-{
-	return Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, _T("HARDWARE\\Description\\System"), _T("SystemBiosVersion"), _T("VBOX"));
-}
+	WORD dwLength = sizeof(szEntries) / sizeof(szEntries[0]);
 
-BOOL vbox_VideoBiosVersion()
-{
-	return Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, _T("HARDWARE\\Description\\System"), _T("VideoBiosVersion"), _T("VIRTUALBOX"));
+	for (int i = 0; i < dwLength; i++)
+	{
+		_tprintf(_T("[*] Checking reg key %s:"), szEntries[i][0]);
+		if (Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, szEntries[i][0], szEntries[i][1], szEntries[i][2]))
+			print_detected();
+		else
+			print_not_detected();
+	}
 }
-
-BOOL vbox_SystemBiosDate()
-{
-	return Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, _T("HARDWARE\\Description\\System"), _T("SystemBiosDate"), _T("06/23/99"));
-}
-
 
 /*
 Check against virtualbox registry keys
 */
-VOID vbox_check_registry_keys()
+VOID vbox_reg_keys()
 {
 	/* Array of strings of blacklisted registry keys */
 	TCHAR* szKeys[] = {
@@ -61,7 +62,7 @@ VOID vbox_check_registry_keys()
 /*
 Check against virtualbox blacklisted files
 */
-VOID vbox_check_files()
+VOID vbox_files()
 {
 	/* Array of strings of blacklisted paths */
 	TCHAR* szPaths[] = {
