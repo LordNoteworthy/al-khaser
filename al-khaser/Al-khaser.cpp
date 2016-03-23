@@ -50,7 +50,7 @@ int main(void)
 	//exec_check(&vbox_window_class, TEXT("Checking VBoxTrayToolWndClass / VBoxTrayToolWnd: "));
 	//exec_check(&vbox_network_share, TEXT("Checking VirtualBox Shared Folders network provider: "));
 	//vbox_processes();
-	//vbox_devices_wmi();
+	vbox_devices_wmi();
 
 	/*vmware_reg_key_value();
 	vmware_reg_keys();
@@ -59,7 +59,7 @@ int main(void)
 	exec_check(&vmware_adapter_name, TEXT("Checking VMWare network adapter name: "));
 	vmware_devices();*/
 	// exec_check(&vmware_wmi, TEXT("Checking VMWare Bios using WMI: "));
-	exec_check(&vmware_dir, TEXT("Checking vmware directory: "));
+	// exec_check(&vmware_dir, TEXT("Checking vmware directory: "));
 
 	///* Code injections techniques */
 	//CreateRemoteThread_Injection();
