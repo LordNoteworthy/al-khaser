@@ -80,7 +80,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Keyboard layout (Win32/Banload) (todo)
 
 ### Anti-Virtualization
-# Registry key value artifacts:
+- **Registry key value artifacts**
 	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VBOX)
 	- HARDWARE\\Description\\System (SystemBiosVersion) (VBOX)
 	- HARDWARE\\Description\\System (VideoBiosVersion) (VIRTUALBOX)
@@ -89,7 +89,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 1\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
 	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 2\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
 
-# Registry Keys artifacts
+- **Registry Keys artifacts**
 	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
 	- "HARDWARE\\ACPI\\FADT\\VBOX__"
 	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
@@ -101,7 +101,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
 	- SOFTWARE\\VMware, Inc.\\VMware Tools
 
-# File system artifacts:
+- **File system artifacts**
 	- "system32\\drivers\\VBoxMouse.sys"
 	- "system32\\drivers\\VBoxGuest.sys"
 	- "system32\\drivers\\VBoxSF.sys"
@@ -122,18 +122,18 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "system32\\drivers\\vmmouse.sys"
 	- "system32\\drivers\\vmhgfs.sys"
 
-# Directories artifacts:
+- **Directories artifacts**
 	- "%PROGRAMFILES%\\oracle\\virtualbox guest additions\\"
 	- "%PROGRAMFILES%\\VMWare\\"
 
-# MAC Address:
+- **MAC Address**
 	- "\x08\x00\x27" (VBOX)
 	- "\x00\x05\x69" (VMWARE)
 	- "\x00\x0C\x29" (VMWARE)
 	- "\x00\x1C\x14" (VMWARE)
 	- "\x00\x50\x56" (VMWARE)
 
-# Virtual devices:
+- **Virtual devices**
 	- "\\\\.\\VBoxMiniRdrDN"
 	- "\\\\.\\VBoxGuest"
 	- "\\\\.\\pipe\\VBoxMiniRdDN"
@@ -142,23 +142,24 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "\\\\.\\HGFS"
 	- "\\\\.\\vmci"
 
-# Adapter name:
+- **Adapter name**
 	- VMWare
 
-- Windows Class
+- **Windows Class**
 	- VBoxTrayToolWndClass
 	- VBoxTrayToolWnd
 
-- Network shares
+- **Network shares**
 	- VirtualBox Shared Folders
 
-- Processes
+- **Processes**
 	- vboxservice.exe
 	- vboxtray.exe
 	- vmtoolsd.exe
 
-- WMI
-	- SELECT * FROM Win32_Bios
+- **WMI**
+	- SELECT SerialNumber FROM Win32_Bios
+	- SELECT DeviceId FROM Win32_PnPEntity
 
 ### Code/DLL Injections techniques
 - CreateRemoteThread 
