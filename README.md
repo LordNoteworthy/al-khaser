@@ -160,6 +160,10 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - **WMI**
 	- SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
 	- SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
+	- SELECT * FROM Win32_NetworkAdapterConfiguration (VBOX)
+
+- **DLL Exports**
+	- kernel32.dll!wine_get_unix_file_nameWine (Wine)
 
 ### Code/DLL Injections techniques
 - CreateRemoteThread 
