@@ -1,8 +1,8 @@
 #include "Wine.h"
 
-
-
-
+/*
+Check against Wine export dlls
+*/
 BOOL wine_exports()
 {
 	/* Some vars */
@@ -21,4 +21,29 @@ BOOL wine_exports()
 	else
 		return TRUE;
 
+}
+
+
+
+/*
+Check against Wine registry keys
+*/
+VOID wine_reg_keys()
+{
+	/* Array of strings of blacklisted registry keys */
+	TCHAR* szKeys[] = {
+		_T("SOFTWARE\\Wine")
+	};
+
+	WORD dwlength = sizeof(szKeys) / sizeof(szKeys[0]);
+
+	/* Check one by one */
+	for (int i = 0; i < dwlength; i++)
+	{
+		_tprintf(TEXT("[*] Checking reg key %s: "), szKeys[i]);
+		if (Is_RegKeyExists(HKEY_CURRENT_USER, szKeys[i]))
+			print_detected();
+		else
+			print_not_detected();
+	}
 }

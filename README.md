@@ -100,6 +100,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "SYSTEM\\ControlSet001\\Services\\VBoxSF"
 	- "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
 	- SOFTWARE\\VMware, Inc.\\VMware Tools
+	- SOFTWARE\\Wine
 
 - **File system artifacts**
 	- "system32\\drivers\\VBoxMouse.sys"

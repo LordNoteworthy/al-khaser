@@ -65,7 +65,8 @@ int main(void)
 	//exec_check(&vmware_dir, TEXT("Checking vmware directory: "));
 
 	/* Wine Detection */
-	exec_check(&wine_exports, TEXT("Checking Wine via dll exports: "));
+	// exec_check(&wine_exports, TEXT("Checking Wine via dll exports: "));
+	wine_reg_keys();
 
 	/* Code injections techniques */
 	//CreateRemoteThread_Injection();
