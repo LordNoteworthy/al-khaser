@@ -24,6 +24,7 @@
 #include "..\Anti Debug\SeDebugPrivilege.h"
 #include "..\Anti Debug\NtQueryObject_ObjectInformation.h"
 #include "..\Anti Debug\NtYieldExecution.h"
+#include "..\Anti Debug\SetHandleInformation_API.h"
 
 /* Anti dumping headers */
 #include "..\Anti Dump\ErasePEHeaderFromMemory.h"
@@ -32,6 +33,9 @@
 /* Anti VM headers */
 #include "..\Anti VM\VirtualBox.h"
 #include "..\Anti VM\VMware.h"
+#include "..\Anti VM\Wine.h"
+
+
 
 /* Code Injections Headers */
 #include "..\Code Injections\CreateRemoteThread.h"

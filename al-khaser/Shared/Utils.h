@@ -29,8 +29,8 @@ DWORD GetProcessIdFromName(LPCTSTR ProcessName);
 BOOL SetPrivilege(HANDLE, LPCTSTR, BOOL);
 BOOL SetDebugPrivileges(VOID);
 DWORD GetMainThreadId(DWORD pid);
-BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, TCHAR* szQuery);
 BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc);
+BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, IEnumWbemClassObject **pEnumerator, TCHAR* szQuery);
 
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)

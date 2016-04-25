@@ -26,3 +26,5 @@ BOOL vbox_window_class();
 BOOL vbox_network_share();
 VOID vbox_processes();
 BOOL vbox_devices_wmi();
+BOOL vbox_mac_wmi();
+BOOL vbox_eventlogfile_wmi();
