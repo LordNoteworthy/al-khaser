@@ -31,10 +31,9 @@ int main(void)
 	//exec_check(&NtQueryObject_ObjectTypeInformation, TEXT("Checking NtQueryObject with ObjectTypeInformation : "));
 	//exec_check(&NtQueryObject_ObjectAllTypesInformation, TEXT("Checking NtQueryObject with ObjectAllTypesInformation : "));
 	//exec_check(&NtYieldExecutionAPI, TEXT("Checking NtYieldExecution : "));
-	exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
+	//exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
 
-
-	///* Anti Dumping */
+	/* Anti Dumping */
 	//print_category(TEXT("Anti Dumping"));
 	//exec_check(&ErasePEHeaderFromMemory, TEXT("Checking ErasePEHeaderFromMemory : "));
 	//SizeOfImage();
@@ -55,17 +54,20 @@ int main(void)
 	//exec_check(&vbox_mac_wmi, TEXT("Checking Mac address from WMI: "));
 	//exec_check(&vbox_eventlogfile_wmi, TEXT("Checking NTEventLog from WMI: "));
 
+	/* VMWare Detection */
+	//vmware_reg_key_value();
+	//vmware_reg_keys();
+	//vmware_files();
+	//vmware_mac();
+	//exec_check(&vmware_adapter_name, TEXT("Checking VMWare network adapter name: "));
+	//vmware_devices();
+	//exec_check(&vmware_wmi, TEXT("Checking VMWare Bios using WMI: "));
+	//exec_check(&vmware_dir, TEXT("Checking vmware directory: "));
 
-	/*vmware_reg_key_value();
-	vmware_reg_keys();
-	vmware_files();
-	vmware_mac();
-	exec_check(&vmware_adapter_name, TEXT("Checking VMWare network adapter name: "));
-	vmware_devices();*/
-	// exec_check(&vmware_wmi, TEXT("Checking VMWare Bios using WMI: "));
-	// exec_check(&vmware_dir, TEXT("Checking vmware directory: "));
+	/* Wine Detection */
+	exec_check(&wine_exports, TEXT("Checking Wine via dll exports: "));
 
-	///* Code injections techniques */
+	/* Code injections techniques */
 	//CreateRemoteThread_Injection();
 	//SetWindowsHooksEx_Injection();
 	//NtCreateThreadEx_Injection();

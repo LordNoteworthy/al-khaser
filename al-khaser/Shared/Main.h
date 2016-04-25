@@ -33,6 +33,9 @@
 /* Anti VM headers */
 #include "..\Anti VM\VirtualBox.h"
 #include "..\Anti VM\VMware.h"
+#include "..\Anti VM\Wine.h"
+
+
 
 /* Code Injections Headers */
 #include "..\Code Injections\CreateRemoteThread.h"

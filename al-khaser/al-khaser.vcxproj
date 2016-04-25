@@ -185,6 +185,7 @@
     <ClCompile Include="Anti Dump\SizeOfImage.cpp" />
     <ClCompile Include="Anti VM\VirtualBox.cpp" />
     <ClCompile Include="Anti VM\VMWare.cpp" />
+    <ClCompile Include="Anti VM\Wine.cpp" />
     <ClCompile Include="Code Injections\CreateRemoteThread.cpp" />
     <ClCompile Include="Code Injections\GetSetThreadContext.cpp" />
     <ClCompile Include="Code Injections\NtCreateThreadEx.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="Anti Dump\SizeOfImage.h" />
     <ClInclude Include="Anti VM\VirtualBox.h" />
     <ClInclude Include="Anti VM\VMWare.h" />
+    <ClInclude Include="Anti VM\Wine.h" />
     <ClInclude Include="Code Injections\CreateRemoteThread.h" />
     <ClInclude Include="Code Injections\GetSetThreadContext.h" />
     <ClInclude Include="Code Injections\NtCreateThreadEx.h" />
