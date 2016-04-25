@@ -31,6 +31,7 @@ int main(void)
 	//exec_check(&NtQueryObject_ObjectTypeInformation, TEXT("Checking NtQueryObject with ObjectTypeInformation : "));
 	//exec_check(&NtQueryObject_ObjectAllTypesInformation, TEXT("Checking NtQueryObject with ObjectAllTypesInformation : "));
 	//exec_check(&NtYieldExecutionAPI, TEXT("Checking NtYieldExecution : "));
+	exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
 
 
 	///* Anti Dumping */
@@ -50,7 +51,10 @@ int main(void)
 	//exec_check(&vbox_window_class, TEXT("Checking VBoxTrayToolWndClass / VBoxTrayToolWnd: "));
 	//exec_check(&vbox_network_share, TEXT("Checking VirtualBox Shared Folders network provider: "));
 	//vbox_processes();
-	vbox_devices_wmi();
+	//exec_check(&vbox_devices_wmi, TEXT("Checking DeviceId from WMI: "));
+	//exec_check(&vbox_mac_wmi, TEXT("Checking Mac address from WMI: "));
+	//exec_check(&vbox_eventlogfile_wmi, TEXT("Checking NTEventLog from WMI: "));
+
 
 	/*vmware_reg_key_value();
 	vmware_reg_keys();

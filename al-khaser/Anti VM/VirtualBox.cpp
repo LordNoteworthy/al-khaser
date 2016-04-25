@@ -215,16 +215,188 @@ VOID vbox_processes()
 }
 
 /*
-Check vbox devices using WMI */
+Check vbox devices using WMI
+*/
 BOOL vbox_devices_wmi()
 {
 	IWbemServices *pSvc = NULL;
 	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+	BOOL bFound = FALSE;
 
-	TCHAR szQuery[] = _T("SELECT DeviceId FROM Win32_PnPEntity");
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc);
+	
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_PnPEntity"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+			VARIANT vtProp;
 
-	BOOL status1 = InitWMI(&pSvc, &pLoc);
-	BOOL status = ExecWMIQuery(&pSvc, &pLoc, szQuery);
-	return TRUE;
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
 
+
+				// Get the value of the Name property
+				hRes = pclsObj->Get(_T("DeviceId"), 0, &vtProp, 0, 0);
+				
+				// Do our comparaison
+				if (_tcsstr(vtProp.bstrVal, _T("PCI\\VEN_80EE&DEV_CAFE")) != 0)
+				{
+					bFound = TRUE;
+					break;
+				}
+
+				// release the current result object
+				VariantClear(&vtProp);
+				pclsObj->Release();
+
+			}
+
+			// Cleanup
+			pSvc->Release();
+			pLoc->Release();
+			pEnumerator->Release();
+			CoUninitialize();
+		}
+	}
+
+	return bFound;
+}
+
+
+/*
+Check vbox mac @ using WMI
+*/
+BOOL vbox_mac_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+	BOOL bFound = FALSE;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc);
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_NetworkAdapterConfiguration"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+			VARIANT vtProp;
+
+			// Iterate over our enumator
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+
+				// Get the value of the Name property
+				hRes = pclsObj->Get(_T("MACAddress"), 0, &vtProp, 0, 0);
+				if (V_VT(&vtProp) != VT_NULL) {
+
+					// Do our comparaison
+					if (_tcsstr(vtProp.bstrVal, _T("08:00:27")) != 0){
+						bFound = TRUE; break;
+					}
+
+					// release the current result object
+					VariantClear(&vtProp);
+					pclsObj->Release();
+				}
+
+			}
+
+			// Cleanup
+			pEnumerator->Release();
+			pSvc->Release();
+			pLoc->Release();
+			CoUninitialize();
+
+		}
+	}
+
+	return bFound;
+}
+
+/*
+Check vbox event log using WMI
+*/
+BOOL vbox_eventlogfile_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+	BOOL bFound = FALSE;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc);
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_NTEventlogFile"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+			VARIANT vtProp;
+
+			// Iterate over our enumator
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+
+				// Get the value of the FileName property
+				hRes = pclsObj->Get(_T("FileName"), 0, &vtProp, 0, 0);
+				if (V_VT(&vtProp) != VT_NULL) {
+
+					// Do our comparaison
+					if (StrCmpI(vtProp.bstrVal, _T("System")) == 0) {
+
+						// Now, grab the Source property
+						VariantClear(&vtProp);
+						hRes = pclsObj->Get(_T("Source"), 0, &vtProp, 0, 0);
+						bFound = TRUE; break;
+					}
+
+					// release the current result object
+					VariantClear(&vtProp);
+					pclsObj->Release();
+				}
+
+			}
+
+			// Cleanup
+			pEnumerator->Release();
+			pSvc->Release();
+			pLoc->Release();
+			CoUninitialize();
+
+		}
+	}
+
+	return bFound;
 }

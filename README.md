@@ -158,8 +158,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- vmtoolsd.exe
 
 - **WMI**
-	- SELECT SerialNumber FROM Win32_Bios
-	- SELECT DeviceId FROM Win32_PnPEntity
+	- SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
+	- SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
 
 ### Code/DLL Injections techniques
 - CreateRemoteThread 

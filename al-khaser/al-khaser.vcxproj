@@ -178,6 +178,7 @@
     <ClCompile Include="Anti Debug\ProcessHeap_ForceFlags.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_NtGlobalFlag.cpp" />
     <ClCompile Include="Anti Debug\SeDebugPrivilege.cpp" />
+    <ClCompile Include="Anti Debug\SetHandleInformation_API.cpp" />
     <ClCompile Include="Anti Debug\SoftwareBreakpoints.cpp" />
     <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp" />
     <ClCompile Include="Anti Dump\ErasePEHeaderFromMemory.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="Anti Debug\ProcessHeap_ForceFlags.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_NtGlobalFlag.h" />
     <ClInclude Include="Anti Debug\SeDebugPrivilege.h" />
+    <ClInclude Include="Anti Debug\SetHandleInformation_API.h" />
     <ClInclude Include="Anti Debug\SoftwareBreakpoints.h" />
     <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="Anti Dump\ErasePEHeaderFromMemory.h" />

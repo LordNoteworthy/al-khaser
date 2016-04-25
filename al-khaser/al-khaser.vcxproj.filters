@@ -171,6 +171,9 @@
     <ClCompile Include="Anti VM\VMWare.cpp">
       <Filter>Anti VM\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\SetHandleInformation_API.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -286,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="Anti VM\VMWare.h">
       <Filter>Anti VM\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\SetHandleInformation_API.h">
+      <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

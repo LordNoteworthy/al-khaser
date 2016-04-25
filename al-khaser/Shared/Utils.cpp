@@ -667,51 +667,20 @@ BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc)
 	return 1;
 }
 
-BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, TCHAR* szQuery)
+BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, IEnumWbemClassObject **pEnumerator, TCHAR* szQuery)
 {
-	// For example, get the name of the operating system
-	IEnumWbemClassObject* pEnumerator = NULL;
-	HRESULT hres;
-
-	hres = (*pSvc)->ExecQuery(_T("WQL"), szQuery, WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
+	// Execute WMI query
+	HRESULT hres = (*pSvc)->ExecQuery(_T("WQL"), szQuery, WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, pEnumerator);
 	if (FAILED(hres))
 	{
 		print_last_error(_T("ExecQuery"));
 		(*pSvc)->Release();
 		(*pLoc)->Release();
 		CoUninitialize();
-		return 0;  
+		return 0;
 	}
 
-	// Get the data from the query
-	IWbemClassObject *pclsObj = NULL;
-	ULONG uReturn = 0;
-	VARIANT vtProp;
-
-	while (pEnumerator)
-	{
-		HRESULT hr = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
-		if (0 == uReturn)
-			break;
-
-		
-		// Get the value of the Name property
-		hr = pclsObj->Get(_T("DeviceId"), 0, &vtProp, 0, 0);
-		_tprintf(_T("DeviceId : %s"), vtProp.bstrVal);
-
-		// release the current result object
-		VariantClear(&vtProp);
-		pclsObj->Release();
-	}
-
-	// Cleanup
-	(*pSvc)->Release();
-	(*pLoc)->Release();
-	pEnumerator->Release();
-	CoUninitialize();
-
-	return 0;
-
+	return 1;
 }
 
 

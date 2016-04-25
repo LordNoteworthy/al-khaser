@@ -190,11 +190,49 @@ BOOL vmware_wmi()
 {
 	IWbemServices *pSvc = NULL;
 	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hr;
 
-	TCHAR szQuery[] = _T("SELECT * FROM Win32_Bios");
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc);
 
-	BOOL status1 = InitWMI(&pSvc, &pLoc);
-	BOOL status = ExecWMIQuery(&pSvc, &pLoc, szQuery);
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_PnPEntity"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+			VARIANT vtProp;
+
+			while (pEnumerator)
+			{
+				hr = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+
+				// Get the value of the Name property
+				hr = pclsObj->Get(_T("DeviceId"), 0, &vtProp, 0, 0);
+				_tprintf(_T("DeviceId : %s"), vtProp.bstrVal);
+
+				// release the current result object
+				VariantClear(&vtProp);
+				pclsObj->Release();
+
+			}
+		}
+	}
+
+	// Cleanup
+	pSvc->Release();
+	pLoc->Release();
+	pEnumerator->Release();
+	CoUninitialize();
+
 	return TRUE;
 
 }
