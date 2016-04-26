@@ -163,8 +163,15 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
 	- SELECT * FROM Win32_NetworkAdapterConfiguration (VBOX)
 
-- **DLL Exports**
+- **DLL Exports and Loaded DLLs**
 	- kernel32.dll!wine_get_unix_file_nameWine (Wine)
+	- sbiedll.dll (Sandboxie)
+	- dbghelp.dll (MS debugging support routines)
+	- api_log.dll (SunBelt SandBox)
+	- dir_watch.dll (SunBelt SandBox)
+	- pstorec.dll (SunBelt Sandbox)
+	- vmcheck.dll (Virtual PC)
+	- wpespy.dll (WPE Pro)
 
 ### Code/DLL Injections techniques
 - CreateRemoteThread 

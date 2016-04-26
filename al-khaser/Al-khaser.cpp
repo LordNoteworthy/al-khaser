@@ -66,7 +66,10 @@ int main(void)
 
 	/* Wine Detection */
 	// exec_check(&wine_exports, TEXT("Checking Wine via dll exports: "));
-	wine_reg_keys();
+	// wine_reg_keys();
+
+	/* Generic sandbox detection */
+	loaded_dlls();
 
 	/* Code injections techniques */
 	//CreateRemoteThread_Injection();

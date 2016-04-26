@@ -34,7 +34,7 @@
 #include "..\Anti VM\VirtualBox.h"
 #include "..\Anti VM\VMware.h"
 #include "..\Anti VM\Wine.h"
-
+#include "..\Anti VM\Generic.h"
 
 
 /* Code Injections Headers */
