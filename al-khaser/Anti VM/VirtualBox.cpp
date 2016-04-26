@@ -246,7 +246,6 @@ BOOL vbox_devices_wmi()
 				if (0 == uReturn)
 					break;
 
-
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("DeviceId"), 0, &vtProp, 0, 0);
 				
@@ -260,7 +259,6 @@ BOOL vbox_devices_wmi()
 				// release the current result object
 				VariantClear(&vtProp);
 				pclsObj->Release();
-
 			}
 
 			// Cleanup
@@ -307,7 +305,6 @@ BOOL vbox_mac_wmi()
 				if (0 == uReturn)
 					break;
 
-
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("MACAddress"), 0, &vtProp, 0, 0);
 				if (V_VT(&vtProp) != VT_NULL) {
@@ -321,7 +318,6 @@ BOOL vbox_mac_wmi()
 					VariantClear(&vtProp);
 					pclsObj->Release();
 				}
-
 			}
 
 			// Cleanup
@@ -329,7 +325,6 @@ BOOL vbox_mac_wmi()
 			pSvc->Release();
 			pLoc->Release();
 			CoUninitialize();
-
 		}
 	}
 

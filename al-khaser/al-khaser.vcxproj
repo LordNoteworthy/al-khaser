@@ -183,6 +183,7 @@
     <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp" />
     <ClCompile Include="Anti Dump\ErasePEHeaderFromMemory.cpp" />
     <ClCompile Include="Anti Dump\SizeOfImage.cpp" />
+    <ClCompile Include="Anti VM\Generic.cpp" />
     <ClCompile Include="Anti VM\VirtualBox.cpp" />
     <ClCompile Include="Anti VM\VMWare.cpp" />
     <ClCompile Include="Anti VM\Wine.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="Anti Dump\ErasePEHeaderFromMemory.h" />
     <ClInclude Include="Anti Dump\SizeOfImage.h" />
+    <ClInclude Include="Anti VM\Generic.h" />
     <ClInclude Include="Anti VM\VirtualBox.h" />
     <ClInclude Include="Anti VM\VMWare.h" />
     <ClInclude Include="Anti VM\Wine.h" />

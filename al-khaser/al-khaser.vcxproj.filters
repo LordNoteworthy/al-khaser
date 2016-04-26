@@ -177,6 +177,9 @@
     <ClCompile Include="Anti VM\Wine.cpp">
       <Filter>Anti VM\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti VM\Generic.cpp">
+      <Filter>Anti VM\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -297,6 +300,9 @@
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti VM\Wine.h">
+      <Filter>Anti VM\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti VM\Generic.h">
       <Filter>Anti VM\Header</Filter>
     </ClInclude>
   </ItemGroup>
