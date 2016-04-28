@@ -162,6 +162,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
 	- SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
 	- SELECT * FROM Win32_NetworkAdapterConfiguration (VBOX)
+	- SELECT * FROM Win32_NTEventlogFile (VBOX)
 
 - **DLL Exports and Loaded DLLs**
 	- kernel32.dll!wine_get_unix_file_nameWine (Wine)
