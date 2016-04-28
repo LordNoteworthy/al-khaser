@@ -357,12 +357,11 @@ BOOL vbox_eventlogfile_wmi()
 			VARIANT vtProp;
 
 			// Iterate over our enumator
-			while (pEnumerator)
+			while (pEnumerator && !bFound)
 			{
 				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
-
 
 				// Get the value of the FileName property
 				hRes = pclsObj->Get(_T("FileName"), 0, &vtProp, 0, 0);
@@ -373,15 +372,34 @@ BOOL vbox_eventlogfile_wmi()
 
 						// Now, grab the Source property
 						VariantClear(&vtProp);
-						hRes = pclsObj->Get(_T("Source"), 0, &vtProp, 0, 0);
-						bFound = TRUE; break;
+						hRes = pclsObj->Get(_T("Sources"), 0, &vtProp, 0, 0);
+
+						// Get the number of elements of our SAFEARRAY
+						SAFEARRAY* saSources = vtProp.parray;
+						LONG* pVals;
+						HRESULT hr = SafeArrayAccessData(saSources, (VOID**)&pVals); // direct access to SA memory
+						if (SUCCEEDED(hr)) {
+							LONG lowerBound, upperBound;
+							SafeArrayGetLBound(saSources, 1, &lowerBound);
+							SafeArrayGetUBound(saSources, 1, &upperBound);
+							LONG iLength = upperBound - lowerBound + 1;
+
+							// Iteare over our array of BTSR
+							TCHAR* bstrItem;
+							for (LONG ix = 0; ix < iLength; ix++) {
+								SafeArrayGetElement(saSources, &ix, (void *)&bstrItem);
+								if (_tcsicmp(bstrItem, _T("vboxvideo")) == 0) {
+									bFound = TRUE;
+									break;
+								}
+							}
+						}	
 					}
 
 					// release the current result object
 					VariantClear(&vtProp);
 					pclsObj->Release();
 				}
-
 			}
 
 			// Cleanup
