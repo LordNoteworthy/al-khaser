@@ -40,3 +40,25 @@ VOID loaded_dlls()
 			print_detected();	
 	}
 }
+
+
+/*
+Number of Processors in VM
+*/
+
+BOOL NumberOfProcessors()
+{
+#if defined (ENV64BIT)
+	ULONG ulNumberProcessors = (ULONG)(__readgsqword(0x30) + 0xB8);
+
+#elif defined(ENV32BIT)
+	PULONG ulNumberProcessors = (PULONG)(__readfsdword(0x30) + 0x64) ;
+
+#endif
+
+	if (*ulNumberProcessors < 2)
+		return TRUE;
+	else
+		return FALSE;
+}
+
