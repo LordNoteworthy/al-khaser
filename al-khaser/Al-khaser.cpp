@@ -52,7 +52,7 @@ int main(void)
 	//vbox_processes();
 	//exec_check(&vbox_devices_wmi, TEXT("Checking DeviceId from WMI: "));
 	//exec_check(&vbox_mac_wmi, TEXT("Checking Mac address from WMI: "));
-	exec_check(&vbox_eventlogfile_wmi, TEXT("Checking NTEventLog from WMI: "));
+	// exec_check(&vbox_eventlogfile_wmi, TEXT("Checking NTEventLog from WMI: "));
 
 	/* VMWare Detection */
 	//vmware_reg_key_value();
@@ -70,6 +70,7 @@ int main(void)
 
 	/* Generic sandbox detection */
 	//loaded_dlls();
+	exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine: "));
 
 	/* Code injections techniques */
 	//CreateRemoteThread_Injection();

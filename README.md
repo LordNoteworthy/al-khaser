@@ -74,9 +74,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - DialogBox (todo)
 - Scrolling (todo)
 - Execution after reboot (todo)
-- CPU cores (todo) (Win32/Tinba)
+- Count of processors (Win32/Tinba - Win32/Dyre)
 - Sandbox known product IDs (todo)
-- Color of background pixel
+- Color of background pixel (todo)
 - Keyboard layout (Win32/Banload) (todo)
 
 ### Anti-Virtualization
