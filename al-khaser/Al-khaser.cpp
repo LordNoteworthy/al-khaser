@@ -70,7 +70,7 @@ int main(void)
 
 	/* Generic sandbox detection */
 	//loaded_dlls();
-	exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine: "));
+	// exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine: "));
 
 	/* Code injections techniques */
 	//CreateRemoteThread_Injection();
@@ -80,13 +80,15 @@ int main(void)
 	//QueueUserAPC_Injection();
 	//GetSetThreadContext_Injection();
 
-
 	///* Timing Attacks */
 	//timing_NtDelayexecution();
 	//timing_SetTimer();
 	//timing_timeSetEvent();
 	//timing_WaitForSingleObject();
 	
+
+	/* Malware analysis tools */
+	analysis_tools_process();
 	
 	system("PAUSE");
 	return 0;

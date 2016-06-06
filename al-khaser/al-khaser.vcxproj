@@ -157,6 +157,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Al-khaser.cpp" />
+    <ClCompile Include="Anti Analysis\file.cpp" />
+    <ClCompile Include="Anti Analysis\process.cpp" />
     <ClCompile Include="Anti Debug\CheckRemoteDebuggerPresentAPI.cpp" />
     <ClCompile Include="Anti Debug\CloseHandle_InvalidHandle.cpp" />
     <ClCompile Include="Anti Debug\HardwareBreakpoints.cpp" />
@@ -198,6 +200,8 @@
     <ClCompile Include="timing-attacks\timing.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Anti Analysis\file.h" />
+    <ClInclude Include="Anti Analysis\process.h" />
     <ClInclude Include="Anti Debug\CheckRemoteDebuggerPresentAPI.h" />
     <ClInclude Include="Anti Debug\CloseHandle_InvalidHandle.h" />
     <ClInclude Include="Anti Debug\HardwareBreakpoints.h" />
