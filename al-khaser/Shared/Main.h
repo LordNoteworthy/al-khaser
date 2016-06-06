@@ -36,7 +36,6 @@
 #include "..\Anti VM\Wine.h"
 #include "..\Anti VM\Generic.h"
 
-
 /* Code Injections Headers */
 #include "..\Code Injections\CreateRemoteThread.h"
 #include "..\Code Injections\SetWindowsHooksEx.h"
@@ -47,6 +46,9 @@
 
 /* Delay Execution */
 #include "..\timing-attacks\timing.h"
+
+/* Anti-Analysis */
+#include "..\Anti Analysis\process.h"
 
 
 

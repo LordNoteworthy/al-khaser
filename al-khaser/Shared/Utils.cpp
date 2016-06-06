@@ -481,20 +481,12 @@ BOOL SetPrivilege(
 			tpPrevious.Privileges[0].Attributes);
 	}
 
-	AdjustTokenPrivileges(
-		hToken,
-		FALSE,
-		&tpPrevious,
-		cbPrevious,
-		NULL,
-		NULL
-		);
+	AdjustTokenPrivileges(hToken, FALSE, &tpPrevious, cbPrevious, NULL, NULL);
 
 	if (GetLastError() != ERROR_SUCCESS) return FALSE;
 
 	return TRUE;
 }
-
 
 
 BOOL SetDebugPrivileges(VOID) {
@@ -561,7 +553,7 @@ DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 	}
 
 	// Do our first comparison
-	if (_tcscmp(pe32.szExeFile, szProcessName) == FALSE)
+	if (StrCmpI(pe32.szExeFile, szProcessName) == 0)
 	{
 		// Cleanup the mess
 		CloseHandle(hSnapshot);
@@ -573,7 +565,7 @@ DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 	// we find the matching entry or not one at all
 	while (Process32Next(hSnapshot, &pe32))
 	{
-		if (_tcscmp(pe32.szExeFile, szProcessName) == 0)
+		if (StrCmpI(pe32.szExeFile, szProcessName) == 0)
 		{
 			// Cleanup the mess
 			CloseHandle(hSnapshot);
@@ -582,7 +574,7 @@ DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 	}
 
 	// If we made it this far there wasn't a match, so we'll return 0
-	_tprintf(_T("\t[+] Process %s is not running on this system ...\n"), szProcessName);
+	_tprintf(_T("\n-> Process %s is not running on this system ..."), szProcessName);
 
 	CloseHandle(hSnapshot);
 	return 0;

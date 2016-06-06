@@ -55,6 +55,15 @@
     <Filter Include="Timing Attacks\Header">
       <UniqueIdentifier>{bacf628e-5c25-4a94-976b-0063f79ae80e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Anti Analysis">
+      <UniqueIdentifier>{a1a7be14-800a-4f5a-b7a9-a632428b3bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti Analysis\Source">
+      <UniqueIdentifier>{12506780-9d25-4241-a23e-155f4e6a198e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti Analysis\Header">
+      <UniqueIdentifier>{b2e0bced-b57a-4f88-8284-4fb2b54e4590}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\LICENSE" />
@@ -180,6 +189,12 @@
     <ClCompile Include="Anti VM\Generic.cpp">
       <Filter>Anti VM\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Analysis\file.cpp">
+      <Filter>Anti Analysis\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti Analysis\process.cpp">
+      <Filter>Anti Analysis\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -304,6 +319,12 @@
     </ClInclude>
     <ClInclude Include="Anti VM\Generic.h">
       <Filter>Anti VM\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Analysis\process.h">
+      <Filter>Anti Analysis\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Analysis\file.h">
+      <Filter>Anti Analysis\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

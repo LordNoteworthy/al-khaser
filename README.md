@@ -56,6 +56,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 ### Anti-Dumping
 - Erase PE header from memory
+- SizeOfImage
 
 ### Timing Attacks [Anti-Sandbox]
 - Sleep -> SleepEx -> NtDelayExecution
@@ -173,6 +174,16 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- pstorec.dll (SunBelt Sandbox)
 	- vmcheck.dll (Virtual PC)
 	- wpespy.dll (WPE Pro)
+
+
+### Anti-Analysis
+- **Processes**
+	- OllyDBG / ImmunityDebugger / IDA Pro
+	- SysInternals Suite (Process Explorer / Process Monitor, TCPView, Autoruns)
+	- Wireshark
+	- ProcessHacker
+
+
 
 ### Code/DLL Injections techniques
 - CreateRemoteThread 
