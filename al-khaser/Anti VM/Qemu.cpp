@@ -1,0 +1,27 @@
+#include "Qemu.h"
+
+/*
+Registry key values
+*/
+
+VOID qemu_reg_key_value()
+{
+	/* Array of strings of blacklisted registry key values */
+	TCHAR *szEntries[][3] = {
+		{ _T("HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0"), _T("Identifier"), _T("VBOX") },
+		{ _T("HARDWARE\\Description\\System"), _T("SystemBiosVersion"), _T("VBOX") },
+		{ _T("HARDWARE\\Description\\System"), _T("VideoBiosVersion"), _T("VIRTUALBOX") },
+		{ _T("HARDWARE\\Description\\System"), _T("SystemBiosDate"), _T("06/23/99") },
+	};
+
+	WORD dwLength = sizeof(szEntries) / sizeof(szEntries[0]);
+
+	for (int i = 0; i < dwLength; i++)
+	{
+		_tprintf(_T("[*] Checking reg key %s:"), szEntries[i][0]);
+		if (Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, szEntries[i][0], szEntries[i][1], szEntries[i][2]))
+			print_detected();
+		else
+			print_not_detected();
+	}
+}

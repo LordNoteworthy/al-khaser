@@ -80,10 +80,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Color of background pixel (todo)
 - Keyboard layout (Win32/Banload) (todo)
 
-### Anti-Virtualization
+### Anti-Virtualization / Full-System Emulation
 - **Registry key value artifacts**
 	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VBOX)
+	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (QEMU)
 	- HARDWARE\\Description\\System (SystemBiosVersion) (VBOX)
+	- HARDWARE\\Description\\System (SystemBiosVersion) (QEMU)
 	- HARDWARE\\Description\\System (VideoBiosVersion) (VIRTUALBOX)
 	- HARDWARE\\Description\\System (SystemBiosDate) (06/23/99)
 	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
