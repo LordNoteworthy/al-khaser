@@ -12,7 +12,9 @@ VOID analysis_tools_process()
 		_T("tcpview.exe"),			// Part of Sysinternals Suite
 		_T("autoruns.exe"),			// Part of Sysinternals Suite
 		_T("autorunsc.exe"),		// Part of Sysinternals Suite
+		_T("filemon.exe"),			// Part of Sysinternals Suite
 		_T("procmon.exe"),			// Part of Sysinternals Suite
+		_T("regmon.exe"),			// Part of Sysinternals Suite
 		_T("procexp.exe"),			// Part of Sysinternals Suite
 		_T("idag.exe"),				// IDA Pro Interactive Disassembler
 		_T("idag.exe"),				// IDA Pro Interactive Disassembler
@@ -24,8 +26,12 @@ VOID analysis_tools_process()
 		_T("PETools.exe"),			// PE Tool
 		_T("dumpcap.exe"),			// Network traffic dump tool
 		_T("SysInspector.exe"),		// ESET SysInspector
-		_T("proc_analyzer.exe"),	// Part of SysAnalyzer
+		_T("proc_analyzer.exe"),	// Part of SysAnalyzer iDefense
+		_T("sysAnalyzer.exe"),		// Part of SysAnalyzer iDefense
+		_T("sniff_hit.exe"),		// Part of SysAnalyzer iDefense
 		_T("windbg.exe"),			// Microsoft WinDbg
+		_T("joeboxcontrol.exe"),	// Part of Joe Sandbox
+		_T("joeboxserver.exe"),		// Part of Joe Sandbox
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);

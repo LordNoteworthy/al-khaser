@@ -161,9 +161,11 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- vboxtray.exe		(VBOX)
 	- vmtoolsd.exe		(VMWARE)
 	- vmwaretray.exe	(VMWARE)
+	- vmwareuser		(VMWARE)
 	- vmsrvc.exe		(VirtualPC)
 	- vmusrvc.exe		(VirtualPC)
-
+	- prl_cc			(Parallels)
+	- prl_tools			(Parallels)
 
 - **WMI**
 	- SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
@@ -175,8 +177,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- kernel32.dll!wine_get_unix_file_nameWine (Wine)
 	- sbiedll.dll (Sandboxie)
 	- dbghelp.dll (MS debugging support routines)
-	- api_log.dll (SunBelt SandBox)
-	- dir_watch.dll (SunBelt SandBox)
+	- api_log.dll (iDefense Labs)
+	- dir_watch.dll (iDefense Labs)
 	- pstorec.dll (SunBelt Sandbox)
 	- vmcheck.dll (Virtual PC)
 	- wpespy.dll (WPE Pro)
@@ -184,11 +186,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 ### Anti-Analysis
 - **Processes**
-	- OllyDBG / ImmunityDebugger / IDA Pro
-	- SysInternals Suite (Process Explorer / Process Monitor, TCPView, Autoruns)
-	- Wireshark
-	- ProcessHacker
-
+	- OllyDBG / ImmunityDebugger / WinDbg / IDA Pro
+	- SysInternals Suite Tools (Process Explorer / Process Monitor / Regmon / Filemon, TCPView, Autoruns)
+	- Wireshark / Dumpcap
+	- ProcessHacker / SysAnalyzer / HookExplorer / SysInspector
+	- ImportREC / PETools
+	- JoeBox Sandbox
 
 
 ### Code/DLL Injections techniques
