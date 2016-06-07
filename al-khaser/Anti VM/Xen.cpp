@@ -1,20 +1,19 @@
-#include "Parallels.h"
+#include "Xen.h"
 
 /*
 Check for process list
 */
 
-VOID parallels_process()
+VOID xen_process()
 {
 	TCHAR *szProcesses[] = {
-		_T("prl_cc.exe"),
-		_T("prl_tools.exe"),
+		_T("xenservice.exe"),
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
 	for (int i = 0; i < iLength; i++)
 	{
-		_tprintf(TEXT("[*] Checking Parallels process: %s"), szProcesses[i]);
+		_tprintf(TEXT("[*] Checking Citrix Xen process: %s"), szProcesses[i]);
 		if (GetProcessIdFromName(szProcesses[i]))
 			print_detected();
 		else
