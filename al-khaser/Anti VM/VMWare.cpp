@@ -169,6 +169,8 @@ VOID vmware_processes()
 {
 	TCHAR *szProcesses[] = {
 		_T("vmtoolsd.exe"),
+		_T("vmwaretray.exe"),
+		_T("vmwareuser.exe"),
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);

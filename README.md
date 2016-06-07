@@ -157,9 +157,13 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- VirtualBox Shared Folders
 
 - **Processes**
-	- vboxservice.exe
-	- vboxtray.exe
-	- vmtoolsd.exe
+	- vboxservice.exe	(VBOX)
+	- vboxtray.exe		(VBOX)
+	- vmtoolsd.exe		(VMWARE)
+	- vmwaretray.exe	(VMWARE)
+	- vmsrvc.exe		(VirtualPC)
+	- vmusrvc.exe		(VirtualPC)
+
 
 - **WMI**
 	- SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)

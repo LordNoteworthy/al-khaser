@@ -25,9 +25,7 @@ VOID analysis_tools_process()
 		_T("dumpcap.exe"),			// Network traffic dump tool
 		_T("SysInspector.exe"),		// ESET SysInspector
 		_T("proc_analyzer.exe"),	// Part of SysAnalyzer
-		_T("proc_analyzer.exe"),			// Network traffic dump tool
-		_T("proc_analyzer.exe"),			// Network traffic dump tool
-		_T("proc_analyzer.exe"),			// Network traffic dump tool
+		_T("windbg.exe"),			// Microsoft WinDbg
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
