@@ -164,8 +164,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- vmwareuser		(VMWARE)
 	- vmsrvc.exe		(VirtualPC)
 	- vmusrvc.exe		(VirtualPC)
-	- prl_cc			(Parallels)
-	- prl_tools			(Parallels)
+	- prl_cc.exe		(Parallels)
+	- prl_tools.exe		(Parallels)
+	- xenservice.exe	(Citrix Xen)
 
 - **WMI**
 	- SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
