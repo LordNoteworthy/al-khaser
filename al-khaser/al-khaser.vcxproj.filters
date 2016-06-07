@@ -28,15 +28,6 @@
     <Filter Include="Anti Dump\Header">
       <UniqueIdentifier>{93973427-9250-43d9-a191-7dd8a214487f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Anti VM">
-      <UniqueIdentifier>{edbd865b-9e3e-4fe6-8f22-59fa166bd962}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Anti VM\Source">
-      <UniqueIdentifier>{ae89ce38-87c4-4d79-af26-a878b21e966d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Anti VM\Header">
-      <UniqueIdentifier>{9c454b48-8d37-4daf-b957-3a8a5924a444}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code Injections">
       <UniqueIdentifier>{2099a16e-7aac-4042-8043-76b4f4790657}</UniqueIdentifier>
     </Filter>
@@ -63,6 +54,15 @@
     </Filter>
     <Filter Include="Anti Analysis\Header">
       <UniqueIdentifier>{b2e0bced-b57a-4f88-8284-4fb2b54e4590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti VM / Emulation">
+      <UniqueIdentifier>{edbd865b-9e3e-4fe6-8f22-59fa166bd962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti VM / Emulation\Source">
+      <UniqueIdentifier>{ae89ce38-87c4-4d79-af26-a878b21e966d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Anti VM / Emulation\Header">
+      <UniqueIdentifier>{9c454b48-8d37-4daf-b957-3a8a5924a444}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +139,7 @@
       <Filter>Anti Dump\Source</Filter>
     </ClCompile>
     <ClCompile Include="Anti VM\VirtualBox.cpp">
-      <Filter>Anti VM\Source</Filter>
+      <Filter>Anti VM / Emulation\Source</Filter>
     </ClCompile>
     <ClCompile Include="Shared\Utils.cpp">
       <Filter>Shared\Source</Filter>
@@ -178,22 +178,25 @@
       <Filter>Anti Dump\Source</Filter>
     </ClCompile>
     <ClCompile Include="Anti VM\VMWare.cpp">
-      <Filter>Anti VM\Source</Filter>
+      <Filter>Anti VM / Emulation\Source</Filter>
     </ClCompile>
     <ClCompile Include="Anti Debug\SetHandleInformation_API.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
     <ClCompile Include="Anti VM\Wine.cpp">
-      <Filter>Anti VM\Source</Filter>
+      <Filter>Anti VM / Emulation\Source</Filter>
     </ClCompile>
     <ClCompile Include="Anti VM\Generic.cpp">
-      <Filter>Anti VM\Source</Filter>
+      <Filter>Anti VM / Emulation\Source</Filter>
     </ClCompile>
     <ClCompile Include="Anti Analysis\file.cpp">
       <Filter>Anti Analysis\Source</Filter>
     </ClCompile>
     <ClCompile Include="Anti Analysis\process.cpp">
       <Filter>Anti Analysis\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti VM\Qemu.cpp">
+      <Filter>Anti VM / Emulation\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,7 +279,7 @@
       <Filter>Anti Dump\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti VM\VirtualBox.h">
-      <Filter>Anti VM\Header</Filter>
+      <Filter>Anti VM / Emulation\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\NtQueryObject_ObjectInformation.h">
       <Filter>Anti Debug\Header</Filter>
@@ -309,22 +312,25 @@
       <Filter>Anti Dump\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti VM\VMWare.h">
-      <Filter>Anti VM\Header</Filter>
+      <Filter>Anti VM / Emulation\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\SetHandleInformation_API.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti VM\Wine.h">
-      <Filter>Anti VM\Header</Filter>
+      <Filter>Anti VM / Emulation\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti VM\Generic.h">
-      <Filter>Anti VM\Header</Filter>
+      <Filter>Anti VM / Emulation\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Analysis\process.h">
       <Filter>Anti Analysis\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Analysis\file.h">
       <Filter>Anti Analysis\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti VM\Qemu.h">
+      <Filter>Anti VM / Emulation\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
