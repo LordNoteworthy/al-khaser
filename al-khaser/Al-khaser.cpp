@@ -31,7 +31,7 @@ int main(void)
 	//exec_check(&NtQueryObject_ObjectTypeInformation, TEXT("Checking NtQueryObject with ObjectTypeInformation : "));
 	//exec_check(&NtQueryObject_ObjectAllTypesInformation, TEXT("Checking NtQueryObject with ObjectAllTypesInformation : "));
 	//exec_check(&NtYieldExecutionAPI, TEXT("Checking NtYieldExecution : "));
-	//exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
+	exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
 
 	/* Anti Dumping */
 	//print_category(TEXT("Anti Dumping"));
@@ -88,7 +88,7 @@ int main(void)
 	
 
 	/* Malware analysis tools */
-	analysis_tools_process();
+	//analysis_tools_process();
 	
 	system("PAUSE");
 	return 0;

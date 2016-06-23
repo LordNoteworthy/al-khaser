@@ -198,6 +198,15 @@
     <ClCompile Include="Anti VM\Qemu.cpp">
       <Filter>Anti VM / Emulation\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti VM\VirtualPC.cpp">
+      <Filter>Anti VM / Emulation\Header</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti VM\Parallels.cpp">
+      <Filter>Anti VM / Emulation\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Anti VM\Xen.cpp">
+      <Filter>Anti VM / Emulation\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -330,6 +339,15 @@
       <Filter>Anti Analysis\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti VM\Qemu.h">
+      <Filter>Anti VM / Emulation\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti VM\VirtualPC.h">
+      <Filter>Anti VM / Emulation\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti VM\Parallels.h">
+      <Filter>Anti VM / Emulation\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti VM\Xen.h">
       <Filter>Anti VM / Emulation\Header</Filter>
     </ClInclude>
   </ItemGroup>

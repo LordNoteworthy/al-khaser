@@ -43,6 +43,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - NtQueryObject (ObjectTypeInformation)
 - NtQueryObject (ObjectAllTypesInformation)
 - CloseHanlde (NtClose) Invalide Handle
+- SetHandleInformation (Protected Handle)
 - UnhandledExceptionFilter
 - OutputDebugString (GetLastError())
 - Hardware Breakpoints (SEH / GetThreadContext)
@@ -191,7 +192,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- SysInternals Suite Tools (Process Explorer / Process Monitor / Regmon / Filemon, TCPView, Autoruns)
 	- Wireshark / Dumpcap
 	- ProcessHacker / SysAnalyzer / HookExplorer / SysInspector
-	- ImportREC / PETools
+	- ImportREC / PETools / LordPE
 	- JoeBox Sandbox
 
 
