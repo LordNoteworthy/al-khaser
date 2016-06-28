@@ -10,6 +10,8 @@ locate "DebugObject". Todo: Support for Win10
 
 BOOL NtQueryObject_ObjectAllTypesInformation()
 {
+	//NOTE this check is unreliable, a debugger present on the system doesn't mean it's attached to you
+
 	// Function Pointer Typedef for NtQueryObject
 	typedef NTSTATUS(WINAPI *pNtQueryObject)(IN HANDLE, IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
 
@@ -36,7 +38,7 @@ BOOL NtQueryObject_ObjectAllTypesInformation()
 	}
 
 	NtQueryObject = (pNtQueryObject)GetProcAddress(hNtdll, "NtQueryObject");
-	if (NtCreateDebugObject == NULL)
+	if (NtQueryObject == NULL)
 	{
 		// Handle however it fits your needs but as before,
 		// if this is missing there are some SERIOUS issues with the OS
@@ -101,5 +103,5 @@ BOOL NtQueryObject_ObjectAllTypesInformation()
 	}
 
 	VirtualFree(pMemory, 0, MEM_RELEASE);
-	return TRUE;
+	return FALSE;
 }
