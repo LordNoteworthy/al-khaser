@@ -18,6 +18,7 @@ VOID My_Critical_Function()
 
 VOID Myfunction_Adresss_Next()
 {
+	My_Critical_Function();
 	/*
 	There is no guaranteed way of determining the size of a function at run time(and little reason to do so)
 	however if you assume that the linker located functions that are adjacent in the source code sequentially in memory,
@@ -29,7 +30,7 @@ VOID Myfunction_Adresss_Next()
 
 BOOL SoftwareBreakpoints()
 {
-
+	//NOTE this check might not work on x64 because of alignment 0xCC bytes
 	size_t sSizeToCheck = (size_t)(Myfunction_Adresss_Next)-(size_t)(My_Critical_Function);
 	PUCHAR Critical_Function = (PUCHAR)My_Critical_Function;
 
