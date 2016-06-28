@@ -12,7 +12,7 @@ BOOL Interrupt_3()
 {
 	__try
 	{
-		DebugBreak();
+		__debugbreak();
 	}
 	__except (GetExceptionCode() == EXCEPTION_BREAKPOINT ?
 	EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
