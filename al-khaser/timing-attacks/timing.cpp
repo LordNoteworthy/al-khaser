@@ -36,7 +36,7 @@ VOID timing_NtDelayexecution()
 
 BOOL bProcessed = FALSE;
 
-VOID CALLBACK TimerProc(HWND hwnd, UINT message, UINT iTimerID, DWORD dwTime)
+VOID CALLBACK TimerProc(HWND hwnd, UINT message, UINT_PTR iTimerID, DWORD dwTime)
 {
 	// Malicious code is place here ....
 	_tprintf(_T("SetTimer sleepy malware ..."));
@@ -67,7 +67,7 @@ VOID timing_SetTimer()
 }
 
 
-VOID CALLBACK TimerFunction(UINT wTimerID, UINT msg, DWORD dwUser, DWORD dw1, DWORD dw2)
+VOID CALLBACK TimerFunction(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2)
 {
 	_tprintf(_T("calling from timeSetEvent"));
 	bProcessed = TRUE;

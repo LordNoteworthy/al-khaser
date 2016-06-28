@@ -94,7 +94,7 @@ BOOL NtQueryObject_ObjectAllTypesInformation()
 		pObjInfoLocation += pObjectTypeInfo->TypeName.Length;
 
 		// Skip the trailing null and alignment bytes
-		ULONG tmp = ((ULONG)pObjInfoLocation) & -4;
+		ULONG_PTR tmp = ((ULONG_PTR)pObjInfoLocation) & -4;
 
 		// Not pretty but it works
 		pObjInfoLocation = ((unsigned char*)tmp) + sizeof(unsigned long);

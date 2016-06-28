@@ -5,6 +5,9 @@ typedef LONG(WINAPI * pNtUnmapViewOfSection)(HANDLE ProcessHandle, PVOID BaseAdd
 
 BOOL GetSetThreadContext_Injection()
 {
+#ifdef _WIN64
+	return TRUE; //TODO implement this on x64
+#else
 	TCHAR lpApplicationName[] = _T("C:\\Windows\\System32\\svchost.exe");
 	TCHAR lpApplicationName2[] = _T("C:\\masm32\\examples\\dialogs_later\\basic\\basicdlg.exe");
 	BOOL bResult;
@@ -93,4 +96,5 @@ BOOL GetSetThreadContext_Injection()
 	}
 
 	return TRUE;
+#endif
 }

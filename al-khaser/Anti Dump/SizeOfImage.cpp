@@ -13,5 +13,5 @@ VOID SizeOfImage()
 #endif
 
 	PLDR_DATA_TABLE_ENTRY tableEntry = (PLDR_DATA_TABLE_ENTRY)(pPeb->Ldr->InMemoryOrderModuleList.Flink);
-	tableEntry->DllBase = (PVOID)((INT)tableEntry->DllBase + 0x100000);
+	tableEntry->DllBase = (PVOID)((INT_PTR)tableEntry->DllBase + 0x100000);
 }

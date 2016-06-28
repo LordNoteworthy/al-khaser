@@ -1,4 +1,4 @@
-#include <Windows.h>>
+#include <Windows.h>
 #include <tchar.h>
 #include <ShlObj.h>
 #include "../Shared/Utils.h"
