@@ -93,13 +93,15 @@ BOOL NtQueryObject_ObjectAllTypesInformation()
 		pObjInfoLocation = (unsigned char*)pObjectTypeInfo->TypeName.Buffer;
 
 		// Add the size
-		pObjInfoLocation += pObjectTypeInfo->TypeName.Length;
+		pObjInfoLocation += pObjectTypeInfo->TypeName.MaximumLength;
 
 		// Skip the trailing null and alignment bytes
-		ULONG_PTR tmp = ((ULONG_PTR)pObjInfoLocation) & -4;
+		ULONG_PTR tmp = ((ULONG_PTR)pObjInfoLocation) & -(int)sizeof(void*);
 
 		// Not pretty but it works
-		pObjInfoLocation = ((unsigned char*)tmp) + sizeof(unsigned long);
+		if ((ULONG_PTR)tmp != (ULONG_PTR)pObjInfoLocation)
+			tmp += sizeof(void*);
+		pObjInfoLocation = ((unsigned char*)tmp);
 	}
 
 	VirtualFree(pMemory, 0, MEM_RELEASE);
