@@ -14,6 +14,7 @@ unreliable method for detecting a debugger because it will also detect the prese
 
 BOOL NtYieldExecutionAPI()
 {
+	//NOTE: this check is unreliable, don't actually use this in a real environment
 
 	// Function Pointer Typedef for NtQueryInformationProcess
 	typedef NTSTATUS(WINAPI* pNtYieldExecution)();
