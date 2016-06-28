@@ -62,3 +62,4 @@ bld/
 
 # Visual C++ Solution
 *.sln
+*.VC.db
