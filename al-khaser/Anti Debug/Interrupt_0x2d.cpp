@@ -7,29 +7,19 @@ it will skip a byte in the disassembly which could be used to detect the debugge
 Atm, only x86 version is available in VC++, in x64 I couln't find any __int2d in msdn
 */
 
+extern "C" void __int2d();
+
 BOOL Interrupt_0x2d()
 {
-	CHAR IsBeingDbg = 0;
-
 	__try
 	{
-		__asm
-		{
-			xor eax, eax
-			int 0x2d
-			inc eax
-			je DebuggerFound
-			jmp Exit
-		DebuggerFound :
-			mov IsBeingDbg, 1
-		Exit:
-		}
-
+		__int2d();
+		// The exception was swallowed so we are being debugged.
+		return TRUE;
 	}
 	__except (GetExceptionCode() == EXCEPTION_BREAKPOINT ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
 	{
-		IsBeingDbg = FALSE;
+		// The exception was caught so there is nothing fiddly going on.
+		return FALSE;
 	}
-
-	return IsBeingDbg;
 }
