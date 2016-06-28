@@ -9,6 +9,7 @@ ObjectTypeInformation will return the type information of the supplied handle.
 
 BOOL NtQueryObject_ObjectTypeInformation()
 {
+	//NOTE this check now only detects if NtQueryObject is hooked to set ObjectInformation->TotalNumberOfObjects = 0
 
 	// Function Pointer Typedef for NtQueryObject
 	typedef NTSTATUS (WINAPI *pNtQueryObject)(IN HANDLE, IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
@@ -65,20 +66,23 @@ BOOL NtQueryObject_ObjectTypeInformation()
 		}
 
 		Status = NtQueryObject(DebugObjectHandle, ObjectTypeInformation, ObjectInformation, sizeof(memory), 0);
+		
+		// Make sure to not screw up later checks
+		CloseHandle(DebugObjectHandle);
+		
 
 		if (Status >= 0)
 		{
-			_tprintf(_T("%d"), ObjectInformation->TotalNumberOfObjects);
-			if (ObjectInformation->TotalNumberOfObjects == 1)
-				return FALSE;
-			else if (ObjectInformation->TotalNumberOfObjects == 0)
-				return TRUE;
+			if (ObjectInformation->TotalNumberOfObjects == 0)
+				return TRUE; //There should be at least one object (we just created it).
 			else
-				return TRUE;
+				return FALSE;
 		}
-
 		else
+		{
+			//NOTE: this should actually never happen on a valid handle (so this check can be bypassed by failing NtQueryObject)
 			return FALSE;
+		}
 	}
 	else
 		return FALSE;
