@@ -116,7 +116,7 @@ VOID vmware_mac()
 	/* Check one by one */
 	for (int i = 0; i < dwLength; i++)
 	{
-		_tprintf(TEXT("[*] Checking MAC %s: "), szMac[i]);
+		printf("[*] Checking MAC %s: ", szMac[i]);
 		if (check_mac_addr(szMac[i]))
 			print_detected();
 		else

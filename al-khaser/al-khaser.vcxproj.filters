@@ -351,4 +351,12 @@
       <Filter>Anti VM / Emulation\Header</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <MASM Include="Anti Debug\int2d_x64.asm">
+      <Filter>Anti Debug\Source</Filter>
+    </MASM>
+    <MASM Include="Anti Debug\int2d_x86.asm">
+      <Filter>Anti Debug\Source</Filter>
+    </MASM>
+  </ItemGroup>
 </Project>

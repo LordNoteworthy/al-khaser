@@ -50,6 +50,7 @@ DWORD GetParentProcessId()
 
 BOOL IsParentExplorerExe()
 {
+	//NOTE this check is wank because you can use an alternative file manager
 	DWORD dwExplorerProcessId = GetParentProcessId();
 	if (dwExplorerProcessId != GetExplorerPIDbyShellWindow())
 		return TRUE;

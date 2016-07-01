@@ -61,4 +61,4 @@ bld/
 *.VC.opendb
 
 # Visual C++ Solution
-*.sln
+*.VC.db

@@ -10,6 +10,8 @@ locate "DebugObject". Todo: Support for Win10
 
 BOOL NtQueryObject_ObjectAllTypesInformation()
 {
+	//NOTE this check is unreliable, a debugger present on the system doesn't mean it's attached to you
+
 	// Function Pointer Typedef for NtQueryObject
 	typedef NTSTATUS(WINAPI *pNtQueryObject)(IN HANDLE, IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
 
@@ -36,7 +38,7 @@ BOOL NtQueryObject_ObjectAllTypesInformation()
 	}
 
 	NtQueryObject = (pNtQueryObject)GetProcAddress(hNtdll, "NtQueryObject");
-	if (NtCreateDebugObject == NULL)
+	if (NtQueryObject == NULL)
 	{
 		// Handle however it fits your needs but as before,
 		// if this is missing there are some SERIOUS issues with the OS
@@ -91,15 +93,17 @@ BOOL NtQueryObject_ObjectAllTypesInformation()
 		pObjInfoLocation = (unsigned char*)pObjectTypeInfo->TypeName.Buffer;
 
 		// Add the size
-		pObjInfoLocation += pObjectTypeInfo->TypeName.Length;
+		pObjInfoLocation += pObjectTypeInfo->TypeName.MaximumLength;
 
 		// Skip the trailing null and alignment bytes
-		ULONG tmp = ((ULONG)pObjInfoLocation) & -4;
+		ULONG_PTR tmp = ((ULONG_PTR)pObjInfoLocation) & -(int)sizeof(void*);
 
 		// Not pretty but it works
-		pObjInfoLocation = ((unsigned char*)tmp) + sizeof(unsigned long);
+		if ((ULONG_PTR)tmp != (ULONG_PTR)pObjInfoLocation)
+			tmp += sizeof(void*);
+		pObjInfoLocation = ((unsigned char*)tmp);
 	}
 
 	VirtualFree(pMemory, 0, MEM_RELEASE);
-	return TRUE;
+	return FALSE;
 }
