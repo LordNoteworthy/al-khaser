@@ -204,6 +204,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - APC (QueueUserAPC / NtQueueApcThread)
 - RunPE (GetThreadContext / SetThreadContext)
 
+## Contributors
+- [mrexodia](http://mrexodia.cf): Main developer of [x64dbg](http://x64dbg.com/)
 
 ## References
 
