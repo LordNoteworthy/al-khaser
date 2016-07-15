@@ -81,14 +81,30 @@ BOOL idt_trick()
 }
 
 /*
-Same for Local Descriptor Table (LDT) */
+Same for Local Descriptor Table (LDT) 
+*/
 BOOL ldt_trick()
 {
-	UINT ldt_base = get_ldtr_base();
+	UINT ldt_base = get_ldt_base();
 
 	if (ldt_base == 0xdead0000) 
 		return FALSE;
 	else 
 		return TRUE; // VMWare detected	
+}
+
+
+/*
+Same for Global Descriptor Table (GDT)
+*/
+BOOL gdt_trick()
+{
+	UINT gdt_base = get_gdt_base();
+
+	if ((gdt_base >> 24) == 0xff)
+		return TRUE; // VMWare detected	
+
+	else
+		return FALSE;
 }
 

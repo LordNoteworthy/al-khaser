@@ -693,7 +693,7 @@ ULONG get_idt_base()
 }
 
 
-ULONG get_ldtr_base()
+ULONG get_ldt_base()
 {
 	// Get the base of Local Descriptor Table (LDT)
 
@@ -707,4 +707,21 @@ ULONG get_ldtr_base()
 	printf("LDT base: 0x%x\n", ldt);
 
 	return ldt;
+}
+
+
+ULONG get_gdt_base()
+{
+	// Get the base of Global Descriptor Table (GDT)
+
+	UCHAR gdtr[6];
+	ULONG gdt = 0;
+
+	// sgdt instruction stores the contents of the GDT Register
+	// (the GDTR which points to the GDT) in a processor register.
+	_asm sgdt gdtr
+	gdt = *((unsigned long *)&gdtr[2]);
+	printf("GDT base: 0x%x\n", gdt);
+
+	return gdt;
 }

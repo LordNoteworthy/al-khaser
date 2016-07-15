@@ -73,6 +73,7 @@ int main(void)
 	//exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine: "));
 	exec_check(&idt_trick, TEXT("Checking Interupt Descriptor Table location: "));
 	exec_check(&ldt_trick, TEXT("Checking Local Descriptor Table location: "));
+	exec_check(&gdt_trick, TEXT("Checking Global Descriptor Table location: "));
 
 
 	/* Code injections techniques */

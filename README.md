@@ -134,6 +134,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 **Memory artifacts**
 	- Interupt Descriptor Table (IDT) location
 	- Local Descriptor Table (LDT) location
+	- Global Descriptor Table (GDT) location
 
 - **MAC Address**
 	- "\x08\x00\x27" (VBOX)
