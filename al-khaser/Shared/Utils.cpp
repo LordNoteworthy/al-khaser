@@ -683,12 +683,28 @@ ULONG get_idt_base()
 	UCHAR idtr[6];
 	ULONG idt = 0;
 
-	// sidt instruction stores the contents of the Interrupt Descriptor Table Register
+	// sidt instruction stores the contents of the IDT Register
 	// (the IDTR which points to the IDT) in a processor register.
 	_asm sidt idtr
-
 	idt = *((unsigned long *)&idtr[2]);
 	printf("IDT base: 0x%x\n", idt);
 
 	return idt;
+}
+
+
+ULONG get_ldtr_base()
+{
+	// Get the base of Local Descriptor Table (LDT)
+
+	UCHAR ldtr[5] = "\xef\xbe\xad\xde";
+	ULONG ldt = 0;
+
+	// sldt instruction stores the contents of the LDT Register
+	// (the LDTR which points to the LDT) in a processor register.
+	_asm sldt ldtr
+	ldt = *((unsigned long *)&ldtr[0]);
+	printf("LDT base: 0x%x\n", ldt);
+
+	return ldt;
 }

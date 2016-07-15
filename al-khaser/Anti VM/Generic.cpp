@@ -79,3 +79,16 @@ BOOL idt_trick()
 	else
 		return FALSE;
 }
+
+/*
+Same for Local Descriptor Table (LDT) */
+BOOL ldt_trick()
+{
+	UINT ldt_base = get_ldtr_base();
+
+	if (ldt_base == 0xdead0000) 
+		return FALSE;
+	else 
+		return TRUE; // VMWare detected	
+}
+
