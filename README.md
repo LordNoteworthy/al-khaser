@@ -131,6 +131,11 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "%PROGRAMFILES%\\oracle\\virtualbox guest additions\\"
 	- "%PROGRAMFILES%\\VMWare\\"
 
+**Memory artifacts**
+	- Interupt Descriptor Table (IDT) location
+	- Local Descriptor Table (LDT) location
+	- Global Descriptor Table (GDT) location
+
 - **MAC Address**
 	- "\x08\x00\x27" (VBOX)
 	- "\x00\x05\x69" (VMWARE)

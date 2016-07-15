@@ -6,3 +6,6 @@
 
 VOID loaded_dlls();
 BOOL NumberOfProcessors();
+BOOL idt_trick();
+BOOL ldt_trick();
+BOOL gdt_trick();

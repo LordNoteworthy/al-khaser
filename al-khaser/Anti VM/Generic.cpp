@@ -62,3 +62,50 @@ BOOL NumberOfProcessors()
 		return FALSE;
 }
 
+
+/*
+This trick  involves looking at pointers to critical operating system tables
+that are typically relocated on a virtual machine. One such table is the
+Interrupt Descriptor Table (IDT), which tells the system where various operating
+system interrupt handlers are located in memory. On real machines, the IDT is
+located lower in memory than it is on guest (i.e., virtual) machines
+PS: Does not seem to work on newer version of VMWare Workstation (Tested on v12)
+*/
+BOOL idt_trick()
+{
+	UINT idt_base = get_idt_base();
+	if ((idt_base >> 24) == 0xff) 
+		return TRUE;
+
+	else
+		return FALSE;
+}
+
+/*
+Same for Local Descriptor Table (LDT) 
+*/
+BOOL ldt_trick()
+{
+	UINT ldt_base = get_ldt_base();
+
+	if (ldt_base == 0xdead0000) 
+		return FALSE;
+	else 
+		return TRUE; // VMWare detected	
+}
+
+
+/*
+Same for Global Descriptor Table (GDT)
+*/
+BOOL gdt_trick()
+{
+	UINT gdt_base = get_gdt_base();
+
+	if ((gdt_base >> 24) == 0xff)
+		return TRUE; // VMWare detected	
+
+	else
+		return FALSE;
+}
+
