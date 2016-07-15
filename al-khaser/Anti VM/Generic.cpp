@@ -69,6 +69,7 @@ that are typically relocated on a virtual machine. One such table is the
 Interrupt Descriptor Table (IDT), which tells the system where various operating
 system interrupt handlers are located in memory. On real machines, the IDT is
 located lower in memory than it is on guest (i.e., virtual) machines
+PS: Does not seem to work on newer version of VMWare Workstation (Tested on v12)
 */
 BOOL idt_trick()
 {
