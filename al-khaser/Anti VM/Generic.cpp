@@ -62,3 +62,20 @@ BOOL NumberOfProcessors()
 		return FALSE;
 }
 
+
+/*
+This trick  involves looking at pointers to critical operating system tables
+that are typically relocated on a virtual machine. One such table is the
+Interrupt Descriptor Table (IDT), which tells the system where various operating
+system interrupt handlers are located in memory. On real machines, the IDT is
+located lower in memory than it is on guest (i.e., virtual) machines
+*/
+BOOL idt_trick()
+{
+	UINT idt_base = get_idt_base();
+	if ((idt_base >> 24) == 0xff) 
+		return TRUE;
+
+	else
+		return FALSE;
+}

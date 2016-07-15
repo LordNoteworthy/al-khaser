@@ -676,3 +676,19 @@ BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, IEnumWbemClassObjec
 }
 
 
+ULONG get_idt_base()
+{
+	// Get the base of Interupt Descriptor Table (IDT)
+
+	UCHAR idtr[6];
+	ULONG idt = 0;
+
+	// sidt instruction stores the contents of the Interrupt Descriptor Table Register
+	// (the IDTR which points to the IDT) in a processor register.
+	_asm sidt idtr
+
+	idt = *((unsigned long *)&idtr[2]);
+	printf("IDT base: 0x%x\n", idt);
+
+	return idt;
+}

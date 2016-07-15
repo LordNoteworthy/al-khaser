@@ -31,7 +31,7 @@ BOOL SetDebugPrivileges(VOID);
 DWORD GetMainThreadId(DWORD pid);
 BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc);
 BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, IEnumWbemClassObject **pEnumerator, TCHAR* szQuery);
-
+ULONG get_idt_base();
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
 #define FREE(x)		HeapFree(GetProcessHeap(), 0, x)
