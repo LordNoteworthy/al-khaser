@@ -109,3 +109,25 @@ BOOL gdt_trick()
 		return FALSE;
 }
 
+
+/*
+The instruction STR (Store Task Register) stores the selector segment of the TR
+register (Task Register) in the specified operand (memory or other general purpose register).
+All x86 processors can manage tasks in the same way as an operating system would do it.
+That is, keeping the task state and recovering it when that task is executed again. All 
+the states of a task are kept in its TSS; there is one TSS per task. How can we know which
+is the TSS associated to the execution task? Using STR instruction, due to the fact that
+the selector segment that was brought back points into the TSS of the present task.
+In all the tests that were done, the value brought back by STR from within a virtual machine
+was different to the obtained from a native system, so apparently, it can be used as a another
+mechanism of a unique instruction in assembler to detect virtual machines.
+*/
+BOOL str_trick()
+{
+	UCHAR *mem = get_str_base();
+
+	if ((mem[0] == 0x00) && (mem[1] == 0x40))
+		return TRUE; // VMWare detected	
+	else
+		return FALSE;
+}

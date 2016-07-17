@@ -31,7 +31,7 @@ int main(void)
 	//exec_check(&NtQueryObject_ObjectTypeInformation, TEXT("Checking NtQueryObject with ObjectTypeInformation : "));
 	//exec_check(&NtQueryObject_ObjectAllTypesInformation, TEXT("Checking NtQueryObject with ObjectAllTypesInformation : "));
 	//exec_check(&NtYieldExecutionAPI, TEXT("Checking NtYieldExecution : "));
-	// exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
+	//exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
 
 	/* Anti Dumping */
 	//print_category(TEXT("Anti Dumping"));
@@ -71,9 +71,10 @@ int main(void)
 	/* Generic sandbox detection */
 	//loaded_dlls();
 	//exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine: "));
-	exec_check(&idt_trick, TEXT("Checking Interupt Descriptor Table location: "));
-	exec_check(&ldt_trick, TEXT("Checking Local Descriptor Table location: "));
-	exec_check(&gdt_trick, TEXT("Checking Global Descriptor Table location: "));
+	//exec_check(&idt_trick, TEXT("Checking Interupt Descriptor Table location: "));
+	//exec_check(&ldt_trick, TEXT("Checking Local Descriptor Table location: "));
+	//exec_check(&gdt_trick, TEXT("Checking Global Descriptor Table location: "));
+	exec_check(&str_trick, TEXT("Checking Global Descriptor Table location: "));
 
 
 	/* Code injections techniques */
