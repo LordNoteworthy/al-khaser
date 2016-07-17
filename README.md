@@ -135,6 +135,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- Interupt Descriptor Table (IDT) location
 	- Local Descriptor Table (LDT) location
 	- Global Descriptor Table (GDT) location
+	- Task state segment trick with STR
 
 - **MAC Address**
 	- "\x08\x00\x27" (VBOX)
@@ -209,11 +210,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - APC (QueueUserAPC / NtQueueApcThread)
 - RunPE (GetThreadContext / SetThreadContext)
 
+
 ## Contributors
 - [mrexodia](http://mrexodia.cf): Main developer of [x64dbg](http://x64dbg.com/)
 
-## References
 
+## References
 - An Anti-Reverse Engineering Guide By Josh Jackson.
 - Anti-Unpacker Tricks By Peter Ferrie.
 - The Art Of Unpacking By Mark Vincent Yason.

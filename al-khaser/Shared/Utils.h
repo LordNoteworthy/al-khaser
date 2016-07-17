@@ -34,6 +34,7 @@ BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, IEnumWbemClassObjec
 ULONG get_idt_base();
 ULONG get_ldt_base();
 ULONG get_gdt_base();
+UCHAR* get_str_base();
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
 #define FREE(x)		HeapFree(GetProcessHeap(), 0, x)

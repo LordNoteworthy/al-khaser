@@ -732,3 +732,19 @@ ULONG get_gdt_base()
 
 	return gdt;
 }
+
+
+UCHAR* get_str_base()
+{
+	// get the selector segment of the TR register which points into
+	// the TSS of the present task. 
+
+	UCHAR mem[4] = {0, 0, 0, 0};
+
+#if defined (ENV32BIT)
+	__asm str mem;
+#endif
+
+	printf("STR base: 0x%02x%02x%02x%02x\n", mem[0], mem[1], mem[2], mem[3]);
+	return mem;
+}
