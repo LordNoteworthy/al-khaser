@@ -1,4 +1,4 @@
-##Al-Khaser v0.3
+##Al-Khaser v0.58
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -178,9 +178,10 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - **WMI**
 	- SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
 	- SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
-	- SELECT * FROM Win32_NetworkAdapterConfiguration (VBOX)
+	- SELECT * FROM Win32_NetworkAdapterConfiguration (MACAddress) (VBOX)
 	- SELECT * FROM Win32_NTEventlogFile (VBOX)
-	- SELECT * FROM Win32_Processor (GENERIC)
+	- SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
+	- SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
 
 - **DLL Exports and Loaded DLLs**
 	- kernel32.dll!wine_get_unix_file_nameWine (Wine)

@@ -75,8 +75,8 @@ int main(void)
 	//exec_check(&ldt_trick, TEXT("Checking Local Descriptor Table location: "));
 	//exec_check(&gdt_trick, TEXT("Checking Global Descriptor Table location: "));
 	//exec_check(&str_trick, TEXT("Checking Global Descriptor Table location: "));
-	exec_check(&number_cores_wmi, TEXT("Checking Number of cores in machine using WMI: "));
-
+	//exec_check(&number_cores_wmi, TEXT("Checking Number of cores in machine using WMI: "));
+	exec_check(&disk_size_wmi, TEXT("Checking hard disk size using WMI: "));
 
 	/* Code injections techniques */
 	//CreateRemoteThread_Injection();
