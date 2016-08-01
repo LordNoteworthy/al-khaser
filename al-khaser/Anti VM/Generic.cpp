@@ -190,3 +190,63 @@ BOOL number_cores_wmi()
 
 	return bFound;
 }
+
+
+
+/*
+Check hard disk size using WMI
+*/
+BOOL disk_size_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+	BOOL bFound = FALSE;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc);
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_LogicalDisk"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+			VARIANT vtProp;
+
+			// Iterate over our enumator
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+				// Get the value of the Name property
+				hRes = pclsObj->Get(_T("Size"), 0, &vtProp, 0, 0);
+				if (V_VT(&vtProp) != VT_NULL) {
+
+					// Do our comparaison
+					if (vtProp.uintVal < 80 * 1024 * 1024 * 1024) { // Less than 80GB
+						bFound = TRUE; break;
+					}
+
+					// release the current result object
+					VariantClear(&vtProp);
+					pclsObj->Release();
+				}
+			}
+
+			// Cleanup
+			pEnumerator->Release();
+			pSvc->Release();
+			pLoc->Release();
+			CoUninitialize();
+		}
+	}
+
+	return bFound;
+}
