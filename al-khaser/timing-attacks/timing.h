@@ -9,6 +9,7 @@ VOID timing_SetTimer();
 VOID timing_NtDelayexecution();
 VOID timing_timeSetEvent();
 VOID timing_WaitForSingleObject();
+VOID timing_sleep_loop();
 
 
 

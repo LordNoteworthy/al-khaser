@@ -1,4 +1,4 @@
-##Al-Khaser v0.59
+##Al-Khaser v0.60
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -61,7 +61,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 ### Timing Attacks [Anti-Sandbox]
 - Sleep -> SleepEx -> NtDelayExecution
-- Sleep (in a loop a small delay) (todo)
+- Sleep (in a loop a small delay)
 - Sleep and check if accelerated (todo)
 - SetTimer (Standard Windows Timers)
 - timeSetEvent (Multimedia Timers)

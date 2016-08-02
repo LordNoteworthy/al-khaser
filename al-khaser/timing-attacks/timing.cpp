@@ -123,3 +123,20 @@ VOID timing_WaitForSingleObject()
 }
 
 
+VOID timing_sleep_loop()
+{
+	/* 
+	This trick is about performing a low number of seconds to sleep but in a loop,
+	the reason behind that sandboxes tries to avoid patching such sleeps because it
+	could lead to race conditions and also because it is just negliable. However,
+	when you do it in a loop, you can make it efficiant to cuz the sandboxe to reach
+	its timeout.
+	*/
+
+	/* here we sleeps 100 ms, 3000 times which is like: 300 seconds = 5 minues */
+	for (int i = 0; i < 3000 ; i++) {
+		Sleep(100);
+	}
+
+	// Malicious code goes here
+}
