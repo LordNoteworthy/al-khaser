@@ -690,7 +690,7 @@ ULONG get_idt_base()
 	_asm sidt idtr
 #endif
 	idt = *((unsigned long *)&idtr[2]);
-	printf("IDT base: 0x%x\n", idt);
+	// printf("IDT base: 0x%x\n", idt);
 
 	return idt;
 }
@@ -709,7 +709,7 @@ ULONG get_ldt_base()
 	_asm sldt ldtr
 #endif
 	ldt = *((unsigned long *)&ldtr[0]);
-	printf("LDT base: 0x%x\n", ldt);
+	// printf("LDT base: 0x%x\n", ldt);
 
 	return ldt;
 }
@@ -728,7 +728,7 @@ ULONG get_gdt_base()
 	_asm sgdt gdtr
 #endif
 	gdt = *((unsigned long *)&gdtr[2]);
-	printf("GDT base: 0x%x\n", gdt);
+	// printf("GDT base: 0x%x\n", gdt);
 
 	return gdt;
 }
@@ -745,6 +745,6 @@ UCHAR* get_str_base()
 	__asm str mem;
 #endif
 
-	printf("STR base: 0x%02x%02x%02x%02x\n", mem[0], mem[1], mem[2], mem[3]);
+	// printf("STR base: 0x%02x%02x%02x%02x\n", mem[0], mem[1], mem[2], mem[3]);
 	return mem;
 }
