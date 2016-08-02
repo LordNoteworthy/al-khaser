@@ -192,7 +192,6 @@ BOOL number_cores_wmi()
 }
 
 
-
 /*
 Check hard disk size using WMI
 */
@@ -250,3 +249,69 @@ BOOL disk_size_wmi()
 
 	return bFound;
 }
+
+
+
+BOOL setupdi_diskdrive()
+{
+	HDEVINFO hDevInfo;
+	SP_DEVINFO_DATA DeviceInfoData;
+	DWORD i;
+	BOOL bFound = FALSE;
+
+	// Create a HDEVINFO with all present devices.
+	hDevInfo = SetupDiGetClassDevs((LPGUID)&GUID_DEVCLASS_DISKDRIVE,
+		0, // Enumerator
+		0,
+		DIGCF_PRESENT);
+
+	if (hDevInfo == INVALID_HANDLE_VALUE)
+		return FALSE;
+
+	// Enumerate through all devices in Set.
+	DeviceInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
+	for (i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &DeviceInfoData); i++)
+	{
+		DWORD dwPropertyRegDataType;
+		LPTSTR buffer = NULL;
+		DWORD dwSize = 0;
+
+		while (!SetupDiGetDeviceRegistryProperty(hDevInfo, &DeviceInfoData, SPDRP_HARDWAREID,
+			&dwPropertyRegDataType, (PBYTE)buffer, dwSize, &dwSize))
+		{
+			if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+				// Change the buffer size.
+				if (buffer)LocalFree(buffer);
+				// Double the size to avoid problems on 
+				// W2k MBCS systems per KB 888609. 
+				buffer = (LPTSTR)LocalAlloc(LPTR, dwSize * 2);
+			}
+			else
+				break;
+
+		}
+
+		// Do our comparaison
+		if (!StrStrI(buffer, _T("vbox")) || !StrStrI(buffer, _T("vmware")) || !StrStrI(buffer, _T("qemu"))
+			|| !StrStrI(buffer, _T("vbox"))) {
+			LocalFree(buffer);
+			bFound =  TRUE;
+			break;
+
+		}
+	}
+
+	if (GetLastError() != NO_ERROR && GetLastError() != ERROR_NO_MORE_ITEMS)
+		return FALSE;
+
+	//  Cleanup
+	SetupDiDestroyDeviceInfoList(hDevInfo);
+
+	if (bFound)
+		return TRUE;
+
+	else
+		return FALSE;
+}
+
+

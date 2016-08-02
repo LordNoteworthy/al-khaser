@@ -1,4 +1,4 @@
-##Al-Khaser v0.58
+##Al-Khaser v0.59
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -152,6 +152,13 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "\\\\.\\pipe\\VBoxTrayIPC")
 	- "\\\\.\\HGFS"
 	- "\\\\.\\vmci"
+
+- **Hardware Device information**
+	- SetupAPI SetupDiEnumDeviceInfo (GUID_DEVCLASS_DISKDRIVE) 
+		- QEMU
+		- VMWare
+		- VBOX
+		- VIRTUAL HD
 
 - **Adapter name**
 	- VMWare
