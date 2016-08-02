@@ -10,6 +10,7 @@ VOID timing_NtDelayexecution();
 VOID timing_timeSetEvent();
 VOID timing_WaitForSingleObject();
 VOID timing_sleep_loop();
+BOOL rdtsc_diff();
 
 
 
