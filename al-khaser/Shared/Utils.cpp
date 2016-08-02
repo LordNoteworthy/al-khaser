@@ -574,7 +574,7 @@ DWORD GetProcessIdFromName(LPCTSTR szProcessName)
 	}
 
 	// If we made it this far there wasn't a match, so we'll return 0
-	_tprintf(_T("\n-> Process %s is not running on this system ..."), szProcessName);
+	// _tprintf(_T("\n-> Process %s is not running on this system ..."), szProcessName);
 
 	CloseHandle(hSnapshot);
 	return 0;

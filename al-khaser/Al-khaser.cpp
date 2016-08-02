@@ -99,8 +99,8 @@ int main(void)
 	
 
 	/* Malware analysis tools */
-	// print_category(TEXT("Analysis-tools"));
-	// analysis_tools_process();
+	print_category(TEXT("Analysis-tools"));
+	analysis_tools_process();
 	
 	system("PAUSE");
 	return 0;

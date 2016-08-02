@@ -153,6 +153,13 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "\\\\.\\HGFS"
 	- "\\\\.\\vmci"
 
+- **Hardware Device information**
+	- SetupAPI SetupDiEnumDeviceInfo (GUID_DEVCLASS_DISKDRIVE) 
+		- QEMU
+		- VMWare
+		- VBOX
+		- VIRTUAL HD
+
 - **Adapter name**
 	- VMWare
 
