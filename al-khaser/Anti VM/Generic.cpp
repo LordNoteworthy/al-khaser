@@ -203,6 +203,7 @@ BOOL disk_size_wmi()
 	BOOL bStatus = FALSE;
 	HRESULT hRes;
 	BOOL bFound = FALSE;
+	INT64 minHardDiskSize = (80LL * (1024LL * (1024LL * (1024LL))));
 
 	// Init WMI
 	bStatus = InitWMI(&pSvc, &pLoc);
@@ -229,7 +230,7 @@ BOOL disk_size_wmi()
 				if (V_VT(&vtProp) != VT_NULL) {
 
 					// Do our comparaison
-					if (vtProp.uintVal < 80 * 1024 * 1024 * 1024) { // Less than 80GB
+					if (vtProp.llVal < minHardDiskSize) { // Less than 80GB
 						bFound = TRUE; break;
 					}
 

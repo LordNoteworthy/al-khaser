@@ -629,7 +629,7 @@ BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc)
 	}
 
 	// Obtain the initial locator to WMI 
-	hres = CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER, IID_IWbemLocator, (LPVOID *)pLoc);
+	hres = CoCreateInstance(CLSID_WbemLocator, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(pLoc));
 	if (FAILED(hres)) {
 		print_last_error(_T("CoCreateInstance"));
 		CoUninitialize();
