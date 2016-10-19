@@ -124,3 +124,15 @@ TCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)
 
 	return lpWideCharStr;
 }
+
+
+CHAR* wide_str_to_multibyte (TCHAR* lpWideStr)
+{
+	errno_t status;
+	int *pRetValue = NULL;
+	CHAR *mbchar = NULL;
+	size_t sizeInBytes = 0;
+	
+	status = wctomb_s(pRetValue, mbchar, sizeInBytes, *lpWideStr);
+	return mbchar;
+}

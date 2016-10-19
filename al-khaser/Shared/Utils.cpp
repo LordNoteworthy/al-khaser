@@ -69,7 +69,7 @@ BOOL is_DirectoryExists(TCHAR* szPath)
 	return (dwAttrib != INVALID_FILE_ATTRIBUTES) && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY);
 }
 
-BOOL check_mac_addr(CHAR* szMac)
+BOOL check_mac_addr(TCHAR* szMac)
 {
 	BOOL bResult = FALSE;
 	PIP_ADAPTER_INFO pAdapterInfo;
@@ -93,11 +93,19 @@ BOOL check_mac_addr(CHAR* szMac)
         }
     }
 
+	// Now, we can call GetAdaptersInfo
 	if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == ERROR_SUCCESS)
 	{
+		// Convert the given mac address to an array of multibyte chars so we can compare.
+		CHAR szMacMultiBytes [4];
+		for (int i = 0; i < 4; i++) {
+			szMacMultiBytes[i] = (CHAR)szMac[i];
+		}
+
 		while(pAdapterInfo)
 		{
-			if (pAdapterInfo->AddressLength == 6 && !memcmp(szMac, pAdapterInfo->Address, 3))
+
+			if (pAdapterInfo->AddressLength == 6 && !memcmp(szMacMultiBytes, pAdapterInfo->Address, 3))
 			{
 				bResult = TRUE;
 				break;
