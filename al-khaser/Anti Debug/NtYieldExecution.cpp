@@ -49,7 +49,6 @@ BOOL NtYieldExecutionAPI()
 			iDebugged++;
 	}
 
-	_tprintf(_T("%d"), iDebugged);
 	if (iDebugged <= 3)
 		return FALSE;
 	else
