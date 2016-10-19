@@ -48,7 +48,7 @@ VOID print_category(TCHAR* text)
 	WORD OriginalColors = *(&ConsoleScreenBufferInfo.wAttributes);
 
 	SetConsoleTextAttribute(nStdHandle, 13);
-	_tprintf(TEXT("			---[%s]---\n"), text);
+	_tprintf(TEXT("\n-------------------------[%s]-------------------------\n"), text);
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
@@ -72,7 +72,7 @@ VOID print_os()
 	if (GetOSDisplayString(szOS))
 	{
 		_tcscpy_s(szOS, MAX_PATH, szOS);
-		_tprintf(_T("\n%s\n"), szOS);
+		_tprintf(_T("\nOS: %s\n"), szOS);
 	}
 }
 

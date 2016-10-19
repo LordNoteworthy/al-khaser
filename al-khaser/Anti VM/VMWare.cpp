@@ -218,7 +218,6 @@ BOOL vmware_wmi()
 
 				// Get the value of the Name property
 				hr = pclsObj->Get(_T("DeviceId"), 0, &vtProp, 0, 0);
-				_tprintf(_T("DeviceId : %s"), vtProp.bstrVal);
 
 				// release the current result object
 				VariantClear(&vtProp);

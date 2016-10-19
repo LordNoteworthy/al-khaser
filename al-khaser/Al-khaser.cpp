@@ -3,45 +3,50 @@
 
 int main(void)
 {
-	/* Display OS details */
-	printf("[al-khaser version 0.60]");
+
+	exec_check(&vmware_wmi, TEXT("Checking VMWare Bios using WMI: "));
+
+	/* Display general informations */
+	_tprintf(_T("[al-khaser version 0.60]"));
 	print_os();
+
+	if (IsWoW64())
+		_tprintf(_T("Process is running under WOW64\n\n"));
 
 	/* Debugger Detection */
 	print_category(TEXT("Debugger Detection"));
-	//exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API () "));
-	//exec_check(&IsDebuggerPresentPEB, TEXT("Checking PEB.BeingDebugged "));
-	//exec_check(&IsDebuggerPresentPEB, TEXT("Checking CheckRemoteDebuggerPresentAPI () "));
-	//exec_check(&NtGlobalFlag, TEXT("Checking PEB.NtGlobalFlag "));
-	//exec_check(&HeapFlags, TEXT("Checking ProcessHeap.Flags "));
-	//exec_check(&HeapForceFlags, TEXT("Checking ProcessHeap.ForceFlags "));
-	//exec_check(&NtQueryInformationProcess_ProcessDebugPort, TEXT("Checking NtQueryInformationProcess with ProcessDebugPort "));
-	//exec_check(&NtQueryInformationProcess_ProcessDebugFlags, TEXT("Checking NtQueryInformationProcess with ProcessDebugFlags "));
-	//exec_check(&NtQueryInformationProcess_ProcessDebugObject, TEXT("Checking NtQueryInformationProcess with ProcessDebugObject "));
-	//exec_check(&NtSetInformationThread_ThreadHideFromDebugger, TEXT("Checking NtSetInformationThread with ThreadHideFromDebugger "));
-	//exec_check(&CloseHandle_InvalideHandle, TEXT("Checking CloseHandle with an invalide handle "));
-	//exec_check(&UnhandledExcepFilterTest, TEXT("Checking UnhandledExcepFilterTest "));
-	//exec_check(&OutputDebugStringAPI, TEXT("Checking OutputDebugString "));
-	//exec_check(&HardwareBreakpoints, TEXT("Checking Hardware Breakpoints "));
-	//exec_check(&SoftwareBreakpoints, TEXT("Checking Software Breakpoints "));
-	//exec_check(&Interrupt_0x2d, TEXT("Checking Interupt 0x2d "));
-	//exec_check(&Interrupt_3, TEXT("Checking Interupt 1 "));
-	//exec_check(&MemoryBreakpoints_PageGuard, TEXT("Checking Memory Breakpoints PAGE GUARD: "));
-	//exec_check(&IsParentExplorerExe, TEXT("Checking If Parent Process is explorer.exe: "));
-	//exec_check(&CanOpenCsrss, TEXT("Checking SeDebugPrivilege : "));
-	//exec_check(&NtQueryObject_ObjectTypeInformation, TEXT("Checking NtQueryObject with ObjectTypeInformation : "));
-	//exec_check(&NtQueryObject_ObjectAllTypesInformation, TEXT("Checking NtQueryObject with ObjectAllTypesInformation : "));
-	//exec_check(&NtYieldExecutionAPI, TEXT("Checking NtYieldExecution : "));
-	//exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
+	exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API () "));
+	exec_check(&IsDebuggerPresentPEB, TEXT("Checking PEB.BeingDebugged "));
+	exec_check(&IsDebuggerPresentPEB, TEXT("Checking CheckRemoteDebuggerPresentAPI () "));
+	exec_check(&NtGlobalFlag, TEXT("Checking PEB.NtGlobalFlag "));
+	exec_check(&HeapFlags, TEXT("Checking ProcessHeap.Flags "));
+	exec_check(&HeapForceFlags, TEXT("Checking ProcessHeap.ForceFlags "));
+	exec_check(&NtQueryInformationProcess_ProcessDebugPort, TEXT("Checking NtQueryInformationProcess with ProcessDebugPort "));
+	exec_check(&NtQueryInformationProcess_ProcessDebugFlags, TEXT("Checking NtQueryInformationProcess with ProcessDebugFlags "));
+	exec_check(&NtQueryInformationProcess_ProcessDebugObject, TEXT("Checking NtQueryInformationProcess with ProcessDebugObject "));
+	exec_check(&NtSetInformationThread_ThreadHideFromDebugger, TEXT("Checking NtSetInformationThread with ThreadHideFromDebugger "));
+	exec_check(&CloseHandle_InvalideHandle, TEXT("Checking CloseHandle with an invalide handle "));
+	exec_check(&UnhandledExcepFilterTest, TEXT("Checking UnhandledExcepFilterTest "));
+	exec_check(&OutputDebugStringAPI, TEXT("Checking OutputDebugString "));
+	exec_check(&HardwareBreakpoints, TEXT("Checking Hardware Breakpoints "));
+	exec_check(&SoftwareBreakpoints, TEXT("Checking Software Breakpoints "));
+	exec_check(&Interrupt_0x2d, TEXT("Checking Interupt 0x2d "));
+	exec_check(&Interrupt_3, TEXT("Checking Interupt 1 "));
+	exec_check(&MemoryBreakpoints_PageGuard, TEXT("Checking Memory Breakpoints PAGE GUARD: "));
+	exec_check(&IsParentExplorerExe, TEXT("Checking If Parent Process is explorer.exe: "));
+	exec_check(&CanOpenCsrss, TEXT("Checking SeDebugPrivilege : "));
+	exec_check(&NtQueryObject_ObjectTypeInformation, TEXT("Checking NtQueryObject with ObjectTypeInformation : "));
+	exec_check(&NtQueryObject_ObjectAllTypesInformation, TEXT("Checking NtQueryObject with ObjectAllTypesInformation : "));
+	exec_check(&NtYieldExecutionAPI, TEXT("Checking NtYieldExecution : "));
+	exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
 
 	/* Anti Dumping */
 	print_category(TEXT("Anti Dumping"));
-	exec_check(&ErasePEHeaderFromMemory, TEXT("Checking ErasePEHeaderFromMemory : "));
+	//exec_check(&ErasePEHeaderFromMemory, TEXT("Checking ErasePEHeaderFromMemory : "));
 	SizeOfImage();
 
 	///* VirtualBox Detection */
 	print_category(TEXT("VirtualBox Detection"));
-	exec_check(&IsWoW64, TEXT("Checking if process is running under WOW64: "));
 	vbox_reg_key_value();
 	exec_check(&vbox_dir, TEXT("Checking dir oracle\\virtualbox guest additions\\: "));
 	vbox_files();
@@ -51,9 +56,9 @@ int main(void)
 	exec_check(&vbox_window_class, TEXT("Checking VBoxTrayToolWndClass / VBoxTrayToolWnd: "));
 	exec_check(&vbox_network_share, TEXT("Checking VirtualBox Shared Folders network provider: "));
 	vbox_processes();
-	//exec_check(&vbox_devices_wmi, TEXT("Checking DeviceId from WMI: "));
-	//exec_check(&vbox_mac_wmi, TEXT("Checking Mac address from WMI: "));
-	//exec_check(&vbox_eventlogfile_wmi, TEXT("Checking NTEventLog from WMI: "));
+	exec_check(&vbox_devices_wmi, TEXT("Checking DeviceId from WMI: "));
+	exec_check(&vbox_mac_wmi, TEXT("Checking Mac address from WMI: "));
+	exec_check(&vbox_eventlogfile_wmi, TEXT("Checking NTEventLog from WMI: "));
 
 	/* VMWare Detection */
 	print_category(TEXT("VMWare Detection"));
@@ -78,8 +83,8 @@ int main(void)
 	exec_check(&ldt_trick, TEXT("Checking Local Descriptor Table location: "));
 	exec_check(&gdt_trick, TEXT("Checking Global Descriptor Table location: "));
 	exec_check(&str_trick, TEXT("Checking Global Descriptor Table location: "));
-	exec_check(&number_cores_wmi, TEXT("Checking Number of cores in machine using WMI: "));
-	exec_check(&disk_size_wmi, TEXT("Checking hard disk size using WMI: "));
+	//exec_check(&number_cores_wmi, TEXT("Checking Number of cores in machine using WMI: "));
+	//exec_check(&disk_size_wmi, TEXT("Checking hard disk size using WMI: "));
 	exec_check(&setupdi_diskdrive, TEXT("Checking SetupDi_diskdrive: "));
 
 	/* Code injections techniques */
@@ -90,21 +95,36 @@ int main(void)
 	//QueueUserAPC_Injection();
 	//GetSetThreadContext_Injection();
 
-	///* Timing Attacks */
-	//print_category(TEXT("Timing-attacks"));
-	//timing_NtDelayexecution();
-	//timing_sleep_loop();
-	//timing_SetTimer();
-	//timing_timeSetEvent();
-	//timing_WaitForSingleObject();
-	//exec_check(&rdtsc_diff, TEXT("Checking RDTSC Locky trick: "));
-	
+	/* Timing Attacks */
+	print_category(TEXT("Timing-attacks"));
+	UINT delayInSeconds = 3000U; // in milliseconds
+	printf("\n[*] Delay value is set to %u seconds ...\n", delayInSeconds / 1000);
 
+	_tprintf(_T("[*] Performing a sleep using NtDelayexecution ... "));
+	timing_NtDelayexecution(delayInSeconds);
+	print_not_detected();
+
+	_tprintf(_T("[*] Performing a sleep() in a loop ... "));
+	timing_sleep_loop(delayInSeconds);
+	print_not_detected();
+
+	_tprintf(_T("[*] Delaying execution using SetTimer() ... "));
+	timing_SetTimer(delayInSeconds);
+	print_not_detected();
+
+	_tprintf(_T("[*] Delaying execution using timeSetEvent() ... "));
+	timing_timeSetEvent(delayInSeconds);
+	print_not_detected();
+
+	_tprintf(_T("[*] Delaying execution using WaitForSingleObject() ... "));
+	timing_WaitForSingleObject(delayInSeconds);
+
+	exec_check(&rdtsc_diff, TEXT("\nChecking RDTSC Locky trick: "));
+	
 	/* Malware analysis tools */
 	print_category(TEXT("Analysis-tools"));
 	analysis_tools_process();
 	
-	system("PAUSE");
 	return 0;
 }
 
