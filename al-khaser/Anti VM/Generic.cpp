@@ -341,3 +341,19 @@ BOOL mouse_movement() {
 	else 
 		return FALSE;
 }
+
+/*
+Check if the machine have enough memory space, usually VM get a small ammount,
+one reason if because several VMs are running on the same servers so they can run
+more tasks at the same time.
+*/
+BOOL memory_space()
+{
+	DWORDLONG ullMinRam = (1024LL * (1024LL * (1024LL * 1LL))); // 1GB
+	MEMORYSTATUSEX statex = {0};
+
+	statex.dwLength = sizeof(statex);
+	GlobalMemoryStatusEx(&statex);
+
+	return (statex.ullTotalPhys < ullMinRam) ? TRUE : FALSE;
+}

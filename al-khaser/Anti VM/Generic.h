@@ -17,3 +17,4 @@ BOOL number_cores_wmi();
 BOOL disk_size_wmi();
 BOOL setupdi_diskdrive();
 BOOL mouse_movement();
+BOOL memory_space();
