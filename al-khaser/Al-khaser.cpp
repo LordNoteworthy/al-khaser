@@ -3,6 +3,8 @@
 
 int main(void)
 {
+	/* Resize the console window for better visibility */
+	resize_console_window();
 
 	/* Display general informations */
 	_tprintf(_T("[al-khaser version 0.60]"));
@@ -94,7 +96,7 @@ int main(void)
 
 	/* Timing Attacks */
 	print_category(TEXT("Timing-attacks"));
-	UINT delayInSeconds = 300000U; // in milliseconds
+	UINT delayInSeconds = 3000U; // in milliseconds
 	printf("\n[*] Delay value is set to %u seconds ...\n", delayInSeconds / 1000);
 
 	_tprintf(_T("[*] Performing a sleep using NtDelayexecution ... "));
@@ -121,6 +123,8 @@ int main(void)
 	/* Malware analysis tools */
 	print_category(TEXT("Analysis-tools"));
 	analysis_tools_process();
+
+	system("PAUSE");
 	
 	return 0;
 }

@@ -44,9 +44,8 @@ void log_print(TCHAR* filename, TCHAR *fmt, ...)
 	for (p = fmt; *p; ++p)
 	{
 		if (*p != '%')//If simple string
-		{
 			fputc(*p, fp);
-		}
+
 		else
 		{
 			switch (*++p)
@@ -55,7 +54,6 @@ void log_print(TCHAR* filename, TCHAR *fmt, ...)
 			case 's':
 			{
 				r = va_arg(list, TCHAR *);
-
 				_ftprintf(fp, _T("%s"), r);
 				continue;
 			}
@@ -64,7 +62,6 @@ void log_print(TCHAR* filename, TCHAR *fmt, ...)
 			case 'd':
 			{
 				e = va_arg(list, int);
-
 				_ftprintf(fp, _T("%d"), e);
 				continue;
 			}
