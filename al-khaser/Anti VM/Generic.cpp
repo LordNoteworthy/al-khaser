@@ -317,3 +317,27 @@ BOOL setupdi_diskdrive()
 }
 
 
+/*
+Check if there is any mouse movement in the sandbox.
+*/
+BOOL mouse_movement() {
+
+	POINT positionA = {};
+	POINT positionB = {};
+
+	/* Retrieve the position of the mouse cursor, in screen coordinates */
+	GetCursorPos(&positionA);
+
+	/* Wait a moment */
+	Sleep(5000);
+
+	/* Retrieve the poition gain */
+	GetCursorPos(&positionB);
+
+	if ((positionA.x == positionB.x) && (positionA.y == positionB.y))
+		/* Probably a sandbox, because mouse position did not change. */
+		return TRUE;
+
+	else 
+		return FALSE;
+}
