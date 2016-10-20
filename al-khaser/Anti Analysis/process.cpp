@@ -38,10 +38,11 @@ VOID analysis_tools_process()
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
 	for (int i = 0; i < iLength; i++)
 	{
-		_tprintf(TEXT("[*] Checking process of malware analysis tool: %s: "), szProcesses[i]);
+		TCHAR msg[256] = _T("");
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking process of malware analysis tool: %s: "), szProcesses[i]);
 		if (GetProcessIdFromName(szProcesses[i]))
-			print_detected();
+			print_results(TRUE, msg);
 		else
-			print_not_detected();
+			print_results(FALSE, msg);
 	}
 }

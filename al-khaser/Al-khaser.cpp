@@ -3,9 +3,11 @@
 
 int main(void)
 {
+	/* Resize the console window for better visibility */
+	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.60]"));
+	_tprintf(_T("[al-khaser version 0.61]"));
 	print_os();
 
 	if (IsWoW64())
@@ -38,10 +40,17 @@ int main(void)
 	exec_check(&NtYieldExecutionAPI, TEXT("Checking NtYieldExecution : "));
 	exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
 
-	/* Anti Dumping */
-	print_category(TEXT("Anti Dumping"));
-	//exec_check(&ErasePEHeaderFromMemory, TEXT("Checking ErasePEHeaderFromMemory : "));
-	SizeOfImage();
+	/* Generic sandbox detection */
+	print_category(TEXT("Generic Sandboxe/VM Detection"));
+	loaded_dlls();
+	exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine: "));
+	exec_check(&idt_trick, TEXT("Checking Interupt Descriptor Table location: "));
+	exec_check(&ldt_trick, TEXT("Checking Local Descriptor Table location: "));
+	exec_check(&gdt_trick, TEXT("Checking Global Descriptor Table location: "));
+	exec_check(&str_trick, TEXT("Checking Global Descriptor Table location: "));
+	exec_check(&number_cores_wmi, TEXT("Checking Number of cores in machine using WMI: "));
+	exec_check(&disk_size_wmi, TEXT("Checking hard disk size using WMI: "));
+	exec_check(&setupdi_diskdrive, TEXT("Checking SetupDi_diskdrive: "));
 
 	///* VirtualBox Detection */
 	print_category(TEXT("VirtualBox Detection"));
@@ -72,18 +81,6 @@ int main(void)
 	exec_check(&wine_exports, TEXT("Checking Wine via dll exports: "));
 	wine_reg_keys();
 
-	/* Generic sandbox detection */
-	print_category(TEXT("Generic Sandboxe/VM Detection"));
-	loaded_dlls();
-	exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine: "));
-	exec_check(&idt_trick, TEXT("Checking Interupt Descriptor Table location: "));
-	exec_check(&ldt_trick, TEXT("Checking Local Descriptor Table location: "));
-	exec_check(&gdt_trick, TEXT("Checking Global Descriptor Table location: "));
-	exec_check(&str_trick, TEXT("Checking Global Descriptor Table location: "));
-	//exec_check(&number_cores_wmi, TEXT("Checking Number of cores in machine using WMI: "));
-	//exec_check(&disk_size_wmi, TEXT("Checking hard disk size using WMI: "));
-	exec_check(&setupdi_diskdrive, TEXT("Checking SetupDi_diskdrive: "));
-
 	/* Code injections techniques */
 	//CreateRemoteThread_Injection();
 	//SetWindowsHooksEx_Injection();
@@ -94,34 +91,43 @@ int main(void)
 
 	/* Timing Attacks */
 	print_category(TEXT("Timing-attacks"));
-	UINT delayInSeconds = 300000U; // in milliseconds
+	UINT delayInSeconds = 3000U; // in milliseconds
 	printf("\n[*] Delay value is set to %u seconds ...\n", delayInSeconds / 1000);
 
-	_tprintf(_T("[*] Performing a sleep using NtDelayexecution ... "));
+	_tprintf(_T("[+] Performing a sleep using NtDelayexecution:\n"));
 	timing_NtDelayexecution(delayInSeconds);
-	print_not_detected();
+	print_results(FALSE, _T("NtDelayexecution was bypassed ... "));
 
-	_tprintf(_T("[*] Performing a sleep() in a loop ... "));
+	_tprintf(_T("[+] Performing a sleep() in a loop:\n"));
 	timing_sleep_loop(delayInSeconds);
-	print_not_detected();
+	print_results(FALSE, _T("Sleep in loop was bypassed ... "));
 
-	_tprintf(_T("[*] Delaying execution using SetTimer() ... "));
+	_tprintf(_T("[*] Delaying execution using SetTimer():\n"));
 	timing_SetTimer(delayInSeconds);
-	print_not_detected();
+	print_results(FALSE, _T("timing_SetTimer was bypassed ... "));
 
-	_tprintf(_T("[*] Delaying execution using timeSetEvent() ... "));
+	_tprintf(_T("[*] Delaying execution using timeSetEvent():\n"));
 	timing_timeSetEvent(delayInSeconds);
-	print_not_detected();
+	print_results(FALSE, _T("timeSetEvent was bypassed ... "));
 
-	_tprintf(_T("[*] Delaying execution using WaitForSingleObject() ... "));
+	_tprintf(_T("[*] Delaying execution using WaitForSingleObject():\n"));
 	timing_WaitForSingleObject(delayInSeconds);
+	print_results(FALSE, _T("WaitForSingleObject was bypassed ... "));
 
-	exec_check(&rdtsc_diff, TEXT("\nChecking RDTSC Locky trick: "));
+	exec_check(&rdtsc_diff, TEXT("Checking RDTSC Locky trick: "));
 	
 	/* Malware analysis tools */
 	print_category(TEXT("Analysis-tools"));
 	analysis_tools_process();
+
+	/* Anti Dumping */
+	print_category(TEXT("Anti Dumping"));
+	ErasePEHeaderFromMemory();
+	SizeOfImage();
+
+	_tprintf(_T("\n\nAnalysis done, I hope you didn't get red flags :)"));
 	
+	getchar();
 	return 0;
 }
 

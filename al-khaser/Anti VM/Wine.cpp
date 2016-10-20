@@ -20,7 +20,6 @@ BOOL wine_exports()
 		return FALSE;
 	else
 		return TRUE;
-
 }
 
 
@@ -40,10 +39,11 @@ VOID wine_reg_keys()
 	/* Check one by one */
 	for (int i = 0; i < dwlength; i++)
 	{
-		_tprintf(TEXT("[*] Checking reg key %s: "), szKeys[i]);
+		TCHAR msg[256] = _T("");
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s: "), szKeys[i]);
 		if (Is_RegKeyExists(HKEY_CURRENT_USER, szKeys[i]))
-			print_detected();
+			print_results(TRUE, msg);
 		else
-			print_not_detected();
+			print_results(FALSE, msg);
 	}
 }

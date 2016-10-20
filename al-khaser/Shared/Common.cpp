@@ -14,7 +14,7 @@ VOID print_detected()
 	WORD OriginalColors = *(&ConsoleScreenBufferInfo.wAttributes);
 
 	SetConsoleTextAttribute(nStdHandle, 12);
-	_tprintf(TEXT("[ BAD ].\n"));
+	_tprintf(TEXT("[ BAD  ]\n"));
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
@@ -50,27 +50,50 @@ VOID print_category(TCHAR* text)
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
-
-
-
-VOID exec_check(int(*callback)(), TCHAR* text_log) 
+VOID print_results(int result, TCHAR* szMsg)
 {
-	int check_result;
+	_tprintf(TEXT("[*] %s"), szMsg);
 
-	/* Call our check */
-	check_result = callback();
-
-	_tprintf(TEXT("[*] %s"), text_log);
-	TCHAR buffer[256] = _T("");
-	_stprintf_s(buffer, sizeof(buffer) / sizeof(TCHAR), _T("[*] % s"), text_log);
-	LOG_PRINT(buffer);
-
-
-	if (check_result == TRUE)
+	/* align the result according to the length of the text */
+	int spaces_to_padd = 95 - _tcslen(szMsg);
+	while (spaces_to_padd > 0) {
+		_tprintf(TEXT(" "));
+		spaces_to_padd--;
+	}
+	
+	if (result == TRUE)
 		print_detected();
 	else
 		print_not_detected();
+
+	/* log to file*/
+	TCHAR buffer[256] = _T("");
+	_stprintf_s(buffer, sizeof(buffer) / sizeof(TCHAR), _T("[*] %s -> %d"), szMsg, result);
+	LOG_PRINT(buffer);
 }
+
+VOID exec_check(int(*callback)(), TCHAR* szMsg) 
+{
+	/* Call our check */
+	int result = callback();
+
+	/* Print / Log the result */
+	if (szMsg)
+		print_results(result, szMsg);
+}
+
+VOID resize_console_window()
+{
+	// Change the window title:
+	SetConsoleTitle(_T("Al-Khaser - by Lord Noteworthy"));
+
+	// Get console window handle
+	HWND wh = GetConsoleWindow();
+
+	// Move window to required position
+	MoveWindow(wh, 100, 100, 900, 600, TRUE);
+}
+
 
 VOID print_os()
 {
@@ -130,7 +153,6 @@ TCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)
 
 	return lpWideCharStr;
 }
-
 
 CHAR* wide_str_to_multibyte (TCHAR* lpWideStr)
 {

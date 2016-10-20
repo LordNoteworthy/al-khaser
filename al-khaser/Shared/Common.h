@@ -12,6 +12,8 @@ VOID exec_check(int(*callback)(), TCHAR* text_log);
 VOID print_os();
 TCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr);
 CHAR* wide_str_to_multibyte(TCHAR* lpWideStr);
+VOID resize_console_window();
+VOID print_results(int result, TCHAR* szMsg);
 
 
 
