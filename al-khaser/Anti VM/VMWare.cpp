@@ -16,13 +16,15 @@ VOID vmware_reg_key_value()
 
 	for (int i = 0; i < dwLength; i++)
 	{
-		_tprintf(_T("[*] Checking reg key %s:"), szEntries[i][0]);
+		TCHAR msg[256] = _T("");
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s:"), szEntries[i][0]);
 		if (Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, szEntries[i][0], szEntries[i][1], szEntries[i][2]))
-			print_detected();
+			print_results(TRUE, msg);
 		else
-			print_not_detected();
+			print_results(FALSE, msg);
 	}
 }
+
 
 
 /*
@@ -40,11 +42,12 @@ VOID vmware_reg_keys()
 	/* Check one by one */
 	for (int i = 0; i < dwlength; i++)
 	{
-		_tprintf(TEXT("[*] Checking reg key %s: "), szKeys[i]);
+		TCHAR msg[256] = _T("");
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s: "), szKeys[i]);
 		if (Is_RegKeyExists(HKEY_LOCAL_MACHINE, szKeys[i]))
-			print_detected();
+			print_results(TRUE, msg);
 		else
-			print_not_detected();
+			print_results(FALSE, msg);
 	}
 }
 
@@ -70,11 +73,12 @@ VOID vmware_files()
 	for (int i = 0; i < dwlength; i++)
 	{
 		PathCombine(szPath, szWinDir, szPaths[i]);
-		_tprintf(TEXT("[*] Checking file %s: "), szPath);
+		TCHAR msg[256] = _T("");
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking file %s: "), szPath);
 		if (is_FileExists(szPath))
-			print_detected();
+			print_results(TRUE, msg);
 		else
-			print_not_detected();
+			print_results(FALSE, msg);
 	}
 }
 
@@ -115,11 +119,12 @@ VOID vmware_mac()
 	/* Check one by one */
 	for (int i = 0; i < dwLength; i++)
 	{
-		_tprintf(_T("[*] Checking MAC starting with: %s"), szMac[i][1]);
+		TCHAR msg[256] = _T("");
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking MAC starting with: %s"), szMac[i][1]);
 		if (check_mac_addr(szMac[i][0]))
-			print_detected();
+			print_results(TRUE, msg);
 		else
-			print_not_detected();
+			print_results(FALSE, msg);
 	}
 }
 
@@ -151,11 +156,13 @@ VOID vmware_devices()
 	for (int i = 0; i < iLength; i++)
 	{
 		HANDLE hFile = CreateFile(devices[i], GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-		_tprintf(TEXT("[*] Checking device %s: "), devices[i]);
+		TCHAR msg[256] = _T("");
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking device %s: "), devices[i]);
+		
 		if (hFile != INVALID_HANDLE_VALUE)
-			print_detected();
+			print_results(TRUE, msg);
 		else
-			print_not_detected();
+			print_results(FALSE, msg);
 	}
 }
 
@@ -175,10 +182,11 @@ VOID vmware_processes()
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
 	for (int i = 0; i < iLength; i++)
 	{
-		_tprintf(TEXT("[*] Checking vmware processe %s: "), szProcesses[i]);
+		TCHAR msg[256] = _T("");
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking vmware processe %s: "), szProcesses[i]);
 		if (GetProcessIdFromName(szProcesses[i]))
-			print_detected();
+			print_results(TRUE, msg);
 		else
-			print_not_detected();
+			print_results(FALSE, msg);
 	}
 }

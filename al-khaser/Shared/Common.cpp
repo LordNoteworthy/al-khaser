@@ -14,7 +14,7 @@ VOID print_detected()
 	WORD OriginalColors = *(&ConsoleScreenBufferInfo.wAttributes);
 
 	SetConsoleTextAttribute(nStdHandle, 12);
-	_tprintf(TEXT("[ BAD ].\n"));
+	_tprintf(TEXT("[ BAD  ]\n"));
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
@@ -55,9 +55,12 @@ VOID print_results(int result, TCHAR* szMsg)
 	_tprintf(TEXT("[*] %s"), szMsg);
 
 	/* align the result according to the length of the text */
-	size_t len = _tcslen(szMsg);
-	//for (int=0; i<l)
-
+	int spaces_to_padd = 95 - _tcslen(szMsg);
+	while (spaces_to_padd > 0) {
+		_tprintf(TEXT(" "));
+		spaces_to_padd--;
+	}
+	
 	if (result == TRUE)
 		print_detected();
 	else
@@ -65,39 +68,32 @@ VOID print_results(int result, TCHAR* szMsg)
 
 	/* log to file*/
 	TCHAR buffer[256] = _T("");
-	_stprintf_s(buffer, sizeof(buffer) / sizeof(TCHAR), _T("[*] % s"), szMsg);
+	_stprintf_s(buffer, sizeof(buffer) / sizeof(TCHAR), _T("[*] %s -> %d"), szMsg, result);
 	LOG_PRINT(buffer);
 }
 
 VOID exec_check(int(*callback)(), TCHAR* szMsg) 
 {
-	
 	/* Call our check */
 	int result = callback();
 
 	/* Print / Log the result */
-	print_results(result, szMsg);
+	if (szMsg)
+		print_results(result, szMsg);
 }
 
 VOID resize_console_window()
 {
-	HANDLE wHnd;    // Handle to write to the console.
-	HANDLE rHnd;    // Handle to read from the console.
-	wHnd = GetStdHandle(STD_OUTPUT_HANDLE);
-	rHnd = GetStdHandle(STD_INPUT_HANDLE);
-
 	// Change the window title:
 	SetConsoleTitle(_T("Al-Khaser - by Lord Noteworthy"));
 
-	// Set up the required window size:
-	SMALL_RECT windowSize = { 0, 0, 100, 30 };
-	SetConsoleWindowInfo(wHnd, 1, &windowSize);
+	// Get console window handle
+	HWND wh = GetConsoleWindow();
 
-	// Change the console window size:
-	// Create a COORD to hold the buffer size:
-	COORD bufferSize = { 10, 10 };
-	SetConsoleScreenBufferSize(wHnd, bufferSize);
+	// Move window to required position
+	MoveWindow(wh, 100, 100, 900, 600, TRUE);
 }
+
 
 VOID print_os()
 {
