@@ -83,7 +83,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -202,6 +202,7 @@
     <ClCompile Include="Code Injections\RtlCreateUserThread.cpp" />
     <ClCompile Include="Code Injections\SetWindowsHooksEx.cpp" />
     <ClCompile Include="Shared\Common.cpp" />
+    <ClCompile Include="Shared\log.cpp" />
     <ClCompile Include="Shared\Utils.cpp" />
     <ClCompile Include="timing-attacks\timing.cpp" />
   </ItemGroup>
@@ -248,6 +249,7 @@
     <ClInclude Include="Code Injections\RtlCreateUserThread.h" />
     <ClInclude Include="Code Injections\SetWindowsHooksEx.h" />
     <ClInclude Include="Shared\Common.h" />
+    <ClInclude Include="Shared\log.h" />
     <ClInclude Include="Shared\Main.h" />
     <ClInclude Include="Shared\Utils.h" />
     <ClInclude Include="Shared\VersionHelpers.h" />

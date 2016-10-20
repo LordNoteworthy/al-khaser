@@ -1,4 +1,8 @@
 #include <Windows.h>
+#include <stdio.h>
+#include <tchar.h>
+#include <strsafe.h>
+
 
 VOID print_detected() ;
 VOID print_not_detected() ;
