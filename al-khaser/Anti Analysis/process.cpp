@@ -16,8 +16,8 @@ VOID analysis_tools_process()
 		_T("procmon.exe"),			// Part of Sysinternals Suite
 		_T("regmon.exe"),			// Part of Sysinternals Suite
 		_T("procexp.exe"),			// Part of Sysinternals Suite
-		_T("idag.exe"),				// IDA Pro Interactive Disassembler
-		_T("idag.exe"),				// IDA Pro Interactive Disassembler
+		_T("idaq.exe"),				// IDA Pro Interactive Disassembler
+		_T("idaq64.exe"),			// IDA Pro Interactive Disassembler
 		_T("ImmunityDebugger.exe"), // ImmunityDebugger
 		_T("Wireshark.exe"),		// Wireshark packet sniffer
 		_T("dumpcap.exe"),			// Network traffic dump tool

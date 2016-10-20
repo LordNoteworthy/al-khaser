@@ -5,11 +5,11 @@
 
 #include "..\Shared\Common.h"
 
-VOID timing_SetTimer();
-VOID timing_NtDelayexecution();
-VOID timing_timeSetEvent();
-VOID timing_WaitForSingleObject();
-VOID timing_sleep_loop();
+VOID timing_SetTimer(UINT delayInSeconds);
+VOID timing_NtDelayexecution(UINT delayInSeconds);
+VOID timing_timeSetEvent(UINT delayInSeconds);
+VOID timing_WaitForSingleObject(UINT delayInSeconds);
+VOID timing_sleep_loop(UINT delayInSeconds);
 BOOL rdtsc_diff();
 
 

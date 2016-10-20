@@ -103,12 +103,11 @@ Check VMWare NIC MAC addresses
 VOID vmware_mac()
 {
 	/* VMWre blacklisted mac adr */
-	CHAR *szMac[] = {
-		"\x00\x05\x69",
-		"\x00\x0C\x29",
-		"\x00\x1C\x14",
-		"\x00\x50\x56",
-
+	TCHAR *szMac[][2] = {
+		{ _T("\x00\x05\x69"), _T("00:05:69") },
+		{ _T("\x00\x0C\x29"), _T("00:0c:29") },
+		{ _T("\x00\x1C\x14"), _T("00:1C:14") },
+		{ _T("\x00\x50\x56"), _T("00:50:56") },
 	};
 
 	WORD dwLength = sizeof(szMac) / sizeof(szMac[0]);
@@ -116,8 +115,8 @@ VOID vmware_mac()
 	/* Check one by one */
 	for (int i = 0; i < dwLength; i++)
 	{
-		printf("[*] Checking MAC %s: ", szMac[i]);
-		if (check_mac_addr(szMac[i]))
+		_tprintf(_T("[*] Checking MAC starting with: %s"), szMac[i][1]);
+		if (check_mac_addr(szMac[i][0]))
 			print_detected();
 		else
 			print_not_detected();
@@ -182,59 +181,4 @@ VOID vmware_processes()
 		else
 			print_not_detected();
 	}
-}
-
-
-/*
-Check VMWare bios using WMI 
-*/
-BOOL vmware_wmi()
-{
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
-	BOOL bStatus = FALSE;
-	HRESULT hr;
-
-	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
-
-	if (bStatus)
-	{
-		// If success, execute the desired query
-		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_PnPEntity"));
-		if (bStatus)
-		{
-			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
-			ULONG uReturn = 0;
-			VARIANT vtProp;
-
-			while (pEnumerator)
-			{
-				hr = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
-				if (0 == uReturn)
-					break;
-
-
-				// Get the value of the Name property
-				hr = pclsObj->Get(_T("DeviceId"), 0, &vtProp, 0, 0);
-				//_tprintf(_T("DeviceId : %s"), vtProp.bstrVal);
-
-				// release the current result object
-				VariantClear(&vtProp);
-				pclsObj->Release();
-
-			}
-		}
-	}
-
-	// Cleanup
-	pSvc->Release();
-	pLoc->Release();
-	pEnumerator->Release();
-	CoUninitialize();
-
-	return TRUE;
-
 }

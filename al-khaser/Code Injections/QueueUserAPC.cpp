@@ -7,7 +7,8 @@ BOOL QueueUserAPC_Injection()
 	TCHAR lpDllName[] = _T("InjectedDLL.dll");
 	TCHAR lpDllPath[MAX_PATH];
 	HMODULE hKernel32;
-	HANDLE hProcess, hThread;
+	HANDLE hProcess = NULL;
+	HANDLE hThread = NULL;
 	DWORD dwProcessId, dwThreadId;
 	FARPROC LoadLibraryAddress;
 	LPVOID lpBaseAddress;

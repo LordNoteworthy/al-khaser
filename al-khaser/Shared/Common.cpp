@@ -48,7 +48,7 @@ VOID print_category(TCHAR* text)
 	WORD OriginalColors = *(&ConsoleScreenBufferInfo.wAttributes);
 
 	SetConsoleTextAttribute(nStdHandle, 13);
-	_tprintf(TEXT("			---[%s]---\n"), text);
+	_tprintf(TEXT("\n-------------------------[%s]-------------------------\n"), text);
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
@@ -72,7 +72,7 @@ VOID print_os()
 	if (GetOSDisplayString(szOS))
 	{
 		_tcscpy_s(szOS, MAX_PATH, szOS);
-		_tprintf(_T("\n%s\n"), szOS);
+		_tprintf(_T("\nOS: %s\n"), szOS);
 	}
 }
 
@@ -123,4 +123,16 @@ TCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)
 	INT iNumChars =  MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, lpWideCharStr, iSizeRequired);
 
 	return lpWideCharStr;
+}
+
+
+CHAR* wide_str_to_multibyte (TCHAR* lpWideStr)
+{
+	errno_t status;
+	int *pRetValue = NULL;
+	CHAR *mbchar = NULL;
+	size_t sizeInBytes = 0;
+	
+	status = wctomb_s(pRetValue, mbchar, sizeInBytes, *lpWideStr);
+	return mbchar;
 }

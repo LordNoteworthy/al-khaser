@@ -4,10 +4,13 @@
 Every system which run in a timeout is vulmerable to this types of attacks */
 
 
-VOID timing_NtDelayexecution()
+VOID timing_NtDelayexecution(UINT delayInSeconds)
 {
 	// In this example, I will demonstrate NtDelayExecution because it is the lowest user mode
 	// api to delay execution Sleep -> SleepEx -> NtDelayExecution.
+	LARGE_INTEGER DelayInterval;
+	LONGLONG llDelay = delayInSeconds * 10000LL;
+	DelayInterval.QuadPart = -llDelay;
 
 	// Function pointer Typedef for NtDelayExecution
 	typedef NTSTATUS(WINAPI *pNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
@@ -31,7 +34,7 @@ VOID timing_NtDelayexecution()
 	}
 
 	// Time to finally make the call
-	NtDelayExecution(FALSE, (PLARGE_INTEGER)10000);
+	NtDelayExecution(FALSE, &DelayInterval);
 }
 
 BOOL bProcessed = FALSE;
@@ -39,19 +42,17 @@ BOOL bProcessed = FALSE;
 VOID CALLBACK TimerProc(HWND hwnd, UINT message, UINT_PTR iTimerID, DWORD dwTime)
 {
 	// Malicious code is place here ....
-	_tprintf(_T("SetTimer sleepy malware ..."));
-
 	bProcessed = TRUE;
 }
 
 
-VOID timing_SetTimer()
+VOID timing_SetTimer(UINT delayInSeconds)
 {
 	MSG Msg;
 	UINT_PTR iTimerID;
 	
 	// Set our timer without window handle
-	iTimerID = SetTimer(NULL, 0, 5000, TimerProc);
+	iTimerID = SetTimer(NULL, 0, delayInSeconds, TimerProc);
 	
 	// Because we are running in a console app, we should get the messages from
 	// the queue and check if msg is WM_TIMER
@@ -69,15 +70,13 @@ VOID timing_SetTimer()
 
 VOID CALLBACK TimerFunction(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2)
 {
-	_tprintf(_T("calling from timeSetEvent"));
 	bProcessed = TRUE;
 }
 
-VOID timing_timeSetEvent()
+VOID timing_timeSetEvent(UINT delayInSeconds)
 {
 
 	// Some vars
-	UINT uDelay = 5000;
 	UINT uResolution;
 	TIMECAPS tc;
 	MMRESULT idEvent;
@@ -88,7 +87,7 @@ VOID timing_timeSetEvent()
 
 	// Create the timer
 	idEvent = timeSetEvent(
-		uDelay,
+		delayInSeconds,
 		uResolution,
 		TimerFunction,
 		0,
@@ -106,7 +105,7 @@ VOID timing_timeSetEvent()
 }
 
 
-VOID timing_WaitForSingleObject()
+VOID timing_WaitForSingleObject(UINT delayInSeconds)
 {
 	HANDLE hEvent;
 
@@ -116,14 +115,14 @@ VOID timing_WaitForSingleObject()
 		print_last_error(_T("CreateEvent"));
 
 	// Wait until timeout 
-	DWORD x = WaitForSingleObject(hEvent, 5000);
+	DWORD x = WaitForSingleObject(hEvent, delayInSeconds);
 
 	// Malicious code goes here
 
 }
 
 
-VOID timing_sleep_loop()
+VOID timing_sleep_loop (UINT delayInSeconds)
 {
 	/* 
 	This trick is about performing a low number of seconds to sleep but in a loop,
@@ -133,9 +132,12 @@ VOID timing_sleep_loop()
 	its timeout.
 	*/
 
-	/* here we sleeps 100 ms, 3000 times which is like: 300 seconds = 5 minues */
-	for (int i = 0; i < 3000 ; i++) {
-		Sleep(100);
+	int delayInSeconds_divided  = delayInSeconds / 1000;
+
+	/* Example: we want to sleep 300 seeconds, then we can sleep
+	0.3s for 1000 times which is like: 300 seconds = 5 minues */
+	for (int i = 0; i < 1000; i++) {
+		Sleep(delayInSeconds_divided);
 	}
 
 	// Malicious code goes here
