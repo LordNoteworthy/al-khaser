@@ -26,7 +26,7 @@ It performs a bunch of nowadays malwares tricks and the goal is to see if you st
 
 ## Download
 
-You can download the last stable release here.
+You can download the last stable release [here](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser.exe?raw=true).
 
 
 
