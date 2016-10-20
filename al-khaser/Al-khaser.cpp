@@ -91,7 +91,7 @@ int main(void)
 
 	/* Timing Attacks */
 	print_category(TEXT("Timing-attacks"));
-	UINT delayInSeconds = 3000U; // in milliseconds
+	UINT delayInSeconds = 300000U; // in milliseconds
 	printf("\n[*] Delay value is set to %u seconds ...\n", delayInSeconds / 1000);
 
 	_tprintf(_T("[+] Performing a sleep using NtDelayexecution:\n"));
