@@ -1,8 +1,6 @@
-#include <Windows.h>
-#include <stdio.h>
-#include <tchar.h>
-#include <strsafe.h>
+#include "Common.h"
 #include "Utils.h"
+#include "log.h"
 
 VOID print_detected() 
 {
@@ -52,6 +50,9 @@ VOID print_category(TCHAR* text)
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
+
+
+
 VOID exec_check(int(*callback)(), TCHAR* text_log) 
 {
 	int check_result;
@@ -60,6 +61,11 @@ VOID exec_check(int(*callback)(), TCHAR* text_log)
 	check_result = callback();
 
 	_tprintf(TEXT("[*] %s"), text_log);
+	TCHAR buffer[256] = _T("");
+	_stprintf_s(buffer, sizeof(buffer) / sizeof(TCHAR), _T("[*] % s"), text_log);
+	LOG_PRINT(buffer);
+
+
 	if (check_result == TRUE)
 		print_detected();
 	else

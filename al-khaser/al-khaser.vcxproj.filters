@@ -207,6 +207,9 @@
     <ClCompile Include="Anti VM\Xen.cpp">
       <Filter>Anti VM / Emulation\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Shared\log.cpp">
+      <Filter>Shared\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="Anti VM\Xen.h">
       <Filter>Anti VM / Emulation\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\log.h">
+      <Filter>Shared\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
