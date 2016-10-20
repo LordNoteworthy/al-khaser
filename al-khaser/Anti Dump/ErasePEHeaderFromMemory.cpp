@@ -3,8 +3,9 @@
 /* This function will erase the current images PE header from memory preventing a successful image if dumped */
 
 
-BOOL ErasePEHeaderFromMemory()
+VOID ErasePEHeaderFromMemory()
 {
+	_tprintf(_T("[*] Erasing PE header from memory\n"));
 	DWORD OldProtect = 0;
 
 	// Get base address of module
@@ -16,8 +17,6 @@ BOOL ErasePEHeaderFromMemory()
 
 	// Erase the header
 	SecureZeroMemory(pBaseAddr, 4096);
-
-	return TRUE;
 }
 
 

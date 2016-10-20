@@ -15,35 +15,42 @@ int main(void)
 
 	/* Debugger Detection */
 	print_category(TEXT("Debugger Detection"));
-	//exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API () "));
-	//exec_check(&IsDebuggerPresentPEB, TEXT("Checking PEB.BeingDebugged "));
-	//exec_check(&IsDebuggerPresentPEB, TEXT("Checking CheckRemoteDebuggerPresentAPI () "));
-	//exec_check(&NtGlobalFlag, TEXT("Checking PEB.NtGlobalFlag "));
-	//exec_check(&HeapFlags, TEXT("Checking ProcessHeap.Flags "));
-	//exec_check(&HeapForceFlags, TEXT("Checking ProcessHeap.ForceFlags "));
-	//exec_check(&NtQueryInformationProcess_ProcessDebugPort, TEXT("Checking NtQueryInformationProcess with ProcessDebugPort "));
-	//exec_check(&NtQueryInformationProcess_ProcessDebugFlags, TEXT("Checking NtQueryInformationProcess with ProcessDebugFlags "));
-	//exec_check(&NtQueryInformationProcess_ProcessDebugObject, TEXT("Checking NtQueryInformationProcess with ProcessDebugObject "));
-	//exec_check(&NtSetInformationThread_ThreadHideFromDebugger, TEXT("Checking NtSetInformationThread with ThreadHideFromDebugger "));
-	//exec_check(&CloseHandle_InvalideHandle, TEXT("Checking CloseHandle with an invalide handle "));
-	//exec_check(&UnhandledExcepFilterTest, TEXT("Checking UnhandledExcepFilterTest "));
-	//exec_check(&OutputDebugStringAPI, TEXT("Checking OutputDebugString "));
-	//exec_check(&HardwareBreakpoints, TEXT("Checking Hardware Breakpoints "));
-	//exec_check(&SoftwareBreakpoints, TEXT("Checking Software Breakpoints "));
-	//exec_check(&Interrupt_0x2d, TEXT("Checking Interupt 0x2d "));
-	//exec_check(&Interrupt_3, TEXT("Checking Interupt 1 "));
-	//exec_check(&MemoryBreakpoints_PageGuard, TEXT("Checking Memory Breakpoints PAGE GUARD: "));
-	//exec_check(&IsParentExplorerExe, TEXT("Checking If Parent Process is explorer.exe: "));
-	//exec_check(&CanOpenCsrss, TEXT("Checking SeDebugPrivilege : "));
-	//exec_check(&NtQueryObject_ObjectTypeInformation, TEXT("Checking NtQueryObject with ObjectTypeInformation : "));
-	//exec_check(&NtQueryObject_ObjectAllTypesInformation, TEXT("Checking NtQueryObject with ObjectAllTypesInformation : "));
-	//exec_check(&NtYieldExecutionAPI, TEXT("Checking NtYieldExecution : "));
-	//exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
+	exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API () "));
+	exec_check(&IsDebuggerPresentPEB, TEXT("Checking PEB.BeingDebugged "));
+	exec_check(&IsDebuggerPresentPEB, TEXT("Checking CheckRemoteDebuggerPresentAPI () "));
+	exec_check(&NtGlobalFlag, TEXT("Checking PEB.NtGlobalFlag "));
+	exec_check(&HeapFlags, TEXT("Checking ProcessHeap.Flags "));
+	exec_check(&HeapForceFlags, TEXT("Checking ProcessHeap.ForceFlags "));
+	exec_check(&NtQueryInformationProcess_ProcessDebugPort, TEXT("Checking NtQueryInformationProcess with ProcessDebugPort "));
+	exec_check(&NtQueryInformationProcess_ProcessDebugFlags, TEXT("Checking NtQueryInformationProcess with ProcessDebugFlags "));
+	exec_check(&NtQueryInformationProcess_ProcessDebugObject, TEXT("Checking NtQueryInformationProcess with ProcessDebugObject "));
+	exec_check(&NtSetInformationThread_ThreadHideFromDebugger, TEXT("Checking NtSetInformationThread with ThreadHideFromDebugger "));
+	exec_check(&CloseHandle_InvalideHandle, TEXT("Checking CloseHandle with an invalide handle "));
+	exec_check(&UnhandledExcepFilterTest, TEXT("Checking UnhandledExcepFilterTest "));
+	exec_check(&OutputDebugStringAPI, TEXT("Checking OutputDebugString "));
+	exec_check(&HardwareBreakpoints, TEXT("Checking Hardware Breakpoints "));
+	exec_check(&SoftwareBreakpoints, TEXT("Checking Software Breakpoints "));
+	exec_check(&Interrupt_0x2d, TEXT("Checking Interupt 0x2d "));
+	exec_check(&Interrupt_3, TEXT("Checking Interupt 1 "));
+	exec_check(&MemoryBreakpoints_PageGuard, TEXT("Checking Memory Breakpoints PAGE GUARD: "));
+	exec_check(&IsParentExplorerExe, TEXT("Checking If Parent Process is explorer.exe: "));
+	exec_check(&CanOpenCsrss, TEXT("Checking SeDebugPrivilege : "));
+	exec_check(&NtQueryObject_ObjectTypeInformation, TEXT("Checking NtQueryObject with ObjectTypeInformation : "));
+	exec_check(&NtQueryObject_ObjectAllTypesInformation, TEXT("Checking NtQueryObject with ObjectAllTypesInformation : "));
+	exec_check(&NtYieldExecutionAPI, TEXT("Checking NtYieldExecution : "));
+	exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
 
-	/* Anti Dumping */
-	print_category(TEXT("Anti Dumping"));
-	//exec_check(&ErasePEHeaderFromMemory, TEXT("Checking ErasePEHeaderFromMemory : "));
-	SizeOfImage();
+	/* Generic sandbox detection */
+	print_category(TEXT("Generic Sandboxe/VM Detection"));
+	loaded_dlls();
+	exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine: "));
+	exec_check(&idt_trick, TEXT("Checking Interupt Descriptor Table location: "));
+	exec_check(&ldt_trick, TEXT("Checking Local Descriptor Table location: "));
+	exec_check(&gdt_trick, TEXT("Checking Global Descriptor Table location: "));
+	exec_check(&str_trick, TEXT("Checking Global Descriptor Table location: "));
+	exec_check(&number_cores_wmi, TEXT("Checking Number of cores in machine using WMI: "));
+	exec_check(&disk_size_wmi, TEXT("Checking hard disk size using WMI: "));
+	exec_check(&setupdi_diskdrive, TEXT("Checking SetupDi_diskdrive: "));
 
 	///* VirtualBox Detection */
 	print_category(TEXT("VirtualBox Detection"));
@@ -73,18 +80,6 @@ int main(void)
 	/* Wine Detection */
 	exec_check(&wine_exports, TEXT("Checking Wine via dll exports: "));
 	wine_reg_keys();
-
-	/* Generic sandbox detection */
-	print_category(TEXT("Generic Sandboxe/VM Detection"));
-	loaded_dlls();
-	exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine: "));
-	exec_check(&idt_trick, TEXT("Checking Interupt Descriptor Table location: "));
-	exec_check(&ldt_trick, TEXT("Checking Local Descriptor Table location: "));
-	exec_check(&gdt_trick, TEXT("Checking Global Descriptor Table location: "));
-	exec_check(&str_trick, TEXT("Checking Global Descriptor Table location: "));
-	exec_check(&number_cores_wmi, TEXT("Checking Number of cores in machine using WMI: "));
-	//exec_check(&disk_size_wmi, TEXT("Checking hard disk size using WMI: "));
-	exec_check(&setupdi_diskdrive, TEXT("Checking SetupDi_diskdrive: "));
 
 	/* Code injections techniques */
 	//CreateRemoteThread_Injection();
@@ -124,6 +119,11 @@ int main(void)
 	/* Malware analysis tools */
 	print_category(TEXT("Analysis-tools"));
 	analysis_tools_process();
+
+	/* Anti Dumping */
+	print_category(TEXT("Anti Dumping"));
+	ErasePEHeaderFromMemory();
+	SizeOfImage();
 
 	_tprintf(_T("\n\nAnalysis done, I hope you didn't get red flags :)"));
 	

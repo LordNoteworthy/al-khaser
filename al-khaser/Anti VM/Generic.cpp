@@ -31,7 +31,7 @@ VOID loaded_dlls()
 	for (int i = 0; i < dwlength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("[*] Checking if process loaded modules contains: %s "), szDlls[i]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking if process loaded modules contains: %s "), szDlls[i]);
 
 		/* Check if process loaded modules contains the blacklisted dll */
 		hDll = GetModuleHandle(szDlls[i]);
