@@ -82,6 +82,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Big crypto loops (todo)
 
 ### Human Interaction [Anti-Sandbox]
+- Mouse movement
 - Mouse (Single click / Double click) (todo)
 - DialogBox (todo)
 - Scrolling (todo)

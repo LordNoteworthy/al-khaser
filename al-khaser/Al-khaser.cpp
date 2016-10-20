@@ -51,6 +51,7 @@ int main(void)
 	exec_check(&number_cores_wmi, TEXT("Checking Number of cores in machine using WMI: "));
 	exec_check(&disk_size_wmi, TEXT("Checking hard disk size using WMI: "));
 	exec_check(&setupdi_diskdrive, TEXT("Checking SetupDi_diskdrive: "));
+	exec_check(&mouse_movement, TEXT("Checking mouse movement: "));
 
 	///* VirtualBox Detection */
 	print_category(TEXT("VirtualBox Detection"));
