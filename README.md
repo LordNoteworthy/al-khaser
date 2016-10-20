@@ -83,6 +83,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 ### Human Interaction [Anti-Sandbox]
 - Mouse movement
+- Total Physical memory (GlobalMemoryStatusEx)
 - Mouse (Single click / Double click) (todo)
 - DialogBox (todo)
 - Scrolling (todo)
