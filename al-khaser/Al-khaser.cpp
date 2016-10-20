@@ -4,8 +4,6 @@
 int main(void)
 {
 
-	exec_check(&vmware_wmi, TEXT("Checking VMWare Bios using WMI: "));
-
 	/* Display general informations */
 	_tprintf(_T("[al-khaser version 0.60]"));
 	print_os();
@@ -68,7 +66,6 @@ int main(void)
 	vmware_mac();
 	exec_check(&vmware_adapter_name, TEXT("Checking VMWare network adapter name: "));
 	vmware_devices();
-	exec_check(&vmware_wmi, TEXT("Checking VMWare Bios using WMI: "));
 	exec_check(&vmware_dir, TEXT("Checking VMWare directory: "));
 
 	/* Wine Detection */
@@ -97,7 +94,7 @@ int main(void)
 
 	/* Timing Attacks */
 	print_category(TEXT("Timing-attacks"));
-	UINT delayInSeconds = 3000U; // in milliseconds
+	UINT delayInSeconds = 300000U; // in milliseconds
 	printf("\n[*] Delay value is set to %u seconds ...\n", delayInSeconds / 1000);
 
 	_tprintf(_T("[*] Performing a sleep using NtDelayexecution ... "));

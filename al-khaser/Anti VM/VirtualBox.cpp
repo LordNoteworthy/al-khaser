@@ -250,7 +250,7 @@ BOOL vbox_devices_wmi()
 				hRes = pclsObj->Get(_T("DeviceId"), 0, &vtProp, 0, 0);
 				
 				// Do our comparaison
-				if (_tcsstr(vtProp.bstrVal, _T("PCI\\VEN_80EE&DEV_CAFE")) != 0)
+				if (_tcsstr(vtProp.bstrVal, _T("VEN_1022&DEV_2000")) != 0)
 				{
 					bFound = TRUE;
 					break;

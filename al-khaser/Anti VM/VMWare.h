@@ -10,5 +10,4 @@ BOOL vmware_dir();
 VOID vmware_mac();
 BOOL vmware_adapter_name();
 VOID vmware_devices();
-BOOL vmware_wmi();
 VOID vmware_processes();
