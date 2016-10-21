@@ -34,7 +34,7 @@ VOID vbox_reg_keys()
 {
 	/* Array of strings of blacklisted registry keys */
 	TCHAR* szKeys[] = {
-		_T("HARDWARE\\ACPI\\RSDT\\VBOX__"),
+		_T("HARDWARE\\ACPI\\DSDT\\VBOX__"),
 		_T("HARDWARE\\ACPI\\FADT\\VBOX__"),
 		_T("HARDWARE\\ACPI\\RSDT\\VBOX__"),
 		_T("SOFTWARE\\Oracle\\VirtualBox Guest Additions"),

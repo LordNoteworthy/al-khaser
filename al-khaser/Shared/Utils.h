@@ -35,6 +35,7 @@ ULONG get_idt_base();
 ULONG get_ldt_base();
 ULONG get_gdt_base();
 UCHAR* get_str_base();
+BOOL IsElevated();
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
 #define FREE(x)		HeapFree(GetProcessHeap(), 0, x)
