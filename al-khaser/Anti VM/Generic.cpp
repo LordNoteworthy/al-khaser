@@ -265,6 +265,10 @@ BOOL dizk_size_deviceiocontrol()
 	DWORD lpBytesReturned = 0;
 	LONGLONG minHardDiskSize = (80LL * (1024LL * (1024LL * (1024LL))));
 
+	// This technique required admin priviliege starting from Vira Windows Vista
+	if (!IsElevated() && IsWindowsVistaOrGreater())
+		return FALSE;
+	
 	hDevice = CreateFile(_T("\\\\.\\PhysicalDrive0"),
 		GENERIC_READ,                // no access to the drive
 		FILE_SHARE_READ, 			// share mode

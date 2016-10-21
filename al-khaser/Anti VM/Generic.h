@@ -7,6 +7,7 @@
 #pragma comment(lib, "setupapi.lib")
 
 #include "../Shared/Utils.h"
+#include "../Shared/VersionHelpers.h"
 
 VOID loaded_dlls();
 BOOL NumberOfProcessors();
