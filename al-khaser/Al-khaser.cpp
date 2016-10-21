@@ -7,7 +7,7 @@ int main(void)
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.63]"));
+	_tprintf(_T("[al-khaser version 0.64]"));
 	print_os();
 
 	if (IsWoW64())
@@ -50,6 +50,7 @@ int main(void)
 	exec_check(&str_trick, TEXT("Checking Global Descriptor Table location: "));
 	exec_check(&number_cores_wmi, TEXT("Checking Number of cores in machine using WMI: "));
 	exec_check(&disk_size_wmi, TEXT("Checking hard disk size using WMI: "));
+	exec_check(&dizk_size_deviceiocontrol, TEXT("Checking hard disk size using DeviceIoControl: "));
 	exec_check(&setupdi_diskdrive, TEXT("Checking SetupDi_diskdrive: "));
 	exec_check(&mouse_movement, TEXT("Checking mouse movement: "));
 	exec_check(&memory_space, TEXT("Checking memory space using GlobalMemoryStatusEx: "));

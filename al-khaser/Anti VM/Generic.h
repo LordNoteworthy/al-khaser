@@ -2,6 +2,7 @@
 #include <tchar.h>
 #include <Winternl.h>
 #include <devguid.h>    // Device guids
+#include <winioctl.h>	// IOCTL
 #include <SetupAPI.h>
 #pragma comment(lib, "setupapi.lib")
 
@@ -18,3 +19,4 @@ BOOL disk_size_wmi();
 BOOL setupdi_diskdrive();
 BOOL mouse_movement();
 BOOL memory_space();
+BOOL dizk_size_deviceiocontrol();

@@ -1,4 +1,4 @@
-##Al-Khaser v0.63
+##Al-Khaser v0.64
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -81,9 +81,10 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - CreateTimerQueueTimer (todo)
 - Big crypto loops (todo)
 
-### Human Interaction [Anti-Sandbox]
+### Human Interaction / Generic [Anti-Sandbox]
 - Mouse movement
 - Total Physical memory (GlobalMemoryStatusEx)
+- Disk size using DeviceIoControl (IOCTL_DISK_GET_LENGTH_INFO)
 - Mouse (Single click / Double click) (todo)
 - DialogBox (todo)
 - Scrolling (todo)

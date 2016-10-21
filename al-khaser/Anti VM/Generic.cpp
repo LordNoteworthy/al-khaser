@@ -253,6 +253,50 @@ BOOL disk_size_wmi()
 }
 
 
+/*
+DeviceIoControl works with disks directly rather than partitions (GetDiskFreeSpaceEx)
+We can send IOCTL_DISK_GET_LENGTH_INFO code to get the raw byte size of the physical disk
+*/
+BOOL dizk_size_deviceiocontrol()
+{
+	HANDLE hDevice = INVALID_HANDLE_VALUE;
+	BOOL bResult = FALSE;
+	GET_LENGTH_INFORMATION size = { 0 };
+	DWORD lpBytesReturned = 0;
+	LONGLONG minHardDiskSize = (80LL * (1024LL * (1024LL * (1024LL))));
+
+	hDevice = CreateFile(_T("\\\\.\\PhysicalDrive0"),
+		GENERIC_READ,                // no access to the drive
+		FILE_SHARE_READ, 			// share mode
+		NULL,						// default security attributes
+		OPEN_EXISTING,				// disposition
+		0,							// file attributes
+		NULL);						// do not copy file attributes
+
+	if (hDevice == INVALID_HANDLE_VALUE) {
+		CloseHandle(hDevice);
+		return FALSE;
+	}
+
+	bResult = DeviceIoControl(
+		hDevice,					// device to be queried
+		IOCTL_DISK_GET_LENGTH_INFO, // operation to perform
+		NULL, 0,					// no input buffer
+		&size, sizeof(GET_LENGTH_INFORMATION),
+		&lpBytesReturned,			// bytes returned
+		(LPOVERLAPPED) NULL);   // synchronous I/O
+
+	if (bResult != NULL) {
+		if (size.Length.QuadPart < minHardDiskSize) // 80GB
+			bResult = TRUE;
+		else
+			bResult = FALSE;
+	}
+
+	CloseHandle(hDevice);
+	return bResult;
+}
+
 
 BOOL setupdi_diskdrive()
 {
