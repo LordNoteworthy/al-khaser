@@ -7,7 +7,7 @@ int main(void)
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.61]"));
+	_tprintf(_T("[al-khaser version 0.63]"));
 	print_os();
 
 	if (IsWoW64())
