@@ -409,3 +409,25 @@ BOOL memory_space()
 	return (statex.ullTotalPhys < ullMinRam) ? TRUE : FALSE;
 }
 
+/*
+This trick consists of getting information about total amount of space.
+This can be used to expose a sandbox.
+*/
+BOOL disk_size_getdiskfreespace()
+{
+	ULONGLONG minHardDiskSize = (80ULL * (1024ULL * (1024ULL * (1024ULL))));
+	LPCWSTR pszDrive = NULL;
+	BOOL bStatus = FALSE;
+
+	// 64 bits integer, low and high bytes
+	ULARGE_INTEGER totalNumberOfBytes;
+
+	// If the function succeeds, the return value is nonzero. If the function fails, the return value is 0 (zero).
+	bStatus = GetDiskFreeSpaceEx(pszDrive, NULL, &totalNumberOfBytes, NULL);
+	if (bStatus) {
+		if (totalNumberOfBytes.QuadPart < minHardDiskSize)  // 80GB
+			return TRUE;
+	}
+
+	return FALSE;;
+}

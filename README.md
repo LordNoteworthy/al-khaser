@@ -1,4 +1,4 @@
-##Al-Khaser v0.64
+##Al-Khaser v0.65
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -85,6 +85,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Mouse movement
 - Total Physical memory (GlobalMemoryStatusEx)
 - Disk size using DeviceIoControl (IOCTL_DISK_GET_LENGTH_INFO)
+- Disk size using GetDiskFreeSpaceEx (TotalNumberOfBytes)
 - Mouse (Single click / Double click) (todo)
 - DialogBox (todo)
 - Scrolling (todo)

@@ -21,3 +21,4 @@ BOOL setupdi_diskdrive();
 BOOL mouse_movement();
 BOOL memory_space();
 BOOL dizk_size_deviceiocontrol();
+BOOL disk_size_getdiskfreespace();
