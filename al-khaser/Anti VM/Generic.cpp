@@ -342,8 +342,11 @@ BOOL setupdi_diskdrive()
 		}
 
 		// Do our comparaison
-		if (!StrStrI(buffer, _T("vbox")) || !StrStrI(buffer, _T("vmware")) || !StrStrI(buffer, _T("qemu"))
-			|| !StrStrI(buffer, _T("vbox"))) {
+		if ((StrStrI(buffer, _T("vbox")) != NULL) ||
+			(StrStrI(buffer, _T("vmware")) != NULL) || 
+			(StrStrI(buffer, _T("qemu")) != NULL) ||
+			(StrStrI(buffer, _T("virtual")) != NULL))
+		{
 			LocalFree(buffer);
 			bFound =  TRUE;
 			break;
@@ -405,3 +408,4 @@ BOOL memory_space()
 
 	return (statex.ullTotalPhys < ullMinRam) ? TRUE : FALSE;
 }
+

@@ -91,7 +91,7 @@ VOID resize_console_window()
 	HWND wh = GetConsoleWindow();
 
 	// Move window to required position
-	MoveWindow(wh, 100, 100, 900, 600, TRUE);
+	MoveWindow(wh, 100, 100, 900, 900, TRUE);
 }
 
 
