@@ -7,7 +7,7 @@ int main(void)
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.65]"));
+	_tprintf(_T("[al-khaser version 0.66]"));
 	print_os();
 
 	if (IsWoW64())
@@ -55,6 +55,7 @@ int main(void)
 	exec_check(&mouse_movement, TEXT("Checking mouse movement: "));
 	exec_check(&memory_space, TEXT("Checking memory space using GlobalMemoryStatusEx: "));
 	exec_check(&disk_size_getdiskfreespace, TEXT("Checking disk size using GetDiskFreeSpaceEx: "));
+	exec_check(&accelerated_sleep, TEXT("Check if time has been accelerated: "));
 
 	///* VirtualBox Detection */
 	print_category(TEXT("VirtualBox Detection"));
