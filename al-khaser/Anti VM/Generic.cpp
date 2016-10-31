@@ -431,3 +431,28 @@ BOOL disk_size_getdiskfreespace()
 
 	return FALSE;;
 }
+
+/*
+Sleep and check if time have been accelerated
+*/
+BOOL accelerated_sleep()
+{
+	DWORD dwStart = 0, dwEnd = 0, dwDiff = 0;
+	DWORD dwMillisecondsToSleep = 60*1000;
+
+	/* Retrieves the number of milliseconds that have elapsed since the system was started */
+	dwStart = GetTickCount();
+
+	/* Let's sleep 5 minutes so Sandbox is interested to patch that */
+	Sleep(dwMillisecondsToSleep);
+
+	/* Do it again */
+	dwEnd = GetTickCount();
+
+	/* If the Sleep function was patched*/
+	dwDiff = dwEnd - dwStart;
+	if (dwDiff > dwMillisecondsToSleep - 1000) // substracted 1s just to be sure
+		return FALSE;
+	else 
+		return TRUE;
+}

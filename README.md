@@ -72,7 +72,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 ### Timing Attacks [Anti-Sandbox]
 - Sleep -> SleepEx -> NtDelayExecution
 - Sleep (in a loop a small delay)
-- Sleep and check if accelerated (todo)
+- Sleep and check if time was accelerated (GetTickCount)
 - SetTimer (Standard Windows Timers)
 - timeSetEvent (Multimedia Timers)
 - WaitForSingleObject -> WaitForSingleObjectEx -> NtWaitForSingleObject
