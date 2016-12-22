@@ -320,12 +320,14 @@ BOOL setupdi_diskdrive()
 
 	// Enumerate through all devices in Set.
 	DeviceInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
+
+	/* Init some vars */
+	DWORD dwPropertyRegDataType;
+	LPTSTR buffer = NULL;
+	DWORD dwSize = 0;
+
 	for (i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &DeviceInfoData); i++)
 	{
-		DWORD dwPropertyRegDataType;
-		LPTSTR buffer = NULL;
-		DWORD dwSize = 0;
-
 		while (!SetupDiGetDeviceRegistryProperty(hDevInfo, &DeviceInfoData, SPDRP_HARDWAREID,
 			&dwPropertyRegDataType, (PBYTE)buffer, dwSize, &dwSize))
 		{
@@ -347,12 +349,13 @@ BOOL setupdi_diskdrive()
 			(StrStrI(buffer, _T("qemu")) != NULL) ||
 			(StrStrI(buffer, _T("virtual")) != NULL))
 		{
-			LocalFree(buffer);
 			bFound =  TRUE;
 			break;
-
 		}
 	}
+
+	if (buffer)
+		LocalFree(buffer);
 
 	if (GetLastError() != NO_ERROR && GetLastError() != ERROR_NO_MORE_ITEMS)
 		return FALSE;
