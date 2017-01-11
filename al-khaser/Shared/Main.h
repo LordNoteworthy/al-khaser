@@ -25,6 +25,7 @@
 #include "..\Anti Debug\NtQueryObject_ObjectInformation.h"
 #include "..\Anti Debug\NtYieldExecution.h"
 #include "..\Anti Debug\SetHandleInformation_API.h"
+#include "..\Anti Debug\TLS_callbacks.h"
 
 /* Anti dumping headers */
 #include "..\Anti Dump\ErasePEHeaderFromMemory.h"

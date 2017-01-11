@@ -1,4 +1,4 @@
-##Al-Khaser v0.65
+##Al-Khaser v0.66
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -29,7 +29,6 @@ It performs a bunch of nowadays malwares tricks and the goal is to see if you st
 You can download the last stable release [here](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser.exe?raw=true).
 
 
-
 ## Possible uses
 
 - You are making an anti-debug plugin and you want to check its effectiveness.
@@ -37,6 +36,7 @@ You can download the last stable release [here](https://github.com/LordNoteworth
 - Or you want to ensure that your malware analysis environement is well hidden.
 
 Please, if you encounter any of the anti-analysis tricks which you have seen in a malware, don't hesitate to contribute.
+
 
 ## Features
 ### Anti-debugging attacks
@@ -64,6 +64,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Parent Process (Explorer.exe)
 - SeDebugPrivilege (Csrss.exe)
 - NtYieldExecution / SwitchToThread
+- TLS callbacks
 
 ### Anti-Dumping
 - Erase PE header from memory
