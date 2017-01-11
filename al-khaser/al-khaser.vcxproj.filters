@@ -210,6 +210,9 @@
     <ClCompile Include="Shared\log.cpp">
       <Filter>Shared\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\TLS_callbacks.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -355,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="Shared\log.h">
       <Filter>Shared\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\TLS_callbacks.h">
+      <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

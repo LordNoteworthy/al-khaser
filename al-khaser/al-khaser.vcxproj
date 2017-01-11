@@ -184,6 +184,7 @@
     <ClCompile Include="Anti Debug\SeDebugPrivilege.cpp" />
     <ClCompile Include="Anti Debug\SetHandleInformation_API.cpp" />
     <ClCompile Include="Anti Debug\SoftwareBreakpoints.cpp" />
+    <ClCompile Include="Anti Debug\TLS_callbacks.cpp" />
     <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp" />
     <ClCompile Include="Anti Dump\ErasePEHeaderFromMemory.cpp" />
     <ClCompile Include="Anti Dump\SizeOfImage.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="Anti Debug\SeDebugPrivilege.h" />
     <ClInclude Include="Anti Debug\SetHandleInformation_API.h" />
     <ClInclude Include="Anti Debug\SoftwareBreakpoints.h" />
+    <ClInclude Include="Anti Debug\TLS_callbacks.h" />
     <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="Anti Dump\ErasePEHeaderFromMemory.h" />
     <ClInclude Include="Anti Dump\SizeOfImage.h" />
