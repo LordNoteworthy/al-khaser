@@ -1,6 +1,6 @@
 #include "TLS_callbacks.h"
 
-// The Tread Local Storage (TLS) callback is called before the execution of the EntryPoint of the application
+// The Thread Local Storage (TLS) callback is called before the execution of the EntryPoint of the application
 // Malware takes advantages to perform anti-debug and anti-vm checks.
 // Their could be more than one callback, and sometimes, inside one call back, one can create one in the fly.
 
