@@ -7,7 +7,7 @@ int main(void)
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.66]"));
+	_tprintf(_T("[al-khaser version 0.67]"));
 	print_os();
 
 	if (IsWoW64())
@@ -119,7 +119,8 @@ int main(void)
 	timing_WaitForSingleObject(delayInSeconds);
 	print_results(FALSE, _T("WaitForSingleObject was bypassed ... "));
 
-	exec_check(&rdtsc_diff, TEXT("Checking RDTSC Locky trick: "));
+	exec_check(&rdtsc_diff_locky, TEXT("Checking RDTSC Locky trick: "));
+	exec_check(&rdtsc_diff_vmexit, TEXT("Checking RDTSC which force a VM Exit (cpuid): "));
 	
 	/* Malware analysis tools */
 	print_category(TEXT("Analysis-tools"));

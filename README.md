@@ -71,6 +71,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - SizeOfImage
 
 ### Timing Attacks [Anti-Sandbox]
+- RDTSC (with CPUID to force a VM Exit)
+- RDTSC (Locky version with GetProcessHeap & CloseHandle)
 - Sleep -> SleepEx -> NtDelayExecution
 - Sleep (in a loop a small delay)
 - Sleep and check if time was accelerated (GetTickCount)
@@ -146,7 +148,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- "%PROGRAMFILES%\\oracle\\virtualbox guest additions\\"
 	- "%PROGRAMFILES%\\VMWare\\"
 
-**Memory artifacts**
+- **Memory artifacts**
 	- Interupt Descriptor Table (IDT) location
 	- Local Descriptor Table (LDT) location
 	- Global Descriptor Table (GDT) location
