@@ -7,7 +7,7 @@ int main(void)
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.68]"));
+	_tprintf(_T("[al-khaser version 0.67]"));
 	print_os();
 
 	if (IsWoW64())
@@ -55,7 +55,8 @@ int main(void)
 	exec_check(&mouse_movement, TEXT("Checking mouse movement: "));
 	exec_check(&memory_space, TEXT("Checking memory space using GlobalMemoryStatusEx: "));
 	exec_check(&disk_size_getdiskfreespace, TEXT("Checking disk size using GetDiskFreeSpaceEx: "));
-	exec_check(&cpuid_vendor_id, TEXT("Checking vendor ID using cpuid(0)"));
+	exec_check(&cpuid_is_hypervisor, TEXT("Checking if CPU hypervisor field is set using cpuid(0x1)"));
+	exec_check(&cpuid_hypervisor_vendor, TEXT("Checking hypervisor vendor using cpuid(0x40000000)"));
 	exec_check(&accelerated_sleep, TEXT("Check if time has been accelerated: "));
 
 	///* VirtualBox Detection */

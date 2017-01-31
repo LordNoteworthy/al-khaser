@@ -26,4 +26,5 @@ BOOL memory_space();
 BOOL dizk_size_deviceiocontrol();
 BOOL disk_size_getdiskfreespace();
 BOOL accelerated_sleep();
-BOOL cpuid_vendor_id();
+BOOL cpuid_is_hypervisor();
+BOOL cpuid_hypervisor_vendor();
