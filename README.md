@@ -1,4 +1,4 @@
-##Al-Khaser v0.66
+##Al-Khaser v0.67
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -217,13 +217,15 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- vmcheck.dll (Virtual PC)
 	- wpespy.dll (WPE Pro)
 
-- **CPUID Vendor Id (EAX=0)**
-	- "KVMKVMKVM\0\0\0"	/* KVM */
-	- "Microsoft Hv"	/* Microsoft Hyper-V or Windows Virtual PC */
-	- "VMwareVMware"	/* VMware */
-	- "XenVMMXenVMM"	/* Xen */
-	- "prl hyperv  "	/* Parallels */
-	 -"VBoxVBoxVBox"	/* VirtualBox */
+- **CPU***
+	- Hypervisor presence using (EAX=0x1)
+	- Hypervisor vendor using (EAX=0x40000000)
+		- "KVMKVMKVM\0\0\0"	(KVM)
+		- "Microsoft Hv"	(Microsoft Hyper-V or Windows Virtual PC)
+		- "VMwareVMware"	(VMware)
+		- "XenVMMXenVMM"	(Xen)
+		- "prl hyperv  "	( Parallels)
+		 -"VBoxVBoxVBox"	( VirtualBox)
 
 
 ### Anti-Analysis
