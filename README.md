@@ -217,6 +217,14 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- vmcheck.dll (Virtual PC)
 	- wpespy.dll (WPE Pro)
 
+- **CPUID Vendor Id (EAX=0)**
+	- "KVMKVMKVM\0\0\0"	/* KVM */
+	- "Microsoft Hv"	/* Microsoft Hyper-V or Windows Virtual PC */
+	- "VMwareVMware"	/* VMware */
+	- "XenVMMXenVMM"	/* Xen */
+	- "prl hyperv  "	/* Parallels */
+	 -"VBoxVBoxVBox"	/* VirtualBox */
+
 
 ### Anti-Analysis
 - **Processes**

@@ -459,3 +459,45 @@ BOOL accelerated_sleep()
 	else 
 		return TRUE;
 }
+
+/*
+The CPUID instruction is a processor supplementary instruction (its name derived from CPU IDentification) 
+for the x86 architecture allowing software to discover details of the processor. When CPUID is called with
+EAX=0, it returns the CPU's manufacturer ID string, a twelve-character ASCII string stored in EBX, EDX, ECX 
+(in that order). The highest basic calling parameter (largest value that EAX can be set to before calling CPUID)
+is returned in EAX.
+*/
+BOOL cpuid_vendor_id()
+{
+	INT CPUInfo[4] = {-1};
+	CHAR CPUString[0x20];
+	TCHAR* szBlacklistedHypervisors[] = {
+		_T("KVMKVMKVM\0\0\0"),	/* KVM */
+		_T("Microsoft Hv"),		/* Microsoft Hyper-V or Windows Virtual PC */
+		_T("VMwareVMware"),		/* VMware */
+		_T("XenVMMXenVMM"),		/* Xen */
+		_T("prl hyperv  "),		/* Parallels */
+		_T("VBoxVBoxVBox"),		/* VirtualBox */
+	};
+	WORD dwlength = sizeof(szBlacklistedHypervisors) / sizeof(szBlacklistedHypervisors[0]);
+
+	// __cpuid with an InfoType argument of 0 returns the number of
+	// valid Ids in CPUInfo[0] and the CPU identification string in
+	// the other three array elements. The CPU identification string is
+	// not in linear order. The code below arranges the information 
+	// in a human readable form.
+	__cpuid(CPUInfo, 0);
+	memset(CPUString, 0, sizeof(CPUString));
+
+	*((int*)CPUString) = CPUInfo[1];
+	*((int*)(CPUString + 4)) = CPUInfo[3];
+	*((int*)(CPUString + 8)) = CPUInfo[2];
+
+	for (int i = 0; i < dwlength; i++)
+	{
+		if (_tcscmp(ascii_to_wide_str(CPUString), szBlacklistedHypervisors[i]) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
