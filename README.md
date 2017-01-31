@@ -21,7 +21,7 @@
 al-khaser is a PoC malware with good intentions that aimes to stress your anti-malware system.
 It performs a bunch of nowadays malwares tricks and the goal is to see if you stay under the radar.
 
-![Logo](http://i.imgur.com/MEugkhe.png)
+![Logo](https://i.imgur.com/jEFhsJT.png)
 
 
 ## Download
