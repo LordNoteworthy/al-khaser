@@ -3,6 +3,9 @@
 #include <Winternl.h>
 #include <devguid.h>    // Device guids
 #include <winioctl.h>	// IOCTL
+#include <intrin.h>		// cpuid()
+
+
 #include <SetupAPI.h>
 #pragma comment(lib, "setupapi.lib")
 
@@ -23,3 +26,4 @@ BOOL memory_space();
 BOOL dizk_size_deviceiocontrol();
 BOOL disk_size_getdiskfreespace();
 BOOL accelerated_sleep();
+BOOL cpuid_vendor_id();
