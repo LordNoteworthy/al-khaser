@@ -17,7 +17,7 @@ int main(void)
 	print_category(TEXT("Debugger Detection"));
 	exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API () "));
 	exec_check(&IsDebuggerPresentPEB, TEXT("Checking PEB.BeingDebugged "));
-	exec_check(&IsDebuggerPresentPEB, TEXT("Checking CheckRemoteDebuggerPresentAPI () "));
+	exec_check(&CheckRemoteDebuggerPresentAPI, TEXT("Checking CheckRemoteDebuggerPresentAPI () "));
 	exec_check(&NtGlobalFlag, TEXT("Checking PEB.NtGlobalFlag "));
 	exec_check(&HeapFlags, TEXT("Checking ProcessHeap.Flags "));
 	exec_check(&HeapForceFlags, TEXT("Checking ProcessHeap.ForceFlags "));
