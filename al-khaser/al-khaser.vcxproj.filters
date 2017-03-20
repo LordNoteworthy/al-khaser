@@ -64,11 +64,17 @@
     <Filter Include="Anti VM / Emulation\Header">
       <UniqueIdentifier>{9c454b48-8d37-4daf-b957-3a8a5924a444}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Macro">
+      <UniqueIdentifier>{494032c7-e505-470f-9d77-c451b309bc5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
     <None Include="..\.gitignore" />
+    <None Include="macros.vba">
+      <Filter>Macro</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Anti Debug\CheckRemoteDebuggerPresentAPI.cpp">
