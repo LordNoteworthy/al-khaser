@@ -14,10 +14,11 @@ VOID parallels_process()
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
 	for (int i = 0; i < iLength; i++)
 	{
-		_tprintf(TEXT("[*] Checking Parallels process: %s"), szProcesses[i]);
+		TCHAR msg[256] = _T("");
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking Parallels processes: %s"), szProcesses[i]);
 		if (GetProcessIdFromName(szProcesses[i]))
-			print_detected();
+			print_results(TRUE, msg);
 		else
-			print_not_detected();
+			print_results(FALSE, msg);
 	}
 }

@@ -16,10 +16,11 @@ VOID qemu_reg_key_value()
 
 	for (int i = 0; i < dwLength; i++)
 	{
-		_tprintf(_T("[*] Checking reg key %s:"), szEntries[i][0]);
+		TCHAR msg[256] = _T("");
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s: "), szEntries[i][0]);
 		if (Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, szEntries[i][0], szEntries[i][1], szEntries[i][2]))
-			print_detected();
+			print_results(TRUE, msg);
 		else
-			print_not_detected();
+			print_results(FALSE, msg);
 	}
 }

@@ -36,6 +36,10 @@
 #include "..\Anti VM\VMware.h"
 #include "..\Anti VM\Wine.h"
 #include "..\Anti VM\Generic.h"
+#include "..\Anti VM\VirtualPC.h"
+#include "..\Anti VM\QEMU.h"
+#include "..\Anti VM\Xen.h"
+#include "..\Anti VM\Parallels.h"
 
 /* Code Injections Headers */
 #include "..\Code Injections\CreateRemoteThread.h"
