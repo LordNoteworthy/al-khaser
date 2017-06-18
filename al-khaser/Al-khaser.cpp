@@ -59,7 +59,7 @@ int main(void)
 	exec_check(&cpuid_hypervisor_vendor, TEXT("Checking hypervisor vendor using cpuid(0x40000000)"));
 	exec_check(&accelerated_sleep, TEXT("Check if time has been accelerated: "));
 
-	///* VirtualBox Detection */
+	/* VirtualBox Detection */
 	print_category(TEXT("VirtualBox Detection"));
 	vbox_reg_key_value();
 	exec_check(&vbox_dir, TEXT("Checking dir oracle\\virtualbox guest additions\\: "));
@@ -84,9 +84,26 @@ int main(void)
 	vmware_devices();
 	exec_check(&vmware_dir, TEXT("Checking VMWare directory: "));
 
+	/* Virtual PC Detection */
+	print_category(TEXT("Virtual PC Detection"));
+	virtual_pc_process();
+
+	/* QEMU Detection */
+	print_category(TEXT("QEMU Detection"));
+	qemu_reg_key_value();
+
+	/* Xen Detection */
+	print_category(TEXT("Xen Detection"));
+	xen_process();
+
 	/* Wine Detection */
+	print_category(TEXT("Wine Detection"));
 	exec_check(&wine_exports, TEXT("Checking Wine via dll exports: "));
 	wine_reg_keys();
+
+	/* Paralles Detection */
+	print_category(TEXT("Paralles Detection"));
+	parallels_process();
 
 	/* Code injections techniques */
 	//CreateRemoteThread_Injection();

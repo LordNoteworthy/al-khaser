@@ -22,8 +22,6 @@ BOOL wine_exports()
 		return TRUE;
 }
 
-
-
 /*
 Check against Wine registry keys
 */

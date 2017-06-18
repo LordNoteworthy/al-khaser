@@ -2,10 +2,10 @@
 #include "Utils.h"
 #include "log.h"
 
-VOID print_detected() 
+VOID print_detected()
 {
 	/* Get handle to standard output */
-	HANDLE nStdHandle = GetStdHandle(STD_OUTPUT_HANDLE);  
+	HANDLE nStdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO ConsoleScreenBufferInfo;
 	SecureZeroMemory(&ConsoleScreenBufferInfo, sizeof(CONSOLE_SCREEN_BUFFER_INFO));
 
@@ -18,10 +18,10 @@ VOID print_detected()
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
-VOID print_not_detected() 
+VOID print_not_detected()
 {
 	/* Get handle to standard output */
-	HANDLE nStdHandle = GetStdHandle(STD_OUTPUT_HANDLE);  
+	HANDLE nStdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO ConsoleScreenBufferInfo;
 	SecureZeroMemory(&ConsoleScreenBufferInfo, sizeof(CONSOLE_SCREEN_BUFFER_INFO));
 
