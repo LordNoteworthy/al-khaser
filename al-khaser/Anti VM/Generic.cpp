@@ -446,7 +446,7 @@ BOOL accelerated_sleep()
 	/* Retrieves the number of milliseconds that have elapsed since the system was started */
 	dwStart = GetTickCount();
 
-	/* Let's sleep 5 minutes so Sandbox is interested to patch that */
+	/* Let's sleep 1 minute so Sandbox is interested to patch that */
 	Sleep(dwMillisecondsToSleep);
 
 	/* Do it again */
