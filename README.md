@@ -80,6 +80,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - timeSetEvent (Multimedia Timers)
 - WaitForSingleObject -> WaitForSingleObjectEx -> NtWaitForSingleObject
 - WaitForMultipleObjects -> WaitForMultipleObjectsEx -> NtWaitForMultipleObjects (todo)
+- IcmpSendEcho (CCleaner Malware)
 - CreateWaitableTimer (todo)
 - CreateTimerQueueTimer (todo)
 - Big crypto loops (todo)
