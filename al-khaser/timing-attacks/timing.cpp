@@ -4,13 +4,14 @@
 Every system which run in a timeout is vulmerable to this types of attacks */
 
 
-VOID timing_NtDelayexecution(UINT delayInSeconds)
+VOID timing_NtDelayexecution(UINT delayInMilliSeconds)
 {
 	// In this example, I will demonstrate NtDelayExecution because it is the lowest user mode
 	// api to delay execution Sleep -> SleepEx -> NtDelayExecution.
 	LARGE_INTEGER DelayInterval;
-	LONGLONG llDelay = delayInSeconds * 10000LL;
+	LONGLONG llDelay = delayInMilliSeconds * 10000LL;
 	DelayInterval.QuadPart = -llDelay;
+
 
 	// Function pointer Typedef for NtDelayExecution
 	typedef NTSTATUS(WINAPI *pNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
@@ -46,13 +47,13 @@ VOID CALLBACK TimerProc(HWND hwnd, UINT message, UINT_PTR iTimerID, DWORD dwTime
 }
 
 
-VOID timing_SetTimer(UINT delayInSeconds)
+VOID timing_SetTimer(UINT delayInMilliSeconds)
 {
 	MSG Msg;
 	UINT_PTR iTimerID;
 	
 	// Set our timer without window handle
-	iTimerID = SetTimer(NULL, 0, delayInSeconds, TimerProc);
+	iTimerID = SetTimer(NULL, 0, delayInMilliSeconds, TimerProc);
 	
 	// Because we are running in a console app, we should get the messages from
 	// the queue and check if msg is WM_TIMER
@@ -73,7 +74,7 @@ VOID CALLBACK TimerFunction(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PT
 	bProcessed = TRUE;
 }
 
-VOID timing_timeSetEvent(UINT delayInSeconds)
+VOID timing_timeSetEvent(UINT delayInMilliSeconds)
 {
 
 	// Some vars
@@ -87,7 +88,7 @@ VOID timing_timeSetEvent(UINT delayInSeconds)
 
 	// Create the timer
 	idEvent = timeSetEvent(
-		delayInSeconds,
+		delayInMilliSeconds,
 		uResolution,
 		TimerFunction,
 		0,
@@ -105,7 +106,7 @@ VOID timing_timeSetEvent(UINT delayInSeconds)
 }
 
 
-VOID timing_WaitForSingleObject(UINT delayInSeconds)
+VOID timing_WaitForSingleObject(UINT delayInMilliSeconds)
 {
 	HANDLE hEvent;
 
@@ -115,14 +116,14 @@ VOID timing_WaitForSingleObject(UINT delayInSeconds)
 		print_last_error(_T("CreateEvent"));
 
 	// Wait until timeout 
-	DWORD x = WaitForSingleObject(hEvent, delayInSeconds);
+	DWORD x = WaitForSingleObject(hEvent, delayInMilliSeconds);
 
 	// Malicious code goes here
 
 }
 
 
-VOID timing_sleep_loop (UINT delayInSeconds)
+VOID timing_sleep_loop (UINT delayInMilliSeconds)
 {
 	/* 
 	This trick is about performing a low number of seconds to sleep but in a loop,
@@ -132,12 +133,12 @@ VOID timing_sleep_loop (UINT delayInSeconds)
 	its timeout.
 	*/
 
-	int delayInSeconds_divided  = delayInSeconds / 1000;
+	int delayInMilliSeconds_divided  = delayInMilliSeconds / 1000;
 
 	/* Example: we want to sleep 300 seeconds, then we can sleep
 	0.3s for 1000 times which is like: 300 seconds = 5 minues */
 	for (int i = 0; i < 1000; i++) {
-		Sleep(delayInSeconds_divided);
+		Sleep(delayInMilliSeconds_divided);
 	}
 
 	// Malicious code goes here
@@ -211,4 +212,41 @@ BOOL rdtsc_diff_vmexit()
 	// We repeated the process 10 times so we make sure our check is as much reliable as we can
 	avg = avg / 10;
 	return (avg < 1000 && avg > 0) ? FALSE : TRUE;
+}
+
+
+/*
+Another timinig attack using the API IcmpSendEcho which takes a TimeOut 
+in milliseconds as a parameter, to wait for IPv4 ICMP packets replies.
+First time observed: http://blog.talosintelligence.com/2017/09/avast-distributes-malware.html
+*/
+VOID timing_IcmpSendEcho(UINT delayInMilliSeconds)
+{
+
+	HANDLE hIcmpFile;
+	unsigned long DestinationAddress = INADDR_NONE;
+	char SendData[32] = "Data Buffer";
+	LPVOID ReplyBuffer = NULL;
+	DWORD ReplySize = 0;
+	const char ipaddr[] = "224.0.0.0";
+
+	hIcmpFile = IcmpCreateFile();
+	if (hIcmpFile == INVALID_HANDLE_VALUE) {
+		printf("\tUnable to open handle.\n");
+		printf("IcmpCreatefile returned error: %ld\n", GetLastError());
+		goto failed;
+	}
+
+	ReplySize = sizeof(ICMP_ECHO_REPLY) + sizeof(SendData);
+	ReplyBuffer = (VOID*)malloc(ReplySize);
+	if (ReplyBuffer == NULL) {
+		printf("\tUnable to allocate memory\n");
+		goto failed;
+	}
+
+
+	IcmpSendEcho(hIcmpFile, DestinationAddress, SendData, sizeof(SendData), NULL, ReplyBuffer, ReplySize, delayInMilliSeconds);
+
+failed:
+	;
 }

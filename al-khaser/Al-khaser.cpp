@@ -3,11 +3,12 @@
 
 int main(void)
 {
+
 	/* Resize the console window for better visibility */
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.69]"));
+	_tprintf(_T("[al-khaser version 0.70]"));
 	print_os();
 
 	if (IsWoW64())
@@ -98,28 +99,33 @@ int main(void)
 
 	/* Timing Attacks */
 	print_category(TEXT("Timing-attacks"));
-	UINT delayInSeconds = 300000U; // in milliseconds
-	printf("\n[*] Delay value is set to %u seconds ...\n", delayInSeconds / 1000);
+	UINT delayInSeconds = 300U;
+	UINT delayInMilliSeconds = delayInSeconds * 1000U;
+	printf("\n[*] Delay value is set to %u minutes ...\n", delayInSeconds / 60);
 
 	_tprintf(_T("[+] Performing a sleep using NtDelayexecution:\n"));
-	timing_NtDelayexecution(delayInSeconds);
+	timing_NtDelayexecution(delayInMilliSeconds);
 	print_results(FALSE, _T("NtDelayexecution was bypassed ... "));
 
 	_tprintf(_T("[+] Performing a sleep() in a loop:\n"));
-	timing_sleep_loop(delayInSeconds);
+	timing_sleep_loop(delayInMilliSeconds);
 	print_results(FALSE, _T("Sleep in loop was bypassed ... "));
 
 	_tprintf(_T("[*] Delaying execution using SetTimer():\n"));
-	timing_SetTimer(delayInSeconds);
+	timing_SetTimer(delayInMilliSeconds);
 	print_results(FALSE, _T("timing_SetTimer was bypassed ... "));
 
 	_tprintf(_T("[*] Delaying execution using timeSetEvent():\n"));
-	timing_timeSetEvent(delayInSeconds);
+	timing_timeSetEvent(delayInMilliSeconds);
 	print_results(FALSE, _T("timeSetEvent was bypassed ... "));
 
 	_tprintf(_T("[*] Delaying execution using WaitForSingleObject():\n"));
-	timing_WaitForSingleObject(delayInSeconds);
+	timing_WaitForSingleObject(delayInMilliSeconds);
 	print_results(FALSE, _T("WaitForSingleObject was bypassed ... "));
+
+	_tprintf(_T("[*] Delaying execution using IcmpSendEcho():\n"));
+	timing_IcmpSendEcho(delayInMilliSeconds);
+	print_results(FALSE, _T("IcmpSendEcho was bypassed ... "));
 
 	exec_check(&rdtsc_diff_locky, TEXT("Checking RDTSC Locky trick: "));
 	exec_check(&rdtsc_diff_vmexit, TEXT("Checking RDTSC which force a VM Exit (cpuid): "));
