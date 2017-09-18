@@ -1,4 +1,4 @@
-##Al-Khaser v0.67
+## Al-Khaser v0.69
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -26,7 +26,7 @@ It performs a bunch of nowadays malwares tricks and the goal is to see if you st
 
 ## Download
 
-You can download the last stable release [here](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser.exe?raw=true).
+You can download the last release [here](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser.exe?raw=true).
 
 
 ## Possible uses
@@ -217,7 +217,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- vmcheck.dll (Virtual PC)
 	- wpespy.dll (WPE Pro)
 
-- **CPU***
+- **CPU**
 	- Hypervisor presence using (EAX=0x1)
 	- Hypervisor vendor using (EAX=0x40000000)
 		- "KVMKVMKVM\0\0\0"	(KVM)
@@ -237,6 +237,10 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 	- ImportREC / PETools / LordPE
 	- JoeBox Sandbox
 
+### Macro malware attacks
+- Document_Close / Auto_Close.
+- Application.RecentFiles.Count 
+
 
 ### Code/DLL Injections techniques
 - CreateRemoteThread 
@@ -249,11 +253,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 ## Contributors
 - [mrexodia](http://mrexodia.cf): Main developer of [x64dbg](http://x64dbg.com/)
-
+- [JoeSecurity](https://github.com/joesecurity/pafishmacro): PafishMacro
 
 ## References
 - An Anti-Reverse Engineering Guide By Josh Jackson.
 - Anti-Unpacker Tricks By Peter Ferrie.
 - The Art Of Unpacking By Mark Vincent Yason.
-- Walied Assar's blog http://waleedassar.blogspot.de/
-- Pafish tool: https://github.com/a0rtega/pafish
+- Walied Assar's blog http://waleedassar.blogspot.de/.
+- Pafish tool: https://github.com/a0rtega/pafish.
+
