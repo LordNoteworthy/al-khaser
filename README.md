@@ -253,11 +253,12 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 ## Contributors
 - [mrexodia](http://mrexodia.cf): Main developer of [x64dbg](http://x64dbg.com/)
-
+- [JoeSecurity](https://github.com/joesecurity/pafishmacro): PafishMacro
 
 ## References
 - An Anti-Reverse Engineering Guide By Josh Jackson.
 - Anti-Unpacker Tricks By Peter Ferrie.
 - The Art Of Unpacking By Mark Vincent Yason.
-- Walied Assar's blog http://waleedassar.blogspot.de/
-- Pafish tool: https://github.com/a0rtega/pafish
+- Walied Assar's blog http://waleedassar.blogspot.de/.
+- Pafish tool: https://github.com/a0rtega/pafish.
+
