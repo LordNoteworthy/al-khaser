@@ -174,6 +174,7 @@
     <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.cpp" />
     <ClCompile Include="Anti Debug\NtQueryObject_AllTypesInformation.cpp" />
     <ClCompile Include="Anti Debug\NtQueryObject_ObjectTypeInformation.cpp" />
+    <ClCompile Include="Anti Debug\NtQuerySystemInformation_SystemKernelDebuggerInformation.cpp" />
     <ClCompile Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.cpp" />
     <ClCompile Include="Anti Debug\NtYieldExecution.cpp" />
     <ClCompile Include="Anti Debug\OutputDebugStringAPI.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="Anti Debug\ProcessHeap_NtGlobalFlag.cpp" />
     <ClCompile Include="Anti Debug\SeDebugPrivilege.cpp" />
     <ClCompile Include="Anti Debug\SetHandleInformation_API.cpp" />
+    <ClCompile Include="Anti Debug\SharedUserData_KernelDebugger.cpp" />
     <ClCompile Include="Anti Debug\SoftwareBreakpoints.cpp" />
     <ClCompile Include="Anti Debug\TLS_callbacks.cpp" />
     <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp" />
@@ -222,6 +224,7 @@
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h" />
     <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h" />
     <ClInclude Include="Anti Debug\NtQueryObject_ObjectInformation.h" />
+    <ClInclude Include="Anti Debug\NtQuerySystemInformation_SystemKernelDebuggerInformation.h" />
     <ClInclude Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.h" />
     <ClInclude Include="Anti Debug\NtYieldExecution.h" />
     <ClInclude Include="Anti Debug\OutputDebugStringAPI.h" />
@@ -232,6 +235,7 @@
     <ClInclude Include="Anti Debug\ProcessHeap_NtGlobalFlag.h" />
     <ClInclude Include="Anti Debug\SeDebugPrivilege.h" />
     <ClInclude Include="Anti Debug\SetHandleInformation_API.h" />
+    <ClInclude Include="Anti Debug\SharedUserData_KernelDebugger.h" />
     <ClInclude Include="Anti Debug\SoftwareBreakpoints.h" />
     <ClInclude Include="Anti Debug\TLS_callbacks.h" />
     <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
