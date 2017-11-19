@@ -27,6 +27,7 @@
 #include "..\Anti Debug\SetHandleInformation_API.h"
 #include "..\Anti Debug\TLS_callbacks.h"
 #include "..\Anti Debug\NtQuerySystemInformation_SystemKernelDebuggerInformation.h"
+#include "..\Anti Debug\SharedUserData_KernelDebugger.h"
 
 /* Anti dumping headers */
 #include "..\Anti Dump\ErasePEHeaderFromMemory.h"

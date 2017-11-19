@@ -185,6 +185,7 @@
     <ClCompile Include="Anti Debug\ProcessHeap_NtGlobalFlag.cpp" />
     <ClCompile Include="Anti Debug\SeDebugPrivilege.cpp" />
     <ClCompile Include="Anti Debug\SetHandleInformation_API.cpp" />
+    <ClCompile Include="Anti Debug\SharedUserData_KernelDebugger.cpp" />
     <ClCompile Include="Anti Debug\SoftwareBreakpoints.cpp" />
     <ClCompile Include="Anti Debug\TLS_callbacks.cpp" />
     <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Anti Debug\ProcessHeap_NtGlobalFlag.h" />
     <ClInclude Include="Anti Debug\SeDebugPrivilege.h" />
     <ClInclude Include="Anti Debug\SetHandleInformation_API.h" />
+    <ClInclude Include="Anti Debug\SharedUserData_KernelDebugger.h" />
     <ClInclude Include="Anti Debug\SoftwareBreakpoints.h" />
     <ClInclude Include="Anti Debug\TLS_callbacks.h" />
     <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
