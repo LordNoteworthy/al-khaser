@@ -219,6 +219,9 @@
     <ClCompile Include="Anti Debug\TLS_callbacks.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\NtQuerySystemInformation_SystemKernelDebuggerInformation.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -366,6 +369,9 @@
       <Filter>Shared\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\TLS_callbacks.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\NtQuerySystemInformation_SystemKernelDebuggerInformation.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>

@@ -40,6 +40,7 @@ int main(void)
 	exec_check(&NtQueryObject_ObjectAllTypesInformation, TEXT("Checking NtQueryObject with ObjectAllTypesInformation : "));
 	exec_check(&NtYieldExecutionAPI, TEXT("Checking NtYieldExecution : "));
 	exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
+	exec_check(&NtQuerySystemInformation_SystemKernelDebuggerInformation, TEXT("Checking NtQuerySystemInformation with SystemKernelDebuggerInformation : "));
 
 	/* Generic sandbox detection */
 	print_category(TEXT("Generic Sandboxe/VM Detection"));
