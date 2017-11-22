@@ -228,6 +228,9 @@
     <ClCompile Include="Anti Debug\ProcessJob.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti VM\SystemFirmware.cpp">
+      <Filter>Anti VM / Emulation\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="Anti Debug\ProcessJob.h">
       <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti VM\SystemFirmware.h">
+      <Filter>Anti VM / Emulation\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
