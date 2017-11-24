@@ -42,6 +42,7 @@ int main(void)
 	exec_check(&SetHandleInformatiom_ProtectedHandle, TEXT("Checking CloseHandle protected handle trick : "));
 	exec_check(&NtQuerySystemInformation_SystemKernelDebuggerInformation, TEXT("Checking NtQuerySystemInformation with SystemKernelDebuggerInformation : "));
 	exec_check(&SharedUserData_KernelDebugger, TEXT("Checking SharedUserData->KdDebuggerEnabled : "));
+	exec_check(&ProcessJob, TEXT("Checking if process in in a job : "));
 
 	/* Generic sandbox detection */
 	print_category(TEXT("Generic Sandboxe/VM Detection"));

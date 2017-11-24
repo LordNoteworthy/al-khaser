@@ -18,22 +18,22 @@
 
 ## Introduction
 
-al-khaser is a PoC malware with good intentions that aimes to stress your anti-malware system.
-It performs a bunch of nowadays malwares tricks and the goal is to see if you stay under the radar.
+al-khaser is a PoC "malware" application with good intentions that aims to stress your anti-malware system.
+It performs a bunch of common malware tricks with the goal of seeing if you stay under the radar.
 
 ![Logo](https://i.imgur.com/jEFhsJT.png)
 
 
 ## Download
 
-You can download the last release [here](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser.exe?raw=true).
+You can download the latest release [here](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser.exe?raw=true).
 
 
 ## Possible uses
 
 - You are making an anti-debug plugin and you want to check its effectiveness.
 - You want to ensure that your sandbox solution is hidden enough.
-- Or you want to ensure that your malware analysis environement is well hidden.
+- Or you want to ensure that your malware analysis environment is well hidden.
 
 Please, if you encounter any of the anti-analysis tricks which you have seen in a malware, don't hesitate to contribute.
 
@@ -65,6 +65,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - SeDebugPrivilege (Csrss.exe)
 - NtYieldExecution / SwitchToThread
 - TLS callbacks
+- Process jobs
 
 ### Anti-Dumping
 - Erase PE header from memory
@@ -101,142 +102,142 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 ### Anti-Virtualization / Full-System Emulation
 - **Registry key value artifacts**
-	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VBOX)
-	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (QEMU)
-	- HARDWARE\\Description\\System (SystemBiosVersion) (VBOX)
-	- HARDWARE\\Description\\System (SystemBiosVersion) (QEMU)
-	- HARDWARE\\Description\\System (VideoBiosVersion) (VIRTUALBOX)
-	- HARDWARE\\Description\\System (SystemBiosDate) (06/23/99)
-	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
-	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 1\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
-	- HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 2\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
+  - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VBOX)
+  - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (QEMU)
+  - HARDWARE\\Description\\System (SystemBiosVersion) (VBOX)
+  - HARDWARE\\Description\\System (SystemBiosVersion) (QEMU)
+  - HARDWARE\\Description\\System (VideoBiosVersion) (VIRTUALBOX)
+  - HARDWARE\\Description\\System (SystemBiosDate) (06/23/99)
+  - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
+  - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 1\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
+  - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 2\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
 
 - **Registry Keys artifacts**
-	- "HARDWARE\\ACPI\\DSDT\\VBOX__"
-	- "HARDWARE\\ACPI\\FADT\\VBOX__"
-	- "HARDWARE\\ACPI\\RSDT\\VBOX__"
-	- "SOFTWARE\\Oracle\\VirtualBox Guest Additions"
-	- "SYSTEM\\ControlSet001\\Services\\VBoxGuest"
-	- "SYSTEM\\ControlSet001\\Services\\VBoxMouse"
-	- "SYSTEM\\ControlSet001\\Services\\VBoxService"
-	- "SYSTEM\\ControlSet001\\Services\\VBoxSF"
-	- "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
-	- SOFTWARE\\VMware, Inc.\\VMware Tools
-	- SOFTWARE\\Wine
+  - "HARDWARE\\ACPI\\DSDT\\VBOX__"
+  - "HARDWARE\\ACPI\\FADT\\VBOX__"
+  - "HARDWARE\\ACPI\\RSDT\\VBOX__"
+  - "SOFTWARE\\Oracle\\VirtualBox Guest Additions"
+  - "SYSTEM\\ControlSet001\\Services\\VBoxGuest"
+  - "SYSTEM\\ControlSet001\\Services\\VBoxMouse"
+  - "SYSTEM\\ControlSet001\\Services\\VBoxService"
+  - "SYSTEM\\ControlSet001\\Services\\VBoxSF"
+  - "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
+  - SOFTWARE\\VMware, Inc.\\VMware Tools
+  - SOFTWARE\\Wine
 
 - **File system artifacts**
-	- "system32\\drivers\\VBoxMouse.sys"
-	- "system32\\drivers\\VBoxGuest.sys"
-	- "system32\\drivers\\VBoxSF.sys"
-	- "system32\\drivers\\VBoxVideo.sys"
-	- "system32\\vboxdisp.dll"
-	- "system32\\vboxhook.dll"
-	- "system32\\vboxmrxnp.dll"
-	- "system32\\vboxogl.dll"
-	- "system32\\vboxoglarrayspu.dll"
-	- "system32\\vboxoglcrutil.dll"
-	- "system32\\vboxoglerrorspu.dll"
-	- "system32\\vboxoglfeedbackspu.dll"
-	- "system32\\vboxoglpackspu.dll"
-	- "system32\\vboxoglpassthroughspu.dll"
-	- "system32\\vboxservice.exe"
-	- "system32\\vboxtray.exe"
-	- "system32\\VBoxControl.exe"
-	- "system32\\drivers\\vmmouse.sys"
-	- "system32\\drivers\\vmhgfs.sys"
+  - "system32\\drivers\\VBoxMouse.sys"
+  - "system32\\drivers\\VBoxGuest.sys"
+  - "system32\\drivers\\VBoxSF.sys"
+  - "system32\\drivers\\VBoxVideo.sys"
+  - "system32\\vboxdisp.dll"
+  - "system32\\vboxhook.dll"
+  - "system32\\vboxmrxnp.dll"
+  - "system32\\vboxogl.dll"
+  - "system32\\vboxoglarrayspu.dll"
+  - "system32\\vboxoglcrutil.dll"
+  - "system32\\vboxoglerrorspu.dll"
+  - "system32\\vboxoglfeedbackspu.dll"
+  - "system32\\vboxoglpackspu.dll"
+  - "system32\\vboxoglpassthroughspu.dll"
+  - "system32\\vboxservice.exe"
+  - "system32\\vboxtray.exe"
+  - "system32\\VBoxControl.exe"
+  - "system32\\drivers\\vmmouse.sys"
+  - "system32\\drivers\\vmhgfs.sys"
 
 - **Directories artifacts**
-	- "%PROGRAMFILES%\\oracle\\virtualbox guest additions\\"
-	- "%PROGRAMFILES%\\VMWare\\"
+  - "%PROGRAMFILES%\\oracle\\virtualbox guest additions\\"
+  - "%PROGRAMFILES%\\VMWare\\"
 
 - **Memory artifacts**
-	- Interupt Descriptor Table (IDT) location
-	- Local Descriptor Table (LDT) location
-	- Global Descriptor Table (GDT) location
-	- Task state segment trick with STR
+  - Interupt Descriptor Table (IDT) location
+  - Local Descriptor Table (LDT) location
+  - Global Descriptor Table (GDT) location
+  - Task state segment trick with STR
 
 - **MAC Address**
-	- "\x08\x00\x27" (VBOX)
-	- "\x00\x05\x69" (VMWARE)
-	- "\x00\x0C\x29" (VMWARE)
-	- "\x00\x1C\x14" (VMWARE)
-	- "\x00\x50\x56" (VMWARE)
+  - "\x08\x00\x27" (VBOX)
+  - "\x00\x05\x69" (VMWARE)
+  - "\x00\x0C\x29" (VMWARE)
+  - "\x00\x1C\x14" (VMWARE)
+  - "\x00\x50\x56" (VMWARE)
 
 - **Virtual devices**
-	- "\\\\.\\VBoxMiniRdrDN"
-	- "\\\\.\\VBoxGuest"
-	- "\\\\.\\pipe\\VBoxMiniRdDN"
-	- "\\\\.\\VBoxTrayIPC"
-	- "\\\\.\\pipe\\VBoxTrayIPC")
-	- "\\\\.\\HGFS"
-	- "\\\\.\\vmci"
+  - "\\\\.\\VBoxMiniRdrDN"
+  - "\\\\.\\VBoxGuest"
+  - "\\\\.\\pipe\\VBoxMiniRdDN"
+  - "\\\\.\\VBoxTrayIPC"
+  - "\\\\.\\pipe\\VBoxTrayIPC")
+  - "\\\\.\\HGFS"
+  - "\\\\.\\vmci"
 
 - **Hardware Device information**
-	- SetupAPI SetupDiEnumDeviceInfo (GUID_DEVCLASS_DISKDRIVE) 
-		- QEMU
-		- VMWare
-		- VBOX
-		- VIRTUAL HD
+  - SetupAPI SetupDiEnumDeviceInfo (GUID_DEVCLASS_DISKDRIVE) 
+    - QEMU
+    - VMWare
+    - VBOX
+    - VIRTUAL HD
 
 - **Adapter name**
-	- VMWare
+  - VMWare
 
 - **Windows Class**
-	- VBoxTrayToolWndClass
-	- VBoxTrayToolWnd
+  - VBoxTrayToolWndClass
+  - VBoxTrayToolWnd
 
 - **Network shares**
-	- VirtualBox Shared Folders
+  - VirtualBox Shared Folders
 
 - **Processes**
-	- vboxservice.exe	(VBOX)
-	- vboxtray.exe		(VBOX)
-	- vmtoolsd.exe		(VMWARE)
-	- vmwaretray.exe	(VMWARE)
-	- vmwareuser		(VMWARE)
-	- vmsrvc.exe		(VirtualPC)
-	- vmusrvc.exe		(VirtualPC)
-	- prl_cc.exe		(Parallels)
-	- prl_tools.exe		(Parallels)
-	- xenservice.exe	(Citrix Xen)
+  - vboxservice.exe	(VBOX)
+    - vboxtray.exe	(VBOX)
+      - vmtoolsd.exe(VMWARE)
+    - vmwaretray.exe(VMWARE)
+      - vmwareuser(VMWARE)
+      - vmsrvc.exe(VirtualPC)
+      - vmusrvc.exe(VirtualPC)
+      - prl_cc.exe(Parallels)
+      - prl_tools.exe(Parallels)
+    - xenservice.exe(Citrix Xen)
 
 - **WMI**
-	- SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
-	- SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
-	- SELECT * FROM Win32_NetworkAdapterConfiguration (MACAddress) (VBOX)
-	- SELECT * FROM Win32_NTEventlogFile (VBOX)
-	- SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
-	- SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
+  - SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
+  - SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
+  - SELECT * FROM Win32_NetworkAdapterConfiguration (MACAddress) (VBOX)
+  - SELECT * FROM Win32_NTEventlogFile (VBOX)
+  - SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
+  - SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
 
 - **DLL Exports and Loaded DLLs**
-	- kernel32.dll!wine_get_unix_file_nameWine (Wine)
-	- sbiedll.dll (Sandboxie)
-	- dbghelp.dll (MS debugging support routines)
-	- api_log.dll (iDefense Labs)
-	- dir_watch.dll (iDefense Labs)
-	- pstorec.dll (SunBelt Sandbox)
-	- vmcheck.dll (Virtual PC)
-	- wpespy.dll (WPE Pro)
+  - kernel32.dll!wine_get_unix_file_nameWine (Wine)
+  - sbiedll.dll (Sandboxie)
+  - dbghelp.dll (MS debugging support routines)
+  - api_log.dll (iDefense Labs)
+  - dir_watch.dll (iDefense Labs)
+  - pstorec.dll (SunBelt Sandbox)
+  - vmcheck.dll (Virtual PC)
+  - wpespy.dll (WPE Pro)
 
 - **CPU**
-	- Hypervisor presence using (EAX=0x1)
-	- Hypervisor vendor using (EAX=0x40000000)
-		- "KVMKVMKVM\0\0\0"	(KVM)
-		- "Microsoft Hv"	(Microsoft Hyper-V or Windows Virtual PC)
-		- "VMwareVMware"	(VMware)
-		- "XenVMMXenVMM"	(Xen)
-		- "prl hyperv  "	( Parallels)
-		 -"VBoxVBoxVBox"	( VirtualBox)
+  - Hypervisor presence using (EAX=0x1)
+  - Hypervisor vendor using (EAX=0x40000000)
+    - "KVMKVMKVM\0\0\0"	(KVM)
+      - "Microsoft Hv"(Microsoft Hyper-V or Windows Virtual PC)
+      - "VMwareVMware"(VMware)
+      - "XenVMMXenVMM"(Xen)
+      - "prl hyperv  "( Parallels)
+         -"VBoxVBoxVBox"( VirtualBox)
 
 
 ### Anti-Analysis
 - **Processes**
-	- OllyDBG / ImmunityDebugger / WinDbg / IDA Pro
-	- SysInternals Suite Tools (Process Explorer / Process Monitor / Regmon / Filemon, TCPView, Autoruns)
-	- Wireshark / Dumpcap
-	- ProcessHacker / SysAnalyzer / HookExplorer / SysInspector
-	- ImportREC / PETools / LordPE
-	- JoeBox Sandbox
+  - OllyDBG / ImmunityDebugger / WinDbg / IDA Pro
+  - SysInternals Suite Tools (Process Explorer / Process Monitor / Regmon / Filemon, TCPView, Autoruns)
+  - Wireshark / Dumpcap
+  - ProcessHacker / SysAnalyzer / HookExplorer / SysInspector
+  - ImportREC / PETools / LordPE
+  - JoeBox Sandbox
 
 ### Macro malware attacks
 - Document_Close / Auto_Close.
