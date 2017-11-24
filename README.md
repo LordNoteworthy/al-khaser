@@ -111,7 +111,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
   - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 1\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
   - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 2\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
-
 - **Registry Keys artifacts**
   - "HARDWARE\\ACPI\\DSDT\\VBOX__"
   - "HARDWARE\\ACPI\\FADT\\VBOX__"
@@ -124,7 +123,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
   - SOFTWARE\\VMware, Inc.\\VMware Tools
   - SOFTWARE\\Wine
-
 - **File system artifacts**
   - "system32\\drivers\\VBoxMouse.sys"
   - "system32\\drivers\\VBoxGuest.sys"
@@ -145,24 +143,20 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "system32\\VBoxControl.exe"
   - "system32\\drivers\\vmmouse.sys"
   - "system32\\drivers\\vmhgfs.sys"
-
 - **Directories artifacts**
   - "%PROGRAMFILES%\\oracle\\virtualbox guest additions\\"
   - "%PROGRAMFILES%\\VMWare\\"
-
 - **Memory artifacts**
   - Interupt Descriptor Table (IDT) location
   - Local Descriptor Table (LDT) location
   - Global Descriptor Table (GDT) location
   - Task state segment trick with STR
-
 - **MAC Address**
   - "\x08\x00\x27" (VBOX)
   - "\x00\x05\x69" (VMWARE)
   - "\x00\x0C\x29" (VMWARE)
   - "\x00\x1C\x14" (VMWARE)
   - "\x00\x50\x56" (VMWARE)
-
 - **Virtual devices**
   - "\\\\.\\VBoxMiniRdrDN"
   - "\\\\.\\VBoxGuest"
@@ -171,24 +165,22 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "\\\\.\\pipe\\VBoxTrayIPC")
   - "\\\\.\\HGFS"
   - "\\\\.\\vmci"
-
 - **Hardware Device information**
   - SetupAPI SetupDiEnumDeviceInfo (GUID_DEVCLASS_DISKDRIVE) 
     - QEMU
     - VMWare
     - VBOX
     - VIRTUAL HD
-
+- **System Firmware Tables**
+  - SMBIOS string checks (VirtualBox)
+  - ACPI string checks (VirtualBox)
 - **Adapter name**
   - VMWare
-
 - **Windows Class**
   - VBoxTrayToolWndClass
   - VBoxTrayToolWnd
-
 - **Network shares**
   - VirtualBox Shared Folders
-
 - **Processes**
   - vboxservice.exe	(VBOX)
     - vboxtray.exe	(VBOX)
@@ -200,7 +192,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
       - prl_cc.exe(Parallels)
       - prl_tools.exe(Parallels)
     - xenservice.exe(Citrix Xen)
-
 - **WMI**
   - SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
   - SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
@@ -208,7 +199,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - SELECT * FROM Win32_NTEventlogFile (VBOX)
   - SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
   - SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
-
 - **DLL Exports and Loaded DLLs**
   - kernel32.dll!wine_get_unix_file_nameWine (Wine)
   - sbiedll.dll (Sandboxie)
@@ -218,7 +208,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - pstorec.dll (SunBelt Sandbox)
   - vmcheck.dll (Virtual PC)
   - wpespy.dll (WPE Pro)
-
 - **CPU**
   - Hypervisor presence using (EAX=0x1)
   - Hypervisor vendor using (EAX=0x40000000)
