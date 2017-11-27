@@ -61,6 +61,8 @@ int main(void)
 	exec_check(&disk_size_getdiskfreespace, TEXT("Checking disk size using GetDiskFreeSpaceEx: "));
 	exec_check(&cpuid_is_hypervisor, TEXT("Checking if CPU hypervisor field is set using cpuid(0x1)"));
 	exec_check(&cpuid_hypervisor_vendor, TEXT("Checking hypervisor vendor using cpuid(0x40000000)"));
+	exec_check(&FirmwareSMBIOS, TEXT("Checking SMBIOS firmware : "));
+	exec_check(&FirmwareACPI, TEXT("Checking ACPI tables : "));
 	exec_check(&accelerated_sleep, TEXT("Check if time has been accelerated: "));
 
 	/* VirtualBox Detection */

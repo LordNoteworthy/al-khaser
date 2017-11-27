@@ -43,6 +43,7 @@
 #include "..\Anti VM\QEMU.h"
 #include "..\Anti VM\Xen.h"
 #include "..\Anti VM\Parallels.h"
+#include "..\Anti VM\SystemFirmware.h"
 
 /* Code Injections Headers */
 #include "..\Code Injections\CreateRemoteThread.h"
