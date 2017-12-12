@@ -154,9 +154,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
+    <None Include="..\CHANGELOG.md" />
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
-    <None Include="CHANGELOG.md" />
     <None Include="macros.vba" />
   </ItemGroup>
   <ItemGroup>
