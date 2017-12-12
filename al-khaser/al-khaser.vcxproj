@@ -156,6 +156,7 @@
     <None Include="..\.gitignore" />
     <None Include="..\LICENSE" />
     <None Include="..\README.md" />
+    <None Include="CHANGELOG.md" />
     <None Include="macros.vba" />
   </ItemGroup>
   <ItemGroup>

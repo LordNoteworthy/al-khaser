@@ -75,6 +75,7 @@
     <None Include="macros.vba">
       <Filter>Macro</Filter>
     </None>
+    <None Include="CHANGELOG.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Anti Debug\CheckRemoteDebuggerPresentAPI.cpp">

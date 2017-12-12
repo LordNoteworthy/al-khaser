@@ -1,4 +1,4 @@
-## Al-Khaser v0.70
+## Al-Khaser v0.71
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -260,7 +260,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 ## Contributors
 - [mrexodia](http://mrexodia.cf): Main developer of [x64dbg](http://x64dbg.com/)
-- [JoeSecurity](https://github.com/joesecurity/pafishmacro): PafishMacro
+- [Mattiwatti](https://github.com/Mattiwatti): Matthijs Lavrijsen
+- [gsuberland](https://twitter.com/gsuberland): Graham Sutherland
+
 
 ## References
 - An Anti-Reverse Engineering Guide By Josh Jackson.
@@ -268,4 +270,4 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - The Art Of Unpacking By Mark Vincent Yason.
 - Walied Assar's blog http://waleedassar.blogspot.de/.
 - Pafish tool: https://github.com/a0rtega/pafish.
-
+- PafishMacro by JoeSecurity: https://github.com/joesecurity/pafishmacro 
