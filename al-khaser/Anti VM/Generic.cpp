@@ -50,7 +50,7 @@ Number of Processors in VM
 BOOL NumberOfProcessors()
 {
 #if defined (ENV64BIT)
-	PULONG ulNumberProcessors = (PULONG)(__readgsqword(0x30) + 0xB8);
+	PULONG ulNumberProcessors = (PULONG)(__readgsqword(0x60) + 0xB8);
 
 #elif defined(ENV32BIT)
 	PULONG ulNumberProcessors = (PULONG)(__readfsdword(0x30) + 0x64) ;
