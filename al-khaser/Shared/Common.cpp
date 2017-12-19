@@ -146,7 +146,8 @@ TCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)
 	/* Get the required size */
 	CONST INT iSizeRequired = MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, NULL, 0);
 
-	TCHAR *lpWideCharStr = (TCHAR*)MALLOC(12 * sizeof(TCHAR));
+	/* Allocate new wide string */
+	TCHAR *lpWideCharStr = new TCHAR[iSizeRequired];
 
 	/* Do the conversion */
 	INT iNumChars =  MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, lpWideCharStr, iSizeRequired);
