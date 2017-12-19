@@ -25,7 +25,6 @@ VOID analysis_tools_process()
 		_T("ImportREC.exe"),		// Import Reconstructor
 		_T("PETools.exe"),			// PE Tool
 		_T("LordPE.exe"),			// LordPE
-		_T("dumpcap.exe"),			// Network traffic dump tool
 		_T("SysInspector.exe"),		// ESET SysInspector
 		_T("proc_analyzer.exe"),	// Part of SysAnalyzer iDefense
 		_T("sysAnalyzer.exe"),		// Part of SysAnalyzer iDefense
