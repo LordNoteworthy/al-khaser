@@ -66,7 +66,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - NtYieldExecution / SwitchToThread
 - TLS callbacks
 - Process jobs
-
+- Memory write watching
 
 
 ### Anti-Dumping
