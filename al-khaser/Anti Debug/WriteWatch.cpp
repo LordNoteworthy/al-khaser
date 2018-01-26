@@ -1,6 +1,6 @@
 #include <Windows.h>
-#include <tchar.h>
 #include <cstdio>
+#include "WriteWatch.h"
 
 /*
  * This check uses the MEM_WRITE_WATCH feature of VirtualAlloc to test for additional memory writes by debuggers, sandboxing, etc.
@@ -44,23 +44,64 @@ BOOL VirtualAlloc_WriteWatch_BufferOnly()
 	return result;
 }
 
-BOOL VirtualAlloc_WriteWatch_APICall()
+BOOL VirtualAlloc_WriteWatch_APICalls()
 {
 	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
 	ULONG_PTR hitCount;
 	DWORD granularity;
-	BOOL result;
+	BOOL result, error = FALSE;
 
 	int* buffer = static_cast<int*>(VirtualAlloc(NULL, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_READWRITE));
-	if (GlobalGetAtomName(INVALID_ATOM, (LPTSTR)buffer, 1) != 0)
+
+	// make a bunch of calls where buffer *can* be written to, but isn't actually touched due to invalid parameters.
+	// this can catch out API hooks whose return-by-parameter behaviour is different to that of regular APIs
+
+	if (GlobalGetAtomName(INVALID_ATOM, (LPTSTR)buffer, 1) != FALSE)
 	{
-		// uh, wut?
 		printf("GlobalGetAtomName succeeded when it should've failed... not sure what happened!\n");
 		result = FALSE;
+		error = TRUE;
 	}
-	else
+	if (GetEnvironmentVariable(L"%ThisIsAnInvalidEnvironmentVariableName?[]<>@\\;*!-{}#:/~%", (LPWSTR)buffer, 4096*4096) != FALSE)
 	{
-		// ReadProcessMemory failed as it should have! :)
+		printf("GetEnvironmentVariable succeeded when it should've failed... not sure what happened!\n");
+		result = FALSE;
+		error = TRUE;
+	}
+	if (GetBinaryType(L"%ThisIsAnInvalidFileName?[]<>@\\;*!-{}#:/~%", (LPDWORD)buffer) != FALSE)
+	{
+		printf("GetBinaryType succeeded when it should've failed... not sure what happened!\n");
+		result = FALSE;
+		error = TRUE;
+	}
+	if (HeapQueryInformation(0, (HEAP_INFORMATION_CLASS)69, buffer, 4096, NULL) != FALSE)
+	{
+		printf("HeapQueryInformation succeeded when it should've failed... not sure what happened!\n");
+		result = FALSE;
+		error = TRUE;
+	}
+	if (ReadProcessMemory(INVALID_HANDLE_VALUE, (LPCVOID)0x69696969, buffer, 4096, NULL) != FALSE)
+	{
+		printf("ReadProcessMemory succeeded when it should've failed... not sure what happened!\n");
+		result = FALSE;
+		error = TRUE;
+	}
+	if (GetThreadContext(INVALID_HANDLE_VALUE, (LPCONTEXT)buffer) != FALSE)
+	{
+		printf("GetThreadContext succeeded when it should've failed... not sure what happened!\n");
+		result = FALSE;
+		error = TRUE;
+	}
+	if (GetWriteWatch(0, &VirtualAlloc_WriteWatch_APICalls, 0, NULL, NULL, (PULONG)buffer) == 0)
+	{
+		printf("GetWriteWatch succeeded when it should've failed... not sure what happened!\n");
+		result = FALSE;
+		error = TRUE;
+	}
+
+	if (error == FALSE)
+	{
+		// APIs failed as they should have! :)
 
 		hitCount = 4096;
 		if (GetWriteWatch(0, buffer, 4096, addresses, &hitCount, &granularity) != 0)
@@ -74,6 +115,10 @@ BOOL VirtualAlloc_WriteWatch_APICall()
 			// if there's an API hook or debugger in here it'll probably try to probe the buffer, which will be caught here
 			result = hitCount != 0;
 		}
+	}
+	else
+	{
+		printf("Write watch API check skipped, ignore the result as it is inconclusive.\n");
 	}
 
 	VirtualFree(addresses, 0, MEM_RELEASE);
@@ -113,9 +158,9 @@ BOOL VirtualAlloc_WriteWatch_IsDebuggerPresent()
 BOOL VirtualAlloc_WriteWatch_CodeWrite()
 {
 	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
-	ULONG_PTR hitCount, initialHitCount;
+	ULONG_PTR hitCount;
 	DWORD granularity;
-	BOOL result;
+	BOOL result = FALSE;
 
 	byte* buffer = static_cast<byte*>(VirtualAlloc(NULL, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_EXECUTE_READWRITE));
 	
@@ -180,33 +225,26 @@ BOOL VirtualAlloc_WriteWatch_CodeWrite()
 
 #endif
 
-	initialHitCount = 4096;
-	if (GetWriteWatch(0, buffer, 4096, addresses, &initialHitCount, &granularity) != 0)
-	{
-		printf("GetWriteWatch failed. Last error: %d\n", GetLastError());
-		result = FALSE;
-	}
-	else
-	{
-		// cool, now exec the code
-		BOOL(*foo)(VOID) = (BOOL(*)(VOID))buffer;
-		if (foo() == TRUE)
-		{
-			result = TRUE;
-		}
+	ResetWriteWatch(buffer, 4096 * 4096);
 
-		if (result == FALSE)
+	// cool, now exec the code
+	BOOL(*foo)(VOID) = (BOOL(*)(VOID))buffer;
+	if (foo() == TRUE)
+	{
+		result = TRUE;
+	}
+	
+	if (result == FALSE)
+	{
+		hitCount = 4096;
+		if (GetWriteWatch(0, buffer, 4096, addresses, &hitCount, &granularity) != 0)
 		{
-			hitCount = 4096;
-			if (GetWriteWatch(0, buffer, 4096, addresses, &hitCount, &granularity) != 0)
-			{
-				printf("GetWriteWatch failed. Last error: %d\n", GetLastError());
-				result = FALSE;
-			}
-			else
-			{
-				result = hitCount != initialHitCount;
-			}
+			printf("GetWriteWatch failed. Last error: %d\n", GetLastError());
+			result = FALSE;
+		}
+		else
+		{
+			result = hitCount != 0;
 		}
 	}
 
