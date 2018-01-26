@@ -64,6 +64,7 @@ int main(void)
 	exec_check(&FirmwareSMBIOS, TEXT("Checking SMBIOS firmware : "));
 	exec_check(&FirmwareACPI, TEXT("Checking ACPI tables : "));
 	exec_check(&accelerated_sleep, TEXT("Check if time has been accelerated: "));
+	exec_check(&VMDriverServices, TEXT("VM Driver Services : "));
 
 	/* VirtualBox Detection */
 	print_category(TEXT("VirtualBox Detection"));

@@ -182,6 +182,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - **System Firmware Tables**
   - SMBIOS string checks (VirtualBox)
   - ACPI string checks (VirtualBox)
+- **Driver Services**
+  - VirtualBox
+  - VMWare
 - **Adapter name**
   - VMWare
 - **Windows Class**

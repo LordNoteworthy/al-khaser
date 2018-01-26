@@ -25,6 +25,8 @@ VOID timing_NtDelayexecution(UINT delayInMilliSeconds)
 		// Handle however.. chances of this failing
 		// is essentially 0 however since
 		// ntdll.dll is a vital system resource
+		printf("Failed to open a handle to NTDLL... this is suspicious!\n");
+		return;
 	}
 
 	NtDelayExecution = (pNtDelayExecution)GetProcAddress(hNtdll, "NtDelayExecution");
@@ -32,6 +34,8 @@ VOID timing_NtDelayexecution(UINT delayInMilliSeconds)
 	{
 		// Handle however it fits your needs but as before,
 		// if this is missing there are some SERIOUS issues with the OS
+		printf("NTDLL does not have an NtDelayExecution entry point... this is suspicious!\n");
+		return;
 	}
 
 	// Time to finally make the call
