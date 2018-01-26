@@ -29,6 +29,7 @@
 #include "..\Anti Debug\NtQuerySystemInformation_SystemKernelDebuggerInformation.h"
 #include "..\Anti Debug\SharedUserData_KernelDebugger.h"
 #include "..\Anti Debug\ProcessJob.h"
+#include "..\Anti Debug\WriteWatch.h"
 
 /* Anti dumping headers */
 #include "..\Anti Dump\ErasePEHeaderFromMemory.h"

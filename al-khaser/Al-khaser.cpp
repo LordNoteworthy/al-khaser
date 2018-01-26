@@ -14,6 +14,7 @@ int main(void)
 	if (IsWoW64())
 		_tprintf(_T("Process is running under WOW64\n\n"));
 
+	
 	/* Debugger Detection */
 	print_category(TEXT("Debugger Detection"));
 	exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API () "));
@@ -43,6 +44,10 @@ int main(void)
 	exec_check(&NtQuerySystemInformation_SystemKernelDebuggerInformation, TEXT("Checking NtQuerySystemInformation with SystemKernelDebuggerInformation : "));
 	exec_check(&SharedUserData_KernelDebugger, TEXT("Checking SharedUserData->KdDebuggerEnabled : "));
 	exec_check(&ProcessJob, TEXT("Checking if process in in a job : "));
+	exec_check(&VirtualAlloc_WriteWatch_BufferOnly, TEXT("Checking VirtualAlloc write watch (buffer only) "));
+	exec_check(&VirtualAlloc_WriteWatch_APICall, TEXT("Checking VirtualAlloc write watch (API call) "));
+	exec_check(&VirtualAlloc_WriteWatch_IsDebuggerPresent, TEXT("Checking VirtualAlloc write watch (IsDebuggerPresent) "));
+	exec_check(&VirtualAlloc_WriteWatch_CodeWrite, TEXT("Checking VirtualAlloc write watch (code write) "));
 
 	/* Generic sandbox detection */
 	print_category(TEXT("Generic Sandboxe/VM Detection"));
