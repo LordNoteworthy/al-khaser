@@ -45,7 +45,7 @@ int main(void)
 	exec_check(&SharedUserData_KernelDebugger, TEXT("Checking SharedUserData->KdDebuggerEnabled : "));
 	exec_check(&ProcessJob, TEXT("Checking if process in in a job : "));
 	exec_check(&VirtualAlloc_WriteWatch_BufferOnly, TEXT("Checking VirtualAlloc write watch (buffer only) "));
-	exec_check(&VirtualAlloc_WriteWatch_APICall, TEXT("Checking VirtualAlloc write watch (API call) "));
+	exec_check(&VirtualAlloc_WriteWatch_APICalls, TEXT("Checking VirtualAlloc write watch (API calls) "));
 	exec_check(&VirtualAlloc_WriteWatch_IsDebuggerPresent, TEXT("Checking VirtualAlloc write watch (IsDebuggerPresent) "));
 	exec_check(&VirtualAlloc_WriteWatch_CodeWrite, TEXT("Checking VirtualAlloc write watch (code write) "));
 
