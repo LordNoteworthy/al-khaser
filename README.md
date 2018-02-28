@@ -119,6 +119,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
   - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 1\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
   - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 2\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
+  - SYSTEM\\ControlSet001\\Control\\SystemInformation (SystemManufacturer) (VMWARE)
+  - SYSTEM\\ControlSet001\\Control\\SystemInformation (SystemProductName) (VMWARE)
 - **Registry Keys artifacts**
   - "HARDWARE\\ACPI\\DSDT\\VBOX__"
   - "HARDWARE\\ACPI\\FADT\\VBOX__"
@@ -151,6 +153,15 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "system32\\VBoxControl.exe"
   - "system32\\drivers\\vmmouse.sys"
   - "system32\\drivers\\vmhgfs.sys"
+  - "system32\\drivers\\vm3dmp.sys"
+  - "system32\\drivers\\vmci.sys"
+  - "system32\\drivers\\vmhgfs.sys"
+  - "system32\\drivers\\vmmemctl.sys"
+  - "system32\\drivers\\vmmouse.sys"
+  - "system32\\drivers\\vmrawdsk.sys"
+  - "system32\\drivers\\vmusbmouse.sys"
+
+
 - **Directories artifacts**
   - "%PROGRAMFILES%\\oracle\\virtualbox guest additions\\"
   - "%PROGRAMFILES%\\VMWare\\"
@@ -194,15 +205,17 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - VirtualBox Shared Folders
 - **Processes**
   - vboxservice.exe	(VBOX)
-    - vboxtray.exe	(VBOX)
-      - vmtoolsd.exe(VMWARE)
-    - vmwaretray.exe(VMWARE)
-      - vmwareuser(VMWARE)
-      - vmsrvc.exe(VirtualPC)
-      - vmusrvc.exe(VirtualPC)
-      - prl_cc.exe(Parallels)
-      - prl_tools.exe(Parallels)
-    - xenservice.exe(Citrix Xen)
+  - vboxtray.exe	(VBOX)
+  - vmtoolsd.exe(VMWARE)
+  - vmwaretray.exe(VMWARE)
+  - vmwareuser(VMWARE)
+  - VGAuthService.exe (VMWARE)
+  - vmacthlp.exe (VMWARE)
+  - vmsrvc.exe(VirtualPC)
+  - vmusrvc.exe(VirtualPC)
+  - prl_cc.exe(Parallels)
+  - prl_tools.exe(Parallels)
+  - xenservice.exe(Citrix Xen)
 - **WMI**
   - SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
   - SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
@@ -211,6 +224,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
   - SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
 - **DLL Exports and Loaded DLLs**
+  - avghookx.dll (AVG)
+  - avghooka.dll (AVG)
+  - snxhk.dll (Avast)
   - kernel32.dll!wine_get_unix_file_nameWine (Wine)
   - sbiedll.dll (Sandboxie)
   - dbghelp.dll (MS debugging support routines)

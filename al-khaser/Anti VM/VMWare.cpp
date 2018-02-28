@@ -10,6 +10,8 @@ VOID vmware_reg_key_value()
 		{ _T("HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0"), _T("Identifier"), _T("VMWARE") },
 		{ _T("HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 1\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0"), _T("Identifier"), _T("VMWARE") },
 		{ _T("HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 2\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0"), _T("Identifier"), _T("VMWARE") },
+		{ _T("SYSTEM\\ControlSet001\\Control\\SystemInformation"), _T("SystemManufacturer"), _T("VMWARE") },
+		{ _T("SYSTEM\\ControlSet001\\Control\\SystemInformation"), _T("SystemProductName"), _T("VMWARE") },
 	};
 
 	WORD dwLength = sizeof(szEntries) / sizeof(szEntries[0]);
@@ -61,6 +63,13 @@ VOID vmware_files()
 	TCHAR* szPaths[] = {
 		_T("system32\\drivers\\vmmouse.sys"),
 		_T("system32\\drivers\\vmhgfs.sys"),
+		_T("system32\\drivers\\vm3dmp.sys"),
+		_T("system32\\drivers\\vmci.sys"),
+		_T("system32\\drivers\\vmhgfs.sys"),
+		_T("system32\\drivers\\vmmemctl.sys"),
+		_T("system32\\drivers\\vmmouse.sys"),
+		_T("system32\\drivers\\vmrawdsk.sys"),
+		_T("system32\\drivers\\vmusbmouse.sys"),
 	};
 
 	/* Getting Windows Directory */
@@ -177,6 +186,8 @@ VOID vmware_processes()
 		_T("vmtoolsd.exe"),
 		_T("vmwaretray.exe"),
 		_T("vmwareuser.exe"),
+		_T("VGAuthService.exe"),
+		_T("vmacthlp.exe"),
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);

@@ -8,7 +8,7 @@ int main(void)
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.72]"));
+	_tprintf(_T("[al-khaser version 0.73]"));
 	print_os();
 
 	if (IsWoW64())
@@ -70,6 +70,8 @@ int main(void)
 	exec_check(&FirmwareACPI, TEXT("Checking ACPI tables : "));
 	exec_check(&accelerated_sleep, TEXT("Check if time has been accelerated: "));
 	exec_check(&VMDriverServices, TEXT("VM Driver Services : "));
+	exec_check(&rdtsc_diff_locky, TEXT("Checking RDTSC Locky trick: "));
+	exec_check(&rdtsc_diff_vmexit, TEXT("Checking RDTSC which force a VM Exit (cpuid): "));
 
 	/* VirtualBox Detection */
 	print_category(TEXT("VirtualBox Detection"));
@@ -154,9 +156,6 @@ int main(void)
 	_tprintf(_T("[*] Delaying execution using IcmpSendEcho():\n"));
 	timing_IcmpSendEcho(delayInMilliSeconds);
 	print_results(FALSE, _T("IcmpSendEcho was bypassed ... "));
-
-	exec_check(&rdtsc_diff_locky, TEXT("Checking RDTSC Locky trick: "));
-	exec_check(&rdtsc_diff_vmexit, TEXT("Checking RDTSC which force a VM Exit (cpuid): "));
 	
 	/* Malware analysis tools */
 	print_category(TEXT("Analysis-tools"));
