@@ -186,6 +186,8 @@ VOID vmware_processes()
 		_T("vmtoolsd.exe"),
 		_T("vmwaretray.exe"),
 		_T("vmwareuser.exe"),
+		_T("VGAuthService.exe"),
+		_T("vmacthlp.exe"),
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
