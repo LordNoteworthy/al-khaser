@@ -100,7 +100,7 @@ PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD p
 	{
 		firmwareTable = static_cast<BYTE*>(realloc(firmwareTable, resultBufferSize));
 		SecureZeroMemory(firmwareTable, resultBufferSize);
-		if (GetSystemFirmwareTable(signature, table, firmwareTable, bufferSize) == 0)
+		if (GetSystemFirmwareTable(signature, table, firmwareTable, resultBufferSize) == 0)
 		{
 			printf("Second call failed :(\n");
 			free(firmwareTable);
