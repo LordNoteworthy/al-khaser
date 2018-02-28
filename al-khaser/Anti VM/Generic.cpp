@@ -1,14 +1,7 @@
 #include "Generic.h"
 
 /*
-Check of following dll are loaded
- - sbiedll.dll (Sandboxie)
- - dbghelp.dll (vmware)
- - api_log.dll (SunBelt SandBox)
- - dir_watch.dll (SunBelt SandBox)
- - pstorec.dll (SunBelt Sandbox)
- - vmcheck.dll (Virtual PC)
- - wpespy.dll (WPE Pro)
+Check if the DLL is loaded in the context of the process
 */
 VOID loaded_dlls()
 {
@@ -17,13 +10,16 @@ VOID loaded_dlls()
 
 	/* Array of strings of blacklisted dlls */
 	TCHAR* szDlls[] = {
-		_T("sbiedll.dll"),
-		_T("dbghelp.dll"),
-		_T("api_log.dll"),
-		_T("dir_watch.dll"),
-		_T("pstorec.dll"),
-		_T("vmcheck.dll"),
-		_T("wpespy.dll"),
+		_T("avghookx.dll"),		// AVG
+		_T("avghooka.dll"),		// AVG
+		_T("snxhk.dll"),		// Avast
+		_T("sbiedll.dll"),		// Sandboxie
+		_T("dbghelp.dll"),		// WindBG
+		_T("api_log.dll"),		// iDefense Lab
+		_T("dir_watch.dll"),	// iDefense Lab
+		_T("pstorec.dll"),		// SunBelt Sandbox
+		_T("vmcheck.dll"),		// Virtual PC
+		_T("wpespy.dll"),		// WPE Pro
 
 	};
 

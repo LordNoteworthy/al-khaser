@@ -211,6 +211,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
   - SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
 - **DLL Exports and Loaded DLLs**
+  - avghookx.dll (AVG)
+  - avghooka.dll (AVG)
+  - snxhk.dll (Avast)
   - kernel32.dll!wine_get_unix_file_nameWine (Wine)
   - sbiedll.dll (Sandboxie)
   - dbghelp.dll (MS debugging support routines)
