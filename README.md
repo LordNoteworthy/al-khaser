@@ -153,6 +153,15 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "system32\\VBoxControl.exe"
   - "system32\\drivers\\vmmouse.sys"
   - "system32\\drivers\\vmhgfs.sys"
+  - "system32\\drivers\\vm3dmp.sys"
+  - "system32\\drivers\\vmci.sys"
+  - "system32\\drivers\\vmhgfs.sys"
+  - "system32\\drivers\\vmmemctl.sys"
+  - "system32\\drivers\\vmmouse.sys"
+  - "system32\\drivers\\vmrawdsk.sys"
+  - "system32\\drivers\\vmusbmouse.sys"
+
+
 - **Directories artifacts**
   - "%PROGRAMFILES%\\oracle\\virtualbox guest additions\\"
   - "%PROGRAMFILES%\\VMWare\\"

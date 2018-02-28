@@ -63,6 +63,13 @@ VOID vmware_files()
 	TCHAR* szPaths[] = {
 		_T("system32\\drivers\\vmmouse.sys"),
 		_T("system32\\drivers\\vmhgfs.sys"),
+		_T("system32\\drivers\\vm3dmp.sys"),
+		_T("system32\\drivers\\vmci.sys"),
+		_T("system32\\drivers\\vmhgfs.sys"),
+		_T("system32\\drivers\\vmmemctl.sys"),
+		_T("system32\\drivers\\vmmouse.sys"),
+		_T("system32\\drivers\\vmrawdsk.sys"),
+		_T("system32\\drivers\\vmusbmouse.sys"),
 	};
 
 	/* Getting Windows Directory */

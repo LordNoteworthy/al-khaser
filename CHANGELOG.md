@@ -1,3 +1,12 @@
+#### 0.73
+- New: Add checks for VMware related files.
+- New: Add Anti-VM checks for VMWare: SYSTEM\\ControlSet001\\Control\\SystemInformation.
+- New: Add more loaded dlls check inside process context:  avghookx.dll, avghooka.dll, snxhk.dll.
+- New :Add write watch debugger detection.
+- New: Add service anti-VM checks.
+- New: Add checks for VM related services.
+- Bug fix nullref exception in timing.cpp.
+
 #### 0.72
 - Bug fix: PEB offset in NumberOfProcessors() thanks to @Nxgr.
 - Bug fix: array with duplicate strings in process_tools check thanks to @stxletto.
