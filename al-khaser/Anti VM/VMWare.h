@@ -11,3 +11,5 @@ VOID vmware_mac();
 BOOL vmware_adapter_name();
 VOID vmware_devices();
 VOID vmware_processes();
+BOOL vmware_firmware_SMBIOS();
+BOOL vmware_firmware_ACPI();

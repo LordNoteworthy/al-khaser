@@ -1,4 +1,4 @@
-## Al-Khaser v0.72
+## Al-Khaser v0.73
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -192,7 +192,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
     - VIRTUAL HD
 - **System Firmware Tables**
   - SMBIOS string checks (VirtualBox)
+  - SMBIOS string checks (VMWare)
   - ACPI string checks (VirtualBox)
+  - ACPI string checks (VMWare)
 - **Driver Services**
   - VirtualBox
   - VMWare

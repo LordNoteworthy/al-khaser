@@ -201,3 +201,65 @@ VOID vmware_processes()
 			print_results(FALSE, msg);
 	}
 }
+
+/*
+Check for SMBIOS firmware
+*/
+BOOL vmware_firmware_SMBIOS()
+{
+	BOOL result = FALSE;
+	const DWORD Signature = static_cast<DWORD>('RSMB');
+
+	DWORD smbiosSize = 0;
+	PBYTE smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
+	if (smbios != NULL)
+	{
+		PBYTE vmwareString = (PBYTE)"VMware";
+		size_t vmwwareStringLen = 6;
+
+		if (find_str_in_data(vmwareString, vmwwareStringLen, smbios, smbiosSize))
+		{
+			result = TRUE;
+		}
+
+		free(smbios);
+	}
+
+	return result;
+}
+
+/*
+Check for ACPI firmware
+*/
+BOOL vmware_firmware_ACPI()
+{
+	BOOL result = FALSE;
+
+	PDWORD tableNames = static_cast<PDWORD>(malloc(4096));
+	SecureZeroMemory(tableNames, 4096);
+	DWORD tableSize = EnumSystemFirmwareTables(static_cast<DWORD>('ACPI'), tableNames, 4096);
+	DWORD tableCount = tableSize / 4;
+	if (tableSize < 4 || tableCount == 0)
+		result = TRUE;
+	else
+	{
+		for (DWORD i = 0; i < tableCount; i++) {
+			DWORD tableSize = 0;
+			PBYTE table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize);
+
+			PBYTE vmwareString = (PBYTE)"VMWARE";
+			size_t vmwwareStringLen = 6;
+
+
+			if (find_str_in_data(vmwareString, vmwwareStringLen, table, tableSize)) {
+				result = TRUE;
+			}
+
+			free(table);
+		}
+	}
+
+	free(tableNames);
+	return result;
+}
+

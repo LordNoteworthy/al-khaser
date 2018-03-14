@@ -198,7 +198,6 @@
     <ClCompile Include="Anti VM\Parallels.cpp" />
     <ClCompile Include="Anti VM\Qemu.cpp" />
     <ClCompile Include="Anti VM\Services.cpp" />
-    <ClCompile Include="Anti VM\SystemFirmware.cpp" />
     <ClCompile Include="Anti VM\VirtualBox.cpp" />
     <ClCompile Include="Anti VM\VirtualPC.cpp" />
     <ClCompile Include="Anti VM\VMWare.cpp" />
@@ -252,7 +251,6 @@
     <ClInclude Include="Anti VM\Parallels.h" />
     <ClInclude Include="Anti VM\Qemu.h" />
     <ClInclude Include="Anti VM\Services.h" />
-    <ClInclude Include="Anti VM\SystemFirmware.h" />
     <ClInclude Include="Anti VM\VirtualBox.h" />
     <ClInclude Include="Anti VM\VirtualPC.h" />
     <ClInclude Include="Anti VM\VMWare.h" />
