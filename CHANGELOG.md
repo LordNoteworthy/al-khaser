@@ -9,6 +9,7 @@
 - New: Add write watch debugger detection.
 - New: Add service anti-VM checks.
 - New: Add checks for VM related services.
+- Enhancement: add some macros to enable/disable a particular category of checks to easy debugging.
 
 
 #### 0.72
