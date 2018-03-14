@@ -192,7 +192,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
     - VIRTUAL HD
 - **System Firmware Tables**
   - SMBIOS string checks (VirtualBox)
+  - SMBIOS string checks (VMWare)
   - ACPI string checks (VirtualBox)
+  - ACPI string checks (VMWare)
 - **Driver Services**
   - VirtualBox
   - VMWare
