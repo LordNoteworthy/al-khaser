@@ -28,3 +28,5 @@ VOID vbox_processes();
 BOOL vbox_devices_wmi();
 BOOL vbox_mac_wmi();
 BOOL vbox_eventlogfile_wmi();
+BOOL vbox_firmware_SMBIOS();
+BOOL vbox_firmware_ACPI();

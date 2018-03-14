@@ -1,4 +1,4 @@
-## Al-Khaser v0.72
+## Al-Khaser v0.73
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 

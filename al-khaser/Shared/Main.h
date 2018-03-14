@@ -44,7 +44,6 @@
 #include "..\Anti VM\QEMU.h"
 #include "..\Anti VM\Xen.h"
 #include "..\Anti VM\Parallels.h"
-#include "..\Anti VM\SystemFirmware.h"
 #include "..\Anti VM\Services.h"
 
 /* Code Injections Headers */
