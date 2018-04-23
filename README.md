@@ -218,6 +218,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - prl_cc.exe(Parallels)
   - prl_tools.exe(Parallels)
   - xenservice.exe(Citrix Xen)
+  - qemu-ga.exe (QEMU)
 - **WMI**
   - SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
   - SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
