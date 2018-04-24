@@ -48,3 +48,70 @@ VOID qemu_processes()
 			print_results(FALSE, msg);
 	}
 }
+
+
+/*
+Check for SMBIOS firmware 
+*/
+BOOL qemu_firmware_SMBIOS()
+{
+	BOOL result = FALSE;
+
+	DWORD smbiosSize = 0;
+	PBYTE smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
+	if (smbios != NULL)
+	{
+		PBYTE qemuString1 = (PBYTE)"qemu";
+		size_t StringLen = 4;
+		PBYTE qemuString2 = (PBYTE)"QEMU";
+
+		if (find_str_in_data(qemuString1, StringLen, smbios, smbiosSize) ||
+			find_str_in_data(qemuString2, StringLen, smbios, smbiosSize))
+		{
+			result = TRUE;
+		}
+
+		free(smbios);
+	}
+
+	return result;
+}
+
+
+/*
+Check for ACPI firmware
+*/
+BOOL qemu_firmware_ACPI()
+{
+	BOOL result = FALSE;
+
+	PDWORD tableNames = static_cast<PDWORD>(malloc(4096));
+	SecureZeroMemory(tableNames, 4096);
+	DWORD tableSize = EnumSystemFirmwareTables(static_cast<DWORD>('ACPI'), tableNames, 4096);
+	DWORD tableCount = tableSize / 4;
+	if (tableSize < 4 || tableCount == 0)
+		result = TRUE;
+	else
+	{
+		for (DWORD i = 0; i < tableCount; i++)
+		{
+			DWORD tableSize = 0;
+			PBYTE table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize);
+
+			PBYTE qemuString1 = (PBYTE)"BOCHS";
+			size_t StringLen = 4;
+			PBYTE qemuString2 = (PBYTE)"BXPC";
+
+			if (find_str_in_data(qemuString1, StringLen, table, tableSize) ||
+				find_str_in_data(qemuString2, StringLen, table, tableSize))
+			{
+				result = TRUE;
+			}
+
+			free(table);
+		}
+	}
+
+	free(tableNames);
+	return result;
+}

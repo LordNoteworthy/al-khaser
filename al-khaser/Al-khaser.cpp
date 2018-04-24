@@ -131,6 +131,8 @@ int main(void)
 		print_category(TEXT("QEMU Detection"));
 		qemu_reg_key_value();
 		qemu_processes();
+		exec_check(&qemu_firmware_SMBIOS, TEXT("Checking SMBIOS firmware : "));
+		exec_check(&qemu_firmware_ACPI, TEXT("Checking ACPI tables : "));
 	}
 
 	/* Xen Detection */

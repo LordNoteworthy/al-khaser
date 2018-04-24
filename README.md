@@ -193,8 +193,10 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - **System Firmware Tables**
   - SMBIOS string checks (VirtualBox)
   - SMBIOS string checks (VMWare)
+  - SMBIOS string checks (Qemu)
   - ACPI string checks (VirtualBox)
   - ACPI string checks (VMWare)
+  - ACPI string checks (Qemu)
 - **Driver Services**
   - VirtualBox
   - VMWare
