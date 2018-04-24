@@ -5,3 +5,4 @@
 
 
 VOID qemu_reg_key_value();
+VOID qemu_processes();

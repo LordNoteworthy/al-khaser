@@ -130,6 +130,7 @@ int main(void)
 	if (ENABLE_QEMU_CHECKS) {
 		print_category(TEXT("QEMU Detection"));
 		qemu_reg_key_value();
+		qemu_processes();
 	}
 
 	/* Xen Detection */

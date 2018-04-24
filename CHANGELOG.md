@@ -1,3 +1,7 @@
+#### 0.74:
+- Added qemu process check (qemu-ga.exe) thanks to kaganisildak.
+
+
 #### 0.73
 - Bug fix: GetSystemFirmwareTable should take `resultBufferSize` as an argument for the second call.
 - Bug fix: nullref exception in timing.cpp.
