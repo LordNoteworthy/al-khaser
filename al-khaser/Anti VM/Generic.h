@@ -31,3 +31,4 @@ BOOL cpuid_hypervisor_vendor();
 BOOL serial_number_bios_wmi();
 BOOL model_computer_system_wmi();
 BOOL manufacturer_computer_system_wmi();
+BOOL current_temperature_acpi_wmi();

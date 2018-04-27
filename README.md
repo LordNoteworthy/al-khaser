@@ -1,4 +1,4 @@
-## Al-Khaser v0.73
+## Al-Khaser v0.74
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -232,6 +232,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
   - SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
   - SELECT * FROM Win32_Computer (Model and Manufacturer) (GENERIC)
+  - SELECT * FROM MSAcpi_ThermalZoneTemperature CurrentTemperature) (GENERIC)
 - **DLL Exports and Loaded DLLs**
   - avghookx.dll (AVG)
   - avghooka.dll (AVG)

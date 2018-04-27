@@ -22,7 +22,7 @@ int main(void)
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.73]"));
+	_tprintf(_T("[al-khaser version 0.74]"));
 	print_os();
 
 	if (IsWoW64())
@@ -87,6 +87,7 @@ int main(void)
 		exec_check(&serial_number_bios_wmi, TEXT("Checking SerialNumber from BIOS using WMI: "));
 		exec_check(&model_computer_system_wmi, TEXT("Checking Model from ComputerSystem using WMI: "));
 		exec_check(&manufacturer_computer_system_wmi, TEXT("Checking Manufacturer from ComputerSystem using WMI: "));
+		//exec_check(&current_temperature_acpi_wmi, TEXT("Checking Current Temperature using WMI: ")); Unreliable
 	}
 
 	/* VirtualBox Detection */
