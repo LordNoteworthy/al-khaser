@@ -84,7 +84,9 @@ int main(void)
 		exec_check(&cpuid_hypervisor_vendor, TEXT("Checking hypervisor vendor using cpuid(0x40000000)"));
 		exec_check(&accelerated_sleep, TEXT("Check if time has been accelerated: "));
 		exec_check(&VMDriverServices, TEXT("VM Driver Services : "));
-		exec_check(&serial_number_bios_wmi, TEXT("Checking SerialNumber from BIOS: "));
+		exec_check(&serial_number_bios_wmi, TEXT("Checking SerialNumber from BIOS using WMI: "));
+		exec_check(&model_computer_system_wmi, TEXT("Checking Model from ComputerSystem using WMI: "));
+		exec_check(&manufacturer_computer_system_wmi, TEXT("Checking Manufacturer from ComputerSystem using WMI: "));
 	}
 
 	/* VirtualBox Detection */

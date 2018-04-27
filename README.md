@@ -223,12 +223,13 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - xenservice.exe(Citrix Xen)
   - qemu-ga.exe (QEMU)
 - **WMI**
-  - SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
+  - SELECT * FROM Win32_Bios (SerialNumber) (GENERIC)
   - SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
   - SELECT * FROM Win32_NetworkAdapterConfiguration (MACAddress) (VBOX)
   - SELECT * FROM Win32_NTEventlogFile (VBOX)
   - SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
   - SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
+  - SELECT * FROM Win32_Computer (Model and Manufacturer) (GENERIC)
 - **DLL Exports and Loaded DLLs**
   - avghookx.dll (AVG)
   - avghooka.dll (AVG)
