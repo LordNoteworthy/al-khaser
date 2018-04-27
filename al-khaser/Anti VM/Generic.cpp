@@ -510,3 +510,68 @@ BOOL cpuid_hypervisor_vendor()
 
 	return FALSE;
 }
+
+
+/*
+Check SerialNumber devices using WMI
+*/
+BOOL serial_number_bios_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+	BOOL bFound = FALSE;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc);
+
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_BIOS"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+			VARIANT vtProp;
+
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+				// Get the value of the Name property
+				hRes = pclsObj->Get(_T("SerialNumber"), 0, &vtProp, 0, 0);
+
+				// Do our comparaison
+				if (
+					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("0")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
+					)
+				{
+					bFound = TRUE;
+					break;
+				}
+
+				// release the current result object
+				VariantClear(&vtProp);
+				pclsObj->Release();
+			}
+
+			// Cleanup
+			pSvc->Release();
+			pLoc->Release();
+			pEnumerator->Release();
+			CoUninitialize();
+		}
+	}
+
+	return bFound;
+}

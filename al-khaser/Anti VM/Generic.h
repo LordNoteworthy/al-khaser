@@ -28,3 +28,4 @@ BOOL disk_size_getdiskfreespace();
 BOOL accelerated_sleep();
 BOOL cpuid_is_hypervisor();
 BOOL cpuid_hypervisor_vendor();
+BOOL serial_number_bios_wmi();

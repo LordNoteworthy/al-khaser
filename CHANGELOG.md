@@ -2,6 +2,7 @@
 - Added qemu process check (qemu-ga.exe) thanks to @kaganisildak.
 - Added checks for system firmware tables (SMBIOS and ACPI for QEMU).
 - Added checks for Hyper-V/Virtual-PC anti-VM (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Virtual Machine\Guest\Parameters)
+- Added checks for multiple virtualization vendors using WMI (Select SerialNumber from Win32_BIOS).
 
 #### 0.73
 - Bug fix: GetSystemFirmwareTable should take `resultBufferSize` as an argument for the second call.
