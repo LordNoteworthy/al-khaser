@@ -117,10 +117,10 @@ VOID vmware_mac()
 {
 	/* VMWre blacklisted mac adr */
 	TCHAR *szMac[][2] = {
-		{ _T("\x00\x05\x69"), _T("00:05:69") },
-		{ _T("\x00\x0C\x29"), _T("00:0c:29") },
-		{ _T("\x00\x1C\x14"), _T("00:1C:14") },
-		{ _T("\x00\x50\x56"), _T("00:50:56") },
+		{ _T("\x00\x05\x69"), _T("00:05:69") }, // VMWare, Inc.
+		{ _T("\x00\x0C\x29"), _T("00:0c:29") }, // VMWare, Inc.
+		{ _T("\x00\x1C\x14"), _T("00:1C:14") }, // VMWare, Inc.
+		{ _T("\x00\x50\x56"), _T("00:50:56") },	// VMWare, Inc.
 	};
 
 	WORD dwLength = sizeof(szMac) / sizeof(szMac[0]);

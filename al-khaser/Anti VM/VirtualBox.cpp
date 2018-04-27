@@ -130,7 +130,7 @@ Check virtualbox NIC MAC address
 */
 BOOL vbox_check_mac()
 {
-	/* VirtualBox mac starts with 08:00:27 */
+	// PCS Systemtechnik CmbH (VirtualBox)
 	return check_mac_addr(_T("\x08\x00\x27"));
 }
 

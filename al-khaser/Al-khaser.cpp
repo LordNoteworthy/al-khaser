@@ -142,6 +142,8 @@ int main(void)
 	if (ENABLE_XEN_CHECKS) {
 		print_category(TEXT("Xen Detection"));
 		xen_process();
+		exec_check(&xen_check_mac, TEXT("Checking Mac Address start with 08:16:3E: "));
+
 	}
 
 	/* Wine Detection */
@@ -155,6 +157,7 @@ int main(void)
 	if (ENABLE_PARALLELS_CHECKS) {
 		print_category(TEXT("Paralles Detection"));
 		parallels_process();
+		exec_check(&parallels_check_mac, TEXT("Checking Mac Address start with 08:1C:42: "));
 	}
 
 	/* Code injections techniques */

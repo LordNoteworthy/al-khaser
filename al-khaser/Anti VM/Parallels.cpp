@@ -22,3 +22,13 @@ VOID parallels_process()
 			print_results(FALSE, msg);
 	}
 }
+
+
+/*
+Check Parallels NIC MAC address
+*/
+BOOL parallels_check_mac()
+{
+	// Parallels, Inc. 
+	return check_mac_addr(_T("\x00\x1C\x42"));
+}

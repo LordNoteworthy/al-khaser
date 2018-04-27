@@ -177,6 +177,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "\x00\x0C\x29" (VMWARE)
   - "\x00\x1C\x14" (VMWARE)
   - "\x00\x50\x56" (VMWARE)
+  - "\x00\x1C\x42" (Parallels)
+  - "\x00\x16\x3E" (Xen)
 - **Virtual devices**
   - "\\\\.\\VBoxMiniRdrDN"
   - "\\\\.\\VBoxGuest"
