@@ -122,17 +122,18 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - SYSTEM\\ControlSet001\\Control\\SystemInformation (SystemManufacturer) (VMWARE)
   - SYSTEM\\ControlSet001\\Control\\SystemInformation (SystemProductName) (VMWARE)
 - **Registry Keys artifacts**
-  - "HARDWARE\\ACPI\\DSDT\\VBOX__"
-  - "HARDWARE\\ACPI\\FADT\\VBOX__"
-  - "HARDWARE\\ACPI\\RSDT\\VBOX__"
-  - "SOFTWARE\\Oracle\\VirtualBox Guest Additions"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxGuest"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxMouse"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxService"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxSF"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
-  - SOFTWARE\\VMware, Inc.\\VMware Tools
-  - SOFTWARE\\Wine
+  - HARDWARE\\ACPI\\DSDT\\VBOX__ (VBOX)
+  - HARDWARE\\ACPI\\FADT\\VBOX__ (VBOX)
+  - HARDWARE\\ACPI\\RSDT\\VBOX__ (VBOX)
+  - SOFTWARE\\Oracle\\VirtualBox Guest Additions (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxGuest (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxMouse (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxService (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxSF (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxVideo (VBOX)
+  - SOFTWARE\\VMware, Inc.\\VMware Tools (VMWARE)
+  - SOFTWARE\\Wine (WINE)
+  - SOFTWARE\Microsoft\Virtual Machine\Guest\Parameters (HYPER-V)
 - **File system artifacts**
   - "system32\\drivers\\VBoxMouse.sys"
   - "system32\\drivers\\VBoxGuest.sys"

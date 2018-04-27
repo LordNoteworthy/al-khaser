@@ -18,7 +18,6 @@ int main(void)
 	BOOL	ENABLE_DUMPING_CHECK = TRUE;
 	BOOL	ENABLE_ANALYSIS_TOOLS_CHECK = TRUE;
 
-
 	/* Resize the console window for better visibility */
 	resize_console_window();
 
@@ -124,6 +123,7 @@ int main(void)
 	if (ENABLE_VPC_CHECKS) {
 		print_category(TEXT("Virtual PC Detection"));
 		virtual_pc_process();
+		virtual_pc_reg_keys();
 	}
 
 	/* QEMU Detection */
