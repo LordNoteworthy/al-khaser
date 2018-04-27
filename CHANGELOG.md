@@ -1,6 +1,11 @@
-#### 0.74:
+#### 0.74
 - Added qemu process check (qemu-ga.exe) thanks to @kaganisildak.
 - Added checks for system firmware tables (SMBIOS and ACPI for QEMU).
+- Added checks for Hyper-V/Virtual-PC anti-VM (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Virtual Machine\Guest\Parameters)
+- Added checks for multiple virtualization vendors using WMI (Select SerialNumber from Win32_BIOS).
+- Added checks for multiple virtualization vendors using WMI (Select Model/Manufacturer from Win32_ComputerSystem).
+- Added checks for MAC address for Xen, Parallels.
+- Added checks for current CPU temperature using WMI (Select CurrentTemperature from MSAcpi_ThermalZoneTemperature).
 
 #### 0.73
 - Bug fix: GetSystemFirmwareTable should take `resultBufferSize` as an argument for the second call.
@@ -14,7 +19,6 @@
 - New: Add service anti-VM checks.
 - New: Add checks for VM related services.
 - Enhancement: add some macros to enable/disable a particular category of checks to easy debugging.
-
 
 #### 0.72
 - Bug fix: PEB offset in NumberOfProcessors() thanks to @Nxgr.

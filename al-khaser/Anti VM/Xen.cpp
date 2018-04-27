@@ -21,3 +21,14 @@ VOID xen_process()
 			print_results(FALSE, msg);
 	}
 }
+
+
+
+/*
+Check Xen NIC MAC address
+*/
+BOOL xen_check_mac()
+{
+	// Xensource, Inc. 
+	return check_mac_addr(_T("\x00\x16\x3E"));
+}

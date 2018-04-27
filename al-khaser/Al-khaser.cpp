@@ -18,12 +18,11 @@ int main(void)
 	BOOL	ENABLE_DUMPING_CHECK = TRUE;
 	BOOL	ENABLE_ANALYSIS_TOOLS_CHECK = TRUE;
 
-
 	/* Resize the console window for better visibility */
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.73]"));
+	_tprintf(_T("[al-khaser version 0.74]"));
 	print_os();
 
 	if (IsWoW64())
@@ -85,6 +84,10 @@ int main(void)
 		exec_check(&cpuid_hypervisor_vendor, TEXT("Checking hypervisor vendor using cpuid(0x40000000)"));
 		exec_check(&accelerated_sleep, TEXT("Check if time has been accelerated: "));
 		exec_check(&VMDriverServices, TEXT("VM Driver Services : "));
+		exec_check(&serial_number_bios_wmi, TEXT("Checking SerialNumber from BIOS using WMI: "));
+		exec_check(&model_computer_system_wmi, TEXT("Checking Model from ComputerSystem using WMI: "));
+		exec_check(&manufacturer_computer_system_wmi, TEXT("Checking Manufacturer from ComputerSystem using WMI: "));
+		//exec_check(&current_temperature_acpi_wmi, TEXT("Checking Current Temperature using WMI: ")); Unreliable
 	}
 
 	/* VirtualBox Detection */
@@ -124,6 +127,7 @@ int main(void)
 	if (ENABLE_VPC_CHECKS) {
 		print_category(TEXT("Virtual PC Detection"));
 		virtual_pc_process();
+		virtual_pc_reg_keys();
 	}
 
 	/* QEMU Detection */
@@ -139,6 +143,8 @@ int main(void)
 	if (ENABLE_XEN_CHECKS) {
 		print_category(TEXT("Xen Detection"));
 		xen_process();
+		exec_check(&xen_check_mac, TEXT("Checking Mac Address start with 08:16:3E: "));
+
 	}
 
 	/* Wine Detection */
@@ -152,6 +158,7 @@ int main(void)
 	if (ENABLE_PARALLELS_CHECKS) {
 		print_category(TEXT("Paralles Detection"));
 		parallels_process();
+		exec_check(&parallels_check_mac, TEXT("Checking Mac Address start with 08:1C:42: "));
 	}
 
 	/* Code injections techniques */

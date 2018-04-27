@@ -1,4 +1,4 @@
-## Al-Khaser v0.73
+## Al-Khaser v0.74
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -122,17 +122,18 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - SYSTEM\\ControlSet001\\Control\\SystemInformation (SystemManufacturer) (VMWARE)
   - SYSTEM\\ControlSet001\\Control\\SystemInformation (SystemProductName) (VMWARE)
 - **Registry Keys artifacts**
-  - "HARDWARE\\ACPI\\DSDT\\VBOX__"
-  - "HARDWARE\\ACPI\\FADT\\VBOX__"
-  - "HARDWARE\\ACPI\\RSDT\\VBOX__"
-  - "SOFTWARE\\Oracle\\VirtualBox Guest Additions"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxGuest"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxMouse"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxService"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxSF"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
-  - SOFTWARE\\VMware, Inc.\\VMware Tools
-  - SOFTWARE\\Wine
+  - HARDWARE\\ACPI\\DSDT\\VBOX__ (VBOX)
+  - HARDWARE\\ACPI\\FADT\\VBOX__ (VBOX)
+  - HARDWARE\\ACPI\\RSDT\\VBOX__ (VBOX)
+  - SOFTWARE\\Oracle\\VirtualBox Guest Additions (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxGuest (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxMouse (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxService (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxSF (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxVideo (VBOX)
+  - SOFTWARE\\VMware, Inc.\\VMware Tools (VMWARE)
+  - SOFTWARE\\Wine (WINE)
+  - SOFTWARE\Microsoft\Virtual Machine\Guest\Parameters (HYPER-V)
 - **File system artifacts**
   - "system32\\drivers\\VBoxMouse.sys"
   - "system32\\drivers\\VBoxGuest.sys"
@@ -176,6 +177,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "\x00\x0C\x29" (VMWARE)
   - "\x00\x1C\x14" (VMWARE)
   - "\x00\x50\x56" (VMWARE)
+  - "\x00\x1C\x42" (Parallels)
+  - "\x00\x16\x3E" (Xen)
 - **Virtual devices**
   - "\\\\.\\VBoxMiniRdrDN"
   - "\\\\.\\VBoxGuest"
@@ -222,12 +225,14 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - xenservice.exe(Citrix Xen)
   - qemu-ga.exe (QEMU)
 - **WMI**
-  - SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
+  - SELECT * FROM Win32_Bios (SerialNumber) (GENERIC)
   - SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
   - SELECT * FROM Win32_NetworkAdapterConfiguration (MACAddress) (VBOX)
   - SELECT * FROM Win32_NTEventlogFile (VBOX)
   - SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
   - SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
+  - SELECT * FROM Win32_Computer (Model and Manufacturer) (GENERIC)
+  - SELECT * FROM MSAcpi_ThermalZoneTemperature CurrentTemperature) (GENERIC)
 - **DLL Exports and Loaded DLLs**
   - avghookx.dll (AVG)
   - avghooka.dll (AVG)
