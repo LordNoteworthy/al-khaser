@@ -550,7 +550,7 @@ BOOL serial_number_bios_wmi()
 				// Do our comparaison
 				if (
 					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
-					(StrStrI(vtProp.bstrVal, _T("0")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("0")) != 0) || // VBox
 					(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
 					(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
 					(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
@@ -615,6 +615,7 @@ BOOL model_computer_system_wmi()
 				// Do our comparaison
 				if (
 					(StrStrI(vtProp.bstrVal, _T("VirtualBox")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("HVM domU")) != 0) || //Xen
 					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0)
 					)
 				{
@@ -676,7 +677,9 @@ BOOL manufacturer_computer_system_wmi()
 
 				// Do our comparaison
 				if (
-					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) || 
+					(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("innotek GmbH")) != 0) || // Vbox
 					(StrStrI(vtProp.bstrVal, _T("QEMU")) != 0)
 					)
 				{
