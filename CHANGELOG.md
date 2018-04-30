@@ -5,6 +5,7 @@
 - Added checks for multiple virtualization vendors using WMI (Select SerialNumber from Win32_BIOS).
 - Added checks for multiple virtualization vendors using WMI (Select Model/Manufacturer from Win32_ComputerSystem).
 - Added checks for MAC address for Xen, Parallels.
+- Added checks for ProcessorId using WMI (Select ProcessorId from Win32_Process).
 - Added checks for current CPU temperature using WMI (Select CurrentTemperature from MSAcpi_ThermalZoneTemperature).
 
 #### 0.73

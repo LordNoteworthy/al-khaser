@@ -88,6 +88,7 @@ int main(void)
 		exec_check(&model_computer_system_wmi, TEXT("Checking Model from ComputerSystem using WMI: "));
 		exec_check(&manufacturer_computer_system_wmi, TEXT("Checking Manufacturer from ComputerSystem using WMI: "));
 		exec_check(&current_temperature_acpi_wmi, TEXT("Checking Current Temperature using WMI: "));
+		exec_check(&process_id_processor_wmi, TEXT("Checking ProcessId using WMI: "));
 	}
 
 	/* VirtualBox Detection */

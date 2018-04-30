@@ -703,6 +703,7 @@ BOOL manufacturer_computer_system_wmi()
 
 /*
 Check Current Temperature using WMI, this requires admin privileges
+In my tests, it works against vbox, vmware, kvm and xen.
 */
 BOOL current_temperature_acpi_wmi()
 {
@@ -744,6 +745,65 @@ BOOL current_temperature_acpi_wmi()
 				if (SUCCEEDED(hRes)) {
 					break;
 
+				}
+
+				// release the current result object
+				VariantClear(&vtProp);
+				pclsObj->Release();
+			}
+
+			// Cleanup
+			pSvc->Release();
+			pLoc->Release();
+			pEnumerator->Release();
+			CoUninitialize();
+		}
+	}
+
+	return bFound;
+}
+
+/*
+Check ProcessId from Win32_Processor using WMI
+KVM, XEN anv VMWare seems to return something, VBOX return NULL
+*/
+BOOL process_id_processor_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+	BOOL bFound = FALSE;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_Processor"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+			VARIANT vtProp;
+
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+				// Get the value of the Name property
+				hRes = pclsObj->Get(_T("ProcessorId"), 0, &vtProp, 0, 0);
+
+				// Do our comparaison
+				if (vtProp.bstrVal== NULL)
+				{
+					bFound = TRUE;
+					break;
 				}
 
 				// release the current result object
