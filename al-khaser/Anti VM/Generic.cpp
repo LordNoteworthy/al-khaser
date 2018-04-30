@@ -143,7 +143,7 @@ BOOL number_cores_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -203,7 +203,7 @@ BOOL disk_size_wmi()
 	INT64 minHardDiskSize = (80LL * (1024LL * (1024LL * (1024LL))));
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -525,7 +525,7 @@ BOOL serial_number_bios_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 
 	if (bStatus)
 	{
@@ -550,7 +550,7 @@ BOOL serial_number_bios_wmi()
 				// Do our comparaison
 				if (
 					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
-					(StrStrI(vtProp.bstrVal, _T("0")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("0")) != 0) || // VBox
 					(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
 					(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
 					(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
@@ -590,7 +590,7 @@ BOOL model_computer_system_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 
 	if (bStatus)
 	{
@@ -615,6 +615,7 @@ BOOL model_computer_system_wmi()
 				// Do our comparaison
 				if (
 					(StrStrI(vtProp.bstrVal, _T("VirtualBox")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("HVM domU")) != 0) || //Xen
 					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0)
 					)
 				{
@@ -652,7 +653,7 @@ BOOL manufacturer_computer_system_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 
 	if (bStatus)
 	{
@@ -676,7 +677,9 @@ BOOL manufacturer_computer_system_wmi()
 
 				// Do our comparaison
 				if (
-					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) || 
+					(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
+					(StrStrI(vtProp.bstrVal, _T("innotek GmbH")) != 0) || // Vbox
 					(StrStrI(vtProp.bstrVal, _T("QEMU")) != 0)
 					)
 				{
@@ -703,6 +706,7 @@ BOOL manufacturer_computer_system_wmi()
 
 /*
 Check Current Temperature using WMI, this requires admin privileges
+In my tests, it works against vbox, vmware, kvm and xen.
 */
 BOOL current_temperature_acpi_wmi()
 {
@@ -713,8 +717,12 @@ BOOL current_temperature_acpi_wmi()
 	HRESULT hRes;
 	BOOL bFound = FALSE;
 
+	// This technique required admin priviliege
+	if (!IsElevated())
+		return FALSE;
+
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("root\\WMI"));
 
 	if (bStatus)
 	{
@@ -737,7 +745,69 @@ BOOL current_temperature_acpi_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("CurrentTemperature"), 0, &vtProp, 0, 0);
-				_tprintf(_T("CurrentTemperature: %s"), vtProp.bstrVal);
+				if (SUCCEEDED(hRes)) {
+					break;
+
+				}
+
+				// release the current result object
+				VariantClear(&vtProp);
+				pclsObj->Release();
+			}
+
+			// Cleanup
+			pSvc->Release();
+			pLoc->Release();
+			pEnumerator->Release();
+			CoUninitialize();
+		}
+	}
+
+	return bFound;
+}
+
+/*
+Check ProcessId from Win32_Processor using WMI
+KVM, XEN anv VMWare seems to return something, VBOX return NULL
+*/
+BOOL process_id_processor_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+	BOOL bFound = FALSE;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_Processor"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+			VARIANT vtProp;
+
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+				// Get the value of the Name property
+				hRes = pclsObj->Get(_T("ProcessorId"), 0, &vtProp, 0, 0);
+
+				// Do our comparaison
+				if (vtProp.bstrVal== NULL)
+				{
+					bFound = TRUE;
+					break;
+				}
 
 				// release the current result object
 				VariantClear(&vtProp);

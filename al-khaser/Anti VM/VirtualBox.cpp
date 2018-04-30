@@ -230,8 +230,7 @@ BOOL vbox_devices_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
-	
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -289,7 +288,7 @@ BOOL vbox_mac_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -347,7 +346,7 @@ BOOL vbox_eventlogfile_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query

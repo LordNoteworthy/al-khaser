@@ -229,9 +229,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
   - SELECT * FROM Win32_NetworkAdapterConfiguration (MACAddress) (VBOX)
   - SELECT * FROM Win32_NTEventlogFile (VBOX)
-  - SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
+  - SELECT * FROM Win32_Processor (NumberOfCores and ProcessorId) (GENERIC)
   - SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
-  - SELECT * FROM Win32_Computer (Model and Manufacturer) (GENERIC)
+  - SELECT * FROM Win32_ComputerSystem (Model and Manufacturer) (GENERIC)
   - SELECT * FROM MSAcpi_ThermalZoneTemperature CurrentTemperature) (GENERIC)
 - **DLL Exports and Loaded DLLs**
   - avghookx.dll (AVG)

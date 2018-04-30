@@ -29,7 +29,7 @@ DWORD GetProcessIdFromName(LPCTSTR ProcessName);
 BOOL SetPrivilege(HANDLE, LPCTSTR, BOOL);
 BOOL SetDebugPrivileges(VOID);
 DWORD GetMainThreadId(DWORD pid);
-BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc);
+BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc, TCHAR* szNetworkResource);
 BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, IEnumWbemClassObject **pEnumerator, TCHAR* szQuery);
 ULONG get_idt_base();
 ULONG get_ldt_base();
