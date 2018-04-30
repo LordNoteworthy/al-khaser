@@ -618,7 +618,7 @@ DWORD GetMainThreadId(DWORD pid)
 	return (DWORD)0;
 }
 
-BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc)
+BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc, TCHAR* szNetworkResource)
 {
 	// Initialize COM.
 	HRESULT hres;
@@ -645,7 +645,7 @@ BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc)
 	}
 
 	// Connect to the root\cimv2 namespace 
-	hres = (*pLoc)->ConnectServer(_T("ROOT\\CIMV2"), NULL, NULL, 0, NULL, 0, 0, pSvc);
+	hres = (*pLoc)->ConnectServer(szNetworkResource, NULL, NULL, 0, NULL, 0, 0, pSvc);
 	if (FAILED(hres)) {
 		print_last_error(_T("ConnectServer"));
 		(*pLoc)->Release();

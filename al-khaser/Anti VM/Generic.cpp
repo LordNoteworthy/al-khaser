@@ -143,7 +143,7 @@ BOOL number_cores_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -203,7 +203,7 @@ BOOL disk_size_wmi()
 	INT64 minHardDiskSize = (80LL * (1024LL * (1024LL * (1024LL))));
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -525,7 +525,7 @@ BOOL serial_number_bios_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 
 	if (bStatus)
 	{
@@ -590,7 +590,7 @@ BOOL model_computer_system_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 
 	if (bStatus)
 	{
@@ -652,7 +652,7 @@ BOOL manufacturer_computer_system_wmi()
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 
 	if (bStatus)
 	{
@@ -713,8 +713,12 @@ BOOL current_temperature_acpi_wmi()
 	HRESULT hRes;
 	BOOL bFound = FALSE;
 
+	// This technique required admin priviliege
+	if (!IsElevated())
+		return FALSE;
+
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc);
+	bStatus = InitWMI(&pSvc, &pLoc, _T("root\\WMI"));
 
 	if (bStatus)
 	{
@@ -737,7 +741,10 @@ BOOL current_temperature_acpi_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("CurrentTemperature"), 0, &vtProp, 0, 0);
-				_tprintf(_T("CurrentTemperature: %s"), vtProp.bstrVal);
+				if (SUCCEEDED(hRes)) {
+					break;
+
+				}
 
 				// release the current result object
 				VariantClear(&vtProp);
