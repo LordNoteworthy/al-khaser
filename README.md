@@ -193,6 +193,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
     - VMWare
     - VBOX
     - VIRTUAL HD
+  - Power policies (S1-S4 states, thermal control)
 - **System Firmware Tables**
   - SMBIOS string checks (VirtualBox)
   - SMBIOS string checks (VMWare)

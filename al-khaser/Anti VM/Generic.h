@@ -5,6 +5,9 @@
 #include <winioctl.h>	// IOCTL
 #include <intrin.h>		// cpuid()
 
+#include <powrprof.h>	// check_power_modes()
+#pragma comment(lib, "powrprof.lib")
+
 
 #include <SetupAPI.h>
 #pragma comment(lib, "setupapi.lib")
@@ -33,3 +36,4 @@ BOOL model_computer_system_wmi();
 BOOL manufacturer_computer_system_wmi();
 BOOL current_temperature_acpi_wmi();
 BOOL process_id_processor_wmi();
+BOOL power_capabilities();

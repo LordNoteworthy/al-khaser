@@ -824,3 +824,23 @@ BOOL process_id_processor_wmi()
 
 	return bFound;
 }
+
+/*
+Check what power states are enabled.
+Most VMs don't support S1-S4 power states whereas most hardware does, and thermal control is usually not found either.
+This has been tested on VirtualBox and Hyper-V, as well as a physical desktop and laptop.
+*/
+BOOL power_capabilities()
+{
+	SYSTEM_POWER_CAPABILITIES powerCaps;
+	BOOL bFound = FALSE;
+	if (GetPwrCapabilities(&powerCaps) == TRUE)
+	{
+		if ((powerCaps.SystemS1 | powerCaps.SystemS2 | powerCaps.SystemS3 | powerCaps.SystemS4) == FALSE)
+		{
+			bFound = (powerCaps.ThermalControl == FALSE);
+		}
+	}
+
+	return bFound;
+}
