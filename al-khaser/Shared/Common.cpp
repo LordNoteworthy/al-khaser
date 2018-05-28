@@ -50,7 +50,7 @@ VOID print_category(TCHAR* text)
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
-VOID print_results(int result, TCHAR* szMsg)
+VOID _print_check_text(TCHAR* szMsg)
 {
 	_tprintf(TEXT("[*] %s"), szMsg);
 
@@ -60,7 +60,10 @@ VOID print_results(int result, TCHAR* szMsg)
 		_tprintf(TEXT(" "));
 		spaces_to_padd--;
 	}
-	
+}
+
+VOID _print_check_result(int result, TCHAR* szMsg)
+{
 	if (result == TRUE)
 		print_detected();
 	else
@@ -72,14 +75,23 @@ VOID print_results(int result, TCHAR* szMsg)
 	LOG_PRINT(buffer);
 }
 
+VOID print_results(int result, TCHAR* szMsg)
+{
+	_print_check_text(szMsg);
+	_print_check_result(result, szMsg);
+}
+
 VOID exec_check(int(*callback)(), TCHAR* szMsg) 
 {
+	/* Print the text to screen so we can see what's currently running */
+	_print_check_text(szMsg);
+
 	/* Call our check */
 	int result = callback();
 
 	/* Print / Log the result */
 	if (szMsg)
-		print_results(result, szMsg);
+		_print_check_result(result, szMsg);
 }
 
 VOID resize_console_window()
