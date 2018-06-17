@@ -451,7 +451,7 @@ BOOL vbox_firmware_ACPI()
 
 	PDWORD tableNames = static_cast<PDWORD>(malloc(4096));
 	SecureZeroMemory(tableNames, 4096);
-	DWORD tableSize = EnumSystemFirmwareTables(static_cast<DWORD>('ACPI'), tableNames, 4096);
+	DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
 	DWORD tableCount = tableSize / 4;
 	if (tableSize < 4 || tableCount == 0)
 		result = TRUE;
@@ -480,6 +480,7 @@ BOOL vbox_firmware_ACPI()
 		}
 	}
 
+lblCleanup:
 	free(tableNames);
 	return result;
 }

@@ -792,12 +792,39 @@ BOOL find_str_in_data(PBYTE needle, size_t needleLen, PBYTE haystack, size_t hay
 }
 
 
+UINT enum_system_firmware_tables(DWORD FirmwareTableProviderSignature, PVOID pFirmwareTableBuffer, DWORD BufferSize)
+{
+	typedef UINT(WINAPI* tEnumSystemFirmwareTables)(DWORD, PVOID, DWORD);
+	tEnumSystemFirmwareTables f_EnumSystemFirmwareTables = (tEnumSystemFirmwareTables)GetProcAddress(GetModuleHandleW(L"kernel32.dll"), "EnumSystemFirmwareTables");
+	
+	if (NULL == f_EnumSystemFirmwareTables)
+	{
+		printf("Couldn't find EnumSystemFirmwareTables :(\n");
+		// If the function fails for any other reason, the return value is zero.
+		// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724259(v=vs.85).aspx
+		return 0;
+	}
+
+	return f_EnumSystemFirmwareTables(FirmwareTableProviderSignature, pFirmwareTableBuffer, BufferSize);
+	
+}
+
 PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD pBufferSize)
 {
 	DWORD bufferSize = 4096;
 	PBYTE firmwareTable = static_cast<PBYTE>(malloc(bufferSize));
 	SecureZeroMemory(firmwareTable, bufferSize);
-	DWORD resultBufferSize = GetSystemFirmwareTable(signature, table, firmwareTable, bufferSize);
+	typedef UINT(WINAPI* tGetSystemFirmwareTable)(DWORD, DWORD, PVOID, DWORD);
+
+	tGetSystemFirmwareTable f_GetSystemFirmwareTable = (tGetSystemFirmwareTable)GetProcAddress(GetModuleHandleW(L"kernel32.dll"), "GetSystemFirmwareTable");
+	if (NULL == f_GetSystemFirmwareTable)
+	{
+		printf("Couldn't find GetSystemFirmwareTable :(\n");
+		free(firmwareTable);
+		return NULL;
+	}
+
+	DWORD resultBufferSize = f_GetSystemFirmwareTable(signature, table, firmwareTable, bufferSize);
 	if (resultBufferSize == 0)
 	{
 		printf("First call failed :(\n");
@@ -810,7 +837,7 @@ PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD p
 	{
 		firmwareTable = static_cast<BYTE*>(realloc(firmwareTable, resultBufferSize));
 		SecureZeroMemory(firmwareTable, resultBufferSize);
-		if (GetSystemFirmwareTable(signature, table, firmwareTable, resultBufferSize) == 0)
+		if (f_GetSystemFirmwareTable(signature, table, firmwareTable, resultBufferSize) == 0)
 		{
 			printf("Second call failed :(\n");
 			free(firmwareTable);
