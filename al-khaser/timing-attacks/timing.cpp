@@ -1,15 +1,14 @@
 #include "timing.h"
-
 /* Timing attacks or sleepy malwares are used to bypass sandboxed in general
 Every system which run in a timeout is vulmerable to this types of attacks */
 
 
-VOID timing_NtDelayexecution(UINT delayInMilliSeconds)
+BOOL timing_NtDelayexecution(UINT delayInMillis)
 {
 	// In this example, I will demonstrate NtDelayExecution because it is the lowest user mode
 	// api to delay execution Sleep -> SleepEx -> NtDelayExecution.
 	LARGE_INTEGER DelayInterval;
-	LONGLONG llDelay = delayInMilliSeconds * 10000LL;
+	LONGLONG llDelay = delayInMillis * 10000LL;
 	DelayInterval.QuadPart = -llDelay;
 
 
@@ -26,7 +25,7 @@ VOID timing_NtDelayexecution(UINT delayInMilliSeconds)
 		// is essentially 0 however since
 		// ntdll.dll is a vital system resource
 		printf("Failed to open a handle to NTDLL... this is suspicious!\n");
-		return;
+		return TRUE;
 	}
 
 	NtDelayExecution = (pNtDelayExecution)GetProcAddress(hNtdll, "NtDelayExecution");
@@ -35,11 +34,13 @@ VOID timing_NtDelayexecution(UINT delayInMilliSeconds)
 		// Handle however it fits your needs but as before,
 		// if this is missing there are some SERIOUS issues with the OS
 		printf("NTDLL does not have an NtDelayExecution entry point... this is suspicious!\n");
-		return;
+		return TRUE;
 	}
 
 	// Time to finally make the call
 	NtDelayExecution(FALSE, &DelayInterval);
+
+	return FALSE;
 }
 
 BOOL bProcessed = FALSE;
@@ -51,13 +52,16 @@ VOID CALLBACK TimerProc(HWND hwnd, UINT message, UINT_PTR iTimerID, DWORD dwTime
 }
 
 
-VOID timing_SetTimer(UINT delayInMilliSeconds)
+BOOL timing_SetTimer(UINT delayInMillis)
 {
 	MSG Msg;
 	UINT_PTR iTimerID;
 	
 	// Set our timer without window handle
-	iTimerID = SetTimer(NULL, 0, delayInMilliSeconds, TimerProc);
+	iTimerID = SetTimer(NULL, 0, delayInMillis, TimerProc);
+
+	if (iTimerID == NULL)
+		return TRUE;
 	
 	// Because we are running in a console app, we should get the messages from
 	// the queue and check if msg is WM_TIMER
@@ -70,6 +74,7 @@ VOID timing_SetTimer(UINT delayInMilliSeconds)
 	// Kill the timer
 	KillTimer(NULL, iTimerID);
 
+	return FALSE;
 }
 
 
@@ -78,9 +83,8 @@ VOID CALLBACK TimerFunction(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PT
 	bProcessed = TRUE;
 }
 
-VOID timing_timeSetEvent(UINT delayInMilliSeconds)
+BOOL timing_timeSetEvent(UINT delayInMillis)
 {
-
 	// Some vars
 	UINT uResolution;
 	TIMECAPS tc;
@@ -92,11 +96,14 @@ VOID timing_timeSetEvent(UINT delayInMilliSeconds)
 
 	// Create the timer
 	idEvent = timeSetEvent(
-		delayInMilliSeconds,
+		delayInMillis,
 		uResolution,
 		TimerFunction,
 		0,
 		TIME_ONESHOT);
+
+	if (idEvent == NULL)
+		return TRUE;
 
 	while (!bProcessed){
 		// wait until uor function finish
@@ -107,27 +114,33 @@ VOID timing_timeSetEvent(UINT delayInMilliSeconds)
 
 	// reset the timer
 	timeEndPeriod(uResolution);
+
+	return FALSE;
 }
 
 
-VOID timing_WaitForSingleObject(UINT delayInMilliSeconds)
+BOOL timing_WaitForSingleObject(UINT delayInMillis)
 {
 	HANDLE hEvent;
 
 	// Create a nonsignaled event
 	hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 	if (hEvent == NULL)
+	{
 		print_last_error(_T("CreateEvent"));
+		return TRUE;
+	}
 
 	// Wait until timeout 
-	DWORD x = WaitForSingleObject(hEvent, delayInMilliSeconds);
+	DWORD x = WaitForSingleObject(hEvent, delayInMillis);
 
 	// Malicious code goes here
 
+	return FALSE;
 }
 
 
-VOID timing_sleep_loop (UINT delayInMilliSeconds)
+BOOL timing_sleep_loop (UINT delayInMillis)
 {
 	/* 
 	This trick is about performing a low number of seconds to sleep but in a loop,
@@ -137,18 +150,18 @@ VOID timing_sleep_loop (UINT delayInMilliSeconds)
 	its timeout.
 	*/
 
-	int delayInMilliSeconds_divided  = delayInMilliSeconds / 1000;
+	int delayInMillis_divided  = delayInMillis / 1000;
 
 	/* Example: we want to sleep 300 seeconds, then we can sleep
 	0.3s for 1000 times which is like: 300 seconds = 5 minues */
 	for (int i = 0; i < 1000; i++) {
-		Sleep(delayInMilliSeconds_divided);
+		Sleep(delayInMillis_divided);
 	}
 
 	// Malicious code goes here
+
+	return FALSE;
 }
-
-
 
 
 /*
@@ -181,12 +194,12 @@ BOOL rdtsc_diff_locky()
 
 		// Did it take at least 10 times more CPU cycles to perform CloseHandle than it took to perform GetProcessHeap()?
 		if ((LODWORD(tsc3) - LODWORD(tsc2)) / (LODWORD(tsc2) - LODWORD(tsc1)) >= 10)
-			return TRUE;
+			return FALSE;
 	}
 
 	// We consistently saw a small ratio of difference between GetProcessHeap and CloseHandle execution times
 	// so we're probably in a VM!
-	return FALSE;
+	return TRUE;
 }
 
 
@@ -224,7 +237,7 @@ Another timinig attack using the API IcmpSendEcho which takes a TimeOut
 in milliseconds as a parameter, to wait for IPv4 ICMP packets replies.
 First time observed: http://blog.talosintelligence.com/2017/09/avast-distributes-malware.html
 */
-VOID timing_IcmpSendEcho(UINT delayInMilliSeconds)
+BOOL timing_IcmpSendEcho(UINT delayInMillis)
 {
 
 	HANDLE hIcmpFile;
@@ -238,48 +251,46 @@ VOID timing_IcmpSendEcho(UINT delayInMilliSeconds)
 	if (hIcmpFile == INVALID_HANDLE_VALUE) {
 		printf("\tUnable to open handle.\n");
 		printf("IcmpCreatefile returned error: %ld\n", GetLastError());
-		goto failed;
+		return TRUE;
 	}
 
 	ReplySize = sizeof(ICMP_ECHO_REPLY) + sizeof(SendData);
 	ReplyBuffer = (VOID*)malloc(ReplySize);
 	if (ReplyBuffer == NULL) {
 		printf("\tUnable to allocate memory\n");
-		goto failed;
+		return TRUE;
 	}
 
+	IcmpSendEcho(hIcmpFile, DestinationAddress, SendData, sizeof(SendData), NULL, ReplyBuffer, ReplySize, delayInMillis);
 
-	IcmpSendEcho(hIcmpFile, DestinationAddress, SendData, sizeof(SendData), NULL, ReplyBuffer, ReplySize, delayInMilliSeconds);
-
-failed:
-	;
+	return FALSE;
 }
 
 /*
 Timing attack using waitable timers. Test fails if any of the calls return an error state.
 */
-BOOL timing_CreateWaitableTimer(UINT delayInMilliSeconds)
+BOOL timing_CreateWaitableTimer(UINT delayInMillis)
 {
 	HANDLE hTimer = NULL;
 	LARGE_INTEGER dueTime;
-	dueTime.QuadPart = delayInMilliSeconds * -10000LL;
+	dueTime.QuadPart = delayInMillis * -10000LL;
 	hTimer = CreateWaitableTimer(NULL, TRUE, NULL);
 	if (hTimer == INVALID_HANDLE_VALUE)
 	{
-		return FALSE;
+		return TRUE;
 	}
 	if (SetWaitableTimer(hTimer, &dueTime, 0, NULL, NULL, FALSE) == FALSE)
 	{
-		return FALSE;
+		return TRUE;
 	}
 	if (WaitForSingleObject(hTimer, INFINITE) != WAIT_OBJECT_0)
 	{
-		return FALSE;
+		return TRUE;
 	}
 
 	CancelWaitableTimer(hTimer);
 	CloseHandle(hTimer);
-	return TRUE;
+	return FALSE;
 }
 
 HANDLE hEventCTQT = NULL;
@@ -287,7 +298,7 @@ HANDLE hEventCTQT = NULL;
 /*
 Timing attack using CreateTimerQueueTimer. Test fails if any of the calls return an error state.
 */
-BOOL timing_CreateTimerQueueTimer(UINT delayInMilliSeconds)
+BOOL timing_CreateTimerQueueTimer(UINT delayInMillis)
 {
 	HANDLE hTimerQueue;
 	HANDLE hTimerQueueTimer;
@@ -297,7 +308,7 @@ BOOL timing_CreateTimerQueueTimer(UINT delayInMilliSeconds)
 	hTimerQueue = CreateTimerQueue();
 	if (hTimerQueue == NULL)
 	{
-		return FALSE;
+		return TRUE;
 	}
 
 	if (CreateTimerQueueTimer(
@@ -305,16 +316,16 @@ BOOL timing_CreateTimerQueueTimer(UINT delayInMilliSeconds)
 		hTimerQueue,
 		&CallbackCTQT,
 		(PVOID)0xDEADBEEF,
-		delayInMilliSeconds,
+		delayInMillis,
 		0,
 		WT_EXECUTEDEFAULT) == FALSE)
 	{
-		return FALSE;
+		return TRUE;
 	}
 
 	// idea here is to wait only 10x the expected delay time
 	// if the wait expires before the timer comes back, we fail the test
-	if (WaitForSingleObject(hEventCTQT, delayInMilliSeconds * 10) != WAIT_OBJECT_0)
+	if (WaitForSingleObject(hEventCTQT, delayInMillis * 10) != WAIT_OBJECT_0)
 	{
 		return FALSE;
 	}
@@ -323,12 +334,12 @@ BOOL timing_CreateTimerQueueTimer(UINT delayInMilliSeconds)
 	CloseHandle(hTimerQueueTimer);
 	CloseHandle(hTimerQueue);
 
-	return TRUE;
+	return FALSE;
 }
 
 VOID CALLBACK CallbackCTQT(PVOID lParam, BOOLEAN TimerOrWaitFired)
 {
-	if (TimerOrWaitFired == TRUE)
+	if (TimerOrWaitFired == TRUE && lParam == (PVOID)0xDEADBEEF)
 	{
 		SetEvent(hEventCTQT);
 	}

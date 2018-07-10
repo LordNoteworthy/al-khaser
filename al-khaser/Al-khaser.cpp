@@ -176,41 +176,18 @@ int main(void)
 	/* Timing Attacks */
 	if (ENABLE_TIMING_ATTACKS) {
 		print_category(TEXT("Timing-attacks"));
-		UINT delayInSeconds = 300U;
-		UINT delayInMilliSeconds = delayInSeconds * 1000U;
+		UINT delayInSeconds = 600U;
+		UINT delayInMillis = delayInSeconds * 1000U;
 		printf("\n[*] Delay value is set to %u minutes ...\n", delayInSeconds / 60);
 
-		_tprintf(_T("[+] Performing a sleep using NtDelayExecution ...\n"));
-		timing_NtDelayexecution(delayInMilliSeconds);
-		print_results(FALSE, _T("NtDelayexecution was bypassed!"));
-
-		_tprintf(_T("[+] Performing a sleep() in a loop ...\n"));
-		timing_sleep_loop(delayInMilliSeconds);
-		print_results(FALSE, _T("Sleep in loop was bypassed!"));
-
-		_tprintf(_T("[*] Delaying execution using SetTimer ...\n"));
-		timing_SetTimer(delayInMilliSeconds);
-		print_results(FALSE, _T("timing_SetTimer was bypassed!"));
-
-		_tprintf(_T("[*] Delaying execution using timeSetEvent ...\n"));
-		timing_timeSetEvent(delayInMilliSeconds);
-		print_results(FALSE, _T("timeSetEvent was bypassed!"));
-
-		_tprintf(_T("[*] Delaying execution using WaitForSingleObject ...\n"));
-		timing_WaitForSingleObject(delayInMilliSeconds);
-		print_results(FALSE, _T("WaitForSingleObject was bypassed!"));
-
-		_tprintf(_T("[*] Delaying execution using IcmpSendEcho ...\n"));
-		timing_IcmpSendEcho(delayInMilliSeconds);
-		print_results(FALSE, _T("IcmpSendEcho was bypassed!"));
-
-		_tprintf(_T("[*] Delaying execution using CreateWaitableTimer ...\n"));
-		timing_CreateWaitableTimer(delayInMilliSeconds);
-		print_results(FALSE, _T("CreateWaitableTimer was bypassed!"));
-
-		_tprintf(_T("[*] Delaying execution using CreateTimerQueueTimer ...\n"));
-		timing_CreateTimerQueueTimer(delayInMilliSeconds);
-		print_results(FALSE, _T("CreateTimerQueueTimer was bypassed!"));
+		exec_check(timing_NtDelayexecution, delayInMillis, TEXT("Performing a sleep using NtDelayExecution ..."));
+		exec_check(timing_sleep_loop, delayInMillis, TEXT("Performing a sleep() in a loop ..."));
+		exec_check(timing_SetTimer, delayInMillis, TEXT("Delaying execution using SetTimer ..."));
+		exec_check(timing_timeSetEvent, delayInMillis, TEXT("Delaying execution using timeSetEvent ..."));
+		exec_check(timing_WaitForSingleObject, delayInMillis, TEXT("Delaying execution using WaitForSingleObject ..."));
+		exec_check(timing_IcmpSendEcho, delayInMillis, TEXT("Delaying execution using IcmpSendEcho ..."));
+		exec_check(timing_CreateWaitableTimer, delayInMillis, TEXT("Delaying execution using CreateWaitableTimer ..."));
+		exec_check(timing_CreateTimerQueueTimer, delayInMillis, TEXT("Delaying execution using CreateTimerQueueTimer ..."));
 
 		exec_check(&rdtsc_diff_locky, TEXT("Checking RDTSC Locky trick "));
 		exec_check(&rdtsc_diff_vmexit, TEXT("Checking RDTSC which force a VM Exit (cpuid) "));
