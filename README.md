@@ -86,8 +86,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - WaitForSingleObject -> WaitForSingleObjectEx -> NtWaitForSingleObject
 - WaitForMultipleObjects -> WaitForMultipleObjectsEx -> NtWaitForMultipleObjects (todo)
 - IcmpSendEcho (CCleaner Malware)
-- CreateWaitableTimer (todo)
-- CreateTimerQueueTimer (todo)
+- CreateWaitableTimer
+- CreateTimerQueueTimer
 - Big crypto loops (todo)
 
 

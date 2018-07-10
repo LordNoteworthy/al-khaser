@@ -204,6 +204,14 @@ int main(void)
 		timing_IcmpSendEcho(delayInMilliSeconds);
 		print_results(FALSE, _T("IcmpSendEcho was bypassed ... "));
 
+		_tprintf(_T("[*] Delaying execution using CreateWaitableTimer():\n"));
+		timing_CreateWaitableTimer(delayInMilliSeconds);
+		print_results(FALSE, _T("CreateWaitableTimer was bypassed ... "));
+
+		_tprintf(_T("[*] Delaying execution using CreateTimerQueueTimer():\n"));
+		timing_CreateTimerQueueTimer(delayInMilliSeconds);
+		print_results(FALSE, _T("CreateTimerQueueTimer was bypassed ... "));
+
 		exec_check(&rdtsc_diff_locky, TEXT("Checking RDTSC Locky trick: "));
 		exec_check(&rdtsc_diff_vmexit, TEXT("Checking RDTSC which force a VM Exit (cpuid): "));
 	}

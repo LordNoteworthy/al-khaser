@@ -17,4 +17,6 @@ VOID timing_sleep_loop(UINT delayInMilliSeconds);
 BOOL rdtsc_diff_locky();
 BOOL rdtsc_diff_vmexit();
 VOID timing_IcmpSendEcho(UINT delayInMilliSeconds);
-
+BOOL timing_CreateWaitableTimer(UINT delayInMilliSeconds);
+BOOL timing_CreateTimerQueueTimer(UINT delayInMilliSeconds);
+VOID CALLBACK CallbackCTQT(PVOID lParam, BOOLEAN TimerOrWaitFired);

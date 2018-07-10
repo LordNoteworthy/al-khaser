@@ -254,3 +254,82 @@ VOID timing_IcmpSendEcho(UINT delayInMilliSeconds)
 failed:
 	;
 }
+
+/*
+Timing attack using waitable timers. Test fails if any of the calls return an error state.
+*/
+BOOL timing_CreateWaitableTimer(UINT delayInMilliSeconds)
+{
+	HANDLE hTimer = NULL;
+	LARGE_INTEGER dueTime;
+	dueTime.QuadPart = delayInMilliSeconds * -10000LL;
+	hTimer = CreateWaitableTimer(NULL, TRUE, NULL);
+	if (hTimer == INVALID_HANDLE_VALUE)
+	{
+		return FALSE;
+	}
+	if (SetWaitableTimer(hTimer, &dueTime, 0, NULL, NULL, FALSE) == FALSE)
+	{
+		return FALSE;
+	}
+	if (WaitForSingleObject(hTimer, INFINITE) != WAIT_OBJECT_0)
+	{
+		return FALSE;
+	}
+
+	CancelWaitableTimer(hTimer);
+	CloseHandle(hTimer);
+	return TRUE;
+}
+
+HANDLE hEventCTQT = NULL;
+
+/*
+Timing attack using CreateTimerQueueTimer. Test fails if any of the calls return an error state.
+*/
+BOOL timing_CreateTimerQueueTimer(UINT delayInMilliSeconds)
+{
+	HANDLE hTimerQueue;
+	HANDLE hTimerQueueTimer;
+
+	hEventCTQT = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+	hTimerQueue = CreateTimerQueue();
+	if (hTimerQueue == NULL)
+	{
+		return FALSE;
+	}
+
+	if (CreateTimerQueueTimer(
+		&hTimerQueueTimer,
+		hTimerQueue,
+		&CallbackCTQT,
+		(PVOID)0xDEADBEEF,
+		delayInMilliSeconds,
+		0,
+		WT_EXECUTEDEFAULT) == FALSE)
+	{
+		return FALSE;
+	}
+
+	// idea here is to wait only 10x the expected delay time
+	// if the wait expires before the timer comes back, we fail the test
+	if (WaitForSingleObject(hEventCTQT, delayInMilliSeconds * 10) != WAIT_OBJECT_0)
+	{
+		return FALSE;
+	}
+
+	CloseHandle(hEventCTQT);
+	CloseHandle(hTimerQueueTimer);
+	CloseHandle(hTimerQueue);
+
+	return TRUE;
+}
+
+VOID CALLBACK CallbackCTQT(PVOID lParam, BOOLEAN TimerOrWaitFired)
+{
+	if (TimerOrWaitFired == TRUE)
+	{
+		SetEvent(hEventCTQT);
+	}
+}
