@@ -19,7 +19,7 @@ VOID vbox_reg_key_value()
 	for (int i = 0; i < dwLength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key HARDWARE\\Description\\System - %s is set to %s:"), szEntries[i][1], szEntries[i][2]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key HARDWARE\\Description\\System - %s is set to %s"), szEntries[i][1], szEntries[i][2]);
 		if (Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, szEntries[i][0], szEntries[i][1], szEntries[i][2]))
 			print_results(TRUE, msg);
 		else
@@ -51,7 +51,7 @@ VOID vbox_reg_keys()
 	for (int i = 0; i < dwlength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s: "), szKeys[i]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s "), szKeys[i]);
 		if (Is_RegKeyExists(HKEY_LOCAL_MACHINE, szKeys[i]))
 			print_results(TRUE, msg);
 		else
@@ -97,7 +97,7 @@ VOID vbox_files()
 	{
 		PathCombine(szPath, szWinDir, szPaths[i]);
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking file %s: "), szPath);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking file %s "), szPath);
 		if (is_FileExists(szPath))
 			print_results(TRUE, msg);
 		else
@@ -154,7 +154,7 @@ VOID vbox_devices()
 	{
 		HANDLE hFile = CreateFile(devices[i], GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking device %s: "), devices[i]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking device %s "), devices[i]);
 		if (hFile != INVALID_HANDLE_VALUE)
 			print_results(TRUE, msg);
 		else
@@ -209,7 +209,7 @@ VOID vbox_processes()
 	for (int i = 0; i < iLength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking virtual box processe %s: "), szProcesses[i]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking virtual box processe %s "), szProcesses[i]);
 		if (GetProcessIdFromName(szProcesses[i]))
 			print_results(TRUE, msg);
 		else

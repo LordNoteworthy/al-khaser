@@ -19,7 +19,7 @@ VOID vmware_reg_key_value()
 	for (int i = 0; i < dwLength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s:"), szEntries[i][0]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s"), szEntries[i][0]);
 		if (Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, szEntries[i][0], szEntries[i][1], szEntries[i][2]))
 			print_results(TRUE, msg);
 		else
@@ -45,7 +45,7 @@ VOID vmware_reg_keys()
 	for (int i = 0; i < dwlength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s: "), szKeys[i]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s "), szKeys[i]);
 		if (Is_RegKeyExists(HKEY_LOCAL_MACHINE, szKeys[i]))
 			print_results(TRUE, msg);
 		else
@@ -83,7 +83,7 @@ VOID vmware_files()
 	{
 		PathCombine(szPath, szWinDir, szPaths[i]);
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking file %s: "), szPath);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking file %s "), szPath);
 		if (is_FileExists(szPath))
 			print_results(TRUE, msg);
 		else
@@ -129,7 +129,7 @@ VOID vmware_mac()
 	for (int i = 0; i < dwLength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking MAC starting with: %s"), szMac[i][1]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking MAC starting with %s"), szMac[i][1]);
 		if (check_mac_addr(szMac[i][0]))
 			print_results(TRUE, msg);
 		else
@@ -166,7 +166,7 @@ VOID vmware_devices()
 	{
 		HANDLE hFile = CreateFile(devices[i], GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking device %s: "), devices[i]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking device %s "), devices[i]);
 		
 		if (hFile != INVALID_HANDLE_VALUE)
 			print_results(TRUE, msg);
@@ -194,7 +194,7 @@ VOID vmware_processes()
 	for (int i = 0; i < iLength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking vmware processe %s: "), szProcesses[i]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking vmware processe %s "), szProcesses[i]);
 		if (GetProcessIdFromName(szProcesses[i]))
 			print_results(TRUE, msg);
 		else
