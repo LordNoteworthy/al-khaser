@@ -1,11 +1,10 @@
 #include <Windows.h>
 #include <tchar.h>
 
-const int TLS_CALLBACK_OFS_THREAD_EVENT_HANDLE = 1;
-const int TLS_CALLBACK_OFS_PROCESS_EVENT_HANDLE = 1;
-const int TLS_CALLBACK_OFS_THREAD = 2;
-const int TLS_CALLBACK_OFS_PROCESS = 3;
-static volatile UINT64* tls_callback_data = NULL;
+static volatile HANDLE tls_callback_thread_event;
+static volatile HANDLE tls_callback_process_event;
+static volatile UINT32 tls_callback_thread_data;
+static volatile UINT32 tls_callback_process_data;
 
 VOID WINAPI tls_callback(PVOID hModule, DWORD dwReason, PVOID pContext);
 BOOL TLSCallbackThread();
