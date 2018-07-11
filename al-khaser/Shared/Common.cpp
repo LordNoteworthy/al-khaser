@@ -81,7 +81,8 @@ VOID print_results(int result, TCHAR* szMsg)
 	_print_check_result(result, szMsg);
 }
 
-VOID exec_check(int(*callback)(), TCHAR* szMsg) 
+// note: templated version of this function is in Common.h
+VOID exec_check(int(*callback)(), TCHAR* szMsg)
 {
 	/* Print the text to screen so we can see what's currently running */
 	_print_check_text(szMsg);

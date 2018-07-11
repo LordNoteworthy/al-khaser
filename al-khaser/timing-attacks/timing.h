@@ -8,15 +8,16 @@
 #pragma comment(lib, "Winmm.lib")
 
 #include "..\Shared\Common.h"
+#include "..\Shared\VersionHelpers.h"
 
-VOID timing_SetTimer(UINT delayInMilliSeconds);
-VOID timing_NtDelayexecution(UINT delayInMilliSeconds);
-VOID timing_timeSetEvent(UINT delayInMilliSeconds);
-VOID timing_WaitForSingleObject(UINT delayInMilliSeconds);
-VOID timing_sleep_loop(UINT delayInMilliSeconds);
+BOOL timing_SetTimer(UINT delayInMillis);
+BOOL timing_NtDelayexecution(UINT delayInMillis);
+BOOL timing_timeSetEvent(UINT delayInMillis);
+BOOL timing_WaitForSingleObject(UINT delayInMillis);
+BOOL timing_sleep_loop(UINT delayInMillis);
 BOOL rdtsc_diff_locky();
 BOOL rdtsc_diff_vmexit();
-VOID timing_IcmpSendEcho(UINT delayInMilliSeconds);
-BOOL timing_CreateWaitableTimer(UINT delayInMilliSeconds);
-BOOL timing_CreateTimerQueueTimer(UINT delayInMilliSeconds);
+BOOL timing_IcmpSendEcho(UINT delayInMillis);
+BOOL timing_CreateWaitableTimer(UINT delayInMillis);
+BOOL timing_CreateTimerQueueTimer(UINT delayInMillis);
 VOID CALLBACK CallbackCTQT(PVOID lParam, BOOLEAN TimerOrWaitFired);
