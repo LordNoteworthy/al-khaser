@@ -4,6 +4,7 @@
 #include <devguid.h>    // Device guids
 #include <winioctl.h>	// IOCTL
 #include <intrin.h>		// cpuid()
+#include <locale.h>		// 64-bit wchar atoi
 
 #include <powrprof.h>	// check_power_modes()
 #pragma comment(lib, "powrprof.lib")

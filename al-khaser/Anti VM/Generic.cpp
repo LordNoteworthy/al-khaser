@@ -200,7 +200,7 @@ BOOL disk_size_wmi()
 	BOOL bStatus = FALSE;
 	HRESULT hRes;
 	BOOL bFound = FALSE;
-	INT64 minHardDiskSize = (80LL * (1024LL * (1024LL * (1024LL))));
+	UINT64 minHardDiskSize = (80ULL * (1024ULL * (1024ULL * (1024ULL))));
 
 	// Init WMI
 	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
@@ -223,12 +223,20 @@ BOOL disk_size_wmi()
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("Size"), 0, &vtProp, 0, 0);
-				if (V_VT(&vtProp) != VT_NULL) {
-
-					// Do our comparaison
-					if (vtProp.llVal < minHardDiskSize) { // Less than 80GB
-						bFound = TRUE; break;
+				hRes = pclsObj->Get(_T("Size"), 0, &vtProp, NULL, 0);
+				if (V_VT(&vtProp) != VT_NULL)
+				{
+					// convert disk size string to bytes
+					errno = 0;
+					unsigned long long diskSizeBytes = _tcstoui64_l(vtProp.bstrVal, NULL, 10, _get_current_locale());
+					// do the check only if we successfuly got the disk size
+					if (errno == 0)
+					{
+						// Do our comparison
+						if (diskSizeBytes < minHardDiskSize) { // Less than 80GB
+							bFound = TRUE;
+							break;
+						}
 					}
 
 					// release the current result object
