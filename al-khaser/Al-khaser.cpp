@@ -77,6 +77,7 @@ int main(void)
 		exec_check(&disk_size_wmi, TEXT("Checking hard disk size using WMI "));
 		exec_check(&dizk_size_deviceiocontrol, TEXT("Checking hard disk size using DeviceIoControl "));
 		exec_check(&setupdi_diskdrive, TEXT("Checking SetupDi_diskdrive "));
+		exec_check(&ata_identify, TEXT("Checking ATA IDENTIFY command "));
 		exec_check(&mouse_movement, TEXT("Checking mouse movement "));
 		exec_check(&memory_space, TEXT("Checking memory space using GlobalMemoryStatusEx "));
 		exec_check(&disk_size_getdiskfreespace, TEXT("Checking disk size using GetDiskFreeSpaceEx "));

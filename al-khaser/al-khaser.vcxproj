@@ -247,6 +247,7 @@
     <ClInclude Include="Anti Debug\WriteWatch.h" />
     <ClInclude Include="Anti Dump\ErasePEHeaderFromMemory.h" />
     <ClInclude Include="Anti Dump\SizeOfImage.h" />
+    <ClInclude Include="Anti VM\ATA.h" />
     <ClInclude Include="Anti VM\Generic.h" />
     <ClInclude Include="Anti VM\Parallels.h" />
     <ClInclude Include="Anti VM\Qemu.h" />

@@ -848,3 +848,23 @@ PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD p
 	*pBufferSize = resultBufferSize;
 	return firmwareTable;
 }
+
+VOID SwapStringEndianA(char* buffer, size_t len)
+{
+	for (size_t i = 0; i < len; i += 2)
+	{
+		char tmp = buffer[i + 1];
+		buffer[i + 1] = buffer[i];
+		buffer[i] = tmp;
+	}
+}
+
+VOID SwapStringEndianW(wchar_t* buffer, size_t len)
+{
+	for (size_t i = 0; i < len; i += 2)
+	{
+		wchar_t tmp = buffer[i + 1];
+		buffer[i + 1] = buffer[i];
+		buffer[i] = tmp;
+	}
+}

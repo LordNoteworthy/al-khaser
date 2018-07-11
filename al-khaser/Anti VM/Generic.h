@@ -5,6 +5,8 @@
 #include <winioctl.h>	// IOCTL
 #include <intrin.h>		// cpuid()
 #include <locale.h>		// 64-bit wchar atoi
+#include <ntddscsi.h>	// ATA/SCSI IOCTL structs
+#include "ATA.h"		// ATA structures
 
 #include <powrprof.h>	// check_power_modes()
 #pragma comment(lib, "powrprof.lib")
@@ -15,6 +17,12 @@
 
 #include "../Shared/Utils.h"
 #include "../Shared/VersionHelpers.h"
+
+struct ATA_IDENTITY_BUFFER
+{
+	ATA_PASS_THROUGH_EX Request;
+	IDENTIFY_DEVICE_DATA Response;
+};
 
 VOID loaded_dlls();
 BOOL NumberOfProcessors();
@@ -38,3 +46,5 @@ BOOL manufacturer_computer_system_wmi();
 BOOL current_temperature_acpi_wmi();
 BOOL process_id_processor_wmi();
 BOOL power_capabilities();
+BOOL ata_identify();
+VOID dump_response(ATA_IDENTITY_BUFFER identityBuffer);

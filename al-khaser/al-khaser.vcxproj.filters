@@ -399,6 +399,9 @@
     <ClInclude Include="Anti VM\VirtualPC.h">
       <Filter>Anti VM / Emulation\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Anti VM\ATA.h">
+      <Filter>Anti VM / Emulation\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="Anti Debug\int2d_x64.asm">
