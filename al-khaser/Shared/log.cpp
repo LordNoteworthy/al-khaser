@@ -10,7 +10,7 @@ static int SESSION_TRACKER; //Keeps track of session
 
 TCHAR* print_time()
 {
-	int size = 0;
+	size_t size = 0;
 	time_t t;
 	TCHAR *buf;
 

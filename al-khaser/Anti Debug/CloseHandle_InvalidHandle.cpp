@@ -34,7 +34,8 @@ BOOL NtClose_InvalideHandle()
 
 	__try {
 		// Time to finally make the call
-		NtClose_((HANDLE)0x99999999);
+
+		NtClose_(reinterpret_cast<HANDLE>(0x99999999ULL));
 	}
 
 	__except (EXCEPTION_EXECUTE_HANDLER) {
@@ -49,7 +50,7 @@ BOOL CloseHandle_InvalideHandle()
 {
 	// Let's try first with user mode API: CloseHandle
 	__try {
-		CloseHandle((HANDLE)0x99999999);
+		CloseHandle(reinterpret_cast<HANDLE>(0x99999999ULL));
 	}
 
 	__except (EXCEPTION_EXECUTE_HANDLER) {

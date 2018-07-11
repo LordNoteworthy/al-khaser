@@ -480,7 +480,6 @@ BOOL vbox_firmware_ACPI()
 		}
 	}
 
-lblCleanup:
 	free(tableNames);
 	return result;
 }

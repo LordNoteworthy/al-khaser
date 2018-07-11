@@ -259,7 +259,6 @@ BOOL vmware_firmware_ACPI()
 		}
 	}
 
-lblCleanup:
 	free(tableNames);
 	return result;
 }

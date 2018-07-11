@@ -55,7 +55,7 @@ VOID _print_check_text(TCHAR* szMsg)
 	_tprintf(TEXT("[*] %s"), szMsg);
 
 	/* align the result according to the length of the text */
-	int spaces_to_padd = 95 - _tcslen(szMsg);
+	size_t spaces_to_padd = 95 - _tcslen(szMsg);
 	while (spaces_to_padd > 0) {
 		_tprintf(TEXT(" "));
 		spaces_to_padd--;

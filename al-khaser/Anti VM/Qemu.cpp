@@ -112,7 +112,6 @@ BOOL qemu_firmware_ACPI()
 		}
 	}
 
-lblCleanup:
 	free(tableNames);
 	return result;
 }

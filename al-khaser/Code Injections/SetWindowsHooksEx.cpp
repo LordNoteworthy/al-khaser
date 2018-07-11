@@ -39,7 +39,7 @@ BOOL SetWindowsHooksEx_Injection()
 		print_last_error(_T("GetProcAddress"));
 		return FALSE;
 	}
-	_tprintf(_T("\t[+] Found at 0x%08x\n"), (UINT)myFunctionAddress);
+	_tprintf(_T("\t[+] Found at 0x%p\n"), myFunctionAddress);
 
 	/* Injection happens here */
 	hHook = SetWindowsHookEx(WH_KEYBOARD, myFunctionAddress, hOurDll, dwThreadId);

@@ -315,7 +315,7 @@ BOOL timing_CreateTimerQueueTimer(UINT delayInMillis)
 		&hTimerQueueTimer,
 		hTimerQueue,
 		&CallbackCTQT,
-		(PVOID)0xDEADBEEF,
+		reinterpret_cast<PVOID>(0xDEADBEEFULL),
 		delayInMillis,
 		0,
 		WT_EXECUTEDEFAULT) == FALSE)
@@ -339,7 +339,7 @@ BOOL timing_CreateTimerQueueTimer(UINT delayInMillis)
 
 VOID CALLBACK CallbackCTQT(PVOID lParam, BOOLEAN TimerOrWaitFired)
 {
-	if (TimerOrWaitFired == TRUE && lParam == (PVOID)0xDEADBEEF)
+	if (TimerOrWaitFired == TRUE && lParam == reinterpret_cast<PVOID>(0xDEADBEEFULL))
 	{
 		SetEvent(hEventCTQT);
 	}

@@ -50,14 +50,14 @@ BOOL QueueUserAPC_Injection()
 		print_last_error(_T("GetProcAddress"));
 		return FALSE;
 	}
-	_tprintf(_T("\t[+] Found at 0x%08x\n"), (UINT)LoadLibraryAddress);
+	_tprintf(_T("\t[+] Found at 0x%p\n"), LoadLibraryAddress);
 
 	/* Get the full path of the dll */
 	GetFullPathName(lpDllName, MAX_PATH, lpDllPath, NULL);
 	_tprintf(_T("\t[+] Full DLL Path: %s\n"), lpDllPath);
 
-	// The low-order DWORD of the maximum size of the file mapping object.
-	DWORD dwSize = _tcslen(lpDllPath) * sizeof(TCHAR);
+	// The maximum size of the file mapping object.
+	size_t dwSize = _tcslen(lpDllPath) * sizeof(TCHAR);
 
 	/* Allocate memory into the remote process */
 	_tprintf(_T("\t[+] Allocating space for the path of the DLL\n"));
@@ -68,7 +68,7 @@ BOOL QueueUserAPC_Injection()
 	}
 
 	/* Write to the remote process */
-	printf("\t[+] Writing into the current process space at 0x%08x\n", (UINT)lpBaseAddress);
+	printf("\t[+] Writing into the current process space at 0x%p\n", lpBaseAddress);
 	bStatus = WriteProcessMemory(hProcess, lpBaseAddress, lpDllPath, dwSize, NULL);
 	if (bStatus == NULL) {
 		print_last_error(_T("WriteProcessMemory"));
