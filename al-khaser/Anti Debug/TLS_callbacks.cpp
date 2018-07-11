@@ -21,7 +21,6 @@ VOID WINAPI tls_callback(PVOID hModule, DWORD dwReason, PVOID pContext)
 	{
 		if (tls_callback_data != NULL)
 		{
-			OutputDebugString(_TEXT("In thread attach, setting up event."));
 			HANDLE hThreadEvent = (HANDLE)tls_callback_data[TLS_CALLBACK_OFS_THREAD_EVENT_HANDLE];
 			tls_callback_data[TLS_CALLBACK_OFS_THREAD] = 0xDEADBEEF;
 			SetEvent(hThreadEvent);
