@@ -4,6 +4,7 @@
 int main(void)
 {
 	/* enable functions */
+	BOOL	ENABLE_TLS_CHECKS = TRUE;
 	BOOL	ENABLE_DEBUG_CHECKS = TRUE;
 	BOOL	ENABLE_GEN_SANDBOX_CHECKS = TRUE;
 	BOOL	ENABLE_VBOX_CHECKS = TRUE;
@@ -27,6 +28,13 @@ int main(void)
 
 	if (IsWoW64())
 		_tprintf(_T("Process is running under WOW64\n\n"));
+
+	/* TLS checks */
+	if (ENABLE_TLS_CHECKS) {
+		print_category(TEXT("TLS Callbacks"));
+		exec_check(&TLSCallbackProcess, TEXT("TLS process attach callback "));
+		exec_check(&TLSCallbackThread, TEXT("TLS thread attach callback "));
+	}
 
 	/* Debugger Detection */
 	if (ENABLE_DEBUG_CHECKS) {

@@ -2,20 +2,61 @@
 
 // The Thread Local Storage (TLS) callback is called before the execution of the EntryPoint of the application
 // Malware takes advantages to perform anti-debug and anti-vm checks.
-// Their could be more than one callback, and sometimes, inside one call back, one can create one in the fly.
+// There could be more than one callback, and sometimes, inside one call back, one can create one in the fly.
 
-VOID  WINAPI tls_callback(PVOID hModule, DWORD dwReason, PVOID pContext)
+
+volatile bool has_run = false;
+
+VOID WINAPI tls_callback(PVOID hModule, DWORD dwReason, PVOID pContext)
 {
+	if (!has_run)
+	{
+		has_run = true;
+		tls_callback_thread_event = CreateEvent(NULL, FALSE, FALSE, NULL);
+		tls_callback_process_event = CreateEvent(NULL, FALSE, FALSE, NULL);
+	}
+
 	if (dwReason == DLL_THREAD_ATTACH)
 	{
-		// This will be loaded in each DLL thread attach
-		// MessageBox(0, _T("I am running from a TLS callbacks, did you see that?"), _T("DLL_THREAD_ATTACH"), 0);
+		tls_callback_thread_data = 0xDEADBEEF;
+		SetEvent(tls_callback_thread_event);
 	}
 
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
-		MessageBox(0, _T("I am running from a TLS callbacks, did you see that?"), _T("DLL_PROCESS_ATTACH"), 0);
+		tls_callback_process_data = 0xDEADBEEF;
+		SetEvent(tls_callback_process_event);
 	}
+}
+
+BOOL TLSCallbackThread()
+{
+	const int BLOWN = 1000;
+
+	int fuse = 0;
+	while (tls_callback_thread_event == NULL && ++fuse != BLOWN) { SwitchToThread(); }
+	if (fuse == BLOWN)
+		return TRUE;
+
+	if (WaitForSingleObject(tls_callback_thread_event, 2000) != WAIT_OBJECT_0)
+		return TRUE;
+
+	return tls_callback_thread_data == 0xDEADBEEF ? FALSE : TRUE;
+}
+
+BOOL TLSCallbackProcess()
+{
+	const int BLOWN = 1000;
+
+	int fuse = 0;
+	while (tls_callback_process_event == NULL && ++fuse != BLOWN) { SwitchToThread(); }
+	if (fuse == BLOWN)
+		return TRUE;
+
+	if (WaitForSingleObject(tls_callback_process_event, 2000) != WAIT_OBJECT_0)
+		return TRUE;
+
+	return tls_callback_process_data == 0xDEADBEEF ? FALSE : TRUE;
 }
 
 #ifdef _WIN64
