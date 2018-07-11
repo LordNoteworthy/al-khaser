@@ -268,38 +268,166 @@ BOOL dizk_size_deviceiocontrol()
 	GET_LENGTH_INFORMATION size = { 0 };
 	DWORD lpBytesReturned = 0;
 	LONGLONG minHardDiskSize = (80LL * (1024LL * (1024LL * (1024LL))));
+	LARGE_INTEGER totalDiskSize;
+	totalDiskSize.QuadPart = 0LL;
 
-	// This technique required admin priviliege starting from Vira Windows Vista
+	// This technique requires admin priviliege starting from Windows Vista
 	if (!IsElevated() && IsWindowsVistaOrGreater())
 		return FALSE;
-	
-	hDevice = CreateFile(_T("\\\\.\\PhysicalDrive0"),
-		GENERIC_READ,                // no access to the drive
-		FILE_SHARE_READ, 			// share mode
-		NULL,						// default security attributes
-		OPEN_EXISTING,				// disposition
-		0,							// file attributes
-		NULL);						// do not copy file attributes
 
-	if (hDevice == INVALID_HANDLE_VALUE) {
-		CloseHandle(hDevice);
-		return FALSE;
+	// This code tries to get the physical disk(s) associated with the drive that Windows is on.
+	// This is not always C:\ or PhysicalDrive0 so we need to do some work to account for multi-disk volumes.
+	// By default we fall back to PhysicalDrive0 if any of this fails.
+
+	bool defaultToDrive0 = true;
+
+	// get the Windows system directory
+	wchar_t winDirBuffer[MAX_PATH];
+	SecureZeroMemory(winDirBuffer, MAX_PATH);
+	UINT winDirLen = GetSystemWindowsDirectory(winDirBuffer, MAX_PATH);
+	if (winDirLen != 0)
+	{
+		// get the drive number (0-25 for A-Z) associated with the directory
+		int driveNumber = PathGetDriveNumber(winDirBuffer);
+		if (driveNumber >= 0)
+		{
+			// convert the drive number to a root path (e.g. C:\)
+			wchar_t driveRootPathBuffer[MAX_PATH];
+			SecureZeroMemory(driveRootPathBuffer, MAX_PATH);
+			wchar_t* rootPath = PathBuildRoot(driveRootPathBuffer, driveNumber);
+			if (rootPath != NULL)
+			{
+				// open a handle to the drive
+				HANDLE hDrive = CreateFile(
+					rootPath,
+					GENERIC_READ,
+					FILE_SHARE_READ,
+					NULL,
+					OPEN_EXISTING,
+					0,
+					NULL
+				);
+				if (hDrive != INVALID_HANDLE_VALUE)
+				{
+					// allocate enough space to describe a 256-disk array
+					// it would be weird to have more!
+					const int extentSize = sizeof(VOLUME_DISK_EXTENTS) + (sizeof(DISK_EXTENT) * 256);
+					auto diskExtents = static_cast<VOLUME_DISK_EXTENTS*>(malloc(extentSize));
+					DWORD sizeResult;
+					BOOL extentsIoctlOK = DeviceIoControl(
+						hDevice,
+						IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS,
+						NULL,
+						0,
+						&diskExtents,
+						sizeof(diskExtents),
+						&sizeResult,
+						NULL
+					);
+					
+					if (extentsIoctlOK && diskExtents->NumberOfDiskExtents > 0)
+					{
+						// loop through disks associated with this drive
+						// we want to sum the disk
+						wchar_t physicalPathBuffer[MAX_PATH];
+						for (DWORD i = 0; i < diskExtents->NumberOfDiskExtents; i++)
+						{
+							if (wnsprintf(physicalPathBuffer, MAX_PATH, _T("\\\\.\\PhysicalDrive%d"), diskExtents->Extents[i].DiskNumber) <= 0)
+							{
+								// open the physical disk
+								hDevice = CreateFile(
+									physicalPathBuffer,
+									GENERIC_READ,
+									FILE_SHARE_READ,
+									NULL,
+									OPEN_EXISTING,
+									0,
+									NULL);
+
+								if (hDevice != INVALID_HANDLE_VALUE)
+								{
+									// fetch the size info
+									bResult = DeviceIoControl(
+										hDevice,					// device to be queried
+										IOCTL_DISK_GET_LENGTH_INFO, // operation to perform
+										NULL, 0,					// no input buffer
+										&size, sizeof(GET_LENGTH_INFORMATION),
+										&lpBytesReturned,			// bytes returned
+										(LPOVERLAPPED)NULL);   // synchronous I/O
+
+									if (bResult)
+									{
+										// add size :)
+										totalDiskSize.QuadPart += size.Length.QuadPart;
+										// we've been successful so far, so let's say it's fine
+										defaultToDrive0 = false;
+									}
+									else
+									{
+										// failed IOCTL call
+										defaultToDrive0 = true;
+										break;
+									}
+
+									CloseHandle(hDevice);
+								}
+								else
+								{
+									// failed to open the drive
+									defaultToDrive0 = true;
+									break;
+								}
+							}
+							else
+							{
+								// failed to construct the path string for some reason
+								defaultToDrive0 = true;
+								break;
+							}
+						}
+					}
+
+					CloseHandle(hDrive);
+				}
+			}
+		}
 	}
 
-	bResult = DeviceIoControl(
-		hDevice,					// device to be queried
-		IOCTL_DISK_GET_LENGTH_INFO, // operation to perform
-		NULL, 0,					// no input buffer
-		&size, sizeof(GET_LENGTH_INFORMATION),
-		&lpBytesReturned,			// bytes returned
-		(LPOVERLAPPED) NULL);   // synchronous I/O
+	// for some reason we couldn't enumerate the disks associated with the system drive
+	// so we'll just check PhysicalDrive0 as a backup
+	if (defaultToDrive0)
+	{
+		hDevice = CreateFile(_T("\\\\.\\PhysicalDrive0"),
+			GENERIC_READ,               // no access to the drive
+			FILE_SHARE_READ, 			// share mode
+			NULL,						// default security attributes
+			OPEN_EXISTING,				// disposition
+			0,							// file attributes
+			NULL);						// do not copy file attributes
 
-	if (bResult != NULL) {
-		if (size.Length.QuadPart < minHardDiskSize) // 80GB
-			bResult = TRUE;
-		else
-			bResult = FALSE;
+		if (hDevice == INVALID_HANDLE_VALUE) {
+			CloseHandle(hDevice);
+			return FALSE;
+		}
+
+		bResult = DeviceIoControl(
+			hDevice,					// device to be queried
+			IOCTL_DISK_GET_LENGTH_INFO, // operation to perform
+			NULL, 0,					// no input buffer
+			&size, sizeof(GET_LENGTH_INFORMATION),
+			&lpBytesReturned,			// bytes returned
+			(LPOVERLAPPED) NULL);   // synchronous I/O
+
+		if (bResult != NULL)
+		{
+			totalDiskSize.QuadPart = size.Length.QuadPart;
+		}
 	}
+
+	if (totalDiskSize.QuadPart < minHardDiskSize) // 80GB
+		bResult = TRUE;
+	else
+		bResult = FALSE;
 
 	CloseHandle(hDevice);
 	return bResult;
