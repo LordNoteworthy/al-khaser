@@ -16,42 +16,17 @@ BOOL NtSetInformationThread_ThreadHideFromDebugger()
 	// ThreadHideFromDebugger
 	const int ThreadHideFromDebugger =  0x11;
 
-	// We have to import the function
-	pNtSetInformationThread NtSetInformationThread = NULL;
-	pNtQueryInformationThread NtQueryInformationThread = NULL;
-
-	// Other Vars
-	NTSTATUS Status;
-
-	HMODULE hNtDll = LoadLibrary(_T("ntdll.dll"));
-	if(hNtDll == NULL)
-	{
-		// Definitely something going wrong here!
-		// TODO: warn instead of fail
-		return TRUE;
-	}
- 
-    NtSetInformationThread = (pNtSetInformationThread)GetProcAddress(hNtDll, "NtSetInformationThread");
+	auto NtSetInformationThread = static_cast<pNtSetInformationThread>(API::GetAPI(API_IDENTIFIER::API_NtSetInformationThread));
+	auto NtQueryInformationThread = static_cast<pNtQueryInformationThread>(API::GetAPI(API_IDENTIFIER::API_NtQueryInformationThread));
 	
-	if(NtSetInformationThread == NULL)
-	{
-		// API should exist, this is VERY fishy.
-		// TODO: warn instead of fail
-		return TRUE;
-	}
+	NTSTATUS Status;
+	bool doQITcheck = false;
 
-	bool doQITcheck = true;
-
-	NtQueryInformationThread = (pNtQueryInformationThread)GetProcAddress(hNtDll, "NtQueryInformationThread");
-	if (NtSetInformationThread == NULL)
+	// only do the QueryInformationThread check if we're on Vista and the API is available.
+	// this is because the ThreadHideFromDebugger class can only be queried from Vista onwards.
+	if (API::IsAvailable(API_IDENTIFIER::API_NtQueryInformationThread))
 	{
-		if (IsWindowsVistaOrGreater())
-		{
-			// API should exist, this is kinda fishy.
-			// TODO: warn instead of quit
-			return TRUE;
-		}
-		doQITcheck = false;
+		doQITcheck = IsWindowsVistaOrGreater();
 	}
 
 	BOOL isThreadHidden = FALSE;

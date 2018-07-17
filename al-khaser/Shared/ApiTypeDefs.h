@@ -1,5 +1,10 @@
 #pragma once
 
+typedef DWORD(NTAPI* pCsrGetId)(VOID);
+typedef UINT(WINAPI* pEnumSystemFirmwareTables)(DWORD, PVOID, DWORD);
+typedef UINT(WINAPI* pGetSystemFirmwareTable)(DWORD, DWORD, PVOID, DWORD); 
+typedef void (WINAPI *pGetNativeSystemInfo)(LPSYSTEM_INFO);
+typedef BOOL(WINAPI *pGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef BOOL(WINAPI *pIsWow64Process) (HANDLE, PBOOL);
 typedef DWORD(WINAPI * pRtlCreateUserThread)(
 	IN HANDLE 					ProcessHandle,
@@ -36,3 +41,4 @@ typedef NTSTATUS(WINAPI *pNtQuerySystemInformation)(IN UINT, OUT PVOID, IN ULONG
 typedef NTSTATUS(WINAPI *pNtSetInformationThread)(HANDLE, UINT, PVOID, ULONG);
 typedef NTSTATUS(WINAPI* pNtUnmapViewOfSection)(HANDLE ProcessHandle, PVOID BaseAddress);
 typedef NTSTATUS(WINAPI* pNtYieldExecution)();
+typedef NTSTATUS(WINAPI* pRtlGetVersion)(RTL_OSVERSIONINFOEXW*);

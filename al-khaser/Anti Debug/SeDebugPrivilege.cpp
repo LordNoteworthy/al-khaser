@@ -12,19 +12,11 @@ That's why I used PROCESS_QUERY_LIMITED_INFORMATION
 
 DWORD GetCsrssProcessId()
 {
-	// If Windows XP or Greater, use CsrGetProcessId() to get csrss PID
-	if (IsWindowsXPOrGreater())
+	if (API::IsAvailable(API_IDENTIFIER::API_CsrGetProcessId))
 	{
-		// Function Pointer Typedef for NtQueryInformationProcess
-		typedef DWORD(NTAPI* pCsrGetId)(VOID);
+		auto CsrGetProcessId = static_cast<pCsrGetId>(API::GetAPI(API_IDENTIFIER::API_CsrGetProcessId));
 
-		// Grab the export from NtDll
-		pCsrGetId CsrGetProcessId = (pCsrGetId)GetProcAddress(GetModuleHandle(TEXT("ntdll.dll")), "CsrGetProcessId");
-
-		if (CsrGetProcessId)
-			return CsrGetProcessId();
-		else
-			return 0;
+		return CsrGetProcessId();
 	}
 	else
 		return GetProcessIdFromName(_T("csrss.exe"));

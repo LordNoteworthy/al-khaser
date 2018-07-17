@@ -1,5 +1,25 @@
 #pragma once
 
+enum API_IDENTIFIER
+{
+	API_CsrGetProcessId,
+	API_EnumSystemFirmwareTables,
+	API_GetSystemFirmwareTable,
+	API_GetNativeSystemInfo,
+	API_GetProductInfo,
+	API_IsWow64Process,
+	API_NtClose,
+	API_NtCreateDebugObject,
+	API_NtDelayExecution,
+	API_NtQueryInformationThread,
+	API_NtQueryInformationProcess,
+	API_NtQueryObject,
+	API_NtQuerySystemInformation,
+	API_NtSetInformationThread,
+	API_NtYieldExecution,
+	API_RtlGetVersion,
+};
+
 enum API_MIN_OS_VERSION
 {
 	WIN_XP,
@@ -27,16 +47,6 @@ struct VERSION_FUNCTION_MAP
 		Version = version;
 		Function = function;
 	}
-};
-
-enum API_IDENTIFIER
-{
-	API_NtClose,
-	API_NtCreateDebugObject,
-	API_NtQueryInformationThread,
-	API_NtQueryInformationProcess,
-	API_NtQueryObject,
-	API_NtQuerySystemInformation,
 };
 
 struct API_DATA

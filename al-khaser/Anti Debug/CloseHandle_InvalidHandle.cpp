@@ -11,14 +11,11 @@
 
 BOOL NtClose_InvalideHandle()
 {
-	pNtClose NtClose_ = static_cast<pNtClose>(API::GetAPI(API_IDENTIFIER::API_NtClose));
+	auto NtClose_ = static_cast<pNtClose>(API::GetAPI(API_IDENTIFIER::API_NtClose));
 
 	__try {
-		// Time to finally make the call
-
 		NtClose_(reinterpret_cast<HANDLE>(0x99999999ULL));
 	}
-
 	__except (EXCEPTION_EXECUTE_HANDLER) {
 		return TRUE;
 	}
@@ -33,7 +30,6 @@ BOOL CloseHandle_InvalideHandle()
 	__try {
 		CloseHandle(reinterpret_cast<HANDLE>(0x99999999ULL));
 	}
-
 	__except (EXCEPTION_EXECUTE_HANDLER) {
 		return TRUE;
 	}

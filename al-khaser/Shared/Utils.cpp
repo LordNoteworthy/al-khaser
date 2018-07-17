@@ -4,14 +4,11 @@
 
 BOOL IsWoW64()
 {
-	
-	pIsWow64Process fnIsWow64Process;
-
 	BOOL bIsWow64 = FALSE;
-	fnIsWow64Process = (pIsWow64Process)GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "IsWow64Process");
-
-	if (fnIsWow64Process != NULL)
+	
+	if (API::IsAvailable(API_IDENTIFIER::API_IsWow64Process))
 	{
+		auto fnIsWow64Process = static_cast<pIsWow64Process>(API::GetAPI(API_IDENTIFIER::API_IsWow64Process));
 		if (!fnIsWow64Process(GetCurrentProcess(), &bIsWow64))
 		{
 			// handle error
@@ -160,13 +157,10 @@ BOOL check_adapter_name(TCHAR* szName)
 
 BOOL GetOSDisplayString(LPTSTR pszOS)
 {
-	typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
-	typedef BOOL(WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
-
 	OSVERSIONINFOEX osvi;
 	SYSTEM_INFO si;
-	PGNSI pGNSI;
-	PGPI pGPI;
+	//PGNSI pGNSI;
+	//PGPI pGPI;
 	BOOL bOsVersionInfoEx;
 	DWORD dwType;
 
@@ -175,19 +169,19 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
-	typedef LONG(WINAPI* tRtlGetVersion)(RTL_OSVERSIONINFOEXW*);
-	HMODULE h_NtDll = GetModuleHandleW(L"ntdll.dll");
-	tRtlGetVersion f_RtlGetVersion = (tRtlGetVersion)GetProcAddress(h_NtDll, "RtlGetVersion");
+	auto RtlGetVersion = static_cast<pRtlGetVersion>(API::GetAPI(API_IDENTIFIER::API_RtlGetVersion));
 
-	bOsVersionInfoEx = f_RtlGetVersion((RTL_OSVERSIONINFOEXW*)&osvi);
+	bOsVersionInfoEx = RtlGetVersion((RTL_OSVERSIONINFOEXW*)&osvi);
 
-	if (!f_RtlGetVersion)
-		return FALSE; // This will never happen (all processes load ntdll.dll)
-
-	pGNSI = (PGNSI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
-	if (NULL != pGNSI)
-		pGNSI(&si);
-	else GetSystemInfo(&si);
+	if (API::IsAvailable(API_GetNativeSystemInfo))
+	{
+		auto GetNativeSystemInfo = static_cast<pGetNativeSystemInfo>(API::GetAPI(API_IDENTIFIER::API_GetNativeSystemInfo));
+		GetNativeSystemInfo(&si);
+	}
+	else
+	{
+		GetSystemInfo(&si);
+	}
 
 	if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId && osvi.dwMajorVersion > 4)
 	{
@@ -232,11 +226,9 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 					StringCchCat(pszOS, MAX_PATH, TEXT("Windows Server 2012"));
 			}
 
-			pGPI = (PGPI)GetProcAddress(
-				GetModuleHandle(TEXT("kernel32.dll")),
-				"GetProductInfo");
+			auto GetProductInfo = static_cast<pGetProductInfo>(API::GetAPI(API_IDENTIFIER::API_GetProductInfo));
 
-			pGPI(osvi.dwMajorVersion, osvi.dwMinorVersion, 0, 0, &dwType);
+			GetProductInfo(osvi.dwMajorVersion, osvi.dwMinorVersion, 0, 0, &dwType);
 
 			switch (dwType)
 			{
@@ -795,37 +787,29 @@ BOOL find_str_in_data(PBYTE needle, size_t needleLen, PBYTE haystack, size_t hay
 
 UINT enum_system_firmware_tables(DWORD FirmwareTableProviderSignature, PVOID pFirmwareTableBuffer, DWORD BufferSize)
 {
-	typedef UINT(WINAPI* tEnumSystemFirmwareTables)(DWORD, PVOID, DWORD);
-	tEnumSystemFirmwareTables f_EnumSystemFirmwareTables = (tEnumSystemFirmwareTables)GetProcAddress(GetModuleHandleW(L"kernel32.dll"), "EnumSystemFirmwareTables");
-	
-	if (NULL == f_EnumSystemFirmwareTables)
+	if (!API::IsAvailable(API_IDENTIFIER::API_EnumSystemFirmwareTables))
 	{
-		printf("Couldn't find EnumSystemFirmwareTables :(\n");
-		// If the function fails for any other reason, the return value is zero.
-		// https://msdn.microsoft.com/en-us/library/windows/desktop/ms724259(v=vs.85).aspx
 		return 0;
 	}
 
-	return f_EnumSystemFirmwareTables(FirmwareTableProviderSignature, pFirmwareTableBuffer, BufferSize);
-	
+	auto EnumSystemFirmwareTables = static_cast<pEnumSystemFirmwareTables>(API::GetAPI(API_IDENTIFIER::API_EnumSystemFirmwareTables));
+	return EnumSystemFirmwareTables(FirmwareTableProviderSignature, pFirmwareTableBuffer, BufferSize);
 }
 
 PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD pBufferSize)
 {
-	DWORD bufferSize = 4096;
-	PBYTE firmwareTable = static_cast<PBYTE>(malloc(bufferSize));
-	SecureZeroMemory(firmwareTable, bufferSize);
-	typedef UINT(WINAPI* tGetSystemFirmwareTable)(DWORD, DWORD, PVOID, DWORD);
-
-	tGetSystemFirmwareTable f_GetSystemFirmwareTable = (tGetSystemFirmwareTable)GetProcAddress(GetModuleHandleW(L"kernel32.dll"), "GetSystemFirmwareTable");
-	if (NULL == f_GetSystemFirmwareTable)
+	if (!API::IsAvailable(API_IDENTIFIER::API_GetSystemFirmwareTable))
 	{
-		printf("Couldn't find GetSystemFirmwareTable :(\n");
-		free(firmwareTable);
 		return NULL;
 	}
 
-	DWORD resultBufferSize = f_GetSystemFirmwareTable(signature, table, firmwareTable, bufferSize);
+	DWORD bufferSize = 4096;
+	PBYTE firmwareTable = static_cast<PBYTE>(malloc(bufferSize));
+	SecureZeroMemory(firmwareTable, bufferSize);
+	
+	auto GetSystemFirmwareTable = static_cast<pGetSystemFirmwareTable>(API::GetAPI(API_IDENTIFIER::API_GetSystemFirmwareTable));
+
+	DWORD resultBufferSize = GetSystemFirmwareTable(signature, table, firmwareTable, bufferSize);
 	if (resultBufferSize == 0)
 	{
 		printf("First call failed :(\n");
@@ -838,7 +822,7 @@ PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD p
 	{
 		firmwareTable = static_cast<BYTE*>(realloc(firmwareTable, resultBufferSize));
 		SecureZeroMemory(firmwareTable, resultBufferSize);
-		if (f_GetSystemFirmwareTable(signature, table, firmwareTable, resultBufferSize) == 0)
+		if (GetSystemFirmwareTable(signature, table, firmwareTable, resultBufferSize) == 0)
 		{
 			printf("Second call failed :(\n");
 			free(firmwareTable);

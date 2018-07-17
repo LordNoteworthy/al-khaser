@@ -12,29 +12,10 @@ BOOL timing_NtDelayexecution(UINT delayInMillis)
 	LONGLONG llDelay = delayInMillis * 10000LL;
 	DelayInterval.QuadPart = -llDelay;
 
-	// We have to import the function
-	pNtDelayExecution NtDelayExecution = NULL;
+	if (!API::IsAvailable(API_IDENTIFIER::API_NtDelayExecution))
+		return TRUE; // TODO: make this a warning (NtDelayExecution should always exist)
 
-	HMODULE hNtdll = LoadLibrary(_T("ntdll.dll"));
-	if (hNtdll == NULL)
-	{
-		// Handle however.. chances of this failing
-		// is essentially 0 however since
-		// ntdll.dll is a vital system resource
-		printf("Failed to open a handle to NTDLL... this is suspicious!\n");
-		return TRUE;
-	}
-
-	NtDelayExecution = (pNtDelayExecution)GetProcAddress(hNtdll, "NtDelayExecution");
-	if (NtDelayExecution == NULL)
-	{
-		// Handle however it fits your needs but as before,
-		// if this is missing there are some SERIOUS issues with the OS
-		printf("NTDLL does not have an NtDelayExecution entry point... this is suspicious!\n");
-		return TRUE;
-	}
-
-	// Time to finally make the call
+	auto NtDelayExecution = static_cast<pNtDelayExecution>(API::GetAPI(API_IDENTIFIER::API_NtDelayExecution));
 	NtDelayExecution(FALSE, &DelayInterval);
 
 	return FALSE;

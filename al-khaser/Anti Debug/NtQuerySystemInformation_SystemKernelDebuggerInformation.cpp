@@ -15,17 +15,10 @@ BOOL NtQuerySystemInformation_SystemKernelDebuggerInformation()
 	// The debugger information struct
 	SYSTEM_KERNEL_DEBUGGER_INFORMATION KdDebuggerInfo;
 
-	HMODULE hNtDll = LoadLibrary(_T("ntdll.dll"));
-	if(hNtDll == NULL)
-		DbgRaiseAssertionFailure();
- 
-	// Get the function address
-	pNtQuerySystemInformation NtQuerySystemInfo = (pNtQuerySystemInformation)GetProcAddress(hNtDll, "NtQuerySystemInformation");
-	if(NtQuerySystemInfo == NULL)
-		DbgRaiseAssertionFailure();
-	
+	auto NtQuerySystemInformation = static_cast<pNtQuerySystemInformation>(API::GetAPI(API_IDENTIFIER::API_NtQuerySystemInformation));
+
 	// Call NtQuerySystemInformation
-	NTSTATUS Status = NtQuerySystemInfo(SystemKernelDebuggerInformation, &KdDebuggerInfo, sizeof(SYSTEM_KERNEL_DEBUGGER_INFORMATION), NULL);
+	NTSTATUS Status = NtQuerySystemInformation(SystemKernelDebuggerInformation, &KdDebuggerInfo, sizeof(SYSTEM_KERNEL_DEBUGGER_INFORMATION), NULL);
 	if (Status >= 0)
 	{
 		// KernelDebuggerEnabled almost always implies !KernelDebuggerNotPresent. KernelDebuggerNotPresent can sometimes

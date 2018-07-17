@@ -14,31 +14,13 @@ BOOL NtQueryObject_ObjectAllTypesInformation()
 {
 	//NOTE this check is unreliable, a debugger present on the system doesn't mean it's attached to you
 
-	// We have to import the function
-	pNtQueryObject NtQueryObject = NULL;
-	pNtCreateDebugObject NtCreateDebugObject = NULL;
+	auto NtQueryObject = static_cast<pNtQueryObject>(API::GetAPI(API_IDENTIFIER::API_NtQueryObject));
 
 	// Some vars
 	ULONG size;
 	PVOID pMemory = NULL;
 	POBJECT_ALL_INFORMATION pObjectAllInfo = NULL;
 	NTSTATUS Status;
-
-
-	HMODULE hNtdll = LoadLibrary(_T("ntdll.dll"));
-	if (hNtdll == NULL)
-	{
-		// Handle however.. chances of this failing
-		// is essentially 0 however since
-		// ntdll.dll is a vital system resource
-	}
-
-	NtQueryObject = (pNtQueryObject)GetProcAddress(hNtdll, "NtQueryObject");
-	if (NtQueryObject == NULL)
-	{
-		// Handle however it fits your needs but as before,
-		// if this is missing there are some SERIOUS issues with the OS
-	}
 
 	// Get the size of the information needed
 	Status = NtQueryObject(NULL, 3, &size, sizeof(ULONG), &size);
