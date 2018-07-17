@@ -42,8 +42,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 ### Anti-debugging attacks
 - IsDebuggerPresent
 - CheckRemoteDebuggerPresent
-- Process Environement Block (BeingDebugged)
-- Process Environement Block (NtGlobalFlag)
+- Process Environment Block (BeingDebugged)
+- Process Environment Block (NtGlobalFlag)
 - ProcessHeap (Flags)
 - ProcessHeap (ForceFlags)
 - NtQueryInformationProcess (ProcessDebugPort)
