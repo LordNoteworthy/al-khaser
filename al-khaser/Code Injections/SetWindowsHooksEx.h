@@ -1,6 +1,3 @@
-#include <Windows.h>
-#include <tchar.h>
-#include "..\Shared\Utils.h"
-#include "..\Shared\Common.h"
+#pragma once
 
 BOOL SetWindowsHooksEx_Injection(); 

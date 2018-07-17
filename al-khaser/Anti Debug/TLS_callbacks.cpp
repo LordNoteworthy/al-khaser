@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "TLS_callbacks.h"
 
 // The Thread Local Storage (TLS) callback is called before the execution of the EntryPoint of the application

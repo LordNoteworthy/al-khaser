@@ -1,5 +1,5 @@
-#include <Windows.h>
-#include <tchar.h>
+#include "stdafx.h"
+
 
  /* 
  APIs making user of the ZwClose syscall (such as CloseHandle, indirectly) 

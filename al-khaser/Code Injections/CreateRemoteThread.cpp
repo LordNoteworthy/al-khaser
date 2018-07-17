@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "CreateRemoteThread.h"
 
 BOOL CreateRemoteThread_Injection()

@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "NtQueryObject_ObjectInformation.h"
 
 /*

@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "MemoryBreakpoints_PageGuard.h"
 
 /*

@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "Interrupt_3.h"
 
 /*

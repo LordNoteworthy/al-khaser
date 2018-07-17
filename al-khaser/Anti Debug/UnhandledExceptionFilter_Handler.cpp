@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "UnhandledExceptionFilter_Handler.h"
 
 

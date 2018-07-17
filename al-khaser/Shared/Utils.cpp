@@ -1,5 +1,6 @@
-#include "Utils.h"
+#include "stdafx.h"
 
+#include "Utils.h"
 
 BOOL IsWoW64()
 {

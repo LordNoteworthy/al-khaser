@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "NtCreateThreadEx.h"
 
 BOOL NtCreateThreadEx_Injection()

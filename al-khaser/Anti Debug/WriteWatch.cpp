@@ -1,5 +1,4 @@
-#include <Windows.h>
-#include <cstdio>
+#include "stdafx.h"
 #include "WriteWatch.h"
 
 /*

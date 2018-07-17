@@ -1,5 +1,3 @@
-#include <Windows.h>
-#include <tchar.h>
-#include "..\Shared\Utils.h"
+#pragma once
 
 BOOL NtQueryInformationProcess_ProcessDebugPort();

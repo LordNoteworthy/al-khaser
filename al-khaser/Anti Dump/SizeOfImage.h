@@ -1,5 +1,3 @@
-#include <Windows.h>
-#include <Winternl.h>
-#include "..\Shared\Utils.h"
+#pragma once
 
 VOID SizeOfImage();

@@ -1,5 +1,4 @@
-#include <Windows.h>
-#include <tchar.h>
+#pragma once
 
 static volatile HANDLE tls_callback_thread_event;
 static volatile HANDLE tls_callback_process_event;

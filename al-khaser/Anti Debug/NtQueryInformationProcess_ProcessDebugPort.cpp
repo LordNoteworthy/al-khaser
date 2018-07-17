@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "NtQueryInformationProcess_ProcessDebugPort.h"
 
 /* 

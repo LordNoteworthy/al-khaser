@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "Shared\Main.h"
+#include "stdafx.h"
 
 int main(void)
 {

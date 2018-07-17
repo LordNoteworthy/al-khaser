@@ -81,8 +81,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -98,8 +97,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -115,8 +113,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -135,8 +132,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -161,7 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Al-khaser.cpp" />
-    <ClCompile Include="Anti Analysis\file.cpp" />
     <ClCompile Include="Anti Analysis\process.cpp" />
     <ClCompile Include="Anti Debug\CheckRemoteDebuggerPresentAPI.cpp" />
     <ClCompile Include="Anti Debug\CloseHandle_InvalidHandle.cpp" />
@@ -209,14 +204,21 @@
     <ClCompile Include="Code Injections\QueueUserAPC.cpp" />
     <ClCompile Include="Code Injections\RtlCreateUserThread.cpp" />
     <ClCompile Include="Code Injections\SetWindowsHooksEx.cpp" />
+    <ClCompile Include="Shared\APIs.cpp" />
     <ClCompile Include="Shared\Common.cpp" />
     <ClCompile Include="Shared\log.cpp" />
     <ClCompile Include="Shared\Utils.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="timing-attacks\timing.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Anti Analysis\file.h" />
     <ClInclude Include="Anti Analysis\process.h" />
+    <ClInclude Include="Anti Analysis\stdafx.h" />
     <ClInclude Include="Anti Debug\CheckRemoteDebuggerPresentAPI.h" />
     <ClInclude Include="Anti Debug\CloseHandle_InvalidHandle.h" />
     <ClInclude Include="Anti Debug\HardwareBreakpoints.h" />
@@ -242,15 +244,18 @@
     <ClInclude Include="Anti Debug\SetHandleInformation_API.h" />
     <ClInclude Include="Anti Debug\SharedUserData_KernelDebugger.h" />
     <ClInclude Include="Anti Debug\SoftwareBreakpoints.h" />
+    <ClInclude Include="Anti Debug\stdafx.h" />
     <ClInclude Include="Anti Debug\TLS_callbacks.h" />
     <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="Anti Debug\WriteWatch.h" />
     <ClInclude Include="Anti Dump\ErasePEHeaderFromMemory.h" />
     <ClInclude Include="Anti Dump\SizeOfImage.h" />
+    <ClInclude Include="Anti Dump\stdafx.h" />
     <ClInclude Include="Anti VM\Generic.h" />
     <ClInclude Include="Anti VM\Parallels.h" />
     <ClInclude Include="Anti VM\Qemu.h" />
     <ClInclude Include="Anti VM\Services.h" />
+    <ClInclude Include="Anti VM\stdafx.h" />
     <ClInclude Include="Anti VM\VirtualBox.h" />
     <ClInclude Include="Anti VM\VirtualPC.h" />
     <ClInclude Include="Anti VM\VMWare.h" />
@@ -262,12 +267,16 @@
     <ClInclude Include="Code Injections\QueueUserAPC.h" />
     <ClInclude Include="Code Injections\RtlCreateUserThread.h" />
     <ClInclude Include="Code Injections\SetWindowsHooksEx.h" />
+    <ClInclude Include="Code Injections\stdafx.h" />
+    <ClInclude Include="Shared\APIs.h" />
     <ClInclude Include="Shared\Common.h" />
     <ClInclude Include="Shared\log.h" />
-    <ClInclude Include="Shared\Main.h" />
+    <ClInclude Include="Shared\stdafx.h" />
     <ClInclude Include="Shared\Utils.h" />
     <ClInclude Include="Shared\VersionHelpers.h" />
     <ClInclude Include="Shared\winapifamily.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="timing-attacks\stdafx.h" />
     <ClInclude Include="timing-attacks\timing.h" />
   </ItemGroup>
   <ItemGroup>

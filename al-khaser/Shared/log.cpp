@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdarg.h>
-#include <time.h>
-#include <string.h>
-#include <stdlib.h>
+#include "stdafx.h"
 #include "log.h"
 
 FILE *fp;

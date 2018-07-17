@@ -1,5 +1,6 @@
-#include "QueueUserAPC.h"
+#include "stdafx.h"
 
+#include "QueueUserAPC.h"
 
 BOOL QueueUserAPC_Injection()
 {
@@ -93,8 +94,3 @@ BOOL QueueUserAPC_Injection()
 		return TRUE;
 	}
 }
-
-
-
-
-

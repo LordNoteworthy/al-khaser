@@ -1,5 +1,4 @@
-#include <Windows.h>
-#include <tchar.h>
+#pragma once
 
 #define STATUS_NO_YIELD_PERFORMED 0x40000024 
 

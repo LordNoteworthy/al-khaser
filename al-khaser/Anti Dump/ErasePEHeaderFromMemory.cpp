@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "ErasePEHeaderFromMemory.h"
 
 /* This function will erase the current images PE header from memory preventing a successful image if dumped */

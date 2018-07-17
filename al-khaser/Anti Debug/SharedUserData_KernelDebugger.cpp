@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "SharedUserData_KernelDebugger.h"
 
 /*

@@ -1,5 +1,6 @@
-#include "GetSetThreadContext.h"
+#include "stdafx.h"
 
+#include "GetSetThreadContext.h"
 
 typedef LONG(WINAPI * pNtUnmapViewOfSection)(HANDLE ProcessHandle, PVOID BaseAddress);
 

@@ -1,5 +1,3 @@
-#include <Windows.h>
-#include "..\Shared\Utils.h"
-#include "..\Shared\Common.h"
+#pragma once
 
 BOOL CreateRemoteThread_Injection();

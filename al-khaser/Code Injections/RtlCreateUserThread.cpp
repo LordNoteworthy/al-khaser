@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "RtlCreateUserThread.h"
 
 BOOL RtlCreateUserThread_Injection()

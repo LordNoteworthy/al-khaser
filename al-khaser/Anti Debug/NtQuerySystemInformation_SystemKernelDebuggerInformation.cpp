@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "NtQuerySystemInformation_SystemKernelDebuggerInformation.h"
 
 /*

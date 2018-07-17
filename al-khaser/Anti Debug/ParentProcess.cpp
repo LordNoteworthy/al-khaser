@@ -1,12 +1,5 @@
+#include "stdafx.h"
 #include "ParentProcess.h"
-
-typedef struct _PROCESS_BASIC_INFORMATION {
-	PVOID Reserved1;
-	void* PebBaseAddress;
-	PVOID Reserved2[2];
-	ULONG_PTR UniqueProcessId;
-	ULONG_PTR ParentProcessId;
-} PROCESS_BASIC_INFORMATION;
 
 DWORD GetExplorerPIDbyShellWindow()
 {
@@ -28,8 +21,8 @@ DWORD GetParentProcessId()
 
 	// Some locals
 	NTSTATUS Status = 0;
-	PROCESS_BASIC_INFORMATION pbi;
-	SecureZeroMemory(&pbi, sizeof(PROCESS_BASIC_INFORMATION));
+	ALK_PROCESS_BASIC_INFORMATION pbi;
+	SecureZeroMemory(&pbi, sizeof(ALK_PROCESS_BASIC_INFORMATION));
 
 	// Get NtQueryInformationProcess
 	NtQueryInfoProcess = (pNtQueryInformationProcess)GetProcAddress(GetModuleHandle(TEXT("ntdll.dll")), "NtQueryInformationProcess");
@@ -39,7 +32,7 @@ DWORD GetParentProcessId()
 		return 0;
 
 	// Now we can call NtQueryInformationProcess, the second param 0 == ProcessBasicInformation
-	Status = NtQueryInfoProcess(GetCurrentProcess(), 0, (PVOID)&pbi, sizeof(PROCESS_BASIC_INFORMATION), 0);
+	Status = NtQueryInfoProcess(GetCurrentProcess(), 0, (PVOID)&pbi, sizeof(ALK_PROCESS_BASIC_INFORMATION), 0);
 
 	if (Status != 0x00000000)
 		return 0;

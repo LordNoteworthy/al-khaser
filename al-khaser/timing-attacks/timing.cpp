@@ -1,7 +1,8 @@
+#include "stdafx.h"
 #include "timing.h"
+
 /* Timing attacks or sleepy malwares are used to bypass sandboxed in general
 Every system which run in a timeout is vulmerable to this types of attacks */
-
 
 BOOL timing_NtDelayexecution(UINT delayInMillis)
 {

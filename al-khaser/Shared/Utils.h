@@ -1,21 +1,3 @@
-#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
-#include <strsafe.h>
-#include <IPTypes.h>
-#include <Shlwapi.h>
-#include <Iphlpapi.h>
-#include <Psapi.h>
-#include <TlHelp32.h>
-#include <Wbemidl.h>
-
-#pragma comment(lib, "Iphlpapi.lib")
-#pragma comment(lib, "Shlwapi.lib")
-#pragma comment(lib, "Psapi.lib")
-#pragma comment(lib, "wbemuuid.lib")
-
-#include "Common.h"
-
 BOOL IsWoW64();
 BOOL Is_RegKeyValueExists(HKEY hKey, TCHAR* lpSubKey, TCHAR* lpValueName, TCHAR* search_str);
 BOOL Is_RegKeyExists(HKEY hKey, TCHAR* lpSubKey);
