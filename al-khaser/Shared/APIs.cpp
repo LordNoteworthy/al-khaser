@@ -5,8 +5,10 @@
 
 API_DATA ApiData[] = {
 	{ API_IDENTIFIER::API_CsrGetProcessId,				"ntdll.dll",		"CsrGetProcessId",				API_MIN_OS_VERSION::WIN_XP },
+	{ API_IDENTIFIER::API_EnumSystemFirmwareTables,		"kernel32.dll",		"EnumSystemFirmwareTables",		API_MIN_OS_VERSION::WIN_VISTA },
 	{ API_IDENTIFIER::API_GetNativeSystemInfo,			"kernel32.dll",		"GetNativeSystemInfo",			API_MIN_OS_VERSION::WIN_XP },
 	{ API_IDENTIFIER::API_GetProductInfo,				"kernel32.dll",		"GetGetProductInfo",			API_MIN_OS_VERSION::WIN_XP },
+	{ API_IDENTIFIER::API_GetSystemFirmwareTable,		"kernel32.dll",		"GetSystemFirmwareTable",		API_MIN_OS_VERSION::WIN_VISTA },
 	{ API_IDENTIFIER::API_IsWow64Process,				"kernel32.dll",		"IsWow64Process",				API_MIN_OS_VERSION::WIN_XP_SP2 },
 	{ API_IDENTIFIER::API_NtClose,						"ntdll.dll",		"NtClose",						API_MIN_OS_VERSION::WIN_XP },
 	{ API_IDENTIFIER::API_NtCreateDebugObject,			"ntdll.dll",		"NtCreateDebugObject",			API_MIN_OS_VERSION::WIN_XP },
@@ -83,6 +85,7 @@ bool API::IsAvailable(API_IDENTIFIER api)
 			return ApiData[i].Available;
 		}
 	}
+	assert(false);
 	return false;
 }
 
@@ -102,5 +105,6 @@ void* API::GetAPI(API_IDENTIFIER api)
 			}
 		}
 	}
+	assert(false);
 	return nullptr;
 }

@@ -26,7 +26,8 @@ BOOL NtQueryObject_ObjectTypeInformation()
 	NTSTATUS Status;
 
 	NtCreateDebugObject(&DebugObjectHandle, DEBUG_ALL_ACCESS, &ObjectAttributes, FALSE);
-	if (NtCreateDebugObject)
+
+	if (API::IsAvailable(API_IDENTIFIER::API_NtQueryObject))
 	{
 		Status = NtQueryObject(DebugObjectHandle, ObjectTypeInformation, ObjectInformation, sizeof(memory), 0);
 		
