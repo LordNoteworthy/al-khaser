@@ -12,10 +12,6 @@ BOOL timing_NtDelayexecution(UINT delayInMillis)
 	LONGLONG llDelay = delayInMillis * 10000LL;
 	DelayInterval.QuadPart = -llDelay;
 
-
-	// Function pointer Typedef for NtDelayExecution
-	typedef NTSTATUS(WINAPI *pNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
-
 	// We have to import the function
 	pNtDelayExecution NtDelayExecution = NULL;
 

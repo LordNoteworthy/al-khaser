@@ -17,9 +17,6 @@ BOOL NtYieldExecutionAPI()
 {
 	//NOTE: this check is unreliable, don't actually use this in a real environment
 
-	// Function Pointer Typedef for NtQueryInformationProcess
-	typedef NTSTATUS(WINAPI* pNtYieldExecution)();
-
 	// We have to import the function
 	pNtYieldExecution NtYieldExecution = NULL;
 

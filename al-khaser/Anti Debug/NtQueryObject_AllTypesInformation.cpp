@@ -14,12 +14,6 @@ BOOL NtQueryObject_ObjectAllTypesInformation()
 {
 	//NOTE this check is unreliable, a debugger present on the system doesn't mean it's attached to you
 
-	// Function Pointer Typedef for NtQueryObject
-	typedef NTSTATUS(WINAPI *pNtQueryObject)(IN HANDLE, IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
-
-	// Function pointer Typedef for NtCreateDebugObject
-	typedef NTSTATUS(WINAPI *pNtCreateDebugObject)(OUT PHANDLE, IN ACCESS_MASK, IN POBJECT_ATTRIBUTES, IN ULONG);
-
 	// We have to import the function
 	pNtQueryObject NtQueryObject = NULL;
 	pNtCreateDebugObject NtCreateDebugObject = NULL;

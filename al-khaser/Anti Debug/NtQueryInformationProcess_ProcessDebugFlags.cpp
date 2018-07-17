@@ -9,10 +9,7 @@ which means that if a debugger is present, then this function will return FALSE 
 
 BOOL NtQueryInformationProcess_ProcessDebugFlags()
 {
-   	// Function Pointer Typedef for NtQueryInformationProcess
-	typedef NTSTATUS (WINAPI *pNtQueryInformationProcess)(IN  HANDLE, IN  UINT, OUT PVOID, IN ULONG, OUT PULONG);
- 
-	// ProcessDebugFlags
+   	// ProcessDebugFlags
 	const int ProcessDebugFlags =  0x1f;
 
 	// We have to import the function

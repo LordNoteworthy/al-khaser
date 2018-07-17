@@ -28,6 +28,10 @@ int main(void)
 	if (IsWoW64())
 		_tprintf(_T("Process is running under WOW64\n\n"));
 
+	print_category(TEXT("Initialisation"));
+	API::Init();
+	API::PrintAvailabilityReport();
+
 	/* TLS checks */
 	if (ENABLE_TLS_CHECKS) {
 		print_category(TEXT("TLS Callbacks"));

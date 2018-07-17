@@ -236,6 +236,9 @@
       <Filter>Shared\Source</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Shared\ApiTypeDefs.cpp">
+      <Filter>Shared\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -418,6 +421,9 @@
     </ClInclude>
     <ClInclude Include="timing-attacks\stdafx.h">
       <Filter>Timing Attacks\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\ApiTypeDefs.h">
+      <Filter>Shared\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

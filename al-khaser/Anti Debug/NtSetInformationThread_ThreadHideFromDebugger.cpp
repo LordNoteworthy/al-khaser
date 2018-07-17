@@ -13,11 +13,6 @@ These checks also look for hooks on the NtSetInformationThread API that try to b
 
 BOOL NtSetInformationThread_ThreadHideFromDebugger()
 {
-	// Function Pointer Typedef for NtQueryInformationProcess
-	typedef NTSTATUS (WINAPI *pNtSetInformationThread)(HANDLE, UINT, PVOID, ULONG);
-
-	typedef NTSTATUS (WINAPI *pNtQueryInformationThread)(HANDLE, UINT, PVOID, ULONG, PULONG);
-
 	// ThreadHideFromDebugger
 	const int ThreadHideFromDebugger =  0x11;
 

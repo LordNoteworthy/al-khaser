@@ -2,8 +2,6 @@
 
 #include "GetSetThreadContext.h"
 
-typedef LONG(WINAPI * pNtUnmapViewOfSection)(HANDLE ProcessHandle, PVOID BaseAddress);
-
 BOOL GetSetThreadContext_Injection()
 {
 #ifdef _WIN64

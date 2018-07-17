@@ -11,26 +11,7 @@
 
 BOOL NtClose_InvalideHandle()
 {
-	// Function Pointer Typedef for NtClose
-	typedef NTSTATUS(WINAPI* pNtClose)(HANDLE);
-
-	// We have to import the function
-	pNtClose NtClose_ = NULL;
-
-	HMODULE hNtdll = LoadLibrary(_T("ntdll.dll"));
-	if (hNtdll == NULL)
-	{
-		// Handle however.. chances of this failing
-		// is essentially 0 however since
-		// ntdll.dll is a vital system resource
-	}
-
-	NtClose_ = (pNtClose)GetProcAddress(hNtdll, "NtClose");
-	if (NtClose_ == NULL)
-	{
-		// Handle however it fits your needs but as before,
-		// if this is missing there are some SERIOUS issues with the OS
-	}
+	pNtClose NtClose_ = static_cast<pNtClose>(API::GetAPI(API_IDENTIFIER::API_NtClose));
 
 	__try {
 		// Time to finally make the call

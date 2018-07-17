@@ -13,14 +13,6 @@ BOOL NtQueryObject_ObjectTypeInformation()
 {
 	//NOTE this check now only detects if NtQueryObject is hooked to set ObjectInformation->TotalNumberOfObjects = 0
 
-	// Function Pointer Typedef for NtQueryObject
-	typedef NTSTATUS (WINAPI *pNtQueryObject)(IN HANDLE, IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
-
-
-	// Function pointer Typedef for NtCreateDebugObject
-	typedef NTSTATUS(WINAPI *pNtCreateDebugObject)(OUT PHANDLE, IN ACCESS_MASK, IN POBJECT_ATTRIBUTES, IN ULONG);
-
-
 	// We have to import the function
 	pNtQueryObject NtQueryObject = NULL;
 	pNtCreateDebugObject NtCreateDebugObject = NULL;

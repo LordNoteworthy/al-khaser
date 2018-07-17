@@ -9,9 +9,6 @@ NtQueryInformationProcess process theirself.
 
 BOOL NtQueryInformationProcess_ProcessDebugPort ()
 {
-	// Function Pointer Typedef for NtQueryInformationProcess
-	typedef NTSTATUS (WINAPI *pNtQueryInformationProcess)(IN  HANDLE, IN  UINT, OUT PVOID, IN ULONG, OUT PULONG);
-
 	// We have to import the function
 	pNtQueryInformationProcess NtQueryInfoProcess = NULL;
  

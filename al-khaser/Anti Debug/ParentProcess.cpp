@@ -13,9 +13,6 @@ DWORD GetExplorerPIDbyShellWindow()
 
 DWORD GetParentProcessId()
 {
-	// Function Pointer Typedef for NtQueryInformationProcess
-	typedef NTSTATUS(WINAPI *pNtQueryInformationProcess)(HANDLE, UINT, PVOID, ULONG, PULONG);
-
 	// We have to import the function
 	pNtQueryInformationProcess NtQueryInfoProcess = NULL;
 

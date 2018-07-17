@@ -205,6 +205,7 @@
     <ClCompile Include="Code Injections\RtlCreateUserThread.cpp" />
     <ClCompile Include="Code Injections\SetWindowsHooksEx.cpp" />
     <ClCompile Include="Shared\APIs.cpp" />
+    <ClCompile Include="Shared\ApiTypeDefs.cpp" />
     <ClCompile Include="Shared\Common.cpp" />
     <ClCompile Include="Shared\log.cpp" />
     <ClCompile Include="Shared\Utils.cpp" />
@@ -269,6 +270,7 @@
     <ClInclude Include="Code Injections\SetWindowsHooksEx.h" />
     <ClInclude Include="Code Injections\stdafx.h" />
     <ClInclude Include="Shared\APIs.h" />
+    <ClInclude Include="Shared\ApiTypeDefs.h" />
     <ClInclude Include="Shared\Common.h" />
     <ClInclude Include="Shared\log.h" />
     <ClInclude Include="Shared\stdafx.h" />
