@@ -15,8 +15,6 @@ BOOL NtGlobalFlag()
 	PDWORD pNtGlobalFlag = NULL, pNtGlobalFlagWoW64 = NULL;
 
 #if defined (ENV64BIT)
-	BYTE* _teb64 = (BYTE*)__readgsqword(0x30);
-	DWORD64 _peb64 = *(DWORD64*)(_teb64 + 0x60);
 	pNtGlobalFlag = (PDWORD)(__readgsqword(0x60) + 0xBC);
 
 #elif defined(ENV32BIT)
