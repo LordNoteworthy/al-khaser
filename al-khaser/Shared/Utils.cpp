@@ -169,6 +169,9 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
+	if (!API::IsAvailable(API_RtlGetVersion))
+		return FALSE;
+
 	auto RtlGetVersion = static_cast<pRtlGetVersion>(API::GetAPI(API_IDENTIFIER::API_RtlGetVersion));
 
 	bOsVersionInfoEx = RtlGetVersion((RTL_OSVERSIONINFOEXW*)&osvi);
