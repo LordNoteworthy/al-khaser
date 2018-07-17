@@ -5,6 +5,8 @@ Calling NtSetInformationThread will attempt with ThreadInformationClass set to  
 to hide a thread from the debugger, Passing NULL for hThread will cause the function to hide the thread the
 function is running in. Also, the function returns false on failure and true on success. When  the  function
 is called, the thread will continue  to run but a debugger will no longer receive any events related to that thread.
+
+These checks also look for hooks on the NtSetInformationThread API that try to block ThreadHideFromDebugger.
 */
 
 BOOL NtSetInformationThread_ThreadHideFromDebugger()
@@ -12,37 +14,82 @@ BOOL NtSetInformationThread_ThreadHideFromDebugger()
 	// Function Pointer Typedef for NtQueryInformationProcess
 	typedef NTSTATUS (WINAPI *pNtSetInformationThread)(HANDLE, UINT, PVOID, ULONG);
 
+	typedef NTSTATUS (WINAPI *pNtQueryInformationThread)(HANDLE, UINT, PVOID, ULONG, PULONG);
+
 	// ThreadHideFromDebugger
 	const int ThreadHideFromDebugger =  0x11;
 
 	// We have to import the function
 	pNtSetInformationThread NtSetInformationThread = NULL;
+	pNtQueryInformationThread NtQueryInformationThread = NULL;
 
 	// Other Vars
 	NTSTATUS Status;
-	BOOL IsBeingDebug = FALSE;
 
 	HMODULE hNtDll = LoadLibrary(_T("ntdll.dll"));
 	if(hNtDll == NULL)
 	{
-		// Handle however.. chances of this failing
-		// is essentially 0 however since
-		// ntdll.dll is a vital system resource
+		// Definitely something going wrong here!
+		// TODO: warn instead of fail
+		return TRUE;
 	}
  
     NtSetInformationThread = (pNtSetInformationThread)GetProcAddress(hNtDll, "NtSetInformationThread");
 	
 	if(NtSetInformationThread == NULL)
 	{
-		// Handle however it fits your needs but as before,
-		// if this is missing there are some SERIOUS issues with the OS
+		// API should exist, this is VERY fishy.
+		// TODO: warn instead of fail
+		return TRUE;
 	}
 
-	 // Time to finally make the call
-	Status = NtSetInformationThread(GetCurrentThread(), ThreadHideFromDebugger, NULL, 0);
-    
-	if(Status)
-		IsBeingDebug = TRUE;
+	bool doQITcheck = true;
 
-return IsBeingDebug;
+	NtQueryInformationThread = (pNtQueryInformationThread)GetProcAddress(hNtDll, "NtQueryInformationThread");
+	if (NtSetInformationThread == NULL)
+	{
+		if (IsWindowsVistaOrGreater())
+		{
+			// API should exist, this is kinda fishy.
+			// TODO: warn instead of quit
+			return TRUE;
+		}
+		doQITcheck = false;
+	}
+
+	BOOL isThreadHidden = FALSE;
+
+	// First issue a bogus call with an incorrect length parameter. If it succeeds, we know NtSetInformationThread was hooked.
+	Status = NtSetInformationThread(GetCurrentThread(), ThreadHideFromDebugger, &isThreadHidden, 12345);
+	if (Status == 0)
+		return TRUE;
+
+	// Next try again but give it a bogus thread handle. If it succeeds, again we know NtSetInformationThread was hooked.
+	Status = NtSetInformationThread((HANDLE)0xFFFF, ThreadHideFromDebugger, NULL, 0);
+	if (Status == 0)
+		return TRUE;
+	
+	// Now try a legitimate call.
+	Status = NtSetInformationThread(GetCurrentThread(), ThreadHideFromDebugger, NULL, 0);
+
+	if (Status == 0)
+	{
+		if (doQITcheck)
+		{
+			Status = NtQueryInformationThread(GetCurrentThread(), ThreadHideFromDebugger, &isThreadHidden, sizeof(BOOL), NULL);
+			if (Status == 0)
+			{
+				// if the thread isn't hidden we know the ThreadHideFromDebugger call didn't do what it told us it did
+				return isThreadHidden ? FALSE : TRUE;
+			}
+		}
+	}
+	else
+	{
+		// call failed, should've succeeded
+		return TRUE;
+	}
+
+	// we didn't find any hooks.
+	return FALSE;
 }
