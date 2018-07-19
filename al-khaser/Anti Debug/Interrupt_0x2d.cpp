@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "Interrupt_0x2d.h"
 
 /*

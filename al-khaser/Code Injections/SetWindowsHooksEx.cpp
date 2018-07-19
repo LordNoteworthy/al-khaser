@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "SetWindowsHooksEx.h"
 
 BOOL SetWindowsHooksEx_Injection()

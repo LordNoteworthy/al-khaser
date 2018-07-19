@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "SizeOfImage.h"
 
 // Any unreasonably large value will work say for example 0x100000 or 100,000h

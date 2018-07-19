@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "NtQueryInformationProcess_ProcessDebugPort.h"
 
 /* 
@@ -7,11 +9,7 @@ NtQueryInformationProcess process theirself.
 
 BOOL NtQueryInformationProcess_ProcessDebugPort ()
 {
-	// Function Pointer Typedef for NtQueryInformationProcess
-	typedef NTSTATUS (WINAPI *pNtQueryInformationProcess)(IN  HANDLE, IN  UINT, OUT PVOID, IN ULONG, OUT PULONG);
-
-	// We have to import the function
-	pNtQueryInformationProcess NtQueryInfoProcess = NULL;
+	auto NtQueryInfoProcess = static_cast<pNtQueryInformationProcess>(API::GetAPI(API_IDENTIFIER::API_NtQueryInformationProcess));
  
 	// ProcessDebugPort
 	const int ProcessDbgPort = 7;
@@ -28,21 +26,6 @@ BOOL NtQueryInformationProcess_ProcessDebugPort ()
 	DWORD32 IsRemotePresent = 0;
 #endif
 
-	HMODULE hNtdll = LoadLibrary(_T("ntdll.dll"));
-	if (hNtdll == NULL)
-	{
-		// Handle however.. chances of this failing
-		// is essentially 0 however since
-		// ntdll.dll is a vital system resource
-	}
- 
-	NtQueryInfoProcess = (pNtQueryInformationProcess)GetProcAddress(hNtdll, "NtQueryInformationProcess");
-
-	// Sanity check although there's no reason for it to have failed
-	if (NtQueryInfoProcess == NULL)
-		return 0;
- 
-	// Time to finally make the call
 	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDbgPort, &IsRemotePresent, dProcessInformationLength, NULL);
 	if(Status == 0x00000000 && IsRemotePresent != 0)
 		return TRUE;

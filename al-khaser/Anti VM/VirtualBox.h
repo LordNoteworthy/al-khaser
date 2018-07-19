@@ -1,19 +1,4 @@
-#include <Windows.h>
-#include <tchar.h>
-#include <ShlObj.h>
-#include <strsafe.h>
-#include <Shlwapi.h>
-#include <Wbemidl.h>
-
-# pragma comment(lib, "wbemuuid.lib")
-#pragma comment(lib, "Shlwapi.lib")
-#pragma comment(lib, "Mpr.lib")
-
-#include "../Shared/Common.h"
-#include "../Shared/Utils.h"
-
-
-
+#pragma once
 
 VOID vbox_reg_key_value();
 VOID vbox_reg_keys();

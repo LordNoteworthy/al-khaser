@@ -1,5 +1,3 @@
-#include <Windows.h>
-#include <tchar.h>
-#include "../Shared/VersionHelpers.h"
+#pragma once
 
 BOOL NtSetInformationThread_ThreadHideFromDebugger();

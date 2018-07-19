@@ -1,6 +1,5 @@
+#include "stdafx.h"
 #include "Common.h"
-#include "Utils.h"
-#include "log.h"
 
 VOID print_detected()
 {

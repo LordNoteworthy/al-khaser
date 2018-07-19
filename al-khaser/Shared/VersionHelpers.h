@@ -7,8 +7,7 @@
 *  Copyright (c) Microsoft Corp.  All rights reserved.            *
 *                                                                 *
 ******************************************************************/
-#ifndef _versionhelpers_H_INCLUDED_
-#define _versionhelpers_H_INCLUDED_
+#pragma once
 
 #include "winapifamily.h"
 
@@ -165,5 +164,3 @@ IsWindowsXPOr2k()
 
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 #pragma endregion
-
-#endif // _VERSIONHELPERS_H_INCLUDED_

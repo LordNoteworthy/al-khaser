@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "SetHandleInformation_API.h"
 
 

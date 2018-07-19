@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "NtYieldExecution.h"
 
 /*
@@ -16,30 +17,9 @@ BOOL NtYieldExecutionAPI()
 {
 	//NOTE: this check is unreliable, don't actually use this in a real environment
 
-	// Function Pointer Typedef for NtQueryInformationProcess
-	typedef NTSTATUS(WINAPI* pNtYieldExecution)();
+	auto NtYieldExecution = static_cast<pNtYieldExecution>(API::GetAPI(API_IDENTIFIER::API_NtYieldExecution));
 
-	// We have to import the function
-	pNtYieldExecution NtYieldExecution = NULL;
-
-	// Other Vars
-	HMODULE hNtdll;
 	INT iDebugged = 0;
-
-	hNtdll = LoadLibrary(_T("ntdll.dll"));
-
-	if (hNtdll == NULL) {
-		// somthing bad happened
-	}
-
-
-	NtYieldExecution = (pNtYieldExecution)GetProcAddress(hNtdll, "NtYieldExecution");
-	if (NtYieldExecution == NULL)
-	{
-		/// Handle however it fits your needs but as before,
-		// if this is missing there are some SERIOUS issues with the OS
-	}
-
 
 	for (int i = 0; i < 0x20; i++)
 	{

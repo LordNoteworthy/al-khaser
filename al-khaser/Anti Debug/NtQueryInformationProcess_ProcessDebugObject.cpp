@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "NtQueryInformationProcess_ProcessDebugObject.h"
 
 /*
@@ -8,14 +10,10 @@ the process isn't being debugged
 
 BOOL NtQueryInformationProcess_ProcessDebugObject()
 {
-   	// Function Pointer Typedef for NtQueryInformationProcess
-	typedef NTSTATUS (WINAPI *pNtQueryInformationProcess)(IN  HANDLE, IN  UINT, OUT PVOID, IN ULONG, OUT PULONG);
-
 	// ProcessDebugFlags
 	const int ProcessDebugObjectHandle =  0x1e;
 
-	// We have to import the function
-	pNtQueryInformationProcess NtQueryInfoProcess = NULL;
+	auto NtQueryInfoProcess = static_cast<pNtQueryInformationProcess>(API::GetAPI(API_IDENTIFIER::API_NtQueryInformationProcess));
 
 	// Other Vars
 	NTSTATUS Status;
@@ -30,23 +28,6 @@ BOOL NtQueryInformationProcess_ProcessDebugObject()
 	DWORD32 IsRemotePresent = 0;
 #endif
 
-	HMODULE hNtDll = LoadLibrary(_T("ntdll.dll"));
-	if(hNtDll == NULL)
-	{
-		// Handle however.. chances of this failing
-		// is essentially 0 however since
-		// ntdll.dll is a vital system resource
-	}
- 
-    NtQueryInfoProcess = (pNtQueryInformationProcess)GetProcAddress(hNtDll, "NtQueryInformationProcess");
-	
-	if(NtQueryInfoProcess == NULL)
-	{
-		// Handle however it fits your needs but as before,
-		// if this is missing there are some SERIOUS issues with the OS
-	}
-
-	// Time to finally make the call
 	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDebugObjectHandle, &hDebugObject, dProcessInformationLength, NULL);
     
 	if (Status == 0x00000000 && hDebugObject)

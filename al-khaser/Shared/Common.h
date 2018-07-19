@@ -1,10 +1,4 @@
-#ifndef __AL_KHASER_COMMON_H__
-#define __AL_KHASER_COMMON_H__
-
-#include <Windows.h>
-#include <stdio.h>
-#include <tchar.h>
-#include <strsafe.h>
+#pragma once
 
 VOID print_detected() ;
 VOID print_not_detected() ;
@@ -35,5 +29,3 @@ VOID exec_check(int(*callback)(T param), T param, TCHAR* szMsg)
 	if (szMsg)
 		_print_check_result(result, szMsg);
 }
-
-#endif

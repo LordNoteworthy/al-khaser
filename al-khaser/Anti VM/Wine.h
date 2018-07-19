@@ -1,7 +1,4 @@
-#include <Windows.h>
-#include <tchar.h>
-
-#include "..\Shared\Utils.h"
+#pragma once
 
 BOOL wine_exports();
 VOID wine_reg_keys();

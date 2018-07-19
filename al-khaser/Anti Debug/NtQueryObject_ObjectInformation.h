@@ -1,8 +1,4 @@
-#include <Windows.h>
-#include <tchar.h>
-#include <winternl.h>
-#include <Shlwapi.h>
-
+#pragma once
 
 BOOL NtQueryObject_ObjectAllTypesInformation();
 BOOL NtQueryObject_ObjectTypeInformation();

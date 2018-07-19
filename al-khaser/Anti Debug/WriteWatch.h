@@ -1,5 +1,4 @@
-#include <Windows.h>
-
+#pragma once
 
 BOOL VirtualAlloc_WriteWatch_BufferOnly();
 BOOL VirtualAlloc_WriteWatch_APICalls();

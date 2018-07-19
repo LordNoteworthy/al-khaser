@@ -1,7 +1,4 @@
-#include <Windows.h>
-#include <Winternl.h>
-#include <Psapi.h>
-#include <string>
+#pragma once
 
 #ifndef UNICODE  
 typedef std::string String;

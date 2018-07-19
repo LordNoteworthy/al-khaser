@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "NtQuerySystemInformation_SystemKernelDebuggerInformation.h"
 
 /*
@@ -7,26 +9,16 @@ a SYSTEM_KERNEL_DEBUGGER_INFORMATION struct which will reveal the presence of a 
 
 BOOL NtQuerySystemInformation_SystemKernelDebuggerInformation()
 {
-   	// Function pointer typedef for NtQuerySystemInformation
-	typedef NTSTATUS (WINAPI *pNtQuerySystemInformation)(IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
- 
-	// SystemKernelDebuggerInformation
+   	// SystemKernelDebuggerInformation
 	const int SystemKernelDebuggerInformation = 0x23;
 
 	// The debugger information struct
 	SYSTEM_KERNEL_DEBUGGER_INFORMATION KdDebuggerInfo;
 
-	HMODULE hNtDll = LoadLibrary(_T("ntdll.dll"));
-	if(hNtDll == NULL)
-		DbgRaiseAssertionFailure();
- 
-	// Get the function address
-	pNtQuerySystemInformation NtQuerySystemInfo = (pNtQuerySystemInformation)GetProcAddress(hNtDll, "NtQuerySystemInformation");
-	if(NtQuerySystemInfo == NULL)
-		DbgRaiseAssertionFailure();
-	
+	auto NtQuerySystemInformation = static_cast<pNtQuerySystemInformation>(API::GetAPI(API_IDENTIFIER::API_NtQuerySystemInformation));
+
 	// Call NtQuerySystemInformation
-	NTSTATUS Status = NtQuerySystemInfo(SystemKernelDebuggerInformation, &KdDebuggerInfo, sizeof(SYSTEM_KERNEL_DEBUGGER_INFORMATION), NULL);
+	NTSTATUS Status = NtQuerySystemInformation(SystemKernelDebuggerInformation, &KdDebuggerInfo, sizeof(SYSTEM_KERNEL_DEBUGGER_INFORMATION), NULL);
 	if (Status >= 0)
 	{
 		// KernelDebuggerEnabled almost always implies !KernelDebuggerNotPresent. KernelDebuggerNotPresent can sometimes

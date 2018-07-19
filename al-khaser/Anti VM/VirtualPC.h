@@ -1,5 +1,4 @@
-#include <Windows.h>
-#include "../Shared/Utils.h"
+#pragma once
 
 
 VOID virtual_pc_process();

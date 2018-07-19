@@ -196,9 +196,6 @@
     <ClCompile Include="Anti VM\Generic.cpp">
       <Filter>Anti VM / Emulation\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Anti Analysis\file.cpp">
-      <Filter>Anti Analysis\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Anti Analysis\process.cpp">
       <Filter>Anti Analysis\Source</Filter>
     </ClCompile>
@@ -235,6 +232,13 @@
     <ClCompile Include="Anti VM\VirtualPC.cpp">
       <Filter>Anti VM / Emulation\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Shared\APIs.cpp">
+      <Filter>Shared\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Shared\ApiTypeDefs.cpp">
+      <Filter>Shared\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -247,9 +251,6 @@
       <Filter>Shared\Header</Filter>
     </ClInclude>
     <ClInclude Include="Shared\Utils.h">
-      <Filter>Shared\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Shared\Main.h">
       <Filter>Shared\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\CheckRemoteDebuggerPresentAPI.h">
@@ -363,9 +364,6 @@
     <ClInclude Include="Anti Analysis\process.h">
       <Filter>Anti Analysis\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Anti Analysis\file.h">
-      <Filter>Anti Analysis\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Anti VM\Qemu.h">
       <Filter>Anti VM / Emulation\Header</Filter>
     </ClInclude>
@@ -398,6 +396,34 @@
     </ClInclude>
     <ClInclude Include="Anti VM\VirtualPC.h">
       <Filter>Anti VM / Emulation\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\APIs.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Shared\stdafx.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code Injections\stdafx.h">
+      <Filter>Code Injections\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti VM\stdafx.h">
+      <Filter>Anti VM / Emulation\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Dump\stdafx.h">
+      <Filter>Anti Dump\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\stdafx.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Analysis\stdafx.h">
+      <Filter>Anti Analysis\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="timing-attacks\stdafx.h">
+      <Filter>Timing Attacks\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\ApiTypeDefs.h">
+      <Filter>Shared\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

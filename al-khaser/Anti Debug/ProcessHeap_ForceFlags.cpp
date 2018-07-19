@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "ProcessHeap_ForceFlags.h"
 
 /* 

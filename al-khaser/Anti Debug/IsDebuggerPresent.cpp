@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "IsDebuggerPresent.h"
 
 BOOL IsDebuggerPresentAPI ()

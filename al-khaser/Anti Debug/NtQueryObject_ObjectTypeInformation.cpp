@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "NtQueryObject_ObjectInformation.h"
 
 /* 
@@ -11,17 +13,9 @@ BOOL NtQueryObject_ObjectTypeInformation()
 {
 	//NOTE this check now only detects if NtQueryObject is hooked to set ObjectInformation->TotalNumberOfObjects = 0
 
-	// Function Pointer Typedef for NtQueryObject
-	typedef NTSTATUS (WINAPI *pNtQueryObject)(IN HANDLE, IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
-
-
-	// Function pointer Typedef for NtCreateDebugObject
-	typedef NTSTATUS(WINAPI *pNtCreateDebugObject)(OUT PHANDLE, IN ACCESS_MASK, IN POBJECT_ATTRIBUTES, IN ULONG);
-
-
 	// We have to import the function
-	pNtQueryObject NtQueryObject = NULL;
-	pNtCreateDebugObject NtCreateDebugObject = NULL;
+	auto NtQueryObject = static_cast<pNtQueryObject>(API::GetAPI(API_IDENTIFIER::API_NtQueryObject));
+	auto NtCreateDebugObject = static_cast<pNtCreateDebugObject>(API::GetAPI(API_IDENTIFIER::API_NtCreateDebugObject));
 
 	// Some vars
 	HANDLE DebugObjectHandle;
@@ -30,41 +24,11 @@ BOOL NtQueryObject_ObjectTypeInformation()
 	BYTE memory[0x1000] = { 0 };
 	POBJECT_TYPE_INFORMATION ObjectInformation = (POBJECT_TYPE_INFORMATION)memory;
 	NTSTATUS Status;
-	
-
-	HMODULE hNtdll = LoadLibrary(_T("ntdll.dll"));
-	if (hNtdll == NULL)
-	{
-		// Handle however.. chances of this failing
-		// is essentially 0 however since
-		// ntdll.dll is a vital system resource
-	}
-
-	NtCreateDebugObject = (pNtCreateDebugObject)GetProcAddress(hNtdll, "NtCreateDebugObject");
-	if (NtCreateDebugObject == NULL)
-	{
-		// Handle however it fits your needs but as before,
-		// if this is missing there are some SERIOUS issues with the OS
-	}
 
 	NtCreateDebugObject(&DebugObjectHandle, DEBUG_ALL_ACCESS, &ObjectAttributes, FALSE);
-	if (NtCreateDebugObject) {
 
-		HMODULE hNtdll = LoadLibrary(_T("ntdll.dll"));
-		if (hNtdll == NULL)
-		{
-			// Handle however.. chances of this failing
-			// is essentially 0 however since
-			// ntdll.dll is a vital system resource
-		}
-
-		NtQueryObject = (pNtQueryObject)GetProcAddress(hNtdll, "NtQueryObject");
-		if (NtCreateDebugObject == NULL)
-		{
-			// Handle however it fits your needs but as before,
-			// if this is missing there are some SERIOUS issues with the OS
-		}
-
+	if (API::IsAvailable(API_IDENTIFIER::API_NtQueryObject))
+	{
 		Status = NtQueryObject(DebugObjectHandle, ObjectTypeInformation, ObjectInformation, sizeof(memory), 0);
 		
 		// Make sure to not screw up later checks

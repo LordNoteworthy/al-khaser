@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "InjectedDLL.h"
 
 LRESULT CALLBACK MyProc(INT code, WPARAM wParam, LPARAM lParam);

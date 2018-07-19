@@ -1,20 +1,4 @@
-#include <windows.h>
-#include <tchar.h>
-#include <Winternl.h>
-#include <devguid.h>    // Device guids
-#include <winioctl.h>	// IOCTL
-#include <intrin.h>		// cpuid()
-#include <locale.h>		// 64-bit wchar atoi
-
-#include <powrprof.h>	// check_power_modes()
-#pragma comment(lib, "powrprof.lib")
-
-
-#include <SetupAPI.h>
-#pragma comment(lib, "setupapi.lib")
-
-#include "../Shared/Utils.h"
-#include "../Shared/VersionHelpers.h"
+#pragma once
 
 VOID loaded_dlls();
 BOOL NumberOfProcessors();

@@ -1,6 +1,4 @@
-#include <Windows.h>
-#include "../Shared/Utils.h"
-
+#pragma once
 
 VOID parallels_process();
 BOOL parallels_check_mac();

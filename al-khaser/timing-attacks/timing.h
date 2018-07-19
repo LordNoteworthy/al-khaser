@@ -1,14 +1,4 @@
-#include <windows.h>
-#include <tchar.h>
-#include <Mmsystem.h>
-#include <intrin.h>
-#include <iphlpapi.h>
-#include <icmpapi.h>
-
-#pragma comment(lib, "Winmm.lib")
-
-#include "..\Shared\Common.h"
-#include "..\Shared\VersionHelpers.h"
+#pragma once
 
 BOOL timing_SetTimer(UINT delayInMillis);
 BOOL timing_NtDelayexecution(UINT delayInMillis);

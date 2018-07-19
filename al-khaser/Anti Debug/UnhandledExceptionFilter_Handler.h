@@ -1,3 +1,3 @@
-#include <Windows.h>
+#pragma once
 
 BOOL UnhandledExcepFilterTest();

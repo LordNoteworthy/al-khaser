@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "PEB_BeingDebugged.h"
 
 /* 

@@ -1,6 +1,4 @@
-#include <Windows.h>
-#include "../Shared/Utils.h"
-
+#pragma once
 
 VOID analysis_tools_process();
 

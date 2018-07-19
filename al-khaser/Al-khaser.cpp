@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "Shared\Main.h"
+#include "stdafx.h"
 
 int main(void)
 {
@@ -28,6 +27,10 @@ int main(void)
 
 	if (IsWoW64())
 		_tprintf(_T("Process is running under WOW64\n\n"));
+
+	print_category(TEXT("Initialisation"));
+	API::Init();
+	API::PrintAvailabilityReport();
 
 	/* TLS checks */
 	if (ENABLE_TLS_CHECKS) {
