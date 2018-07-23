@@ -40,12 +40,16 @@ enum API_MIN_OS_VERSION
 struct VERSION_FUNCTION_MAP
 {
 	API_MIN_OS_VERSION Version;
-	bool(__stdcall *Function)();
+	bool(*Function)();
 
-	VERSION_FUNCTION_MAP(API_MIN_OS_VERSION version, bool(__stdcall *function)())
+	VERSION_FUNCTION_MAP(API_MIN_OS_VERSION version, bool(*function)())
 	{
 		Version = version;
 		Function = function;
+	}
+
+	VERSION_FUNCTION_MAP()
+	{
 	}
 };
 
