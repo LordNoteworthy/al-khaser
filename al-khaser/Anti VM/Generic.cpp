@@ -22,6 +22,8 @@ VOID loaded_dlls()
 		_T("pstorec.dll"),		// SunBelt Sandbox
 		_T("vmcheck.dll"),		// Virtual PC
 		_T("wpespy.dll"),		// WPE Pro
+		_T("cmdvrt64.dll"),		// Comodo Container
+        _T("cmdvrt32.dll"),		// Comodo Container
 
 	};
 
