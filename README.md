@@ -68,6 +68,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Process jobs
 - Memory write watching
 - Page exception breakpoint detection
+- API hook detection (module bounds based)
 
 
 ### Anti-Dumping

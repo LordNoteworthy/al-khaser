@@ -242,6 +242,9 @@
     <ClCompile Include="Anti Debug\PageExceptionBreakpointCheck.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\ModuleBoundsHookCheck.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -429,6 +432,9 @@
       <Filter>Shared\Header</Filter>
     </ClInclude>
     <ClInclude Include="Anti Debug\PageExceptionBreakpointCheck.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\ModuleBoundsHookCheck.h">
       <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>

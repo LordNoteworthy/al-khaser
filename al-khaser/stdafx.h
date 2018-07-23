@@ -77,6 +77,7 @@
 #include "Anti Debug\ProcessJob.h"
 #include "Anti Debug\WriteWatch.h"
 #include "Anti Debug\PageExceptionBreakpointCheck.h"
+#include "Anti Debug\ModuleBoundsHookCheck.h"
 
 /* Anti dumping headers */
 #include "Anti Dump\ErasePEHeaderFromMemory.h"
