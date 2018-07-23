@@ -174,6 +174,7 @@
     <ClCompile Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.cpp" />
     <ClCompile Include="Anti Debug\NtYieldExecution.cpp" />
     <ClCompile Include="Anti Debug\OutputDebugStringAPI.cpp" />
+    <ClCompile Include="Anti Debug\PageExceptionBreakpointCheck.cpp" />
     <ClCompile Include="Anti Debug\ParentProcess.cpp" />
     <ClCompile Include="Anti Debug\PEB_BeingDebugged.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_Flags.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.h" />
     <ClInclude Include="Anti Debug\NtYieldExecution.h" />
     <ClInclude Include="Anti Debug\OutputDebugStringAPI.h" />
+    <ClInclude Include="Anti Debug\PageExceptionBreakpointCheck.h" />
     <ClInclude Include="Anti Debug\ParentProcess.h" />
     <ClInclude Include="Anti Debug\PEB_BeingDebugged.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_Flags.h" />

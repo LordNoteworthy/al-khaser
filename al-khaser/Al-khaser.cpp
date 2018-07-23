@@ -31,6 +31,7 @@ int main(void)
 	print_category(TEXT("Initialisation"));
 	API::Init();
 	API::PrintAvailabilityReport();
+	if (ENABLE_DEBUG_CHECKS) PageExceptionInitialEnum();
 
 	/* TLS checks */
 	if (ENABLE_TLS_CHECKS) {
@@ -73,6 +74,7 @@ int main(void)
 		exec_check(&VirtualAlloc_WriteWatch_APICalls, TEXT("Checking VirtualAlloc write watch (API calls) "));
 		exec_check(&VirtualAlloc_WriteWatch_IsDebuggerPresent, TEXT("Checking VirtualAlloc write watch (IsDebuggerPresent) "));
 		exec_check(&VirtualAlloc_WriteWatch_CodeWrite, TEXT("Checking VirtualAlloc write watch (code write) "));
+		exec_check(&PageExceptionBreakpointCheck, TEXT("Checking for page exception breakpoints "));
 	}
 
 	/* Generic sandbox detection */
