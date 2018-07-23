@@ -1,11 +1,13 @@
 //#pragma once
 
+#include <string>
+#include <vector>
+
 #include <Windows.h>
 #include <winternl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <string>
 #include <assert.h>
 #include <IPTypes.h>
 #include <Iphlpapi.h>
@@ -74,6 +76,7 @@
 #include "Anti Debug\SharedUserData_KernelDebugger.h"
 #include "Anti Debug\ProcessJob.h"
 #include "Anti Debug\WriteWatch.h"
+#include "Anti Debug\PageExceptionBreakpointCheck.h"
 
 /* Anti dumping headers */
 #include "Anti Dump\ErasePEHeaderFromMemory.h"

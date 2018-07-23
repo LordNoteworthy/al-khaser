@@ -41,7 +41,13 @@ VOID loaded_dlls()
 			print_results(TRUE, msg);
 	}
 }
-
+/*
+Detect Hybrid Analysis with mac vendor
+*/
+BOOL hybridanalysismacdetect()
+{
+	return check_mac_addr(_T("\x0A\x00\x27"));
+}
 
 /*
 Number of Processors in VM
