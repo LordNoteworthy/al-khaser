@@ -45,9 +45,15 @@ BOOL TLSCallbackThread()
 		return TRUE;
 	}
 
-	if (WaitForSingleObject(tls_callback_thread_event, 5000) != WAIT_OBJECT_0)
+	DWORD waitStatus = WaitForSingleObject(tls_callback_thread_event, 5000);
+	if (waitStatus != WAIT_OBJECT_0)
 	{
-		OutputDebugString(L"TLSCallbackThread timeout on event wait.");
+		if (waitStatus == WAIT_FAILED)
+			OutputDebugString(L"TLSCallbackThread wait failed.");
+		else if (waitStatus == WAIT_ABANDONED)
+			OutputDebugString(L"TLSCallbackThread wait abandoned.");
+		else
+			OutputDebugString(L"TLSCallbackThread timeout on event wait.");
 		return TRUE;
 	}
 
@@ -71,9 +77,15 @@ BOOL TLSCallbackProcess()
 		return TRUE;
 	}
 
-	if (WaitForSingleObject(tls_callback_process_event, 5000) != WAIT_OBJECT_0)
+	DWORD waitStatus = WaitForSingleObject(tls_callback_process_event, 5000);
+	if (waitStatus != WAIT_OBJECT_0)
 	{
-		OutputDebugString(L"TLSCallbackProcess timeout on event wait.");
+		if (waitStatus == WAIT_FAILED)
+			OutputDebugString(L"TLSCallbackProcess wait failed.");
+		else if (waitStatus == WAIT_ABANDONED)
+			OutputDebugString(L"TLSCallbackProcess wait abandoned.");
+		else
+			OutputDebugString(L"TLSCallbackProcess timeout on event wait.");
 		return TRUE;
 	}
 
