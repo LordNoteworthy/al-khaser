@@ -33,6 +33,8 @@ int main(void)
 	API::PrintAvailabilityReport();
 	if (ENABLE_DEBUG_CHECKS) PageExceptionInitialEnum();
 
+	ModuleBoundsHookCheck();
+
 	/* TLS checks */
 	if (ENABLE_TLS_CHECKS) {
 		print_category(TEXT("TLS Callbacks"));
@@ -75,6 +77,7 @@ int main(void)
 		exec_check(&VirtualAlloc_WriteWatch_IsDebuggerPresent, TEXT("Checking VirtualAlloc write watch (IsDebuggerPresent) "));
 		exec_check(&VirtualAlloc_WriteWatch_CodeWrite, TEXT("Checking VirtualAlloc write watch (code write) "));
 		exec_check(&PageExceptionBreakpointCheck, TEXT("Checking for page exception breakpoints "));
+		exec_check(&ModuleBoundsHookCheck, TEXT("Checking for API hooks outside module bounds "));
 	}
 
 	/* Generic sandbox detection */
