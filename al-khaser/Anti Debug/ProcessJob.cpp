@@ -15,7 +15,7 @@
 
 BOOL ProcessJob()
 {
-	BOOL foundProblem = TRUE;
+	BOOL foundProblem = FALSE;
 
 	DWORD jobProcessStructSize = sizeof(JOBOBJECT_BASIC_PROCESS_ID_LIST) + sizeof(ULONG_PTR) * 1024;
 	JOBOBJECT_BASIC_PROCESS_ID_LIST* jobProcessIdList = static_cast<JOBOBJECT_BASIC_PROCESS_ID_LIST*>(malloc(jobProcessStructSize));
