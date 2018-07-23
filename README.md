@@ -67,6 +67,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - TLS callbacks
 - Process jobs
 - Memory write watching
+- Page exception breakpoint detection
 
 
 ### Anti-Dumping
@@ -179,6 +180,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "\x00\x50\x56" (VMWARE)
   - "\x00\x1C\x42" (Parallels)
   - "\x00\x16\x3E" (Xen)
+  - "\x0A\x00\x27" (Hybrid Analysis)
 - **Virtual devices**
   - "\\\\.\\VBoxMiniRdrDN"
   - "\\\\.\\VBoxGuest"
@@ -246,6 +248,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - pstorec.dll (SunBelt Sandbox)
   - vmcheck.dll (Virtual PC)
   - wpespy.dll (WPE Pro)
+  - cmdvrt32.dll (Comodo Container)
+  - cmdvrt64.dll (Comodo Container)
 - **CPU**
   - Hypervisor presence using (EAX=0x1)
   - Hypervisor vendor using (EAX=0x40000000)

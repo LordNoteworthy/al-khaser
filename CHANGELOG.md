@@ -1,3 +1,22 @@
+#### 0.75
+- Added page exception breakpoint anti-debug check (mainly focused on Cheat Engine)
+- Added checks for power capabilities (GetPwrCapabilities)
+- Added CreateWaitableTimer and CreateTimerQueueTimer timing attack checks
+- Added Comodo sandbox checks thanks to @kaganisildak
+- Added Hybrid Analysis sandbox checks thanks to @kaganisildak
+- Improved TLS callback checks (no longer requires user interaction)
+- Improved check text output so that it displays the it before the check completes
+- Improved ThreadHideFromDebugger check
+- Improved disk size IOCTL checks
+- Improved reporting of timing checks
+- Overhauled the code to use precompiled headers
+- Added a standardised way to load and check APIs that aren't always available
+- Fixed a bug that caused TLS callbacks to not always work
+- Fixed a bug which resulted in a crash when RtlGetVersion was not available
+- Fixed a string formatting bug in the Xen VM checks
+- Fixed a bug where disk size was not read properly in the disk size WMI check
+- Fixed a bug where the locky timer trick never worked
+
 #### 0.74
 - Added qemu process check (qemu-ga.exe) thanks to @kaganisildak.
 - Added checks for system firmware tables (SMBIOS and ACPI for QEMU).
