@@ -43,7 +43,6 @@ int main(void)
 	/* Debugger Detection */
 	if (ENABLE_DEBUG_CHECKS) {
 		print_category(TEXT("Debugger Detection"));
-		exec_check(&hybridanalysismacdetect, TEXT("Checking Mac address , Hybrid Analysis "));
 		exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API "));
 		exec_check(&IsDebuggerPresentPEB, TEXT("Checking PEB.BeingDebugged "));
 		exec_check(&CheckRemoteDebuggerPresentAPI, TEXT("Checking CheckRemoteDebuggerPresent API "));
@@ -114,6 +113,7 @@ int main(void)
 		vbox_files();
 		vbox_reg_keys();
 		exec_check(&vbox_check_mac, TEXT("Checking Mac Address start with 08:00:27 "));
+		exec_check(&hybridanalysismacdetect, TEXT("Checking MAC address (Hybrid Analysis) "));
 		vbox_devices();
 		exec_check(&vbox_window_class, TEXT("Checking VBoxTrayToolWndClass / VBoxTrayToolWnd "));
 		exec_check(&vbox_network_share, TEXT("Checking VirtualBox Shared Folders network provider "));
