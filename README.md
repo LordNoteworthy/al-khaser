@@ -26,7 +26,7 @@ It performs a bunch of common malware tricks with the goal of seeing if you stay
 
 ## Download
 
-You can download the latest release [here](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser.exe?raw=true).
+You can download the latest release here: [x86](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser_x86.exe?raw=true) | [x64](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser_x64.exe?raw=true).
 
 
 ## Possible uses
