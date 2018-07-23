@@ -38,10 +38,21 @@ BOOL TLSCallbackThread()
 	int fuse = 0;
 	while (tls_callback_thread_event == NULL && ++fuse != BLOWN) { SwitchToThread(); }
 	if (fuse == BLOWN)
+	{
+		OutputDebugString(L"TLSCallbackThread timeout on event creation.");
 		return TRUE;
+	}
 
 	if (WaitForSingleObject(tls_callback_thread_event, 2000) != WAIT_OBJECT_0)
+	{
+		OutputDebugString(L"TLSCallbackThread timeout on event wait.");
 		return TRUE;
+	}
+
+	if (tls_callback_thread_data != 0xDEADBEEF)
+		OutputDebugString(L"TLSCallbackThread data did not match.");
+	else
+		OutputDebugString(L"All seems fine for TLSCallbackThread.");
 
 	return tls_callback_thread_data == 0xDEADBEEF ? FALSE : TRUE;
 }
@@ -53,10 +64,21 @@ BOOL TLSCallbackProcess()
 	int fuse = 0;
 	while (tls_callback_process_event == NULL && ++fuse != BLOWN) { SwitchToThread(); }
 	if (fuse == BLOWN)
+	{
+		OutputDebugString(L"TLSCallbackProcess timeout on event creation.");
 		return TRUE;
+	}
 
 	if (WaitForSingleObject(tls_callback_process_event, 2000) != WAIT_OBJECT_0)
+	{
+		OutputDebugString(L"TLSCallbackProcess timeout on event wait.");
 		return TRUE;
+	}
+
+	if (tls_callback_process_data != 0xDEADBEEF)
+		OutputDebugString(L"TLSCallbackProcess data did not match.");
+	else
+		OutputDebugString(L"All seems fine for TLSCallbackProcess.");
 
 	return tls_callback_process_data == 0xDEADBEEF ? FALSE : TRUE;
 }
