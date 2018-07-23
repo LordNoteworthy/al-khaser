@@ -33,9 +33,22 @@ VOID WINAPI tls_callback(PVOID hModule, DWORD dwReason, PVOID pContext)
 	}
 }
 
+DWORD WINAPI TLSCallbackDummyThread(
+	_In_ LPVOID lpParameter
+)
+{
+	OutputDebugString(L"TLS callback: dummy thread launched");
+	return 0;
+}
+
 BOOL TLSCallbackThread()
 {
 	const int BLOWN = 1000;
+
+	if (CreateThread(NULL, 0, &TLSCallbackDummyThread, NULL, 0, NULL) == NULL)
+	{
+		OutputDebugString(L"TLS callback: couldn't start dummy thread");
+	}
 
 	int fuse = 0;
 	while (tls_callback_thread_event == NULL && ++fuse != BLOWN) { SwitchToThread(); }
