@@ -20,12 +20,14 @@ VOID WINAPI tls_callback(PVOID hModule, DWORD dwReason, PVOID pContext)
 
 	if (dwReason == DLL_THREAD_ATTACH)
 	{
+		OutputDebugString(L"TLS callback: thread attach");
 		tls_callback_thread_data = 0xDEADBEEF;
 		SetEvent(tls_callback_thread_event);
 	}
 
 	if (dwReason == DLL_PROCESS_ATTACH)
 	{
+		OutputDebugString(L"TLS callback: process attach");
 		tls_callback_process_data = 0xDEADBEEF;
 		SetEvent(tls_callback_process_event);
 	}
@@ -37,13 +39,13 @@ BOOL TLSCallbackThread()
 
 	int fuse = 0;
 	while (tls_callback_thread_event == NULL && ++fuse != BLOWN) { SwitchToThread(); }
-	if (fuse == BLOWN)
+	if (fuse >= BLOWN)
 	{
 		OutputDebugString(L"TLSCallbackThread timeout on event creation.");
 		return TRUE;
 	}
 
-	if (WaitForSingleObject(tls_callback_thread_event, 2000) != WAIT_OBJECT_0)
+	if (WaitForSingleObject(tls_callback_thread_event, 5000) != WAIT_OBJECT_0)
 	{
 		OutputDebugString(L"TLSCallbackThread timeout on event wait.");
 		return TRUE;
@@ -63,13 +65,13 @@ BOOL TLSCallbackProcess()
 
 	int fuse = 0;
 	while (tls_callback_process_event == NULL && ++fuse != BLOWN) { SwitchToThread(); }
-	if (fuse == BLOWN)
+	if (fuse >= BLOWN)
 	{
 		OutputDebugString(L"TLSCallbackProcess timeout on event creation.");
 		return TRUE;
 	}
 
-	if (WaitForSingleObject(tls_callback_process_event, 2000) != WAIT_OBJECT_0)
+	if (WaitForSingleObject(tls_callback_process_event, 5000) != WAIT_OBJECT_0)
 	{
 		OutputDebugString(L"TLSCallbackProcess timeout on event wait.");
 		return TRUE;
