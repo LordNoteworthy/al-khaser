@@ -792,7 +792,7 @@ UINT enum_system_firmware_tables(DWORD FirmwareTableProviderSignature, PVOID pFi
 {
 	if (!API::IsAvailable(API_IDENTIFIER::API_EnumSystemFirmwareTables))
 	{
-		return 0;
+		return -1;
 	}
 
 	auto EnumSystemFirmwareTables = static_cast<pEnumSystemFirmwareTables>(API::GetAPI(API_IDENTIFIER::API_EnumSystemFirmwareTables));

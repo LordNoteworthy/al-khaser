@@ -240,9 +240,16 @@ BOOL vmware_firmware_ACPI()
 	PDWORD tableNames = static_cast<PDWORD>(malloc(4096));
 	SecureZeroMemory(tableNames, 4096);
 	DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
+
+	// API not available
+	if (tableSize == -1)
+		return FALSE;
+
 	DWORD tableCount = tableSize / 4;
 	if (tableSize < 4 || tableCount == 0)
+	{
 		result = TRUE;
+	}
 	else
 	{
 		for (DWORD i = 0; i < tableCount; i++) {
