@@ -1,4 +1,5 @@
 #### 0.75
+- Fixed a typo in API data structure and move print_os() after API initialization thanks to @hzqst
 - Added page exception breakpoint anti-debug check (mainly focused on Cheat Engine)
 - Added checks for power capabilities (GetPwrCapabilities)
 - Added CreateWaitableTimer and CreateTimerQueueTimer timing attack checks
