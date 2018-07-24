@@ -23,14 +23,15 @@ int main(void)
 
 	/* Display general informations */
 	_tprintf(_T("[al-khaser version 0.75]"));
-	print_os();
 
 	if (IsWoW64())
 		_tprintf(_T("Process is running under WOW64\n\n"));
 
 	print_category(TEXT("Initialisation"));
 	API::Init();
+	print_os();
 	API::PrintAvailabilityReport();
+
 	if (ENABLE_DEBUG_CHECKS) PageExceptionInitialEnum();
 
 	ModuleBoundsHookCheck();
