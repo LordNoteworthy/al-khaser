@@ -34,8 +34,6 @@ int main(void)
 
 	if (ENABLE_DEBUG_CHECKS) PageExceptionInitialEnum();
 
-	ModuleBoundsHookCheck();
-
 	/* TLS checks */
 	if (ENABLE_TLS_CHECKS) {
 		print_category(TEXT("TLS Callbacks"));
