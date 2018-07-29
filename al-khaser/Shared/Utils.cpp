@@ -872,3 +872,28 @@ bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, ULONGLONG address)
 {
 	return attempt_to_read_memory_wow64(buffer, size, reinterpret_cast<PVOID64>(address));
 }
+
+std::vector<PMEMORY_BASIC_INFORMATION>* enumerate_memory()
+{
+	auto regions = new std::vector<PMEMORY_BASIC_INFORMATION>();
+
+#ifdef ENV32BIT
+	const PBYTE MaxAddress = (PBYTE)0x7FFFFFFF;
+#else
+	const PBYTE MaxAddress = (PBYTE)0x7FFFFFFFFFFFFFFFULL;
+#endif
+
+	PBYTE addr = 0;
+	while (addr < MaxAddress)
+	{
+		auto mbi = new MEMORY_BASIC_INFORMATION();
+		if (VirtualQuery(addr, mbi, sizeof(MEMORY_BASIC_INFORMATION)) <= 0)
+			break;
+		
+		regions->push_back(mbi);
+
+		addr += mbi->RegionSize;
+	}
+
+	return regions;
+}
