@@ -7,7 +7,7 @@ API_DATA ApiData[] = {
 	{ API_IDENTIFIER::API_CsrGetProcessId,				"ntdll.dll",		"CsrGetProcessId",				API_MIN_OS_VERSION::WIN_XP },
 	{ API_IDENTIFIER::API_EnumSystemFirmwareTables,		"kernel32.dll",		"EnumSystemFirmwareTables",		API_MIN_OS_VERSION::WIN_VISTA },
 	{ API_IDENTIFIER::API_GetNativeSystemInfo,			"kernel32.dll",		"GetNativeSystemInfo",			API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_GetProductInfo,				"kernel32.dll",		"GetProductInfo",			API_MIN_OS_VERSION::WIN_XP },
+	{ API_IDENTIFIER::API_GetProductInfo,				"kernel32.dll",		"GetProductInfo",				API_MIN_OS_VERSION::WIN_XP },
 	{ API_IDENTIFIER::API_GetSystemFirmwareTable,		"kernel32.dll",		"GetSystemFirmwareTable",		API_MIN_OS_VERSION::WIN_VISTA },
 	{ API_IDENTIFIER::API_IsWow64Process,				"kernel32.dll",		"IsWow64Process",				API_MIN_OS_VERSION::WIN_XP_SP2 },
 	{ API_IDENTIFIER::API_NtClose,						"ntdll.dll",		"NtClose",						API_MIN_OS_VERSION::WIN_XP },
@@ -18,6 +18,7 @@ API_DATA ApiData[] = {
 	{ API_IDENTIFIER::API_NtQueryObject,				"ntdll.dll",		"NtQueryObject",				API_MIN_OS_VERSION::WIN_XP },
 	{ API_IDENTIFIER::API_NtQuerySystemInformation,		"ntdll.dll",		"NtQuerySystemInformation",		API_MIN_OS_VERSION::WIN_XP },
 	{ API_IDENTIFIER::API_NtSetInformationThread,		"ntdll.dll",		"NtSetInformationThread",		API_MIN_OS_VERSION::WIN_XP },
+	{ API_IDENTIFIER::API_NtWow64ReadVirtualMemory64,	"ntdll.dll",		"NtWow64ReadVirtualMemory64",	API_MIN_OS_VERSION::WIN_XP },
 	{ API_IDENTIFIER::API_NtYieldExecution,				"ntdll.dll",		"NtYieldExecution",				API_MIN_OS_VERSION::WIN_XP },
 	{ API_IDENTIFIER::API_RtlGetVersion,				"ntdll.dll",		"RtlGetVersion",				API_MIN_OS_VERSION::WIN_XP },
 };

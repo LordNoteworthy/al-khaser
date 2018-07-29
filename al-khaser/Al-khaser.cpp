@@ -79,6 +79,10 @@ int main(void)
 		exec_check(&VirtualAlloc_WriteWatch_CodeWrite, TEXT("Checking VirtualAlloc write watch (code write) "));
 		exec_check(&PageExceptionBreakpointCheck, TEXT("Checking for page exception breakpoints "));
 		exec_check(&ModuleBoundsHookCheck, TEXT("Checking for API hooks outside module bounds "));
+
+		Sleep(15000);
+
+		exec_check(&ScanForModules, TEXT("Checking for injected DLLs "));
 	}
 
 	/* Generic sandbox detection */

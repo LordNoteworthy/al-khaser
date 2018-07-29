@@ -43,6 +43,7 @@
 #include "Shared\VersionHelpers.h"
 #include "Shared\log.h"
 #include "Shared\Utils.h"
+#include "Shared\WinStructs.h"
 #include "Shared\ApiTypeDefs.h"
 #include "Shared\APIs.h"
 #include "Shared\winapifamily.h"
@@ -78,6 +79,7 @@
 #include "Anti Debug\WriteWatch.h"
 #include "Anti Debug\PageExceptionBreakpointCheck.h"
 #include "Anti Debug\ModuleBoundsHookCheck.h"
+#include "Anti Debug\ScanForModules.h"
 
 /* Anti dumping headers */
 #include "Anti Dump\ErasePEHeaderFromMemory.h"

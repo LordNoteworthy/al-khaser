@@ -14,6 +14,10 @@ VOID _print_check_result(int result, TCHAR* szMsg);
 
 VOID exec_check(int(*callback)(), TCHAR* szMsg);
 
+bool attempt_to_read_memory(void* addr, void* buf, int size);
+bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, PVOID64 address);
+bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, ULONGLONG address);
+
 // this must be defined in this header file
 // see: https://stackoverflow.com/questions/495021/why-can-templates-only-be-implemented-in-the-header-file
 template <typename T>

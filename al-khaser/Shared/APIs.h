@@ -16,6 +16,7 @@ enum API_IDENTIFIER
 	API_NtQueryObject,
 	API_NtQuerySystemInformation,
 	API_NtSetInformationThread,
+	API_NtWow64ReadVirtualMemory64,
 	API_NtYieldExecution,
 	API_RtlGetVersion,
 };
