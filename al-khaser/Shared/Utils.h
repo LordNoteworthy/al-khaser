@@ -27,6 +27,7 @@ bool attempt_to_read_memory(void* addr, void* buf, int size);
 bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, PVOID64 address);
 bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, ULONGLONG address);
 std::vector<PMEMORY_BASIC_INFORMATION>* enumerate_memory();
+std::vector<PMEMORY_BASIC_INFORMATION64>* enumerate_memory_wow64();
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
 #define FREE(x)		HeapFree(GetProcessHeap(), 0, x)

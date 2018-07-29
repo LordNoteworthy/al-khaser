@@ -897,3 +897,43 @@ std::vector<PMEMORY_BASIC_INFORMATION>* enumerate_memory()
 
 	return regions;
 }
+
+std::vector<PMEMORY_BASIC_INFORMATION64>* enumerate_memory_wow64()
+{
+	if (IsWoW64() == FALSE)
+	{
+		printf("Not WoW64.\n");
+		return nullptr;
+	}
+
+	if (!API::IsAvailable(API_NtWow64QueryVirtualMemory64))
+	{
+		printf("API unavailable.\n");
+		return nullptr;
+	}
+
+	auto NtWow64QueryVirtualMemory64 = static_cast<pNtWow64QueryVirtualMemory64>(API::GetAPI(API_IDENTIFIER::API_NtWow64QueryVirtualMemory64));
+
+	auto regions = new std::vector<PMEMORY_BASIC_INFORMATION64>();
+
+	const INT64 MaxAddress = 0x7FFFFFFFFFFFFFFFULL;
+
+	INT64 addr = 0;
+	while (addr < MaxAddress)
+	{
+		auto mbi = new MEMORY_BASIC_INFORMATION64();
+		ULONG64 returnLength;
+		NTSTATUS status;
+		if ((status = NtWow64QueryVirtualMemory64(GetCurrentProcess(), (PVOID64)addr, 0, mbi, sizeof(MEMORY_BASIC_INFORMATION64), &returnLength)) != 0)
+		{
+			printf("Failed at %llx with status %d.\n", addr, status);
+			break;
+		}
+
+		regions->push_back(mbi);
+
+		addr += mbi->RegionSize;
+	}
+
+	return regions;
+}
