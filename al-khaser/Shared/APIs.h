@@ -8,6 +8,7 @@ enum API_IDENTIFIER
 	API_GetNativeSystemInfo,
 	API_GetProductInfo,
 	API_IsWow64Process,
+	API_LdrEnumerateLoadedModules,
 	API_NtClose,
 	API_NtCreateDebugObject,
 	API_NtDelayExecution,

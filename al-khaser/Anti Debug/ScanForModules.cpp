@@ -414,7 +414,7 @@ std::vector<LDR_DATA_TABLE_ENTRY64*>* WalkLDR(PPEB_LDR_DATA64 ldrData)
 	return entryList;
 }
 
-BOOL ScanForModules_LDR()
+BOOL ScanForModules_LDR_Direct()
 {
 	PROCESS_BASIC_INFORMATION pbi = { 0 };
 	THREAD_BASIC_INFORMATION tbi = { 0 };
@@ -488,6 +488,44 @@ BOOL ScanForModules_LDR()
 	}
 
 	return anyBadLibs ? TRUE : FALSE;
+}
+
+VOID NTAPI LdrEnumCallback(_In_ PLDR_DATA_TABLE_ENTRY ModuleInformation, _In_ PVOID Parameter, _Out_ BOOLEAN *Stop)
+{
+	// add ldr entry to table from param
+	auto ldtEntries = static_cast<std::vector<LDR_DATA_TABLE_ENTRY>*>(Parameter);
+
+	ldtEntries->push_back(LDR_DATA_TABLE_ENTRY(*ModuleInformation));
+
+	Stop = FALSE;
+}
+
+BOOL ScanForModules_LdrEnumerateLoadedModules()
+{
+	if (!API::IsAvailable(API_IDENTIFIER::API_LdrEnumerateLoadedModules))
+		return FALSE;
+
+	auto LdrEnumerateLoadedModules = static_cast<pLdrEnumerateLoadedModules>(API::GetAPI(API_IDENTIFIER::API_LdrEnumerateLoadedModules));
+
+	auto ldrEntries = new std::vector<LDR_DATA_TABLE_ENTRY>();
+
+	NTSTATUS status;
+	if ((status = LdrEnumerateLoadedModules(FALSE, &LdrEnumCallback, ldrEntries)) != 0)
+	{
+		printf("LdrEnumerateLoadedModules failed. Status: %x\n", status);
+		delete ldrEntries;
+		return FALSE;
+	}
+
+	bool anyBadEntries = false;
+	for (LDR_DATA_TABLE_ENTRY ldrEntry : *ldrEntries)
+	{
+		bool isBad = IsBadLibrary(ldrEntry.FullDllName.Buffer, ldrEntry.FullDllName.Length);
+		anyBadEntries |= isBad;
+	}
+
+	delete ldrEntries;
+	return anyBadEntries ? TRUE : FALSE;
 }
 
 BOOL ScanForModules_ToolHelp32()

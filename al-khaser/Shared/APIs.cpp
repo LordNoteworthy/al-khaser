@@ -11,6 +11,7 @@ API_DATA ApiData[] = {
 	{ API_IDENTIFIER::API_GetProductInfo,				"kernel32.dll",		"GetProductInfo",				API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
 	{ API_IDENTIFIER::API_GetSystemFirmwareTable,		"kernel32.dll",		"GetSystemFirmwareTable",		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
 	{ API_IDENTIFIER::API_IsWow64Process,				"kernel32.dll",		"IsWow64Process",				API_OS_VERSION::WIN_XP_SP2,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_LdrEnumerateLoadedModules,	"ntdll.dll",		"LdrEnumerateLoadedModules",	API_OS_VERSION::WIN_XP_SP1,		API_OS_VERSION::NONE },
 	{ API_IDENTIFIER::API_NtClose,						"ntdll.dll",		"NtClose",						API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
 	{ API_IDENTIFIER::API_NtCreateDebugObject,			"ntdll.dll",		"NtCreateDebugObject",			API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
 	{ API_IDENTIFIER::API_NtDelayExecution,				"ntdll.dll",		"NtDelayExecution",				API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },

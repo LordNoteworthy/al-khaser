@@ -56,3 +56,7 @@ typedef NTSTATUS(NTAPI *pNtWow64QueryVirtualMemory64)(
 	OUT PMEMORY_BASIC_INFORMATION64 MemoryInformation,
 	IN ULONG64 Size,
 	OUT PULONG64 ReturnLength OPTIONAL);
+typedef NTSTATUS(NTAPI *pLdrEnumerateLoadedModules)(
+	IN BOOLEAN ReservedFlag,
+	IN PLDR_ENUM_CALLBACK EnumProc,
+	IN PVOID Context);
