@@ -836,3 +836,28 @@ PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD p
 	*pBufferSize = resultBufferSize;
 	return firmwareTable;
 }
+
+std::vector<PMEMORY_BASIC_INFORMATION>* enumerate_memory()
+{
+	auto regions = new std::vector<PMEMORY_BASIC_INFORMATION>();
+
+#ifdef ENV32BIT
+	const PBYTE MaxAddress = (PBYTE)0x7FFFFFFF;
+#else
+	const PBYTE MaxAddress = (PBYTE)0x7FFFFFFFFFFFFFFFULL;
+#endif
+
+	PBYTE addr = 0;
+	while (addr < MaxAddress)
+	{
+		auto mbi = new MEMORY_BASIC_INFORMATION();
+		if (VirtualQuery(addr, mbi, sizeof(MEMORY_BASIC_INFORMATION)) <= 0)
+			break;
+		
+		regions->push_back(mbi);
+
+		addr += mbi->RegionSize;
+	}
+
+	return regions;
+}
