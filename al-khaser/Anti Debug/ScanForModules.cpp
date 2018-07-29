@@ -260,6 +260,7 @@ BOOL ScanForModules_MemoryWalk_Hidden()
 
 	bool anyBadLibs = false;
 
+	bool firstPrint = true;
 	for (PMEMORY_BASIC_INFORMATION region : *memoryRegions)
 	{
 		if (region->State == MEM_FREE)
@@ -288,7 +289,19 @@ BOOL ScanForModules_MemoryWalk_Hidden()
 					auto moduleData = static_cast<PBYTE>(region->AllocationBase);
 					if (moduleData[0] == 'M' && moduleData[1] == 'Z')
 					{
+						if (firstPrint)
+						{
+							firstPrint = false;
+							printf("\n\n");
+
+							if (IsWoW64())
+							{
+								printf(" [!] Running on WoW64, there will be false positives due to wow64 DLLs.\n");
+							}
+						}
+
 						printf(" [!] Executable at %p\n", region->AllocationBase);
+						anyBadLibs = true;
 					}
 				}
 			}
