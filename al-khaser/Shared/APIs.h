@@ -16,13 +16,15 @@ enum API_IDENTIFIER
 	API_NtQueryObject,
 	API_NtQuerySystemInformation,
 	API_NtSetInformationThread,
+	API_NtWow64QueryVirtualMemory64,
 	API_NtWow64ReadVirtualMemory64,
 	API_NtYieldExecution,
 	API_RtlGetVersion,
 };
 
-enum API_MIN_OS_VERSION
+enum API_OS_VERSION
 {
+	NONE,
 	WIN_XP,
 	WIN_XP_SP1,
 	WIN_XP_SP2,
@@ -40,10 +42,10 @@ enum API_MIN_OS_VERSION
 
 struct VERSION_FUNCTION_MAP
 {
-	API_MIN_OS_VERSION Version;
+	API_OS_VERSION Version;
 	bool(*Function)();
 
-	VERSION_FUNCTION_MAP(API_MIN_OS_VERSION version, bool(*function)())
+	VERSION_FUNCTION_MAP(API_OS_VERSION version, bool(*function)())
 	{
 		Version = version;
 		Function = function;
@@ -59,17 +61,19 @@ struct API_DATA
 	API_IDENTIFIER Identifier;
 	char* Library;
 	char* EntryName;
-	API_MIN_OS_VERSION MinVersion;
+	API_OS_VERSION MinVersion;
+	API_OS_VERSION RemovedInVersion;
 	bool Available;
 	bool ExpectedAvailable;
 	void* Pointer;
 
-	API_DATA(API_IDENTIFIER identifier, char* lib, char* name, API_MIN_OS_VERSION minVersion)
+	API_DATA(API_IDENTIFIER identifier, char* lib, char* name, API_OS_VERSION minVersion, API_OS_VERSION removedInVersion)
 	{
 		Identifier = identifier;
 		Library = lib;
 		EntryName = name;
 		MinVersion = minVersion;
+		RemovedInVersion = removedInVersion;
 		Available = false;
 		ExpectedAvailable = false;
 		Pointer = nullptr;
@@ -77,24 +81,25 @@ struct API_DATA
 };
 
 const VERSION_FUNCTION_MAP VersionFunctionMap[] = {
-	{ API_MIN_OS_VERSION::WIN_XP, IsWindowsXPOrGreater },
-	{ API_MIN_OS_VERSION::WIN_XP_SP1, IsWindowsXPSP1OrGreater },
-	{ API_MIN_OS_VERSION::WIN_XP_SP2, IsWindowsXPSP2OrGreater },
-	{ API_MIN_OS_VERSION::WIN_XP_SP3, IsWindowsXPSP3OrGreater },
-	{ API_MIN_OS_VERSION::WIN_VISTA, IsWindowsVistaOrGreater },
-	{ API_MIN_OS_VERSION::WIN_VISTA_SP1, IsWindowsVistaSP1OrGreater },
-	{ API_MIN_OS_VERSION::WIN_VISTA_SP2, IsWindowsVistaSP2OrGreater },
-	{ API_MIN_OS_VERSION::WIN_7, IsWindows7OrGreater },
-	{ API_MIN_OS_VERSION::WIN_7_SP1, IsWindows7SP1OrGreater },
-	{ API_MIN_OS_VERSION::WIN_80, IsWindows8OrGreater },
-	{ API_MIN_OS_VERSION::WIN_81, IsWindows8Point1OrGreater },
-	{ API_MIN_OS_VERSION::WIN_10, IsWindows10OrGreater },
+	{ API_OS_VERSION::NONE, nullptr },
+	{ API_OS_VERSION::WIN_XP, IsWindowsXPOrGreater },
+	{ API_OS_VERSION::WIN_XP_SP1, IsWindowsXPSP1OrGreater },
+	{ API_OS_VERSION::WIN_XP_SP2, IsWindowsXPSP2OrGreater },
+	{ API_OS_VERSION::WIN_XP_SP3, IsWindowsXPSP3OrGreater },
+	{ API_OS_VERSION::WIN_VISTA, IsWindowsVistaOrGreater },
+	{ API_OS_VERSION::WIN_VISTA_SP1, IsWindowsVistaSP1OrGreater },
+	{ API_OS_VERSION::WIN_VISTA_SP2, IsWindowsVistaSP2OrGreater },
+	{ API_OS_VERSION::WIN_7, IsWindows7OrGreater },
+	{ API_OS_VERSION::WIN_7_SP1, IsWindows7SP1OrGreater },
+	{ API_OS_VERSION::WIN_80, IsWindows8OrGreater },
+	{ API_OS_VERSION::WIN_81, IsWindows8Point1OrGreater },
+	{ API_OS_VERSION::WIN_10, IsWindows10OrGreater },
 };
 
 class API
 {
 private:
-	static bool ShouldFunctionExistOnCurrentPlatform(API_IDENTIFIER api);
+	static bool ShouldFunctionExistOnCurrentPlatform(API_OS_VERSION minVersion, API_OS_VERSION removedInVersion);
 public:
 	static void Init();
 	static void PrintAvailabilityReport();

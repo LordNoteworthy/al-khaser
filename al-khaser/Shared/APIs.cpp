@@ -4,30 +4,32 @@
 #define API_COUNT (sizeof(ApiData)/sizeof(*ApiData))
 
 API_DATA ApiData[] = {
-	{ API_IDENTIFIER::API_CsrGetProcessId,				"ntdll.dll",		"CsrGetProcessId",				API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_EnumSystemFirmwareTables,		"kernel32.dll",		"EnumSystemFirmwareTables",		API_MIN_OS_VERSION::WIN_VISTA },
-	{ API_IDENTIFIER::API_GetNativeSystemInfo,			"kernel32.dll",		"GetNativeSystemInfo",			API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_GetProductInfo,				"kernel32.dll",		"GetProductInfo",				API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_GetSystemFirmwareTable,		"kernel32.dll",		"GetSystemFirmwareTable",		API_MIN_OS_VERSION::WIN_VISTA },
-	{ API_IDENTIFIER::API_IsWow64Process,				"kernel32.dll",		"IsWow64Process",				API_MIN_OS_VERSION::WIN_XP_SP2 },
-	{ API_IDENTIFIER::API_NtClose,						"ntdll.dll",		"NtClose",						API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_NtCreateDebugObject,			"ntdll.dll",		"NtCreateDebugObject",			API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_NtDelayExecution,				"ntdll.dll",		"NtDelayExecution",				API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_NtQueryInformationThread,		"ntdll.dll",		"NtQueryInformationThread",		API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_NtQueryInformationProcess,	"ntdll.dll",		"NtQueryInformationProcess",	API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_NtQueryObject,				"ntdll.dll",		"NtQueryObject",				API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_NtQuerySystemInformation,		"ntdll.dll",		"NtQuerySystemInformation",		API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_NtSetInformationThread,		"ntdll.dll",		"NtSetInformationThread",		API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_NtWow64ReadVirtualMemory64,	"ntdll.dll",		"NtWow64ReadVirtualMemory64",	API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_NtYieldExecution,				"ntdll.dll",		"NtYieldExecution",				API_MIN_OS_VERSION::WIN_XP },
-	{ API_IDENTIFIER::API_RtlGetVersion,				"ntdll.dll",		"RtlGetVersion",				API_MIN_OS_VERSION::WIN_XP },
+	/*                Identifier                        Library             Export Name                     Minimum OS Version              Removed in OS Version   */
+	{ API_IDENTIFIER::API_CsrGetProcessId,				"ntdll.dll",		"CsrGetProcessId",				API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_EnumSystemFirmwareTables,		"kernel32.dll",		"EnumSystemFirmwareTables",		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_GetNativeSystemInfo,			"kernel32.dll",		"GetNativeSystemInfo",			API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_GetProductInfo,				"kernel32.dll",		"GetProductInfo",				API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_GetSystemFirmwareTable,		"kernel32.dll",		"GetSystemFirmwareTable",		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_IsWow64Process,				"kernel32.dll",		"IsWow64Process",				API_OS_VERSION::WIN_XP_SP2,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtClose,						"ntdll.dll",		"NtClose",						API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtCreateDebugObject,			"ntdll.dll",		"NtCreateDebugObject",			API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtDelayExecution,				"ntdll.dll",		"NtDelayExecution",				API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtQueryInformationThread,		"ntdll.dll",		"NtQueryInformationThread",		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtQueryInformationProcess,	"ntdll.dll",		"NtQueryInformationProcess",	API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtQueryObject,				"ntdll.dll",		"NtQueryObject",				API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtQuerySystemInformation,		"ntdll.dll",		"NtQuerySystemInformation",		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtSetInformationThread,		"ntdll.dll",		"NtSetInformationThread",		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtWow64ReadVirtualMemory64,	"ntdll.dll",		"NtWow64ReadVirtualMemory64",	API_OS_VERSION::WIN_XP_SP1,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtWow64QueryVirtualMemory64,	"ntdll.dll",		"NtWow64QueryVirtualMemory64",	API_OS_VERSION::WIN_XP_SP1,		API_OS_VERSION::WIN_10 },
+	{ API_IDENTIFIER::API_NtYieldExecution,				"ntdll.dll",		"NtYieldExecution",				API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_RtlGetVersion,				"ntdll.dll",		"RtlGetVersion",				API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
 };
 
 void API::Init()
 {
 	for (int i = 0; i < API_COUNT; i++)
 	{
-		ApiData[i].ExpectedAvailable = ShouldFunctionExistOnCurrentPlatform(ApiData[i].Identifier);
+		ApiData[i].ExpectedAvailable = ShouldFunctionExistOnCurrentPlatform(ApiData[i].MinVersion, ApiData[i].RemovedInVersion);
 
 		HMODULE hLib = LoadLibraryA(ApiData[i].Library);
 		if (hLib == NULL)
@@ -48,17 +50,54 @@ void API::Init()
 	}
 }
 
-bool API::ShouldFunctionExistOnCurrentPlatform(API_IDENTIFIER api)
+bool API::ShouldFunctionExistOnCurrentPlatform(API_OS_VERSION minVersion, API_OS_VERSION removedInVersion)
 {
-	for (int i = 0; i < API_MIN_OS_VERSION::VERSION_MAX; i++)
+	// does it meet minimum version
+	bool foundMinVer = false;
+	bool metMinimumRequirement = false;
+	for (int i = 0; i < API_OS_VERSION::VERSION_MAX; i++)
 	{
-		if (VersionFunctionMap[i].Version == api)
-			return VersionFunctionMap[i].Function();
+		if (i == API_OS_VERSION::NONE)
+			continue;
+
+		if (VersionFunctionMap[i].Version == minVersion)
+		{
+			foundMinVer = true;
+			metMinimumRequirement = VersionFunctionMap[i].Function();
+		}
 	}
-	// this should never occur as long as this function is called with a proper API_IDENTIFIER value and the VersionFunctionMap is properly populated
-	assert(false);
-	// satisfy compiler warnings
-	return false;
+	if (!foundMinVer)
+	{
+		printf("ERROR: Minimum version value was invalid.\n");
+		assert(false);
+		return false;
+	}
+	if (!metMinimumRequirement)
+		return false;
+
+	// if there's no maximum OS restriction, the API should exist
+	if (removedInVersion == API_OS_VERSION::NONE)
+		return true;
+
+	// we have an upper restriction. was the API removed in this version?
+	bool foundRemovedVer = false;
+	bool metMaximumRequirement = false;
+	for (int i = 0; i < API_OS_VERSION::VERSION_MAX; i++)
+	{
+		if (VersionFunctionMap[i].Version == removedInVersion)
+		{
+			foundRemovedVer = true;
+			metMaximumRequirement = !VersionFunctionMap[i].Function();
+		}
+	}
+	if (!foundRemovedVer)
+	{
+		printf("ERROR: Removed version value was invalid.\n");
+		assert(false);
+		return false;
+	}
+
+	return metMaximumRequirement;
 }
 
 void API::PrintAvailabilityReport()

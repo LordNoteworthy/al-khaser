@@ -49,3 +49,10 @@ typedef NTSTATUS(WINAPI *pNtWow64ReadVirtualMemory64)(
 	ULONGLONG BufferSize,
 	PULONGLONG NumberOfBytesRead
 );
+typedef NTSTATUS(NTAPI *pNtWow64QueryVirtualMemory64)(
+	IN HANDLE ProcessHandle,
+	IN PVOID64 BaseAddress,
+	IN DWORD MemoryInformationClass,
+	OUT PMEMORY_BASIC_INFORMATION64 MemoryInformation,
+	IN ULONG64 Size,
+	OUT PULONG64 ReturnLength OPTIONAL);
