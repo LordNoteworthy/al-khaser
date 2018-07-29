@@ -129,21 +129,21 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 	return true;
 }
 
-bool ScanForModules_EnumProcessModulesEx()
+BOOL ScanForModules_EnumProcessModulesEx_Internal(DWORD moduleFlag)
 {
 	//printf("EnumProcessModulesEx()\n");
 	auto moduleList = static_cast<HMODULE*>(calloc(1024, sizeof(HMODULE)));
 	DWORD currentSize = 1024 * sizeof(HMODULE);
 	DWORD requiredSize = 0;
 	bool anyBadLibs = false;
-	if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, LIST_MODULES_ALL) == TRUE)
+	if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag) == TRUE)
 	{
 		bool success = true;
 		if (requiredSize > currentSize)
 		{
 			currentSize = requiredSize;
 			moduleList = static_cast<HMODULE*>(realloc(moduleList, currentSize));
-			if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, LIST_MODULES_ALL) == FALSE)
+			if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag) == FALSE)
 			{
 				success = false;
 			}
@@ -165,156 +165,172 @@ bool ScanForModules_EnumProcessModulesEx()
 		}
 	}
 
-	return anyBadLibs;
+	return anyBadLibs ? TRUE : FALSE;
 }
 
-bool ScanForModules_EnumProcessModulesEx_64bit()
+BOOL ScanForModules_EnumProcessModulesEx_32bit()
 {
-	//printf("EnumProcessModulesEx_64bit()\n");
-	auto moduleList = static_cast<HMODULE*>(calloc(1024, sizeof(HMODULE)));
-	DWORD currentSize = 1024 * sizeof(HMODULE);
-	DWORD requiredSize = 0;
-	bool anyBadLibs = false;
-	if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, LIST_MODULES_32BIT) == TRUE)
-	{
-		bool success = true;
-		if (requiredSize > currentSize)
-		{
-			currentSize = requiredSize;
-			moduleList = static_cast<HMODULE*>(realloc(moduleList, currentSize));
-			if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, LIST_MODULES_32BIT) == FALSE)
-			{
-				success = false;
-			}
-		}
-		if (success)
-		{
-			DWORD count = requiredSize / sizeof(HMODULE);
-			TCHAR moduleName[MAX_PATH];
-			for (DWORD i = 0; i < count; i++)
-			{
-				if (DWORD len = GetModuleFileNameEx(GetCurrentProcess(), moduleList[i], moduleName, MAX_PATH) > 0)
-				{
-					bool isBad = IsBadLibrary(moduleName, len);
-					if (isBad)
-						printf(" [!] Injected library: %S\n", moduleName);
-					anyBadLibs |= isBad;
-				}
-			}
-		}
-	}
-	return anyBadLibs;
+	return ScanForModules_EnumProcessModulesEx_Internal(LIST_MODULES_32BIT);
 }
 
-bool ScanForModules_MemoryWalk_GMI()
+BOOL ScanForModules_EnumProcessModulesEx_64bit()
 {
+	return ScanForModules_EnumProcessModulesEx_Internal(LIST_MODULES_64BIT);
+}
+
+BOOL ScanForModules_EnumProcessModulesEx_All()
+{
+	return ScanForModules_EnumProcessModulesEx_Internal(LIST_MODULES_ALL);
+}
+
+BOOL ScanForModules_MemoryWalk_GMI()
+{
+	// TODO: Convert this to the new enumerate_memory() API for speed!
+
 	MEMORY_BASIC_INFORMATION memInfo = { 0 };
 	HMODULE moduleHandle = 0;
 	TCHAR moduleName[MAX_PATH];
 	MODULEINFO moduleInfo = { 0 };
 
-	//printf("Memory walking with GetModuleHandleEx...\n");
+	auto memoryRegions = enumerate_memory();
 
-	size_t maxPage = 0x7FFFFFFF;
-	size_t addr = 0;
 	bool anyBadLibs = false;
-	while(addr < maxPage)
-	{
-		bool skippedForward = false;
-		if (VirtualQuery((PVOID)addr, &memInfo, sizeof(MEMORY_BASIC_INFORMATION)) >= sizeof(MEMORY_BASIC_INFORMATION))
-		{
-			if (memInfo.State != MEM_FREE)
-			{
-				if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (TCHAR*)addr, &moduleHandle) == TRUE)
-				{
-					SecureZeroMemory(moduleName, MAX_PATH * sizeof(TCHAR));
-					DWORD len = GetModuleFileName(moduleHandle, moduleName, MAX_PATH);
-					//printf(" [!] %p: %S\n", addr, moduleName);
-					bool isBad = IsBadLibrary(moduleName, len);
-					if (isBad)
-						printf(" [!] Injected library: %S\n", moduleName);
-					anyBadLibs |= isBad;
 
-					if (GetModuleInformation(GetCurrentProcess(), moduleHandle, &moduleInfo, sizeof(MODULEINFO)) == TRUE)
+	for (PMEMORY_BASIC_INFORMATION region : *memoryRegions)
+	{
+		if (region->State == MEM_FREE)
+		{
+			delete region;
+			continue;
+		}
+
+		PBYTE addr = static_cast<PBYTE>(region->BaseAddress);
+		PBYTE regionEnd = addr + region->RegionSize;
+
+		//printf("Scanning %p - %p ...\n", addr, regionEnd);
+
+		while(addr < regionEnd)
+		{
+			bool skippedForward = false;
+			if (VirtualQuery(addr, &memInfo, sizeof(MEMORY_BASIC_INFORMATION)) >= sizeof(MEMORY_BASIC_INFORMATION))
+			{
+				if (memInfo.State != MEM_FREE)
+				{
+					if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (TCHAR*)addr, &moduleHandle) == TRUE)
 					{
-						size_t moduleSizeRoundedUp = (moduleInfo.SizeOfImage + 1);
-						moduleSizeRoundedUp += 4096 - (moduleSizeRoundedUp % 4096);
-						size_t nextPos = reinterpret_cast<size_t>(static_cast<unsigned char*>(moduleInfo.lpBaseOfDll) + moduleSizeRoundedUp);
-						if (nextPos > addr)
+						SecureZeroMemory(moduleName, MAX_PATH * sizeof(TCHAR));
+						DWORD len = GetModuleFileName(moduleHandle, moduleName, MAX_PATH);
+						//printf(" [!] %p: %S\n", addr, moduleName);
+						bool isBad = IsBadLibrary(moduleName, len);
+						if (isBad)
+							printf(" [!] Injected library: %S\n", moduleName);
+						anyBadLibs |= isBad;
+
+						if (GetModuleInformation(GetCurrentProcess(), moduleHandle, &moduleInfo, sizeof(MODULEINFO)) == TRUE)
 						{
-							//printf(" -> Moving from %x to %x\n", addr, nextPos);
-							addr = nextPos;
-							skippedForward = true;
+							size_t moduleSizeRoundedUp = (moduleInfo.SizeOfImage + 1);
+							moduleSizeRoundedUp += 4096 - (moduleSizeRoundedUp % 4096);
+							PBYTE nextPos = static_cast<PBYTE>(moduleInfo.lpBaseOfDll) + moduleSizeRoundedUp;
+							if (nextPos > addr)
+							{
+								//printf(" -> Moving from %x to %x\n", addr, nextPos);
+								addr = nextPos;
+								skippedForward = true;
+							}
 						}
 					}
 				}
 			}
+			if (!skippedForward)
+				addr += 4096;
 		}
-		if (!skippedForward)
-			addr += 4096;
+		delete region;
 	}
+	delete memoryRegions;
 
-	return anyBadLibs;
+	return anyBadLibs ? TRUE : FALSE;
 }
 
-bool ScanForModules_MemoryWalk_Hidden()
+BOOL ScanForModules_MemoryWalk_Hidden()
 {
-	MEMORY_BASIC_INFORMATION memInfo = { 0 };
 	HMODULE moduleHandle = 0;
 	TCHAR moduleName[MAX_PATH];
 
-	//printf("Memory walking for hidden modules...\n");
+	auto memoryRegions = enumerate_memory();
 
-	size_t maxPage = 0x7FFFFFFF;
-	size_t addr = 0;
 	bool anyBadLibs = false;
-	while (addr < maxPage)
+
+	for (PMEMORY_BASIC_INFORMATION region : *memoryRegions)
 	{
-		bool skippedForward = false;
-		if (VirtualQuery((PVOID)addr, &memInfo, sizeof(MEMORY_BASIC_INFORMATION)) >= sizeof(MEMORY_BASIC_INFORMATION))
+		if (region->State == MEM_FREE)
 		{
-			if (memInfo.State != MEM_FREE)
+			delete region;
+			continue;
+		}
+
+		PBYTE addr = static_cast<PBYTE>(region->BaseAddress);
+		PBYTE regionEnd = addr + region->RegionSize;
+
+		//printf("Scanning %p - %p ...\n", addr, regionEnd);
+
+		while (addr < regionEnd)
+		{
+			bool skippedForward = false;
+			
+			if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (TCHAR*)addr, &moduleHandle) == FALSE)
 			{
-				if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (TCHAR*)addr, &moduleHandle) == FALSE)
+				// not a known module
+				if ((region->Protect & PAGE_EXECUTE) == PAGE_EXECUTE ||
+					(region->Protect & PAGE_EXECUTE_READ) == PAGE_EXECUTE_READ ||
+					(region->Protect & PAGE_EXECUTE_WRITECOPY) == PAGE_EXECUTE_WRITECOPY ||
+					(region->Protect & PAGE_EXECUTE_READWRITE) == PAGE_EXECUTE_READWRITE)
 				{
-					// not a known module
-					if ((memInfo.Protect & PAGE_EXECUTE) == PAGE_EXECUTE ||
-						(memInfo.Protect & PAGE_EXECUTE_READ) == PAGE_EXECUTE_READ ||
-						(memInfo.Protect & PAGE_EXECUTE_WRITECOPY) == PAGE_EXECUTE_WRITECOPY ||
-						(memInfo.Protect & PAGE_EXECUTE_READWRITE) == PAGE_EXECUTE_READWRITE)
+					auto moduleData = static_cast<PBYTE>(region->AllocationBase);
+					if (moduleData[0] == 'M' && moduleData[1] == 'Z')
 					{
-						auto moduleData = static_cast<unsigned char*>(memInfo.AllocationBase);
-						if (moduleData[0] == 'M' && moduleData[1] == 'Z')
-						{
-							printf(" [!] Executable at %p\n", memInfo.AllocationBase);
-						}
+						printf(" [!] Executable at %p\n", region->AllocationBase);
 					}
 				}
-
-				SecureZeroMemory(moduleName, sizeof(TCHAR)*MAX_PATH);
-				if (DWORD len = GetMappedFileName(GetCurrentProcess(), memInfo.AllocationBase, moduleName, MAX_PATH) > 0)
+			}
+			else
+			{
+				MODULEINFO modInfo = { 0 };
+				if (GetModuleInformation(GetCurrentProcess(), moduleHandle, &modInfo, sizeof(MODULEINFO)) == TRUE)
 				{
-					bool isBad = IsBadLibrary(moduleName, len);
-					if (isBad)
-						printf(" [!] Injected library: %S\n", moduleName);
-					anyBadLibs |= isBad;
-				}
-
-				size_t nextPos = reinterpret_cast<size_t>(static_cast<unsigned char*>(memInfo.AllocationBase) + memInfo.RegionSize);
-				nextPos += 4096 - (nextPos % 4096);
-				if (nextPos > addr)
-				{
-					//printf(" -> Moving from %x to %x\n", addr, nextPos);
-					addr = nextPos;
-					skippedForward = true;
+					size_t moduleSizeRoundedUp = (modInfo.SizeOfImage + 1);
+					moduleSizeRoundedUp += 4096 - (moduleSizeRoundedUp % 4096);
+					PBYTE nextPos = static_cast<PBYTE>(modInfo.lpBaseOfDll) + moduleSizeRoundedUp;
+					if (nextPos > addr)
+					{
+						//printf(" -> Moving from %x to %x\n", addr, nextPos);
+						addr = nextPos;
+						skippedForward = true;
+					}
 				}
 			}
-		}
-		if (!skippedForward)
-			addr += 4096;
-	}
 
-	return anyBadLibs;
+			SecureZeroMemory(moduleName, sizeof(TCHAR)*MAX_PATH);
+			if (DWORD len = GetMappedFileName(GetCurrentProcess(), region->AllocationBase, moduleName, MAX_PATH) > 0)
+			{
+				bool isBad = IsBadLibrary(moduleName, len);
+				if (isBad)
+					printf(" [!] Injected library: %S\n", moduleName);
+				anyBadLibs |= isBad;
+
+				// mapped files take up a whole region, so just skip to the end of the region
+				addr = regionEnd;
+				skippedForward = true;
+			}
+
+			if (!skippedForward)
+				addr += 4096;
+		}
+
+		delete region;
+	}
+	delete memoryRegions;
+
+	return anyBadLibs ? TRUE : FALSE;
 }
 
 std::vector<LDR_DATA_TABLE_ENTRY*>* WalkLDR(PPEB_LDR_DATA ldrData)
@@ -385,7 +401,7 @@ std::vector<LDR_DATA_TABLE_ENTRY64*>* WalkLDR(PPEB_LDR_DATA64 ldrData)
 	return entryList;
 }
 
-bool ScanForModules_LDR()
+BOOL ScanForModules_LDR()
 {
 	PROCESS_BASIC_INFORMATION pbi = { 0 };
 	THREAD_BASIC_INFORMATION tbi = { 0 };
@@ -422,46 +438,47 @@ bool ScanForModules_LDR()
 				delete ldrEntries;
 			}
 
-			if (pbi.PebBaseAddress != nullptr)
+			if (IsWoW64())
 			{
-				PPEB64 peb = reinterpret_cast<PPEB64>(reinterpret_cast<UCHAR*>(pbi.PebBaseAddress) - 0x1000);
-				PEB_LDR_DATA64 ldrData = { 0 };
-
-				if (attempt_to_read_memory_wow64(&ldrData, sizeof(PEB_LDR_DATA64), peb->Ldr))
+				if (pbi.PebBaseAddress != nullptr)
 				{
-					auto ldrEntries = WalkLDR(&ldrData);
-					for (LDR_DATA_TABLE_ENTRY64* ldrEntry : *ldrEntries)
+					PPEB64 peb = reinterpret_cast<PPEB64>(reinterpret_cast<UCHAR*>(pbi.PebBaseAddress) - 0x1000);
+					PEB_LDR_DATA64 ldrData = { 0 };
+
+					if (attempt_to_read_memory_wow64(&ldrData, sizeof(PEB_LDR_DATA64), peb->Ldr))
 					{
-						WCHAR* dllNameBuffer = new WCHAR[ldrEntry->FullDllName.Length + 1];
-						SecureZeroMemory(dllNameBuffer, (ldrEntry->FullDllName.Length + 1) * sizeof(WCHAR));
-						if (attempt_to_read_memory_wow64(dllNameBuffer, ldrEntry->FullDllName.Length * sizeof(WCHAR), ldrEntry->FullDllName.Buffer))
+						auto ldrEntries = WalkLDR(&ldrData);
+						for (LDR_DATA_TABLE_ENTRY64* ldrEntry : *ldrEntries)
 						{
-							//printf(" -> %S\n", dllNameBuffer);
-							bool isBad = IsBadLibrary(dllNameBuffer, ldrEntry->FullDllName.Length);
-							if (isBad)
-								printf(" [!] Injected library (WOW64): %S\n", dllNameBuffer);
-							anyBadLibs |= isBad;
+							WCHAR* dllNameBuffer = new WCHAR[ldrEntry->FullDllName.Length + 1];
+							SecureZeroMemory(dllNameBuffer, (ldrEntry->FullDllName.Length + 1) * sizeof(WCHAR));
+							if (attempt_to_read_memory_wow64(dllNameBuffer, ldrEntry->FullDllName.Length * sizeof(WCHAR), ldrEntry->FullDllName.Buffer))
+							{
+								//printf(" -> %S\n", dllNameBuffer);
+								bool isBad = IsBadLibrary(dllNameBuffer, ldrEntry->FullDllName.Length);
+								if (isBad)
+									printf(" [!] Injected library (WOW64): %S\n", dllNameBuffer);
+								anyBadLibs |= isBad;
+							}
+							else
+							{
+								printf(" [!] Failed to read module name at %llx.\n", reinterpret_cast<ULONGLONG>(ldrEntry->FullDllName.Buffer));
+							}
+							delete dllNameBuffer;
+							delete ldrEntry;
 						}
-						else
-						{
-							printf(" [!] Failed to read module name at %llx.\n", reinterpret_cast<ULONGLONG>(ldrEntry->FullDllName.Buffer));
-						}
-						delete dllNameBuffer;
-						delete ldrEntry;
+						delete ldrEntries;
 					}
-					delete ldrEntries;
 				}
 			}
 		}
 	}
 
-	return anyBadLibs;
+	return anyBadLibs ? TRUE : FALSE;
 }
 
-bool ScanForModules_ToolHelp32()
+BOOL ScanForModules_ToolHelp32()
 {
-	//printf("MemoryWalk_ToolHelp32()\n");
-
 	bool anyBadLibs = false;
 
 	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, GetCurrentProcessId());
@@ -492,29 +509,5 @@ bool ScanForModules_ToolHelp32()
 		}
 	}
 
-	return anyBadLibs;
-}
-
-BOOL ScanForModules()
-{
-	bool badModules = false;
-	badModules |= ScanForModules_ToolHelp32();
-	badModules |= ScanForModules_EnumProcessModulesEx();
-	badModules |= ScanForModules_EnumProcessModulesEx_64bit();
-	badModules |= ScanForModules_LDR();
-#ifdef ENV32BIT
-	// these tests would work for 64-bit but the scan time is waaaaaaaaay too long
-
-	badModules |= ScanForModules_MemoryWalk_GMI();
-
-	// only run this on non-WoW64 as it'll throw false positives if we run both.
-	BOOL isWow64 = FALSE;
-	IsWow64Process(GetCurrentProcess(), &isWow64);
-	if (isWow64 == FALSE)
-	{
-		badModules |= ScanForModules_MemoryWalk_Hidden();
-	}
-#endif
-
-	return badModules ? TRUE : FALSE;
+	return anyBadLibs ? TRUE : FALSE;
 }
