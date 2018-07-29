@@ -177,39 +177,3 @@ CHAR* wide_str_to_multibyte (TCHAR* lpWideStr)
 	status = wctomb_s(pRetValue, mbchar, sizeInBytes, *lpWideStr);
 	return mbchar;
 }
-
-bool attempt_to_read_memory(void* addr, void* buf, int size)
-{
-	// this is a dumb trick and I love it
-	BOOL b = ReadProcessMemory(GetCurrentProcess(), addr, buf, size, nullptr);
-	return b != FALSE;
-}
-
-bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, PVOID64 address)
-{
-	auto NtWow64ReadVirtualMemory64 = static_cast<pNtWow64ReadVirtualMemory64>(API::GetAPI(API_IDENTIFIER::API_NtWow64ReadVirtualMemory64));
-	ULONGLONG bytesRead = 0;
-
-	//printf("dbg: read %llx\n", reinterpret_cast<uint64_t>(address));
-
-	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, GetCurrentProcessId());
-
-	if (hProcess != INVALID_HANDLE_VALUE)
-	{
-		NTSTATUS status = NtWow64ReadVirtualMemory64(hProcess, address, buffer, size, &bytesRead);
-		/*if (status != 0)
-			printf("NTSTATUS: %x\n", status);*/
-
-		CloseHandle(hProcess);
-
-		return status == 0;
-	}
-
-	printf("attempt_to_read_memory_wow64: Couldn't open process: %d\n", GetLastError());
-	return false;
-}
-
-bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, ULONGLONG address)
-{
-	return attempt_to_read_memory_wow64(buffer, size, reinterpret_cast<PVOID64>(address));
-}
