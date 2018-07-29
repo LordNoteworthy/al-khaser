@@ -1,3 +1,5 @@
+#pragma once
+
 BOOL IsWoW64();
 BOOL Is_RegKeyValueExists(HKEY hKey, TCHAR* lpSubKey, TCHAR* lpValueName, TCHAR* search_str);
 BOOL Is_RegKeyExists(HKEY hKey, TCHAR* lpSubKey);
@@ -21,6 +23,7 @@ BOOL IsElevated();
 BOOL find_str_in_data(PBYTE needle, size_t needleLen, PBYTE haystack, size_t haystackLen);
 UINT enum_system_firmware_tables(_In_ DWORD FirmwareTableProviderSignature, _Out_ PVOID pFirmwareTableBuffer, _In_ DWORD BufferSize);
 PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD pBufferSize);
+std::vector<PMEMORY_BASIC_INFORMATION>* enumerate_memory();
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
 #define FREE(x)		HeapFree(GetProcessHeap(), 0, x)
