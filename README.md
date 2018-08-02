@@ -71,6 +71,14 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - API hook detection (module bounds based)
 
 
+### Anti-injection
+- Enumerate modules with EnumProcessModulesEx (32-bit, 64-bit, and all options)
+- Enumerate modules with ToolHelp32  
+- Enumerate the process LDR structures with LdrEnumerateLoadedModules
+- Enumerate the process LDR structures directly
+- Walk memory with GetModuleInformation
+- Walk memory for hidden modules
+
 ### Anti-Dumping
 - Erase PE header from memory
 - SizeOfImage

@@ -837,6 +837,42 @@ PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD p
 	return firmwareTable;
 }
 
+bool attempt_to_read_memory(void* addr, void* buf, int size)
+{
+	// this is a dumb trick and I love it
+	BOOL b = ReadProcessMemory(GetCurrentProcess(), addr, buf, size, nullptr);
+	return b != FALSE;
+}
+
+bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, PVOID64 address)
+{
+	auto NtWow64ReadVirtualMemory64 = static_cast<pNtWow64ReadVirtualMemory64>(API::GetAPI(API_IDENTIFIER::API_NtWow64ReadVirtualMemory64));
+	ULONGLONG bytesRead = 0;
+
+	//printf("dbg: read %llx\n", reinterpret_cast<uint64_t>(address));
+
+	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, GetCurrentProcessId());
+
+	if (hProcess != INVALID_HANDLE_VALUE)
+	{
+		NTSTATUS status = NtWow64ReadVirtualMemory64(hProcess, address, buffer, size, &bytesRead);
+		/*if (status != 0)
+		printf("NTSTATUS: %x\n", status);*/
+
+		CloseHandle(hProcess);
+
+		return status == 0;
+	}
+
+	printf("attempt_to_read_memory_wow64: Couldn't open process: %d\n", GetLastError());
+	return false;
+}
+
+bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, ULONGLONG address)
+{
+	return attempt_to_read_memory_wow64(buffer, size, reinterpret_cast<PVOID64>(address));
+}
+
 std::vector<PMEMORY_BASIC_INFORMATION>* enumerate_memory()
 {
 	auto regions = new std::vector<PMEMORY_BASIC_INFORMATION>();
@@ -854,6 +890,46 @@ std::vector<PMEMORY_BASIC_INFORMATION>* enumerate_memory()
 		if (VirtualQuery(addr, mbi, sizeof(MEMORY_BASIC_INFORMATION)) <= 0)
 			break;
 		
+		regions->push_back(mbi);
+
+		addr += mbi->RegionSize;
+	}
+
+	return regions;
+}
+
+std::vector<PMEMORY_BASIC_INFORMATION64>* enumerate_memory_wow64()
+{
+	if (IsWoW64() == FALSE)
+	{
+		printf("Not WoW64.\n");
+		return nullptr;
+	}
+
+	if (!API::IsAvailable(API_NtWow64QueryVirtualMemory64))
+	{
+		printf("API unavailable.\n");
+		return nullptr;
+	}
+
+	auto NtWow64QueryVirtualMemory64 = static_cast<pNtWow64QueryVirtualMemory64>(API::GetAPI(API_IDENTIFIER::API_NtWow64QueryVirtualMemory64));
+
+	auto regions = new std::vector<PMEMORY_BASIC_INFORMATION64>();
+
+	const INT64 MaxAddress = 0x7FFFFFFFFFFFFFFFULL;
+
+	INT64 addr = 0;
+	while (addr < MaxAddress)
+	{
+		auto mbi = new MEMORY_BASIC_INFORMATION64();
+		ULONG64 returnLength;
+		NTSTATUS status;
+		if ((status = NtWow64QueryVirtualMemory64(GetCurrentProcess(), (PVOID64)addr, 0, mbi, sizeof(MEMORY_BASIC_INFORMATION64), &returnLength)) != 0)
+		{
+			printf("Failed at %llx with status %d.\n", addr, status);
+			break;
+		}
+
 		regions->push_back(mbi);
 
 		addr += mbi->RegionSize;

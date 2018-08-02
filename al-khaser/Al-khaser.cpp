@@ -5,6 +5,7 @@ int main(void)
 	/* enable functions */
 	BOOL	ENABLE_TLS_CHECKS = TRUE;
 	BOOL	ENABLE_DEBUG_CHECKS = TRUE;
+	BOOL	ENABLE_INJECTION_CHECKS = TRUE;
 	BOOL	ENABLE_GEN_SANDBOX_CHECKS = TRUE;
 	BOOL	ENABLE_VBOX_CHECKS = TRUE;
 	BOOL	ENABLE_VMWARE_CHECKS = TRUE;
@@ -77,6 +78,18 @@ int main(void)
 		exec_check(&VirtualAlloc_WriteWatch_CodeWrite, TEXT("Checking VirtualAlloc write watch (code write) "));
 		exec_check(&PageExceptionBreakpointCheck, TEXT("Checking for page exception breakpoints "));
 		exec_check(&ModuleBoundsHookCheck, TEXT("Checking for API hooks outside module bounds "));
+	}
+
+	if (ENABLE_INJECTION_CHECKS) {
+		print_category(TEXT("DLL Injection Detection"));
+		exec_check(&ScanForModules_EnumProcessModulesEx_32bit, TEXT("Enumerating modules with EnumProcessModulesEx [32-bit] "));
+		exec_check(&ScanForModules_EnumProcessModulesEx_64bit, TEXT("Enumerating modules with EnumProcessModulesEx [64-bit] "));
+		exec_check(&ScanForModules_EnumProcessModulesEx_All, TEXT("Enumerating modules with EnumProcessModulesEx [ALL] "));
+		exec_check(&ScanForModules_ToolHelp32, TEXT("Enumerating modules with ToolHelp32 "));
+		exec_check(&ScanForModules_LdrEnumerateLoadedModules, TEXT("Enumerating the process LDR via LdrEnumerateLoadedModules "));
+		exec_check(&ScanForModules_LDR_Direct, TEXT("Enumerating the process LDR directly "));
+		exec_check(&ScanForModules_MemoryWalk_GMI, TEXT("Walking process memory with GetModuleInformation "));
+		exec_check(&ScanForModules_MemoryWalk_Hidden, TEXT("Walking process memory for hidden modules "));
 	}
 
 	/* Generic sandbox detection */

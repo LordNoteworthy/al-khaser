@@ -245,6 +245,9 @@
     <ClCompile Include="Anti Debug\ModuleBoundsHookCheck.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\ScanForModules.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -436,6 +439,12 @@
     </ClInclude>
     <ClInclude Include="Anti Debug\ModuleBoundsHookCheck.h">
       <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\ScanForModules.h">
+      <Filter>Anti Debug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\WinStructs.h">
+      <Filter>Shared\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

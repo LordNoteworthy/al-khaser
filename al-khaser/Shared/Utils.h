@@ -23,7 +23,11 @@ BOOL IsElevated();
 BOOL find_str_in_data(PBYTE needle, size_t needleLen, PBYTE haystack, size_t haystackLen);
 UINT enum_system_firmware_tables(_In_ DWORD FirmwareTableProviderSignature, _Out_ PVOID pFirmwareTableBuffer, _In_ DWORD BufferSize);
 PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD pBufferSize);
+bool attempt_to_read_memory(void* addr, void* buf, int size);
+bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, PVOID64 address);
+bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, ULONGLONG address);
 std::vector<PMEMORY_BASIC_INFORMATION>* enumerate_memory();
+std::vector<PMEMORY_BASIC_INFORMATION64>* enumerate_memory_wow64();
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
 #define FREE(x)		HeapFree(GetProcessHeap(), 0, x)

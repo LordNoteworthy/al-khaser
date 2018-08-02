@@ -94,6 +94,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)compatibility.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -109,6 +112,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)compatibility.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -128,6 +134,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)compatibility.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -147,6 +156,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)compatibility.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
@@ -182,6 +194,7 @@
     <ClCompile Include="Anti Debug\ProcessHeap_ForceFlags.cpp" />
     <ClCompile Include="Anti Debug\ProcessHeap_NtGlobalFlag.cpp" />
     <ClCompile Include="Anti Debug\ProcessJob.cpp" />
+    <ClCompile Include="Anti Debug\ScanForModules.cpp" />
     <ClCompile Include="Anti Debug\SeDebugPrivilege.cpp" />
     <ClCompile Include="Anti Debug\SetHandleInformation_API.cpp" />
     <ClCompile Include="Anti Debug\SharedUserData_KernelDebugger.cpp" />
@@ -245,6 +258,7 @@
     <ClInclude Include="Anti Debug\ProcessHeap_ForceFlags.h" />
     <ClInclude Include="Anti Debug\ProcessHeap_NtGlobalFlag.h" />
     <ClInclude Include="Anti Debug\ProcessJob.h" />
+    <ClInclude Include="Anti Debug\ScanForModules.h" />
     <ClInclude Include="Anti Debug\SeDebugPrivilege.h" />
     <ClInclude Include="Anti Debug\SetHandleInformation_API.h" />
     <ClInclude Include="Anti Debug\SharedUserData_KernelDebugger.h" />
@@ -281,6 +295,7 @@
     <ClInclude Include="Shared\Utils.h" />
     <ClInclude Include="Shared\VersionHelpers.h" />
     <ClInclude Include="Shared\winapifamily.h" />
+    <ClInclude Include="Shared\WinStructs.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="timing-attacks\stdafx.h" />
     <ClInclude Include="timing-attacks\timing.h" />

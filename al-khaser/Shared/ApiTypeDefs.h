@@ -42,3 +42,21 @@ typedef NTSTATUS(WINAPI *pNtSetInformationThread)(HANDLE, UINT, PVOID, ULONG);
 typedef NTSTATUS(WINAPI* pNtUnmapViewOfSection)(HANDLE ProcessHandle, PVOID BaseAddress);
 typedef NTSTATUS(WINAPI* pNtYieldExecution)();
 typedef NTSTATUS(WINAPI* pRtlGetVersion)(RTL_OSVERSIONINFOEXW*);
+typedef NTSTATUS(WINAPI *pNtWow64ReadVirtualMemory64)(
+	HANDLE ProcessHandle,
+	PVOID64 BaseAddress,
+	PVOID Buffer,
+	ULONGLONG BufferSize,
+	PULONGLONG NumberOfBytesRead
+);
+typedef NTSTATUS(NTAPI *pNtWow64QueryVirtualMemory64)(
+	IN HANDLE ProcessHandle,
+	IN PVOID64 BaseAddress,
+	IN DWORD MemoryInformationClass,
+	OUT PMEMORY_BASIC_INFORMATION64 MemoryInformation,
+	IN ULONG64 Size,
+	OUT PULONG64 ReturnLength OPTIONAL);
+typedef NTSTATUS(NTAPI *pLdrEnumerateLoadedModules)(
+	IN BOOLEAN ReservedFlag,
+	IN PLDR_ENUM_CALLBACK EnumProc,
+	IN PVOID Context);
