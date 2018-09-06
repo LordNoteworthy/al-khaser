@@ -990,3 +990,55 @@ BOOL power_capabilities()
 
 	return bFound;
 }
+
+
+/*
+According to MSDN, this query should return a class that provides statistics on the CPU fan.
+Win32/OilRig checks to see if the result of this query returned a class with more than 0 elements,
+which would most likely be true in a non-virtual environment.
+*/
+BOOL cpu_fan_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+	BOOL bFound = FALSE;
+
+	// This technique required admin priviliege
+	if (!IsElevated())
+		return FALSE;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc, _T("root\\WMI"));
+
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_Fan"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn) {
+					bFound = TRUE;
+					break;
+				}
+
+			}
+
+			// Cleanup
+			pSvc->Release();
+			pLoc->Release();
+			pEnumerator->Release();
+			CoUninitialize();
+		}
+	}
+	return bFound;
+}
