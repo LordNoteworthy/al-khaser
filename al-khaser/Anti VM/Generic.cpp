@@ -1005,14 +1005,10 @@ BOOL cpu_fan_wmi()
 	BOOL bStatus = FALSE;
 	HRESULT hRes;
 	BOOL bFound = FALSE;
-
-	// This technique required admin priviliege
-	if (!IsElevated())
-		return FALSE;
+	INT iObjCount = 0;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc, _T("root\\WMI"));
-
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -1027,10 +1023,11 @@ BOOL cpu_fan_wmi()
 			{
 				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn) {
-					bFound = TRUE;
 					break;
 				}
-
+				else {
+					iObjCount++;
+				}
 			}
 
 			// Cleanup
@@ -1040,5 +1037,8 @@ BOOL cpu_fan_wmi()
 			CoUninitialize();
 		}
 	}
+
+	if (iObjCount <= 0)
+		bFound = TRUE;
 	return bFound;
 }
