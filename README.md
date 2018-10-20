@@ -49,6 +49,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - NtQueryInformationProcess (ProcessDebugPort)
 - NtQueryInformationProcess (ProcessDebugFlags)
 - NtQueryInformationProcess (ProcessDebugObject)
+- WudfIsAnyDebuggerPresent
+- WudfIsKernelDebuggerPresent
+- WudfIsUserDebuggerPresent
 - NtSetInformationThread (HideThreadFromDebugger)
 - NtQueryObject (ObjectTypeInformation)
 - NtQueryObject (ObjectAllTypesInformation)

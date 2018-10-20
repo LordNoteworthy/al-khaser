@@ -202,6 +202,7 @@
     <ClCompile Include="Anti Debug\TLS_callbacks.cpp" />
     <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp" />
     <ClCompile Include="Anti Debug\WriteWatch.cpp" />
+    <ClCompile Include="Anti Debug\WUDF_IsDebuggerPresent.cpp" />
     <ClCompile Include="Anti Dump\ErasePEHeaderFromMemory.cpp" />
     <ClCompile Include="Anti Dump\SizeOfImage.cpp" />
     <ClCompile Include="Anti VM\Generic.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="Anti Debug\TLS_callbacks.h" />
     <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="Anti Debug\WriteWatch.h" />
+    <ClInclude Include="Anti Debug\WUDF_IsDebuggerPresent.h" />
     <ClInclude Include="Anti Dump\ErasePEHeaderFromMemory.h" />
     <ClInclude Include="Anti Dump\SizeOfImage.h" />
     <ClInclude Include="Anti Dump\stdafx.h" />

@@ -248,6 +248,9 @@
     <ClCompile Include="Anti Debug\ScanForModules.cpp">
       <Filter>Anti Debug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Anti Debug\WUDF_IsDebuggerPresent.cpp">
+      <Filter>Anti Debug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shared\VersionHelpers.h">
@@ -445,6 +448,9 @@
     </ClInclude>
     <ClInclude Include="Shared\WinStructs.h">
       <Filter>Shared\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Anti Debug\WUDF_IsDebuggerPresent.h">
+      <Filter>Anti Debug\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

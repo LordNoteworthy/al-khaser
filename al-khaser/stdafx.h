@@ -80,6 +80,7 @@
 #include "Anti Debug\PageExceptionBreakpointCheck.h"
 #include "Anti Debug\ModuleBoundsHookCheck.h"
 #include "Anti Debug\ScanForModules.h"
+#include "Anti Debug\WUDF_IsDebuggerPresent.h"
 
 /* Anti dumping headers */
 #include "Anti Dump\ErasePEHeaderFromMemory.h"
