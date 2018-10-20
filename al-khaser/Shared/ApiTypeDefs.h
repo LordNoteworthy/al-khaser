@@ -60,3 +60,6 @@ typedef NTSTATUS(NTAPI *pLdrEnumerateLoadedModules)(
 	IN BOOLEAN ReservedFlag,
 	IN PLDR_ENUM_CALLBACK EnumProc,
 	IN PVOID Context);
+typedef INT(NTAPI *pWudfIsAnyDebuggerPresent)();
+typedef INT(NTAPI *pWudfIsKernelDebuggerPresent)();
+typedef INT(NTAPI *pWudfIsUserDebuggerPresent)();

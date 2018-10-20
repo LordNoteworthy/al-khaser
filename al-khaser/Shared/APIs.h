@@ -21,6 +21,9 @@ enum API_IDENTIFIER
 	API_NtWow64ReadVirtualMemory64,
 	API_NtYieldExecution,
 	API_RtlGetVersion,
+	API_WudfIsAnyDebuggerPresent,
+	API_WudfIsKernelDebuggerPresent,
+	API_WudfIsUserDebuggerPresent,
 };
 
 enum API_OS_VERSION
@@ -39,6 +42,13 @@ enum API_OS_VERSION
 	WIN_81,
 	WIN_10,
 	VERSION_MAX
+};
+
+enum API_OS_BITS
+{
+	ANY,
+	X86_ONLY,
+	X64_ONLY,
 };
 
 struct VERSION_FUNCTION_MAP
@@ -62,17 +72,19 @@ struct API_DATA
 	API_IDENTIFIER Identifier;
 	char* Library;
 	char* EntryName;
+	API_OS_BITS PlatformBits;
 	API_OS_VERSION MinVersion;
 	API_OS_VERSION RemovedInVersion;
 	bool Available;
 	bool ExpectedAvailable;
 	void* Pointer;
 
-	API_DATA(API_IDENTIFIER identifier, char* lib, char* name, API_OS_VERSION minVersion, API_OS_VERSION removedInVersion)
+	API_DATA(API_IDENTIFIER identifier, char* lib, char* name, API_OS_BITS bits, API_OS_VERSION minVersion, API_OS_VERSION removedInVersion)
 	{
 		Identifier = identifier;
 		Library = lib;
 		EntryName = name;
+		PlatformBits = bits;
 		MinVersion = minVersion;
 		RemovedInVersion = removedInVersion;
 		Available = false;
@@ -100,7 +112,7 @@ const VERSION_FUNCTION_MAP VersionFunctionMap[] = {
 class API
 {
 private:
-	static bool ShouldFunctionExistOnCurrentPlatform(API_OS_VERSION minVersion, API_OS_VERSION removedInVersion);
+	static bool ShouldFunctionExistOnCurrentPlatform(API_OS_BITS bits, API_OS_VERSION minVersion, API_OS_VERSION removedInVersion);
 public:
 	static void Init();
 	static void PrintAvailabilityReport();
