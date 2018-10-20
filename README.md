@@ -248,6 +248,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
   - SELECT * FROM Win32_ComputerSystem (Model and Manufacturer) (GENERIC)
   - SELECT * FROM MSAcpi_ThermalZoneTemperature CurrentTemperature) (GENERIC)
+  - SELECT * FROM Win32_Fan (GENERIC)
 - **DLL Exports and Loaded DLLs**
   - avghookx.dll (AVG)
   - avghooka.dll (AVG)
