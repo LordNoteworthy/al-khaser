@@ -113,7 +113,7 @@ VOID print_os()
 	if (GetOSDisplayString(szOS))
 	{
 		_tcscpy_s(szOS, MAX_PATH, szOS);
-		_tprintf(_T("\n[*] You are running: %s\n."), szOS);
+		_tprintf(_T("\n[*] You are running: %s\n"), szOS);
 	}
 }
 
