@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "APIs.h"
 
 #define API_COUNT (sizeof(ApiData)/sizeof(*ApiData))

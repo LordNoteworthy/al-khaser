@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "log.h"
 
 FILE *fp;
@@ -7,15 +7,33 @@ static int SESSION_TRACKER; //Keeps track of session
 TCHAR* print_time()
 {
 	size_t size = 0;
-	time_t t;
 	TCHAR *buf;
+	errno_t err;
+	TCHAR timestr[32];
 
-	t = time(NULL); /* get current calendar time */
+	/* get current calendar time */
+	time_t const sourceTime = time(NULL); 
+	tm tmDest = { 0 };
+	err = localtime_s(&tmDest, &sourceTime);
+	if (err)
+	{
+		print_last_error(_T("localtime_s"));
+		exit(1);
+	}
+	
+	// Converts a time_t time value to a tm structure, and corrects for the local time zone. 
+	err = _tasctime_s(timestr, 32, &tmDest);
+	if (err)
+	{
+		print_last_error(_T("_tasctime_s"));
+		exit(1);
+	}
 
-	TCHAR *timestr = _tasctime(localtime(&t));
-	timestr[_tcsclen(timestr) - 1] = 0;  //Getting rid of \n
+	//Getting rid of \n
+	timestr[_tcsclen(timestr) - 1] = 0;  
 
-	size = (_tcsclen(timestr) + 1 + 2) * sizeof(TCHAR); //Additional +2 for square braces
+	//Additional +2 for square braces
+	size = (_tcsclen(timestr) + 1 + 2) * sizeof(TCHAR); 
 	buf = (TCHAR*)malloc(size);
 
 	memset(buf, 0x0, size);
@@ -23,16 +41,16 @@ TCHAR* print_time()
 
 	return buf;
 }
-void log_print(TCHAR* filename, TCHAR *fmt, ...)
+void log_print(const TCHAR* filename, const TCHAR *fmt, ...)
 {
 	va_list list;
-	TCHAR *p, *r;
+	const TCHAR *p, *r;
 	int e;
 
 	if (SESSION_TRACKER > 0)
-		fp = _tfopen(_T("log.txt"), _T("a+"));
+		_tfopen_s(&fp, _T("log.txt"), _T("a+"));
 	else
-		fp = _tfopen(_T("log.txt"), _T("w"));
+		_tfopen_s(&fp, _T("log.txt"), _T("w"));
 
 	_ftprintf(fp, _T("%s "), print_time());
 	va_start(list, fmt);

@@ -18,12 +18,6 @@ typedef struct _LDR_MODULE {
 
 typedef LONG KPRIORITY;
 
-typedef struct _CLIENT_ID {
-	HANDLE UniqueProcess;
-	HANDLE UniqueThread;
-} CLIENT_ID;
-typedef CLIENT_ID *PCLIENT_ID;
-
 typedef struct _THREAD_BASIC_INFORMATION {
 	NTSTATUS                ExitStatus;
 	PVOID                   TebBaseAddress;
