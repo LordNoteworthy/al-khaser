@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "Common.h"
 
 VOID print_detected()
@@ -33,7 +33,7 @@ VOID print_not_detected()
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
-VOID print_category(TCHAR* text)
+VOID print_category(const TCHAR* text)
 {
 	/* Get handle to standard output */
 	HANDLE nStdHandle = GetStdHandle(STD_OUTPUT_HANDLE);  
@@ -49,7 +49,7 @@ VOID print_category(TCHAR* text)
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
-VOID _print_check_text(TCHAR* szMsg)
+VOID _print_check_text(const TCHAR* szMsg)
 {
 	_tprintf(TEXT("[*] %s"), szMsg);
 
@@ -61,7 +61,7 @@ VOID _print_check_text(TCHAR* szMsg)
 	}
 }
 
-VOID _print_check_result(int result, TCHAR* szMsg)
+VOID _print_check_result(int result, const TCHAR* szMsg)
 {
 	if (result == TRUE)
 		print_detected();
@@ -81,7 +81,7 @@ VOID print_results(int result, TCHAR* szMsg)
 }
 
 // note: templated version of this function is in Common.h
-VOID exec_check(int(*callback)(), TCHAR* szMsg)
+VOID exec_check(int(*callback)(), const TCHAR* szMsg)
 {
 	/* Print the text to screen so we can see what's currently running */
 	_print_check_text(szMsg);
@@ -117,7 +117,7 @@ VOID print_os()
 	}
 }
 
-VOID print_last_error(LPTSTR lpszFunction) 
+VOID print_last_error(LPCTSTR lpszFunction) 
 { 
     // Retrieve the system error message for the last-error code
 

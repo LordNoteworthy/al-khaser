@@ -70,8 +70,8 @@ struct VERSION_FUNCTION_MAP
 struct API_DATA
 {
 	API_IDENTIFIER Identifier;
-	char* Library;
-	char* EntryName;
+	const char* Library;
+	const char* EntryName;
 	API_OS_BITS PlatformBits;
 	API_OS_VERSION MinVersion;
 	API_OS_VERSION RemovedInVersion;
@@ -79,7 +79,7 @@ struct API_DATA
 	bool ExpectedAvailable;
 	void* Pointer;
 
-	API_DATA(API_IDENTIFIER identifier, char* lib, char* name, API_OS_BITS bits, API_OS_VERSION minVersion, API_OS_VERSION removedInVersion)
+	API_DATA(API_IDENTIFIER identifier, const char* lib, const char* name, API_OS_BITS bits, API_OS_VERSION minVersion, API_OS_VERSION removedInVersion)
 	{
 		Identifier = identifier;
 		Library = lib;
