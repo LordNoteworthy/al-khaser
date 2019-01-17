@@ -73,7 +73,7 @@ BOOL CreateRemoteThread_Injection()
 
 	/* Create the more thread */
 	hThreadId = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLibraryAddress, lpBaseAddress, NULL, 0);
-	if (bStatus == NULL) {
+	if (hThreadId == NULL) {
 		print_last_error(_T("CreateRemoteThread"));
 		return FALSE;
 	}
