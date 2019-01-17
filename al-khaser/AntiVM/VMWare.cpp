@@ -170,8 +170,10 @@ VOID vmware_devices()
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking device %s "), devices[i]);
 		
-		if (hFile != INVALID_HANDLE_VALUE)
+		if (hFile != INVALID_HANDLE_VALUE) {
+			CloseHandle(hFile);
 			print_results(TRUE, msg);
+		}
 		else
 			print_results(FALSE, msg);
 	}

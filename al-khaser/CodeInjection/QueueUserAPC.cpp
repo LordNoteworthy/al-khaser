@@ -31,7 +31,7 @@ BOOL QueueUserAPC_Injection()
 
 	/* Get thread id from process id */
 	dwThreadId = GetMainThreadId(dwProcessId);
-	if (hThread == NULL)
+	if (dwThreadId == 0)
 		return FALSE;
 	_tprintf(_T("\t[+] Getting main thread id of proc id: %d\n"), dwThreadId);
 

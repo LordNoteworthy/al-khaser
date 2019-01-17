@@ -112,7 +112,7 @@ VOID print_os()
 	TCHAR szOS[MAX_PATH] = _T("");
 	if (GetOSDisplayString(szOS))
 	{
-		_tcscpy_s(szOS, MAX_PATH, szOS);
+		//_tcscpy_s(szOS, MAX_PATH, szOS);
 		_tprintf(_T("\n[*] You are running: %s\n"), szOS);
 	}
 }

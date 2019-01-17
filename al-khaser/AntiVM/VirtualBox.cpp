@@ -157,8 +157,10 @@ VOID vbox_devices()
 		HANDLE hFile = CreateFile(devices[i], GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking device %s "), devices[i]);
-		if (hFile != INVALID_HANDLE_VALUE)
+		if (hFile != INVALID_HANDLE_VALUE) {
+			CloseHandle(hFile);
 			print_results(TRUE, msg);
+		}
 		else
 			print_results(FALSE, msg);
 	}

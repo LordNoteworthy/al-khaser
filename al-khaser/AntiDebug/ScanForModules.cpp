@@ -77,7 +77,7 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 	size_t normalisedPathLength = 0;
 	StringCbLength(normalisedPath, MAX_PATH, &normalisedPathLength);
 
-	if (filenameLength < 0)
+	if (filenameLength == INVALID_FILE_SIZE)
 	{
 		size_t filenameActualLength = 0;
 		StringCbLength(filename, MAX_PATH, &filenameActualLength);
@@ -546,7 +546,7 @@ BOOL ScanForModules_ToolHelp32()
 		{
 			do
 			{
-				bool isBad = IsBadLibrary(module.szExePath, -1);
+				bool isBad = IsBadLibrary(module.szExePath, INVALID_FILE_SIZE);
 				if (isBad)
 					printf(" [!] Injected library: %S\n", module.szExePath);
 				anyBadLibs |= isBad;
