@@ -453,35 +453,32 @@ BOOL ScanForModules_LDR_Direct()
 
 			if (IsWoW64())
 			{
-				if (pbi.PebBaseAddress != nullptr)
-				{
-					PPEB64 peb = reinterpret_cast<PPEB64>(reinterpret_cast<UCHAR*>(pbi.PebBaseAddress) - 0x1000);
-					PEB_LDR_DATA64 ldrData = { 0 };
+				PPEB64 peb = reinterpret_cast<PPEB64>(reinterpret_cast<UCHAR*>(pbi.PebBaseAddress) - 0x1000);
+				PEB_LDR_DATA64 ldrData = { 0 };
 
-					if (attempt_to_read_memory_wow64(&ldrData, sizeof(PEB_LDR_DATA64), peb->Ldr))
+				if (attempt_to_read_memory_wow64(&ldrData, sizeof(PEB_LDR_DATA64), peb->Ldr))
+				{
+					auto ldrEntries = WalkLDR(&ldrData);
+					for (LDR_DATA_TABLE_ENTRY64* ldrEntry : *ldrEntries)
 					{
-						auto ldrEntries = WalkLDR(&ldrData);
-						for (LDR_DATA_TABLE_ENTRY64* ldrEntry : *ldrEntries)
+						WCHAR* dllNameBuffer = new WCHAR[ldrEntry->FullDllName.Length + 1];
+						SecureZeroMemory(dllNameBuffer, (ldrEntry->FullDllName.Length + 1) * sizeof(WCHAR));
+						if (attempt_to_read_memory_wow64(dllNameBuffer, ldrEntry->FullDllName.Length * sizeof(WCHAR), ldrEntry->FullDllName.Buffer))
 						{
-							WCHAR* dllNameBuffer = new WCHAR[ldrEntry->FullDllName.Length + 1];
-							SecureZeroMemory(dllNameBuffer, (ldrEntry->FullDllName.Length + 1) * sizeof(WCHAR));
-							if (attempt_to_read_memory_wow64(dllNameBuffer, ldrEntry->FullDllName.Length * sizeof(WCHAR), ldrEntry->FullDllName.Buffer))
-							{
-								//printf(" -> %S\n", dllNameBuffer);
-								bool isBad = IsBadLibrary(dllNameBuffer, ldrEntry->FullDllName.Length);
-								if (isBad)
-									printf(" [!] Injected library (WOW64): %S\n", dllNameBuffer);
-								anyBadLibs |= isBad;
-							}
-							else
-							{
-								printf(" [!] Failed to read module name at %llx.\n", reinterpret_cast<ULONGLONG>(ldrEntry->FullDllName.Buffer));
-							}
-							delete dllNameBuffer;
-							delete ldrEntry;
+							//printf(" -> %S\n", dllNameBuffer);
+							bool isBad = IsBadLibrary(dllNameBuffer, ldrEntry->FullDllName.Length);
+							if (isBad)
+								printf(" [!] Injected library (WOW64): %S\n", dllNameBuffer);
+							anyBadLibs |= isBad;
 						}
-						delete ldrEntries;
+						else
+						{
+							printf(" [!] Failed to read module name at %llx.\n", reinterpret_cast<ULONGLONG>(ldrEntry->FullDllName.Buffer));
+						}
+						delete dllNameBuffer;
+						delete ldrEntry;
 					}
+					delete ldrEntries;
 				}
 			}
 		}
