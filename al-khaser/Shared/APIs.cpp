@@ -128,6 +128,7 @@ void API::PrintAvailabilityReport()
 		if (ApiData[i].ExpectedAvailable && !ApiData[i].Available)
 		{
 			printf("[*] Warning: API %s!%s was expected to exist but was not found.\n", ApiData[i].Library, ApiData[i].EntryName);
+			warningCount += 1;
 		}
 	}
 	if (warningCount == 0)
