@@ -599,17 +599,20 @@ DWORD GetMainThreadId(DWORD pid)
 						HANDLE hThread = OpenThread(READ_CONTROL, FALSE, te.th32ThreadID);
 						if (!hThread)
 							print_last_error(_T("OpenThread"));
-						else
+						else {
+							CloseHandle(hThread);
+							CloseHandle(h);
 							return te.th32ThreadID;
+						}
 					}
 				}
 
 			} while (Thread32Next(h, &te));
 		}
+		CloseHandle(h);
 	}
 
 	print_last_error(_T("CreateToolhelp32Snapshot"));
-	CloseHandle(h);
 	return (DWORD)0;
 }
 
