@@ -117,11 +117,11 @@ BOOL RtlCreateUserThread_Injection()
 		bStatus = TRUE;
 	}
 Cleanup:
-	/* If lpBaseAddress initialized then hProcess is initialized too because of upper check. */
+	/* hProcess is always initialized here. */
 	if (lpBaseAddress) {
 		VirtualFreeEx(hProcess, lpBaseAddress, 0, MEM_RELEASE);
 	}
-	if (hProcess) CloseHandle(hProcess);
+	CloseHandle(hProcess);
 
 	return bStatus;
 }
