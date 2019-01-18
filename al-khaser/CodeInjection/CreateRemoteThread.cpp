@@ -6,7 +6,7 @@ BOOL CreateRemoteThread_Injection()
 {
 	/* Some vars */
 	DWORD dwProcessId;
-	HANDLE hProcess = NULL, hThreadId = NULL;
+	HANDLE hProcess = NULL, hRemoteThread = NULL;
 	HMODULE hKernel32;
 	FARPROC LoadLibraryAddress;
 	LPVOID lpBaseAddress = NULL;
@@ -47,7 +47,7 @@ BOOL CreateRemoteThread_Injection()
 		print_last_error(_T("GetProcAddress"));
 		goto Cleanup;
 	}
-	_tprintf(_T("\t[+] Found at 0x%08x\n"), (UINT)LoadLibraryAddress);
+	_tprintf(_T("\t[+] Found at 0x%p\n"), LoadLibraryAddress);
 
 	/* Get the full path of the dll */
 	GetFullPathName(lpDllName, MAX_PATH, lpDllPath, NULL);
@@ -65,20 +65,21 @@ BOOL CreateRemoteThread_Injection()
 	}
 
 	/* Write to the remote process */
-	printf("\t[+] Writing into the current process space at 0x%08x\n", (UINT)lpBaseAddress);
+	printf("\t[+] Writing into the current process space at 0x%p\n", lpBaseAddress);
 	if (!WriteProcessMemory(hProcess, lpBaseAddress, lpDllPath, dwSize, NULL)) {
 		print_last_error(_T("WriteProcessMemory"));
 		goto Cleanup;
 	}
 
 	/* Create the more thread */
-	hThreadId = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLibraryAddress, lpBaseAddress, NULL, 0);
-	if (hThreadId == NULL) {
+	hRemoteThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLibraryAddress, lpBaseAddress, NULL, 0);
+	if (hRemoteThread == NULL) {
 		print_last_error(_T("CreateRemoteThread"));
 	}
 	else {
 		_tprintf(_T("Remote thread has been created successfully ...\n"));
-		WaitForSingleObject(hThreadId, INFINITE);
+		WaitForSingleObject(hRemoteThread, INFINITE);
+		CloseHandle(hRemoteThread);
 		
 		/* assign function success return result */
 		bStatus = TRUE;
@@ -87,8 +88,7 @@ BOOL CreateRemoteThread_Injection()
 Cleanup:
 	/* If lpBaseAddress initialized then hProcess is initialized too because of upper check. */
 	if (lpBaseAddress) {
-		dwSize = 0; /* dwSize must be 0 if MEM_RELEASE used. */
-		VirtualFreeEx(hProcess, lpBaseAddress, dwSize, MEM_RELEASE);
+		VirtualFreeEx(hProcess, lpBaseAddress, 0, MEM_RELEASE);
 	}
 	if (hProcess) CloseHandle(hProcess);
 
