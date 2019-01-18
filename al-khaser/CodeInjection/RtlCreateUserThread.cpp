@@ -10,14 +10,22 @@ BOOL RtlCreateUserThread_Injection()
 	HANDLE hProcess;
 	TCHAR lpDllName[] = _T("InjectedDLL.dll");
 	TCHAR lpDllPath[MAX_PATH];
-	LPVOID lpBaseAddress;
-	BOOL bStatus;
+	LPVOID lpBaseAddress = NULL;
+	BOOL bStatus = FALSE;
 	HMODULE hKernel32;
 	FARPROC LoadLibraryAddress;
 	HANDLE  hRemoteThread = NULL;
+	SIZE_T dwSize;
+	NTSTATUS Status;
 
 	// we have to import our function
 	pRtlCreateUserThread RtlCreateUserThread = NULL;
+
+	/*
+	GetLastError cannot be used with RtlCreateUserThread because this routine does not set Win32 LastError value.
+	Native status code must be translated to Win32 error code and set manually.
+	*/
+	pRtlNtStatusToDosError RtlNtStatusToDosErrorPtr = NULL;
 
 	/* Get Process ID from Process name */
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
@@ -36,14 +44,17 @@ BOOL RtlCreateUserThread_Injection()
 	hNtdll = GetModuleHandle(_T("ntdll.dll"));
 	if (hNtdll == NULL) {
 		print_last_error(_T("GetModuleHandle"));
-		return FALSE;
+		goto Cleanup;
 	}
+
+	/* Get routine pointer, failure is not critical */
+	RtlNtStatusToDosErrorPtr = (pRtlNtStatusToDosError)GetProcAddress(hNtdll, "RtlNtStatusToDosError");
 
 	/* Obtain a handle to kernel32 */
 	hKernel32 = GetModuleHandle(_T("kernel32.dll"));
 	if (hKernel32 == NULL) {
 		print_last_error(_T("GetModuleHandle"));
-		return FALSE;
+		goto Cleanup;
 	}
 
 	// Get the address RtlCreateUserThread
@@ -51,56 +62,66 @@ BOOL RtlCreateUserThread_Injection()
 	RtlCreateUserThread = (pRtlCreateUserThread)GetProcAddress(hNtdll, "RtlCreateUserThread");
 	if (RtlCreateUserThread == NULL) {
 		print_last_error(_T("GetProcAddress"));
-		return FALSE;
+		goto Cleanup;
 	}
-	_tprintf(_T("\t[+] Found at 0x%08x\n"), (UINT)RtlCreateUserThread);
+	_tprintf(_T("\t[+] Found at 0x%p\n"), RtlCreateUserThread);
 
 	/* Get LoadLibrary address */
 	_tprintf(_T("\t[+] Looking for LoadLibrary in kernel32\n"));
 	LoadLibraryAddress = GetProcAddress(hKernel32, "LoadLibraryW");
 	if (LoadLibraryAddress == NULL) {
 		print_last_error(_T("GetProcAddress"));
-		return FALSE;
+		goto Cleanup;
 	}
-	_tprintf(_T("\t[+] Found at 0x%08x\n"), (UINT)LoadLibraryAddress);
+	_tprintf(_T("\t[+] Found at 0x%p\n"), LoadLibraryAddress);
 
 	/* Get the full path of the dll */
 	GetFullPathName(lpDllName, MAX_PATH, lpDllPath, NULL);
 	_tprintf(_T("\t[+] Full DLL Path: %s\n"), lpDllPath);
 
 	/* Calculate the number of bytes needed for the DLL's pathname */
-	SIZE_T dwSize = _tcslen(lpDllPath) * sizeof(TCHAR);
+	dwSize = _tcslen(lpDllPath) * sizeof(TCHAR);
 
 	/* Allocate memory into the remote process */
 	_tprintf(_T("\t[+] Allocating space for the path of the DLL\n"));
 	lpBaseAddress = VirtualAllocEx(hProcess, NULL, dwSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 	if (lpBaseAddress == NULL) {
 		print_last_error(_T("VirtualAllocEx"));
-		return FALSE;
+		goto Cleanup;
 	}
 
 	/* Write to the remote process */
-	printf("\t[+] Writing into the current process space at 0x%08x\n", (UINT)lpBaseAddress);
-	bStatus = WriteProcessMemory(hProcess, lpBaseAddress, lpDllPath, dwSize, NULL);
-	if (bStatus == NULL) {
+	printf("\t[+] Writing into the current process space at 0x%p\n", lpBaseAddress);
+	if (!WriteProcessMemory(hProcess, lpBaseAddress, lpDllPath, dwSize, NULL)) {
 		print_last_error(_T("WriteProcessMemory"));
-		return FALSE;
+		goto Cleanup;
 	}
 
 	/* Create the more thread */
-	bStatus = RtlCreateUserThread(hProcess, NULL, 0, 0, 0, 0, LoadLibraryAddress, lpBaseAddress, &hRemoteThread, NULL);
-	if (bStatus < 0) {
+	Status = RtlCreateUserThread(hProcess, NULL, 0, 0, 0, 0, LoadLibraryAddress, lpBaseAddress, &hRemoteThread, NULL);
+	if (!NT_SUCCESS(Status)) {
+		if (RtlNtStatusToDosErrorPtr) {
+			SetLastError(RtlNtStatusToDosErrorPtr(Status));
+		}
+		else {
+			SetLastError(ERROR_INTERNAL_ERROR);
+		}
 		print_last_error(_T("RtlCreateUserThread"));
-		return FALSE;
 	}
-
 	else {
 		_tprintf(_T("Remote thread has been created successfully ...\n"));
 		WaitForSingleObject(hRemoteThread, INFINITE);
+		CloseHandle(hRemoteThread);
 
-		// Clean up
-		CloseHandle(hProcess);
-		VirtualFreeEx(hProcess, lpBaseAddress, dwSize, MEM_RELEASE);
-		return TRUE;
+		/* assign function success return result */
+		bStatus = TRUE;
 	}
+Cleanup:
+	/* If lpBaseAddress initialized then hProcess is initialized too because of upper check. */
+	if (lpBaseAddress) {
+		VirtualFreeEx(hProcess, lpBaseAddress, 0, MEM_RELEASE);
+	}
+	if (hProcess) CloseHandle(hProcess);
+
+	return bStatus;
 }
