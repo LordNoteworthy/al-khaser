@@ -67,9 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="AntiDebug\CheckRemoteDebuggerPresentAPI.h">
-      <Filter>AntiDebug\Header</Filter>
-    </ClInclude>
     <ClInclude Include="AntiDebug\CloseHandle_InvalidHandle.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
@@ -121,16 +118,10 @@
     <ClInclude Include="AntiDebug\ParentProcess.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
-    <ClInclude Include="AntiDebug\PEB_BeingDebugged.h">
-      <Filter>AntiDebug\Header</Filter>
-    </ClInclude>
     <ClInclude Include="AntiDebug\ProcessHeap_Flags.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
     <ClInclude Include="AntiDebug\ProcessHeap_ForceFlags.h">
-      <Filter>AntiDebug\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="AntiDebug\ProcessHeap_NtGlobalFlag.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
     <ClInclude Include="AntiDebug\ProcessJob.h">
@@ -265,13 +256,19 @@
     <ClInclude Include="TimingAttacks\timing.h">
       <Filter>TimingAttacks\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiDebug\CheckRemoteDebuggerPresent.h">
+      <Filter>AntiDebug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiDebug\BeingDebugged.h">
+      <Filter>AntiDebug\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiDebug\NtGlobalFlag.h">
+      <Filter>AntiDebug\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="AntiDebug\CheckRemoteDebuggerPresentAPI.cpp">
-      <Filter>AntiDebug\Source</Filter>
-    </ClCompile>
     <ClCompile Include="AntiDebug\CloseHandle_InvalidHandle.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
@@ -326,16 +323,10 @@
     <ClCompile Include="AntiDebug\ParentProcess.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
-    <ClCompile Include="AntiDebug\PEB_BeingDebugged.cpp">
-      <Filter>AntiDebug\Source</Filter>
-    </ClCompile>
     <ClCompile Include="AntiDebug\ProcessHeap_Flags.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
     <ClCompile Include="AntiDebug\ProcessHeap_ForceFlags.cpp">
-      <Filter>AntiDebug\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="AntiDebug\ProcessHeap_NtGlobalFlag.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
     <ClCompile Include="AntiDebug\ProcessJob.cpp">
@@ -440,15 +431,25 @@
     <ClCompile Include="TimingAttacks\timing.cpp">
       <Filter>TimingAttacks\Source</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AntiDebug\int2d_x64.asm">
+    <ClCompile Include="AntiDebug\CheckRemoteDebuggerPresent.cpp">
       <Filter>AntiDebug\Source</Filter>
-    </None>
+    </ClCompile>
+    <ClCompile Include="AntiDebug\NtGlobalFlag.cpp">
+      <Filter>AntiDebug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiDebug\BeingDebugged.cpp">
+      <Filter>AntiDebug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="AntiDebug\int2d_x86.asm">
       <Filter>AntiDebug\Source</Filter>
     </MASM>
+    <MASM Include="AntiDebug\int2d_x64.asm">
+      <Filter>AntiDebug\Source</Filter>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

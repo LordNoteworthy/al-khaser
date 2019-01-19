@@ -154,7 +154,8 @@
   <ItemGroup>
     <ClInclude Include="AntiAnalysis\pch.h" />
     <ClInclude Include="AntiAnalysis\process.h" />
-    <ClInclude Include="AntiDebug\CheckRemoteDebuggerPresentAPI.h" />
+    <ClInclude Include="AntiDebug\BeingDebugged.h" />
+    <ClInclude Include="AntiDebug\CheckRemoteDebuggerPresent.h" />
     <ClInclude Include="AntiDebug\CloseHandle_InvalidHandle.h" />
     <ClInclude Include="AntiDebug\HardwareBreakpoints.h" />
     <ClInclude Include="AntiDebug\Interrupt_0x2d.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="AntiDebug\IsDebuggerPresent.h" />
     <ClInclude Include="AntiDebug\MemoryBreakpoints_PageGuard.h" />
     <ClInclude Include="AntiDebug\ModuleBoundsHookCheck.h" />
+    <ClInclude Include="AntiDebug\NtGlobalFlag.h" />
     <ClInclude Include="AntiDebug\NtQueryInformationProcess_ProcessDebugFlags.h" />
     <ClInclude Include="AntiDebug\NtQueryInformationProcess_ProcessDebugObject.h" />
     <ClInclude Include="AntiDebug\NtQueryInformationProcess_ProcessDebugPort.h" />
@@ -173,10 +175,8 @@
     <ClInclude Include="AntiDebug\PageExceptionBreakpointCheck.h" />
     <ClInclude Include="AntiDebug\ParentProcess.h" />
     <ClInclude Include="AntiDebug\pch.h" />
-    <ClInclude Include="AntiDebug\PEB_BeingDebugged.h" />
     <ClInclude Include="AntiDebug\ProcessHeap_Flags.h" />
     <ClInclude Include="AntiDebug\ProcessHeap_ForceFlags.h" />
-    <ClInclude Include="AntiDebug\ProcessHeap_NtGlobalFlag.h" />
     <ClInclude Include="AntiDebug\ProcessJob.h" />
     <ClInclude Include="AntiDebug\ScanForModules.h" />
     <ClInclude Include="AntiDebug\SeDebugPrivilege.h" />
@@ -223,7 +223,8 @@
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
     <ClCompile Include="AntiAnalysis\process.cpp" />
-    <ClCompile Include="AntiDebug\CheckRemoteDebuggerPresentAPI.cpp" />
+    <ClCompile Include="AntiDebug\BeingDebugged.cpp" />
+    <ClCompile Include="AntiDebug\CheckRemoteDebuggerPresent.cpp" />
     <ClCompile Include="AntiDebug\CloseHandle_InvalidHandle.cpp" />
     <ClCompile Include="AntiDebug\HardwareBreakpoints.cpp" />
     <ClCompile Include="AntiDebug\Interrupt_0x2d.cpp" />
@@ -231,6 +232,7 @@
     <ClCompile Include="AntiDebug\IsDebuggerPresent.cpp" />
     <ClCompile Include="AntiDebug\MemoryBreakpoints_PageGuard.cpp" />
     <ClCompile Include="AntiDebug\ModuleBoundsHookCheck.cpp" />
+    <ClCompile Include="AntiDebug\NtGlobalFlag.cpp" />
     <ClCompile Include="AntiDebug\NtQueryInformationProcess_ProcessDebugFlags.cpp" />
     <ClCompile Include="AntiDebug\NtQueryInformationProcess_ProcessDebugObject.cpp" />
     <ClCompile Include="AntiDebug\NtQueryInformationProcess_ProcessDebugPort.cpp" />
@@ -242,10 +244,8 @@
     <ClCompile Include="AntiDebug\OutputDebugStringAPI.cpp" />
     <ClCompile Include="AntiDebug\PageExceptionBreakpointCheck.cpp" />
     <ClCompile Include="AntiDebug\ParentProcess.cpp" />
-    <ClCompile Include="AntiDebug\PEB_BeingDebugged.cpp" />
     <ClCompile Include="AntiDebug\ProcessHeap_Flags.cpp" />
     <ClCompile Include="AntiDebug\ProcessHeap_ForceFlags.cpp" />
-    <ClCompile Include="AntiDebug\ProcessHeap_NtGlobalFlag.cpp" />
     <ClCompile Include="AntiDebug\ProcessJob.cpp" />
     <ClCompile Include="AntiDebug\ScanForModules.cpp" />
     <ClCompile Include="AntiDebug\SeDebugPrivilege.cpp" />
@@ -298,6 +298,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
     </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
