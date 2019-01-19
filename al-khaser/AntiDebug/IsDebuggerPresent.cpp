@@ -1,15 +1,28 @@
 #include "pch.h"
-
 #include "IsDebuggerPresent.h"
 
-BOOL IsDebuggerPresentAPI ()
-{
-	/* This function is part of the Win32 Debugging API 
-	   It determines whether the calling process is being debugged by a user-mode debugger. 
-	   If the current process is running in the context of a debugger, the return value is nonzero. */
+BOOL
+IsDebuggerPresentAPI (
+	VOID
+	)
+/*++
 
-	if(IsDebuggerPresent())
-		return TRUE;
-	else
-		return FALSE;
+Routine Description:
+
+	Calls the IsDebuggerPresent() API. This function is part of the
+	Win32 Debugging API and it returns TRUE if a user mode debugger
+	is present. Internally, it simply returns the value of the
+	PEB->BeingDebugged flag.
+
+Arguments:
+
+	None
+
+Return Value:
+
+	TRUE - if debugger was detected
+	FALSE - otherwise
+--*/
+{
+	return IsDebuggerPresent();
 }

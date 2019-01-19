@@ -1,4 +1,4 @@
-## Al-Khaser v0.75
+## Al-Khaser v0.76
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -309,6 +309,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - [mrexodia](http://mrexodia.cf): Main developer of [x64dbg](http://x64dbg.com/)
 - [Mattiwatti](https://github.com/Mattiwatti): Matthijs Lavrijsen
 - [gsuberland](https://twitter.com/gsuberland): Graham Sutherland
+- [hFireF0x](https://github.com/hfiref0x): hfiref0x
 
 
 ## References
