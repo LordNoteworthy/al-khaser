@@ -1,3 +1,36 @@
+
+#### 0.76
+- Renamed PEB_BeingDebugged.cpp to BeingDebugged.cpp
+- Renamed CheckRemoteDebuggerPresentAPI.cpp to CheckRemoteDebuggerPresent.cpp
+- Renamed ProcessHeap_NtGlobalFlag.cpp to NtGlobalFlag.cpp
+- Fix expression is always true in ScanForModules_LDR_Direct routine thanks to @hfiref0x
+- Fix multiple bugs in GetSetThreadContext_Injection routine thanks to @hfiref0x
+- Fix multiple bugs in CreateRemoteThread_Injection thanks to @hfiref0x
+- Fix invalid return value check in QueueUserAPC_Injection routine thanks to @hfiref0x
+- Fix multiple bugs in NtCreateThreadEx_Injection and actually make it work thanks to @hfiref0x
+- Fix multiple bugs in RtlCreateUserThread_Injection routine thanks to @hfiref0x
+- Rearrange a bit RtlCreateUserThread_Injection routine thanks to @hfiref0x
+- Fix multiple bugs in GetMainThreadId thanks to @hfiref0x
+- Fix always true expression in PrintAvailabilityReport routine thanks to @hfiref0x
+- Fix resource leak in vmware_devices routine thanks to @hfiref0x
+- Fix resource leak in vbox_devices routine thanks to @hfiref0x
+- Fix invalid comparison in IsBadLibrary routine thanks to @hfiref0x
+- Fix invalid memory allocation size in HardwareBreakpoints routine thanks to @hfiref0x
+- Update print_os routine thanks to @hfiref0x
+- Moved the project to Visual Studio 2017
+- Add AppVeyor CI to build the project and check for errors.
+- Add WMI Win32_Fan anti-vm trick
+- Add DLL injection detection #148 (thanks to @gsuberland):
+    - Enumerate modules with EnumProcessModulesEx (32-bit, 64-bit, and all options)
+    - Enumerate modules with ToolHelp32
+    - Enumerate the process LDR structures
+    - Walk memory with GetModuleInformation
+    - Walk memory for hidden modules
+    - Patch issue with IsWin10OrGreater() due to missing compatibility GUIDs in application manifest
+    - Add support for detecting presence of APIs that were removed in a later OS version
+    - Add some WoW64 memory read/query utility functions for reading the 64-bit address space
+- Added enumerate_memory function for finding all memory allocations in the process thanks to @gsuberland
+
 #### 0.75
 - Fixed a typo in API data structure and move print_os() after API initialization thanks to @hzqst
 - Added page exception breakpoint anti-debug check (mainly focused on Cheat Engine)
