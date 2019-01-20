@@ -813,6 +813,10 @@ PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD p
 
 	DWORD bufferSize = 4096;
 	PBYTE firmwareTable = static_cast<PBYTE>(malloc(bufferSize));
+
+	if (firmwareTable == NULL)
+		return NULL;
+
 	SecureZeroMemory(firmwareTable, bufferSize);
 	
 	auto GetSystemFirmwareTable = static_cast<pGetSystemFirmwareTable>(API::GetAPI(API_IDENTIFIER::API_GetSystemFirmwareTable));
