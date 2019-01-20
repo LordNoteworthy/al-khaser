@@ -13,7 +13,7 @@ BOOL CreateRemoteThread_Injection()
 	TCHAR lpDllName[] = _T("InjectedDLL.dll");
 	TCHAR lpDllPath[MAX_PATH];
 	SIZE_T dwSize;
-	BOOL bStatus = FALSE;
+	BOOL bStatus = FALSE, bDebugPrivilegeEnabled;
 	
 	/* Get Process ID from Process name */
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
@@ -22,8 +22,9 @@ BOOL CreateRemoteThread_Injection()
 	_tprintf(_T("\t[+] Getting proc id: %d\n"), dwProcessId);
 
 	/* Set Debug privilege */
-	_tprintf(_T("\t[+] Setting Debug Privileges [%d]\n"), SetDebugPrivileges());
-	if (SetDebugPrivileges() == NULL)
+	bDebugPrivilegeEnabled = SetDebugPrivileges();
+	_tprintf(_T("\t[+] Setting Debug Privileges [%d]\n"), bDebugPrivilegeEnabled);
+	if (!bDebugPrivilegeEnabled)
 		return FALSE;
 
 	/* Obtain a handle the process */
