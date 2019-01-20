@@ -495,35 +495,29 @@ BOOL SetPrivilege(
 BOOL SetDebugPrivileges(VOID) {
 	TOKEN_PRIVILEGES priv = { 0 };
 	HANDLE hToken = NULL;
+	BOOL bResult = FALSE;
 
-	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken))
-	{
-		priv.PrivilegeCount = 1;
-		priv.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
+		print_last_error(_T("OpenProcessToken"));
+		return bResult;
+	}
 
-		if (LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &priv.Privileges[0].Luid))
-			if (AdjustTokenPrivileges(hToken, FALSE, &priv, 0, NULL, NULL) == 0) {
-				print_last_error(_T("AdjustTokenPrivileges"));
-				CloseHandle(hToken);
-				return 0;
-			}
+	priv.PrivilegeCount = 1;
+	priv.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
 
-			else
-				return 1;
-
-		else {
-			print_last_error(_T("LookupPrivilegeValue"));
-			CloseHandle(hToken);
-			return 0;
+	if (LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &priv.Privileges[0].Luid)) {
+		
+		bResult = AdjustTokenPrivileges(hToken, FALSE, &priv, 0, NULL, NULL);
+		if (!bResult) {
+			print_last_error(_T("AdjustTokenPrivileges"));
 		}
 	}
-
-	else
-	{
-		print_last_error(_T("OpenProcessToken"));
-		CloseHandle(hToken);
-		return 0;
+	else {
+		print_last_error(_T("LookupPrivilegeValue"));
 	}
+
+	CloseHandle(hToken);
+	return bResult;
 }
 
 DWORD GetProcessIdFromName(LPCTSTR szProcessName)
