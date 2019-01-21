@@ -555,6 +555,8 @@ BOOL ScanForModules_ToolHelp32()
 		{
 			printf("Failed to get first module. Last error: %d\n", GetLastError());
 		}
+
+		CloseHandle(snapshot);
 	}
 
 	return anyBadLibs ? TRUE : FALSE;

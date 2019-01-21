@@ -454,6 +454,10 @@ BOOL vbox_firmware_ACPI()
 	BOOL result = FALSE;
 
 	PDWORD tableNames = static_cast<PDWORD>(malloc(4096));
+
+	if (tableNames == NULL)
+		return FALSE;
+
 	SecureZeroMemory(tableNames, 4096);
 	DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
 

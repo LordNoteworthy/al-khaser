@@ -11,17 +11,21 @@ BOOL SetHandleInformatiom_ProtectedHandle()
 	/* Create a mutex so we can get a handle */
 	hMutex = CreateMutex(NULL, FALSE, _T("Random name"));
 
-	/* Protect our handle */
-	SetHandleInformation(hMutex, HANDLE_FLAG_PROTECT_FROM_CLOSE, HANDLE_FLAG_PROTECT_FROM_CLOSE);
+	if (hMutex) {
+
+		/* Protect our handle */
+		SetHandleInformation(hMutex, HANDLE_FLAG_PROTECT_FROM_CLOSE, HANDLE_FLAG_PROTECT_FROM_CLOSE);
 
 
-	__try {
-		/* Then, let's try close it */
-		CloseHandle(hMutex);
-	}
+		__try {
+			/* Then, let's try close it */
+			CloseHandle(hMutex);
+		}
 
-	__except (HANDLE_FLAG_PROTECT_FROM_CLOSE) {
-		return TRUE;
+		__except (EXCEPTION_EXECUTE_HANDLER) {
+			return TRUE;
+		}
+
 	}
 
 	return FALSE;

@@ -88,39 +88,42 @@ BOOL qemu_firmware_ACPI()
 	BOOL result = FALSE;
 
 	PDWORD tableNames = static_cast<PDWORD>(malloc(4096));
-	SecureZeroMemory(tableNames, 4096);
-	DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
+	
+	if (tableNames) {
+		SecureZeroMemory(tableNames, 4096);
+		DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
 
-	// API not available
-	if (tableSize == -1)
-		return FALSE;
+		// API not available
+		if (tableSize == -1)
+			return FALSE;
 
-	DWORD tableCount = tableSize / 4;
-	if (tableSize < 4 || tableCount == 0)
-	{
-		result = TRUE;
-	}
-	else
-	{
-		for (DWORD i = 0; i < tableCount; i++)
+		DWORD tableCount = tableSize / 4;
+		if (tableSize < 4 || tableCount == 0)
 		{
-			DWORD tableSize = 0;
-			PBYTE table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize);
-
-			PBYTE qemuString1 = (PBYTE)"BOCHS";
-			size_t StringLen = 4;
-			PBYTE qemuString2 = (PBYTE)"BXPC";
-
-			if (find_str_in_data(qemuString1, StringLen, table, tableSize) ||
-				find_str_in_data(qemuString2, StringLen, table, tableSize))
-			{
-				result = TRUE;
-			}
-
-			free(table);
+			result = TRUE;
 		}
-	}
+		else
+		{
+			for (DWORD i = 0; i < tableCount; i++)
+			{
+				DWORD tableSize = 0;
+				PBYTE table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize);
 
-	free(tableNames);
+				PBYTE qemuString1 = (PBYTE)"BOCHS";
+				size_t StringLen = 4;
+				PBYTE qemuString2 = (PBYTE)"BXPC";
+
+				if (find_str_in_data(qemuString1, StringLen, table, tableSize) ||
+					find_str_in_data(qemuString2, StringLen, table, tableSize))
+				{
+					result = TRUE;
+				}
+
+				free(table);
+			}
+		}
+
+		free(tableNames);
+	}
 	return result;
 }
