@@ -69,7 +69,7 @@ BOOL is_DirectoryExists(TCHAR* szPath)
 BOOL check_mac_addr(const TCHAR* szMac)
 {
 	BOOL bResult = FALSE;
-	PIP_ADAPTER_INFO pAdapterInfo;
+	PIP_ADAPTER_INFO pAdapterInfo, pAdapterInfoPtr;
 	ULONG ulOutBufLen = sizeof(IP_ADAPTER_INFO);
 
 	pAdapterInfo = (PIP_ADAPTER_INFO)MALLOC(sizeof(IP_ADAPTER_INFO));
@@ -79,8 +79,10 @@ BOOL check_mac_addr(const TCHAR* szMac)
 		return -1;
 	}
 
+	DWORD dwResult = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen);
+
 	// Make an initial call to GetAdaptersInfo to get the necessary size into the ulOutBufLen variable
-	if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == ERROR_BUFFER_OVERFLOW)
+	if (dwResult == ERROR_BUFFER_OVERFLOW)
 	{
 		FREE(pAdapterInfo);
 		pAdapterInfo = (PIP_ADAPTER_INFO)MALLOC(ulOutBufLen);
@@ -88,10 +90,12 @@ BOOL check_mac_addr(const TCHAR* szMac)
 			printf("Error allocating memory needed to call GetAdaptersinfo\n");
 			return 1;
 		}
+
+		// Now, we can call GetAdaptersInfo
+		dwResult = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen);
 	}
 
-	// Now, we can call GetAdaptersInfo
-	if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == ERROR_SUCCESS)
+	if (dwResult == ERROR_SUCCESS)
 	{
 		// Convert the given mac address to an array of multibyte chars so we can compare.
 		CHAR szMacMultiBytes[4];
@@ -99,17 +103,21 @@ BOOL check_mac_addr(const TCHAR* szMac)
 			szMacMultiBytes[i] = (CHAR)szMac[i];
 		}
 
-		while (pAdapterInfo)
+		pAdapterInfoPtr = pAdapterInfo;
+
+		while (pAdapterInfoPtr)
 		{
 
-			if (pAdapterInfo->AddressLength == 6 && !memcmp(szMacMultiBytes, pAdapterInfo->Address, 3))
+			if (pAdapterInfoPtr->AddressLength == 6 && !memcmp(szMacMultiBytes, pAdapterInfoPtr->Address, 3))
 			{
 				bResult = TRUE;
 				break;
 			}
-			pAdapterInfo = pAdapterInfo->Next;
+			pAdapterInfoPtr = pAdapterInfoPtr->Next;
 		}
 	}
+
+	FREE(pAdapterInfo);
 
 	return bResult;
 }
