@@ -860,7 +860,7 @@ bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, PVOID64 address)
 
 	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, GetCurrentProcessId());
 
-	if (hProcess != INVALID_HANDLE_VALUE)
+	if (hProcess != NULL)
 	{
 		NTSTATUS status = NtWow64ReadVirtualMemory64(hProcess, address, buffer, size, &bytesRead);
 		/*if (status != 0)
