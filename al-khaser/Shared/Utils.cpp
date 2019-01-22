@@ -445,6 +445,8 @@ DWORD GetProccessIDByName(TCHAR* szProcessNameTarget)
 			EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded);
 			GetModuleBaseName(hProcess, hMod, szProcessName, sizeof(szProcessName) / sizeof(TCHAR));
 
+			CloseHandle(hProcess);
+
 			// Make the comparaison
 			if (StrCmpI(szProcessName, szProcessNameTarget) == 0)
 				return processIds[i];
