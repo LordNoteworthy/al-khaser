@@ -178,17 +178,25 @@ BOOL number_cores_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("NumberOfCores"), 0, &vtProp, 0, 0);
-				if (V_VT(&vtProp) != VT_NULL) {
+				if (SUCCEEDED(hRes)) {
+					if (V_VT(&vtProp) != VT_NULL) {
 
-					// Do our comparaison
-					if (vtProp.uintVal < 2) {
-						bFound = TRUE; break;
+						// Do our comparaison
+						if (vtProp.uintVal < 2) {
+							bFound = TRUE;
+						}
+
+						// release the current result object
+						VariantClear(&vtProp);
 					}
-
-					// release the current result object
-					VariantClear(&vtProp);
-					pclsObj->Release();
 				}
+
+				// release class object
+				pclsObj->Release();
+
+				// break from while
+				if (bFound)
+					break;
 			}
 
 			// Cleanup
@@ -238,25 +246,32 @@ BOOL disk_size_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("Size"), 0, &vtProp, NULL, 0);
-				if (V_VT(&vtProp) != VT_NULL)
-				{
-					// convert disk size string to bytes
-					errno = 0;
-					unsigned long long diskSizeBytes = _tcstoui64_l(vtProp.bstrVal, NULL, 10, _get_current_locale());
-					// do the check only if we successfuly got the disk size
-					if (errno == 0)
+				if (SUCCEEDED(hRes)) {
+					if (V_VT(&vtProp) != VT_NULL)
 					{
-						// Do our comparison
-						if (diskSizeBytes < minHardDiskSize) { // Less than 80GB
-							bFound = TRUE;
-							break;
+						// convert disk size string to bytes
+						errno = 0;
+						unsigned long long diskSizeBytes = _tcstoui64_l(vtProp.bstrVal, NULL, 10, _get_current_locale());
+						// do the check only if we successfuly got the disk size
+						if (errno == 0)
+						{
+							// Do our comparison
+							if (diskSizeBytes < minHardDiskSize) { // Less than 80GB
+								bFound = TRUE;
+							}
 						}
-					}
 
-					// release the current result object
-					VariantClear(&vtProp);
-					pclsObj->Release();
+						// release the current result object
+						VariantClear(&vtProp);
+					}
 				}
+				
+				// release class object
+				pclsObj->Release();
+				
+				// break from while
+				if (bFound)
+					break;
 			}
 
 			// Cleanup
@@ -703,22 +718,25 @@ BOOL serial_number_bios_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("SerialNumber"), 0, &vtProp, 0, 0);
-				if (SUCCEEDED(hRes) && vtProp.vt == VT_BSTR) {
+				if (SUCCEEDED(hRes)) {				
+					if (vtProp.vt == VT_BSTR) {
 
-					// Do our comparaison
-					if (
-						(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
-						(StrStrI(vtProp.bstrVal, _T("0")) != 0) || // VBox
-						(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
-						(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
-						(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
-						)
-					{
-						VariantClear(&vtProp);
-						pclsObj->Release();
-						bFound = TRUE;
-						break;
+						// Do our comparison
+						if (
+							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
+							(StrStrI(vtProp.bstrVal, _T("0")) != 0) || // VBox
+							(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
+							(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
+							(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
+							)
+						{
+							VariantClear(&vtProp);
+							pclsObj->Release();
+							bFound = TRUE;
+							break;
+						}
 					}
+					VariantClear(&vtProp);
 				}
 
 				// release the current result object
@@ -771,20 +789,26 @@ BOOL model_computer_system_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("Model"), 0, &vtProp, 0, 0);
+				if (SUCCEEDED(hRes)) {
+					if (vtProp.vt == VT_BSTR) {
 
-				// Do our comparaison
-				if (
-					(StrStrI(vtProp.bstrVal, _T("VirtualBox")) != 0) ||
-					(StrStrI(vtProp.bstrVal, _T("HVM domU")) != 0) || //Xen
-					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0)
-					)
-				{
-					bFound = TRUE;
-					break;
+						// Do our comparison
+						if (
+							(StrStrI(vtProp.bstrVal, _T("VirtualBox")) != 0) ||
+							(StrStrI(vtProp.bstrVal, _T("HVM domU")) != 0) || //Xen
+							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0)
+							)
+						{
+							VariantClear(&vtProp);
+							pclsObj->Release();
+							bFound = TRUE;
+							break;
+						}
+					}
+					VariantClear(&vtProp);
 				}
 
 				// release the current result object
-				VariantClear(&vtProp);
 				pclsObj->Release();
 			}
 
@@ -834,21 +858,26 @@ BOOL manufacturer_computer_system_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("Manufacturer"), 0, &vtProp, 0, 0);
+				if (SUCCEEDED(hRes)) {
+					if (vtProp.vt == VT_BSTR) {
 
-				// Do our comparaison
-				if (
-					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) || 
-					(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
-					(StrStrI(vtProp.bstrVal, _T("innotek GmbH")) != 0) || // Vbox
-					(StrStrI(vtProp.bstrVal, _T("QEMU")) != 0)
-					)
-				{
-					bFound = TRUE;
-					break;
+						// Do our comparison
+						if (
+							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
+							(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
+							(StrStrI(vtProp.bstrVal, _T("innotek GmbH")) != 0) || // Vbox
+							(StrStrI(vtProp.bstrVal, _T("QEMU")) != 0)
+							)
+						{
+							VariantClear(&vtProp);
+							pclsObj->Release();
+							bFound = TRUE;
+							break;
+						}
+					}
+					VariantClear(&vtProp);
 				}
-
 				// release the current result object
-				VariantClear(&vtProp);
 				pclsObj->Release();
 			}
 
@@ -906,8 +935,9 @@ BOOL current_temperature_acpi_wmi()
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("CurrentTemperature"), 0, &vtProp, 0, 0);
 				if (SUCCEEDED(hRes)) {
+					VariantClear(&vtProp);
+					pclsObj->Release();
 					break;
-
 				}
 
 				// release the current result object
@@ -961,17 +991,21 @@ BOOL process_id_processor_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("ProcessorId"), 0, &vtProp, 0, 0);
+				if (SUCCEEDED(hRes)) {
 
-				// Do our comparaison
-				if (vtProp.bstrVal== NULL)
-				{
-					bFound = TRUE;
-					break;
+					// Do our comparison
+					if (vtProp.bstrVal == NULL)
+					{
+						bFound = TRUE;
+					}
 				}
-
 				// release the current result object
 				VariantClear(&vtProp);
 				pclsObj->Release();
+
+				// break from while
+				if (bFound)
+					break;
 			}
 
 			// Cleanup
@@ -1019,7 +1053,7 @@ BOOL cpu_fan_wmi()
 	BOOL bStatus = FALSE;
 	HRESULT hRes;
 	BOOL bFound = FALSE;
-	INT iObjCount = 0;
+	ULONG uObjCount = 0;
 
 	// Init WMI
 	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
@@ -1040,7 +1074,8 @@ BOOL cpu_fan_wmi()
 					break;
 				}
 				else {
-					iObjCount++;
+					uObjCount++;
+					pclsObj->Release();
 				}
 			}
 
@@ -1052,7 +1087,7 @@ BOOL cpu_fan_wmi()
 		}
 	}
 
-	if (iObjCount <= 0)
+	if (uObjCount == 0)
 		bFound = TRUE;
 	return bFound;
 }

@@ -255,16 +255,23 @@ BOOL vbox_devices_wmi()
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("DeviceId"), 0, &vtProp, 0, 0);
 				
-				// Do our comparaison
-				if (_tcsstr(vtProp.bstrVal, _T("PCI\\VEN_80EE&DEV_CAFE")) != 0)
-				{
-					bFound = TRUE;
-					break;
+				if (SUCCEEDED(hRes)) {
+					if (vtProp.vt == VT_BSTR) {
+
+						// Do our comparaison
+						if (_tcsstr(vtProp.bstrVal, _T("PCI\\VEN_80EE&DEV_CAFE")) != 0)
+						{
+							bFound = TRUE;
+						}
+					}
+					VariantClear(&vtProp);
 				}
 
-				// release the current result object
-				VariantClear(&vtProp);
+				// release the current result object				
 				pclsObj->Release();
+
+				if (bFound)
+					break;
 			}
 
 			// Cleanup
@@ -313,17 +320,24 @@ BOOL vbox_mac_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("MACAddress"), 0, &vtProp, 0, 0);
-				if (V_VT(&vtProp) != VT_NULL) {
+				if (SUCCEEDED(hRes)) {
 
-					// Do our comparaison
-					if (_tcsstr(vtProp.bstrVal, _T("08:00:27")) != 0){
-						bFound = TRUE; break;
+					if (V_VT(&vtProp) != VT_NULL) {
+
+						// Do our comparison
+						if (_tcsstr(vtProp.bstrVal, _T("08:00:27")) != 0) {						
+							bFound = TRUE; 
+						}
+
+						// release the current result object
+						VariantClear(&vtProp);					
 					}
-
-					// release the current result object
-					VariantClear(&vtProp);
 					pclsObj->Release();
 				}
+
+				// break from while
+				if (bFound)
+					break;
 			}
 
 			// Cleanup
@@ -349,6 +363,14 @@ BOOL vbox_eventlogfile_wmi()
 	HRESULT hRes;
 	BOOL bFound = FALSE;
 
+	const TCHAR *szVBoxSources[] = {
+		_T("vboxvideo"),
+		_T("VBoxVideoW8"),
+		_T("VBoxWddm")
+	};
+
+	USHORT MaxVBoxSources = _countof(szVBoxSources);
+
 	// Init WMI
 	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
@@ -371,7 +393,7 @@ BOOL vbox_eventlogfile_wmi()
 
 				// Get the value of the FileName property
 				hRes = pclsObj->Get(_T("FileName"), 0, &vtProp, 0, 0);
-				if (V_VT(&vtProp) != VT_NULL) {
+				if (SUCCEEDED(hRes) && (V_VT(&vtProp) != VT_NULL)) {
 
 					// Do our comparaison
 					if (StrCmpI(vtProp.bstrVal, _T("System")) == 0) {
@@ -394,14 +416,23 @@ BOOL vbox_eventlogfile_wmi()
 							TCHAR* bstrItem;
 							for (LONG ix = 0; ix < iLength; ix++) {
 								SafeArrayGetElement(saSources, &ix, (void *)&bstrItem);
-								if (_tcsicmp(bstrItem, _T("vboxvideo")) == 0) {
-									bFound = TRUE;
-									break;
-								}
-							}
-						}	
-					}
 
+								for (UINT id = 0; id < MaxVBoxSources; id++) {
+									if (_tcsicmp(bstrItem, szVBoxSources[id]) == 0)
+									{
+										bFound = TRUE;
+										break;
+									}
+								}
+								// break from upper level "for" on detection success
+								if (bFound)
+									break;
+							}
+							//unlock data
+							SafeArrayUnaccessData(saSources);
+						}
+					}
+					
 					// release the current result object
 					VariantClear(&vtProp);
 					pclsObj->Release();

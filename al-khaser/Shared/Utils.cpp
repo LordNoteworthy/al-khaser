@@ -656,7 +656,7 @@ BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc, const TCHAR* szNetworkRe
 	}
 
 	// Connect to the root\cimv2 namespace 
-	hres = (*pLoc)->ConnectServer(BSTR(szNetworkResource), NULL, NULL, 0, NULL, 0, 0, pSvc);
+	hres = (*pLoc)->ConnectServer(BSTR(szNetworkResource), NULL, NULL, NULL, WBEM_FLAG_CONNECT_USE_MAX_WAIT, 0, 0, pSvc);
 	if (FAILED(hres)) {
 		print_last_error(_T("ConnectServer"));
 		(*pLoc)->Release();
@@ -681,20 +681,31 @@ BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc, const TCHAR* szNetworkRe
 BOOL ExecWMIQuery(IWbemServices **pSvc, IWbemLocator **pLoc, IEnumWbemClassObject **pEnumerator, const TCHAR* szQuery)
 {
 	// Execute WMI query
-	HRESULT hres = (*pSvc)->ExecQuery(BSTR("WQL"), BSTR(szQuery),
-		WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
-		NULL, pEnumerator);
+	BSTR strQueryLanguage = SysAllocString(OLESTR("WQL"));
+	BSTR strQuery = SysAllocString(szQuery);
 
-	if (FAILED(hres))
-	{
-		print_last_error(_T("ExecQuery"));
-		(*pSvc)->Release();
-		(*pLoc)->Release();
-		CoUninitialize();
-		return 0;
+	BOOL bQueryResult = TRUE;
+
+	if (strQueryLanguage && strQuery) {
+
+		HRESULT hres = (*pSvc)->ExecQuery(strQueryLanguage, strQuery,
+			WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
+			NULL, pEnumerator);
+
+		if (FAILED(hres)) {
+			bQueryResult = FALSE;
+			print_last_error(_T("ExecQuery"));
+			(*pSvc)->Release();
+			(*pLoc)->Release();
+			CoUninitialize();
+		}
+
 	}
 
-	return 1;
+	if (strQueryLanguage) SysFreeString(strQueryLanguage);
+	if (strQuery) SysFreeString(strQuery);
+
+	return bQueryResult;
 }
 
 
