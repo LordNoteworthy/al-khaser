@@ -152,18 +152,23 @@ VOID print_last_error(LPCTSTR lpszFunction)
     LocalFree(lpDisplayBuf);
 }
 
-TCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)
+WCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)
 {
 
 	/* Get the required size */
-	CONST INT iSizeRequired = MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, NULL, 0);
+	INT iNumChars = MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, NULL, 0);
 
 	/* Allocate new wide string */
-	TCHAR *lpWideCharStr = new TCHAR[iSizeRequired];
 
-	/* Do the conversion */
-	INT iNumChars =  MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, lpWideCharStr, iSizeRequired);
+	SIZE_T Size = (1 + iNumChars) * sizeof(WCHAR);
+	
+	WCHAR *lpWideCharStr = reinterpret_cast<WCHAR*>(malloc(Size));
 
+	if (lpWideCharStr) {
+		SecureZeroMemory(lpWideCharStr, Size);
+		/* Do the conversion */
+		iNumChars = MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, lpWideCharStr, iNumChars);
+	}
 	return lpWideCharStr;
 }
 

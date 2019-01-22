@@ -81,7 +81,7 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 	{
 		size_t filenameActualLength = 0;
 		StringCbLength(filename, MAX_PATH, &filenameActualLength);
-		filenameLength = filenameActualLength;
+		filenameLength = (DWORD)filenameActualLength;
 	}
 
 	GetSystemDirectory(systemRootPath, MAX_PATH);
