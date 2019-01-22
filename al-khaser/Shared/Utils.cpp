@@ -117,8 +117,10 @@ BOOL check_mac_addr(const TCHAR* szMac)
 BOOL check_adapter_name(const TCHAR* szName)
 {
 	BOOL bResult = FALSE;
-	PIP_ADAPTER_INFO pAdapterInfo;
+	PIP_ADAPTER_INFO pAdapterInfo, pAdapterInfoPtr;
 	ULONG ulOutBufLen = sizeof(IP_ADAPTER_INFO);
+
+	WCHAR *pwszConverted;
 
 	pAdapterInfo = (PIP_ADAPTER_INFO)MALLOC(sizeof(IP_ADAPTER_INFO));
 	if (pAdapterInfo == NULL)
@@ -128,7 +130,10 @@ BOOL check_adapter_name(const TCHAR* szName)
 	}
 
 	// Make an initial call to GetAdaptersInfo to get the necessary size into the ulOutBufLen variable
-	if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == ERROR_BUFFER_OVERFLOW)
+
+	DWORD dwResult = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen);
+
+	if (dwResult == ERROR_BUFFER_OVERFLOW)
 	{
 		FREE(pAdapterInfo);
 		pAdapterInfo = (PIP_ADAPTER_INFO)MALLOC(ulOutBufLen);
@@ -136,20 +141,32 @@ BOOL check_adapter_name(const TCHAR* szName)
 			printf("Error allocating memory needed to call GetAdaptersinfo\n");
 			return 1;
 		}
+
+		dwResult = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen);
 	}
 
-	if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) == ERROR_SUCCESS)
+	if (dwResult == ERROR_SUCCESS)
 	{
-		while (pAdapterInfo)
+		pAdapterInfoPtr = pAdapterInfo;
+
+		while (pAdapterInfoPtr)
 		{
-			if (StrCmpI(ascii_to_wide_str(pAdapterInfo->Description), szName) == 0)
-			{
-				bResult = TRUE;
-				break;
+			pwszConverted = ascii_to_wide_str(pAdapterInfoPtr->Description);
+			if (pwszConverted) {
+				if (StrCmpI(pwszConverted, szName) == 0)
+				{
+					bResult = TRUE;
+				}
+				free(pwszConverted);
+
+				if (bResult)
+					break;
 			}
-			pAdapterInfo = pAdapterInfo->Next;
+			pAdapterInfoPtr = pAdapterInfoPtr->Next;
 		}
 	}
+
+	FREE(pAdapterInfo);
 
 	return bResult;
 }

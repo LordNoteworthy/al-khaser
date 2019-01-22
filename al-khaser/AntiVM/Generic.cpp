@@ -628,6 +628,10 @@ BOOL cpuid_hypervisor_vendor()
 {
 	INT CPUInfo[4] = {-1};
 	CHAR szHypervisorVendor[0x40];
+	WCHAR *pwszConverted;
+
+	BOOL bResult = FALSE;
+
 	const TCHAR* szBlacklistedHypervisors[] = {
 		_T("KVMKVMKVM\0\0\0"),	/* KVM */
 		_T("Microsoft Hv"),		/* Microsoft Hyper-V or Windows Virtual PC */
@@ -649,8 +653,16 @@ BOOL cpuid_hypervisor_vendor()
 
 	for (int i = 0; i < dwlength; i++)
 	{
-		if (_tcscmp(ascii_to_wide_str(szHypervisorVendor), szBlacklistedHypervisors[i]) == 0)
-			return TRUE;
+		pwszConverted = ascii_to_wide_str(szHypervisorVendor);
+		if (pwszConverted) {
+
+			bResult = (_tcscmp(pwszConverted, szBlacklistedHypervisors[i]) == 0);
+			
+			free(pwszConverted);
+
+			if (bResult)
+				return TRUE;
+		}
 	}
 
 	return FALSE;
