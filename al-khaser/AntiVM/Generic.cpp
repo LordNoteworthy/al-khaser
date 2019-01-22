@@ -131,7 +131,11 @@ mechanism of a unique instruction in assembler to detect virtual machines.
 */
 BOOL str_trick()
 {
-	UCHAR *mem = get_str_base();
+	UCHAR mem[4] = { 0, 0, 0, 0 };
+
+#if defined (ENV32BIT)
+	__asm str mem;
+#endif
 
 	if ((mem[0] == 0x00) && (mem[1] == 0x40))
 		return TRUE; // VMWare detected	
@@ -295,7 +299,8 @@ BOOL dizk_size_deviceiocontrol()
 	wchar_t winDirBuffer[MAX_PATH];
 	SecureZeroMemory(winDirBuffer, MAX_PATH);
 	UINT winDirLen = GetSystemWindowsDirectory(winDirBuffer, MAX_PATH);
-	if (winDirLen != 0)
+
+	if (winDirLen)
 	{
 		// get the drive number (0-25 for A-Z) associated with the directory
 		int driveNumber = PathGetDriveNumber(winDirBuffer);
@@ -304,45 +309,39 @@ BOOL dizk_size_deviceiocontrol()
 			// convert the drive number to a root path (e.g. C:\)
 			wchar_t driveRootPathBuffer[MAX_PATH];
 			SecureZeroMemory(driveRootPathBuffer, MAX_PATH);
-			wchar_t* rootPath = PathBuildRoot(driveRootPathBuffer, driveNumber);
-			if (rootPath != NULL)
+
+			wnsprintf(driveRootPathBuffer, MAX_PATH, _T("\\\\.\\%C:"), _T('A') + driveNumber);
+			
+			// open a handle to the volume
+			HANDLE hVolume = CreateFile(
+				driveRootPathBuffer,
+				GENERIC_READ,
+				FILE_SHARE_READ | FILE_SHARE_WRITE,
+				NULL,
+				OPEN_EXISTING,
+				FILE_FLAG_BACKUP_SEMANTICS,
+				NULL);
+
+			if (hVolume != INVALID_HANDLE_VALUE)
 			{
-				// open a handle to the drive
-				HANDLE hDrive = CreateFile(
-					rootPath,
-					GENERIC_READ,
-					FILE_SHARE_READ,
-					NULL,
-					OPEN_EXISTING,
-					0,
-					NULL
-				);
-				if (hDrive != INVALID_HANDLE_VALUE)
-				{
-					// allocate enough space to describe a 256-disk array
-					// it would be weird to have more!
-					const int extentSize = sizeof(VOLUME_DISK_EXTENTS) + (sizeof(DISK_EXTENT) * 256);
-					auto diskExtents = static_cast<VOLUME_DISK_EXTENTS*>(malloc(extentSize));
-					DWORD sizeResult;
-					BOOL extentsIoctlOK = DeviceIoControl(
-						hDevice,
-						IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS,
-						NULL,
-						0,
-						&diskExtents,
-						sizeof(diskExtents),
-						&sizeResult,
-						NULL
-					);
-					
+				DWORD extentSize = 8192; //256 VOLUME_DISK_EXTENTS entries
+				PVOLUME_DISK_EXTENTS diskExtents = NULL; 
+
+				diskExtents = static_cast<PVOLUME_DISK_EXTENTS>(LocalAlloc(LPTR, extentSize));
+				if (diskExtents) {
+
+					DWORD dummy = 0;
+					BOOL extentsIoctlOK = DeviceIoControl(hVolume, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, diskExtents, extentSize, &dummy, NULL);
+
 					if (extentsIoctlOK && diskExtents->NumberOfDiskExtents > 0)
 					{
 						// loop through disks associated with this drive
 						// we want to sum the disk
 						wchar_t physicalPathBuffer[MAX_PATH];
+
 						for (DWORD i = 0; i < diskExtents->NumberOfDiskExtents; i++)
 						{
-							if (wnsprintf(physicalPathBuffer, MAX_PATH, _T("\\\\.\\PhysicalDrive%d"), diskExtents->Extents[i].DiskNumber) <= 0)
+							if (wnsprintf(physicalPathBuffer, MAX_PATH, _T("\\\\.\\PhysicalDrive%d"), diskExtents->Extents[i].DiskNumber) > 0)
 							{
 								// open the physical disk
 								hDevice = CreateFile(
@@ -363,7 +362,7 @@ BOOL dizk_size_deviceiocontrol()
 										NULL, 0,					// no input buffer
 										&size, sizeof(GET_LENGTH_INFORMATION),
 										&lpBytesReturned,			// bytes returned
-										(LPOVERLAPPED)NULL);   // synchronous I/O
+										(LPOVERLAPPED)NULL);		// synchronous I/O
 
 									if (bResult)
 									{
@@ -376,10 +375,12 @@ BOOL dizk_size_deviceiocontrol()
 									{
 										// failed IOCTL call
 										defaultToDrive0 = true;
-										break;
 									}
 
 									CloseHandle(hDevice);
+
+									if (!bResult)
+										break;
 								}
 								else
 								{
@@ -397,8 +398,10 @@ BOOL dizk_size_deviceiocontrol()
 						}
 					}
 
-					CloseHandle(hDrive);
+					LocalFree(diskExtents);
 				}
+
+				CloseHandle(hVolume);
 			}
 		}
 	}
@@ -415,22 +418,19 @@ BOOL dizk_size_deviceiocontrol()
 			0,							// file attributes
 			NULL);						// do not copy file attributes
 
-		if (hDevice == INVALID_HANDLE_VALUE) {
+		if (hDevice != INVALID_HANDLE_VALUE) {
+
+			if (DeviceIoControl(
+				hDevice,					// device to be queried
+				IOCTL_DISK_GET_LENGTH_INFO, // operation to perform
+				NULL, 0,					// no input buffer
+				&size, sizeof(GET_LENGTH_INFORMATION),
+				&lpBytesReturned,			// bytes returned
+				(LPOVERLAPPED)NULL))		// synchronous I/O
+			{
+				totalDiskSize.QuadPart = size.Length.QuadPart;
+			}
 			CloseHandle(hDevice);
-			return FALSE;
-		}
-
-		bResult = DeviceIoControl(
-			hDevice,					// device to be queried
-			IOCTL_DISK_GET_LENGTH_INFO, // operation to perform
-			NULL, 0,					// no input buffer
-			&size, sizeof(GET_LENGTH_INFORMATION),
-			&lpBytesReturned,			// bytes returned
-			(LPOVERLAPPED) NULL);   // synchronous I/O
-
-		if (bResult != NULL)
-		{
-			totalDiskSize.QuadPart = size.Length.QuadPart;
 		}
 	}
 
@@ -439,7 +439,6 @@ BOOL dizk_size_deviceiocontrol()
 	else
 		bResult = FALSE;
 
-	CloseHandle(hDevice);
 	return bResult;
 }
 
@@ -499,11 +498,11 @@ BOOL setupdi_diskdrive()
 	if (buffer)
 		LocalFree(buffer);
 
-	if (GetLastError() != NO_ERROR && GetLastError() != ERROR_NO_MORE_ITEMS)
-		return FALSE;
-
 	//  Cleanup
 	SetupDiDestroyDeviceInfoList(hDevInfo);
+
+	if (GetLastError() != NO_ERROR && GetLastError() != ERROR_NO_MORE_ITEMS)
+		return FALSE;
 
 	if (bFound)
 		return TRUE;
@@ -692,22 +691,25 @@ BOOL serial_number_bios_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("SerialNumber"), 0, &vtProp, 0, 0);
+				if (SUCCEEDED(hRes) && vtProp.vt == VT_BSTR) {
 
-				// Do our comparaison
-				if (
-					(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
-					(StrStrI(vtProp.bstrVal, _T("0")) != 0) || // VBox
-					(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
-					(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
-					(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
-					)
-				{
-					bFound = TRUE;
-					break;
+					// Do our comparaison
+					if (
+						(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
+						(StrStrI(vtProp.bstrVal, _T("0")) != 0) || // VBox
+						(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
+						(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
+						(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
+						)
+					{
+						VariantClear(&vtProp);
+						pclsObj->Release();
+						bFound = TRUE;
+						break;
+					}
 				}
 
 				// release the current result object
-				VariantClear(&vtProp);
 				pclsObj->Release();
 			}
 
