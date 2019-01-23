@@ -109,17 +109,20 @@ BOOL qemu_firmware_ACPI()
 				DWORD tableSize = 0;
 				PBYTE table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize);
 
-				PBYTE qemuString1 = (PBYTE)"BOCHS";
-				size_t StringLen = 4;
-				PBYTE qemuString2 = (PBYTE)"BXPC";
+				if (table) {
 
-				if (find_str_in_data(qemuString1, StringLen, table, tableSize) ||
-					find_str_in_data(qemuString2, StringLen, table, tableSize))
-				{
-					result = TRUE;
+					PBYTE qemuString1 = (PBYTE)"BOCHS";
+					size_t StringLen = 4;
+					PBYTE qemuString2 = (PBYTE)"BXPC";
+
+					if (find_str_in_data(qemuString1, StringLen, table, tableSize) ||
+						find_str_in_data(qemuString2, StringLen, table, tableSize))
+					{
+						result = TRUE;
+					}
+
+					free(table);
 				}
-
-				free(table);
 			}
 		}
 
