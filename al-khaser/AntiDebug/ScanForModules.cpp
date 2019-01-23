@@ -152,7 +152,7 @@ BOOL ScanForModules_EnumProcessModulesEx_Internal(DWORD moduleFlag)
 	moduleList = static_cast<HMODULE*>(calloc(1024, sizeof(HMODULE)));
 	if (moduleList) {
 
-		if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag) == TRUE)
+		if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag))
 		{
 			bool success = true;
 			if (requiredSize > currentSize)
@@ -241,7 +241,7 @@ BOOL ScanForModules_MemoryWalk_GMI()
 			{
 				if (memInfo.State != MEM_FREE)
 				{
-					if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (TCHAR*)addr, &moduleHandle) == TRUE)
+					if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (TCHAR*)addr, &moduleHandle))
 					{
 						SecureZeroMemory(moduleName, MAX_PATH * sizeof(TCHAR));
 						DWORD len = GetModuleFileName(moduleHandle, moduleName, MAX_PATH);
@@ -251,7 +251,7 @@ BOOL ScanForModules_MemoryWalk_GMI()
 							printf(" [!] Injected library: %S\n", moduleName);
 						anyBadLibs |= isBad;
 
-						if (GetModuleInformation(GetCurrentProcess(), moduleHandle, &moduleInfo, sizeof(MODULEINFO)) == TRUE)
+						if (GetModuleInformation(GetCurrentProcess(), moduleHandle, &moduleInfo, sizeof(MODULEINFO)))
 						{
 							size_t moduleSizeRoundedUp = (moduleInfo.SizeOfImage + 1);
 							moduleSizeRoundedUp += 4096 - (moduleSizeRoundedUp % 4096);
@@ -333,7 +333,7 @@ BOOL ScanForModules_MemoryWalk_Hidden()
 			else
 			{
 				MODULEINFO modInfo = { 0 };
-				if (GetModuleInformation(GetCurrentProcess(), moduleHandle, &modInfo, sizeof(MODULEINFO)) == TRUE)
+				if (GetModuleInformation(GetCurrentProcess(), moduleHandle, &modInfo, sizeof(MODULEINFO)))
 				{
 					size_t moduleSizeRoundedUp = (modInfo.SizeOfImage + 1);
 					moduleSizeRoundedUp += 4096 - (moduleSizeRoundedUp % 4096);
@@ -559,7 +559,7 @@ BOOL ScanForModules_ToolHelp32()
 	//printf("Snapshot: %p\n", snapshot);
 	if (snapshot == INVALID_HANDLE_VALUE)
 	{
-		printf("Failed to get snapshot. Last error: %d\n", GetLastError());
+		printf("Failed to get snapshot. Last error: %u\n", GetLastError());
 	}
 	else
 	{
@@ -579,7 +579,7 @@ BOOL ScanForModules_ToolHelp32()
 		}
 		else
 		{
-			printf("Failed to get first module. Last error: %d\n", GetLastError());
+			printf("Failed to get first module. Last error: %u\n", GetLastError());
 		}
 
 		CloseHandle(snapshot);
