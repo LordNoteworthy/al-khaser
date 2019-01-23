@@ -509,21 +509,24 @@ BOOL vbox_firmware_ACPI()
 			DWORD tableSize = 0;
 			PBYTE table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize);
 
-			PBYTE virtualBoxString = (PBYTE)"VirtualBox";
-			size_t virtualBoxStringLen = 10;
-			PBYTE vboxLowerString = (PBYTE)"vbox";
-			size_t vboxLowerStringLen = 4;
-			PBYTE vboxUpperString = (PBYTE)"VBOX";
-			size_t vboxUpperStringLen = 4;
+			if (table) {
 
-			if (find_str_in_data(virtualBoxString, virtualBoxStringLen, table, tableSize) ||
-				find_str_in_data(vboxLowerString, vboxLowerStringLen, table, tableSize) ||
-				find_str_in_data(vboxUpperString, vboxUpperStringLen, table, tableSize))
-			{
-				result = TRUE;
+				PBYTE virtualBoxString = (PBYTE)"VirtualBox";
+				size_t virtualBoxStringLen = 10;
+				PBYTE vboxLowerString = (PBYTE)"vbox";
+				size_t vboxLowerStringLen = 4;
+				PBYTE vboxUpperString = (PBYTE)"VBOX";
+				size_t vboxUpperStringLen = 4;
+
+				if (find_str_in_data(virtualBoxString, virtualBoxStringLen, table, tableSize) ||
+					find_str_in_data(vboxLowerString, vboxLowerStringLen, table, tableSize) ||
+					find_str_in_data(vboxUpperString, vboxUpperStringLen, table, tableSize))
+				{
+					result = TRUE;
+				}
+
+				free(table);
 			}
-
-			free(table);
 		}
 	}
 

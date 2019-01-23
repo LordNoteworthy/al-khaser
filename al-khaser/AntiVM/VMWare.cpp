@@ -262,15 +262,17 @@ BOOL vmware_firmware_ACPI()
 			DWORD tableSize = 0;
 			PBYTE table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize);
 
-			PBYTE vmwareString = (PBYTE)"VMWARE";
-			size_t vmwwareStringLen = 6;
+			if (table) {
 
+				PBYTE vmwareString = (PBYTE)"VMWARE";
+				size_t vmwwareStringLen = 6;
 
-			if (find_str_in_data(vmwareString, vmwwareStringLen, table, tableSize)) {
-				result = TRUE;
+				if (find_str_in_data(vmwareString, vmwwareStringLen, table, tableSize)) {
+					result = TRUE;
+				}
+
+				free(table);
 			}
-
-			free(table);
 		}
 	}
 
