@@ -38,10 +38,10 @@ BOOL MemoryBreakpoints_PageGuard()
 	}
 	__except (GetExceptionCode() == STATUS_GUARD_PAGE_VIOLATION ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
 	{
-		VirtualFree(pAllocation, NULL, MEM_RELEASE);
+		VirtualFree(pAllocation, 0, MEM_RELEASE);
 		return FALSE;
 	}
 
-	VirtualFree(pAllocation, NULL, MEM_RELEASE);
+	VirtualFree(pAllocation, 0, MEM_RELEASE);
 	return TRUE;
 }
