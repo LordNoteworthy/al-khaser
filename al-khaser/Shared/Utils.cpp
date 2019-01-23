@@ -663,13 +663,19 @@ BOOL InitWMI(IWbemServices **pSvc, IWbemLocator **pLoc, const TCHAR* szNetworkRe
 		return 0;
 	}
 
-	// Connect to the root\cimv2 namespace 
-	hres = (*pLoc)->ConnectServer(BSTR(szNetworkResource), NULL, NULL, NULL, WBEM_FLAG_CONNECT_USE_MAX_WAIT, 0, 0, pSvc);
-	if (FAILED(hres)) {
-		print_last_error(_T("ConnectServer"));
-		(*pLoc)->Release();
-		CoUninitialize();
-		return 0;
+	BSTR strNetworkResource = SysAllocString(szNetworkResource);
+	if (strNetworkResource) {
+
+		// Connect to the root\cimv2 namespace 
+		hres = (*pLoc)->ConnectServer(strNetworkResource, NULL, NULL, NULL, WBEM_FLAG_CONNECT_USE_MAX_WAIT, 0, 0, pSvc);
+		if (FAILED(hres)) {
+			SysFreeString(strNetworkResource);
+			print_last_error(_T("ConnectServer"));
+			(*pLoc)->Release();
+			CoUninitialize();
+			return 0;
+		}
+		SysFreeString(strNetworkResource);
 	}
 
 	// Set security levels on the proxy -------------------------
