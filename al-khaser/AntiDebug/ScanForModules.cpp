@@ -73,7 +73,7 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 	TCHAR normalisedPath[MAX_PATH];
 
 	StringCbCopy(normalisedPath, MAX_PATH, filename);
-	NormalizeNTPath(filename, MAX_PATH);
+	NormalizeNTPath(normalisedPath, MAX_PATH);
 	size_t normalisedPathLength = 0;
 	StringCbLength(normalisedPath, MAX_PATH, &normalisedPathLength);
 
