@@ -849,13 +849,18 @@ PBYTE get_system_firmware(_In_ DWORD signature, _In_ DWORD table, _Out_ PDWORD p
 	// if the buffer was too small, realloc and try again
 	if (resultBufferSize > bufferSize)
 	{
-		firmwareTable = static_cast<BYTE*>(realloc(firmwareTable, resultBufferSize));
-		SecureZeroMemory(firmwareTable, resultBufferSize);
-		if (GetSystemFirmwareTable(signature, table, firmwareTable, resultBufferSize) == 0)
-		{
-			printf("Second call failed :(\n");
-			free(firmwareTable);
-			return NULL;
+		PBYTE tmp;
+
+		tmp = static_cast<BYTE*>(realloc(firmwareTable, resultBufferSize));
+		if (tmp) {
+			firmwareTable = tmp;
+			SecureZeroMemory(firmwareTable, resultBufferSize);
+			if (GetSystemFirmwareTable(signature, table, firmwareTable, resultBufferSize) == 0)
+			{
+				printf("Second call failed :(\n");
+				free(firmwareTable);
+				return NULL;
+			}
 		}
 	}
 
