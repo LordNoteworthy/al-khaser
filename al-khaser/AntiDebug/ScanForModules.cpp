@@ -132,39 +132,53 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 BOOL ScanForModules_EnumProcessModulesEx_Internal(DWORD moduleFlag)
 {
 	//printf("EnumProcessModulesEx()\n");
-	auto moduleList = static_cast<HMODULE*>(calloc(1024, sizeof(HMODULE)));
+	HMODULE* moduleList;
+	HMODULE* tmp;
 	DWORD currentSize = 1024 * sizeof(HMODULE);
 	DWORD requiredSize = 0;
 	bool anyBadLibs = false;
-	if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag) == TRUE)
-	{
-		bool success = true;
-		if (requiredSize > currentSize)
+
+	moduleList = static_cast<HMODULE*>(calloc(1024, sizeof(HMODULE)));
+	if (moduleList) {
+
+		if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag) == TRUE)
 		{
-			currentSize = requiredSize;
-			moduleList = static_cast<HMODULE*>(realloc(moduleList, currentSize));
-			if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag) == FALSE)
+			bool success = true;
+			if (requiredSize > currentSize)
 			{
-				success = false;
+				currentSize = requiredSize;
+				tmp = static_cast<HMODULE*>(realloc(moduleList, currentSize));
+				if (tmp) {
+					moduleList = tmp;
+					if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag) == FALSE)
+					{
+						success = false;
+					}
+				}
+				else {
+					success = false; //realloc failed
+				}
 			}
-		}
-		if (success)
-		{
-			DWORD count = requiredSize / sizeof(HMODULE);
-			TCHAR moduleName[MAX_PATH];
-			for (DWORD i = 0; i < count; i++)
+			if (success)
 			{
-				if (DWORD len = GetModuleFileNameEx(GetCurrentProcess(), moduleList[i], moduleName, MAX_PATH) > 0)
+				DWORD count = requiredSize / sizeof(HMODULE);
+				TCHAR moduleName[MAX_PATH];
+				for (DWORD i = 0; i < count; i++)
 				{
-					bool isBad = IsBadLibrary(moduleName, len);
-					if (isBad)
-						printf(" [!] Injected library: %S\n", moduleName);
-					anyBadLibs |= isBad;
+					DWORD len;
+					if ((len = GetModuleFileNameEx(GetCurrentProcess(), moduleList[i], moduleName, MAX_PATH)) > 0)
+					{
+						bool isBad = IsBadLibrary(moduleName, len);
+						if (isBad)
+							printf(" [!] Injected library: %S\n", moduleName);
+						anyBadLibs |= isBad;
+					}
 				}
 			}
 		}
-	}
 
+		free(moduleList);
+	}
 	return anyBadLibs ? TRUE : FALSE;
 }
 
@@ -323,7 +337,8 @@ BOOL ScanForModules_MemoryWalk_Hidden()
 			}
 
 			SecureZeroMemory(moduleName, sizeof(TCHAR)*MAX_PATH);
-			if (DWORD len = GetMappedFileName(GetCurrentProcess(), region->AllocationBase, moduleName, MAX_PATH) > 0)
+			DWORD len;
+			if ((len = GetMappedFileName(GetCurrentProcess(), region->AllocationBase, moduleName, MAX_PATH)) > 0)
 			{
 				bool isBad = IsBadLibrary(moduleName, len);
 				if (isBad)
@@ -475,7 +490,7 @@ BOOL ScanForModules_LDR_Direct()
 						{
 							printf(" [!] Failed to read module name at %llx.\n", reinterpret_cast<ULONGLONG>(ldrEntry->FullDllName.Buffer));
 						}
-						delete dllNameBuffer;
+						delete [] dllNameBuffer;
 						delete ldrEntry;
 					}
 					delete ldrEntries;
