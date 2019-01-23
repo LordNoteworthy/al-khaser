@@ -64,6 +64,14 @@ static HRESULT NormalizeNTPath(TCHAR* pszPath, size_t nMax)
 	return E_FAIL;
 }
 
+bool IsGlobalizationNls(TCHAR* filename)
+{
+	// exclude this nls
+	// consider removing this hack with proper implementation of memory scan
+	PCTSTR ret = StrStrI(filename, _T("\\Windows\\Globalization\\Sorting\\SortDefault.nls"));
+	return (ret != NULL);
+}
+
 bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 {
 	TCHAR systemDrive[MAX_PATH];
@@ -71,6 +79,9 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 	TCHAR systemRootPath[MAX_PATH];
 	TCHAR exePath[MAX_PATH];
 	TCHAR normalisedPath[MAX_PATH];
+
+	if (IsGlobalizationNls(filename))
+		return false;
 
 	StringCbCopy(normalisedPath, MAX_PATH, filename);
 	NormalizeNTPath(normalisedPath, MAX_PATH);
@@ -101,7 +112,7 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 
 			//printf("systemDriveDevice: %S (%d)\n", systemDriveDevice, systemDriveDevicelength);
 
-			if (StrNCmpI(systemDriveDevice, filename, min(systemDriveDevicelength, filenameLength) / sizeof(TCHAR)) == 0)
+			if (StrNCmpI(systemDriveDevice, filename, (int)(min(systemDriveDevicelength, filenameLength) / sizeof(TCHAR)) ) == 0)
 			{
 				// path matched the NT file path
 				return false;
@@ -113,7 +124,7 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 
 			//printf("systemRootPath: %S (%d)\n", systemRootPath, systemRootPathLength);
 
-			if (StrNCmpI(systemRootPath, normalisedPath, min(systemRootPathLength, normalisedPathLength) / sizeof(TCHAR)) == 0)
+			if (StrNCmpI(systemRootPath, normalisedPath, (int)(min(systemRootPathLength, normalisedPathLength) / sizeof(TCHAR)) ) == 0)
 			{
 				// path matched the regular system path
 				return false;
