@@ -125,8 +125,6 @@ VOID print_last_error(LPCTSTR lpszFunction)
 	LPVOID lpDisplayBuf;
 	DWORD dw = GetLastError();
 
-	DWORD dwResult;
-
 	if (FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM |
