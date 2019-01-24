@@ -493,24 +493,28 @@ BOOL setupdi_diskdrive()
 				// Double the size to avoid problems on 
 				// W2k MBCS systems per KB 888609. 
 				buffer = (LPTSTR)LocalAlloc(LPTR, dwSize * 2);
+				if (buffer == NULL)
+					break;
 			}
 			else
 				break;
 
 		}
 
-		// Do our comparaison
-		if ((StrStrI(buffer, _T("vbox")) != NULL) ||
-			(StrStrI(buffer, _T("vmware")) != NULL) || 
-			(StrStrI(buffer, _T("qemu")) != NULL) ||
-			(StrStrI(buffer, _T("virtual")) != NULL))
-		{
-			bFound =  TRUE;
-			break;
+		if (buffer) {
+			// Do our comparison
+			if ((StrStrI(buffer, _T("vbox")) != NULL) ||
+				(StrStrI(buffer, _T("vmware")) != NULL) ||
+				(StrStrI(buffer, _T("qemu")) != NULL) ||
+				(StrStrI(buffer, _T("virtual")) != NULL))
+			{
+				bFound = TRUE;
+				break;
+			}
 		}
 	}
 
-	if (buffer)
+	if (buffer) 
 		LocalFree(buffer);
 
 	//  Cleanup
@@ -519,11 +523,7 @@ BOOL setupdi_diskdrive()
 	if (GetLastError() != NO_ERROR && GetLastError() != ERROR_NO_MORE_ITEMS)
 		return FALSE;
 
-	if (bFound)
-		return TRUE;
-
-	else
-		return FALSE;
+	return bFound;
 }
 
 
