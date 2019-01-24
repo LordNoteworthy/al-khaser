@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "log.h"
 
-FILE *fp;
 static int SESSION_TRACKER; //Keeps track of session
 
 TCHAR* print_time()
@@ -47,12 +46,19 @@ void log_print(const TCHAR* filename, const TCHAR *fmt, ...)
 	const TCHAR *p, *r;
 	int e;
 
+	FILE *fp = NULL;
+	errno_t error;
+
 	TCHAR *pszTime;
 
 	if (SESSION_TRACKER > 0)
-		_tfopen_s(&fp, _T("log.txt"), _T("a+"));
+		error = _tfopen_s(&fp, _T("log.txt"), _T("a+"));
 	else
-		_tfopen_s(&fp, _T("log.txt"), _T("w"));
+		error = _tfopen_s(&fp, _T("log.txt"), _T("w"));
+
+	// file create/open failed
+	if ((error != 0) || (fp == NULL))
+		return;
 
 	pszTime = print_time();
 	if (pszTime) {
