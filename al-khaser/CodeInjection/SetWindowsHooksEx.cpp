@@ -15,13 +15,13 @@ BOOL SetWindowsHooksEx_Injection()
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
 	if (dwProcessId == NULL)
 		return FALSE;
-	_tprintf(_T("\t[+] Getting proc id: %d\n"), dwProcessId);
+	_tprintf(_T("\t[+] Getting proc id: %u\n"), dwProcessId);
 
 	/* Get thread id from process id */
 	dwThreadId = GetMainThreadId(dwProcessId);
 	if (dwThreadId == NULL)
 		return FALSE;
-	_tprintf(_T("\t[+] Getting main thread id of proc id: %d\n"), dwThreadId);
+	_tprintf(_T("\t[+] Getting main thread id of proc id: %u\n"), dwThreadId);
 
 	/* Get the full path of the dll to be injected */
 	GetFullPathName(lpDllName, MAX_PATH, lpDllPath, NULL);

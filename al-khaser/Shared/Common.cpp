@@ -148,7 +148,7 @@ VOID print_last_error(LPCTSTR lpszFunction)
 
 		StringCchPrintf((LPTSTR)lpDisplayBuf,
 			LocalSize(lpDisplayBuf) / sizeof(TCHAR),
-			TEXT("%s failed with error %d: %s"),
+			TEXT("%s failed with error %u: %s"),
 			lpszFunction, dw, lpMsgBuf);
 
 		_tprintf((LPCTSTR)lpDisplayBuf);

@@ -105,7 +105,7 @@ BOOL VirtualAlloc_WriteWatch_APICalls()
 		hitCount = 4096;
 		if (GetWriteWatch(0, buffer, 4096, addresses, &hitCount, &granularity) != 0)
 		{
-			printf("GetWriteWatch failed. Last error: %d\n", GetLastError());
+			printf("GetWriteWatch failed. Last error: %u\n", GetLastError());
 			result = FALSE;
 		}
 		else
@@ -139,7 +139,7 @@ BOOL VirtualAlloc_WriteWatch_IsDebuggerPresent()
 	hitCount = 4096;
 	if (GetWriteWatch(0, buffer, 4096, addresses, &hitCount, &granularity) != 0)
 	{
-		printf("GetWriteWatch failed. Last error: %d\n", GetLastError());
+		printf("GetWriteWatch failed. Last error: %u\n", GetLastError());
 		result = FALSE;
 	}
 	else
@@ -238,7 +238,7 @@ BOOL VirtualAlloc_WriteWatch_CodeWrite()
 		hitCount = 4096;
 		if (GetWriteWatch(0, buffer, 4096, addresses, &hitCount, &granularity) != 0)
 		{
-			printf("GetWriteWatch failed. Last error: %d\n", GetLastError());
+			printf("GetWriteWatch failed. Last error: %u\n", GetLastError());
 			result = FALSE;
 		}
 		else

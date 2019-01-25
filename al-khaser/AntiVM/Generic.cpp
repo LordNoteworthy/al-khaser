@@ -356,7 +356,7 @@ BOOL dizk_size_deviceiocontrol()
 
 						for (DWORD i = 0; i < diskExtents->NumberOfDiskExtents; i++)
 						{
-							if (wnsprintf(physicalPathBuffer, MAX_PATH, _T("\\\\.\\PhysicalDrive%d"), diskExtents->Extents[i].DiskNumber) > 0)
+							if (wnsprintf(physicalPathBuffer, MAX_PATH, _T("\\\\.\\PhysicalDrive%u"), diskExtents->Extents[i].DiskNumber) > 0)
 							{
 								// open the physical disk
 								hDevice = CreateFile(

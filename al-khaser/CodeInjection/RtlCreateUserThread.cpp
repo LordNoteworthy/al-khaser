@@ -31,7 +31,7 @@ BOOL RtlCreateUserThread_Injection()
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
 	if (dwProcessId == NULL)
 		return FALSE;
-	_tprintf(_T("\t[+] Getting proc id: %d\n"), dwProcessId);
+	_tprintf(_T("\t[+] Getting proc id: %u\n"), dwProcessId);
 
 	/* Obtain a handle the process */
 	hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);

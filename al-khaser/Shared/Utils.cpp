@@ -19,7 +19,7 @@ BOOL IsWoW64()
 
 BOOL Is_RegKeyValueExists(HKEY hKey, const TCHAR* lpSubKey, const TCHAR* lpValueName, const TCHAR* search_str)
 {
-	HKEY hkResult = FALSE;
+	HKEY hkResult = NULL;
 	TCHAR lpData[1024] = { 0 };
 	DWORD cbData = MAX_PATH;
 
@@ -41,7 +41,7 @@ BOOL Is_RegKeyValueExists(HKEY hKey, const TCHAR* lpSubKey, const TCHAR* lpValue
 
 BOOL Is_RegKeyExists(HKEY hKey, const TCHAR* lpSubKey)
 {
-	HKEY hkResult = FALSE;
+	HKEY hkResult = NULL;
 	TCHAR lpData[1024] = { 0 };
 	DWORD cbData = MAX_PATH;
 
@@ -403,7 +403,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 
 		TCHAR buf[80];
 
-		StringCchPrintf(buf, 80, TEXT(" (build %d)"), osvi.dwBuildNumber);
+		StringCchPrintf(buf, 80, TEXT(" (build %u)"), osvi.dwBuildNumber);
 		StringCchCat(pszOS, MAX_PATH, buf);
 
 		if (osvi.dwMajorVersion >= 6)
@@ -901,7 +901,7 @@ bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, PVOID64 address)
 		return status == 0;
 	}
 
-	printf("attempt_to_read_memory_wow64: Couldn't open process: %d\n", GetLastError());
+	printf("attempt_to_read_memory_wow64: Couldn't open process: %u\n", GetLastError());
 	return false;
 }
 
