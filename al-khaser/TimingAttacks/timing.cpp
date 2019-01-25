@@ -228,18 +228,21 @@ BOOL timing_IcmpSendEcho(UINT delayInMillis)
 	hIcmpFile = IcmpCreateFile();
 	if (hIcmpFile == INVALID_HANDLE_VALUE) {
 		printf("\tUnable to open handle.\n");
-		printf("IcmpCreatefile returned error: %ld\n", GetLastError());
+		printf("IcmpCreatefile returned error: %u\n", GetLastError());
 		return TRUE;
 	}
 
 	ReplySize = sizeof(ICMP_ECHO_REPLY) + sizeof(SendData);
 	ReplyBuffer = (VOID*)malloc(ReplySize);
 	if (ReplyBuffer == NULL) {
+		IcmpCloseHandle(hIcmpFile);
 		printf("\tUnable to allocate memory\n");
 		return TRUE;
 	}
 
 	IcmpSendEcho(hIcmpFile, DestinationAddress, SendData, sizeof(SendData), NULL, ReplyBuffer, ReplySize, delayInMillis);
+	IcmpCloseHandle(hIcmpFile);
+	free(ReplyBuffer);
 
 	return FALSE;
 }
