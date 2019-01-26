@@ -26,7 +26,7 @@ BOOL ProcessJob()
 
 		jobProcessIdList->NumberOfProcessIdsInList = 1024;
 
-		if (QueryInformationJobObject(NULL, JobObjectBasicProcessIdList, jobProcessIdList, jobProcessStructSize, NULL) == TRUE)
+		if (QueryInformationJobObject(NULL, JobObjectBasicProcessIdList, jobProcessIdList, jobProcessStructSize, NULL))
 		{
 			int ok_processes = 0;
 			for (DWORD i = 0; i < jobProcessIdList->NumberOfAssignedProcesses; i++)
