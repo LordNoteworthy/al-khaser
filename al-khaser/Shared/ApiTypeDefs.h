@@ -36,6 +36,18 @@ typedef NTSTATUS(WINAPI *pNtCreateThreadEx)(
 typedef NTSTATUS(WINAPI *pNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
 typedef NTSTATUS(WINAPI *pNtQueryInformationProcess)(IN  HANDLE, IN  UINT, OUT PVOID, IN ULONG, OUT PULONG);
 typedef NTSTATUS(WINAPI *pNtQueryInformationThread)(HANDLE, UINT, PVOID, ULONG, PULONG);
+
+typedef NTSTATUS(NTAPI *pNtQueryLicenseValue)(
+	IN PUNICODE_STRING ValueName,
+	OUT OPTIONAL PULONG Type,
+	OUT PVOID Data,
+	IN ULONG DataSize,
+	OUT PULONG ResultDataSize);
+
+typedef VOID (NTAPI *pRtlInitUnicodeString)(
+	_Out_ PUNICODE_STRING DestinationString,
+	_In_opt_ PCWSTR SourceString);
+
 typedef NTSTATUS(WINAPI *pNtQueryObject)(IN HANDLE, IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
 typedef NTSTATUS(WINAPI *pNtQuerySystemInformation)(IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
 typedef NTSTATUS(WINAPI *pNtSetInformationThread)(HANDLE, UINT, PVOID, ULONG);

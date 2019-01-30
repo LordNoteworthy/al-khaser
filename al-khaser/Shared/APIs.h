@@ -24,6 +24,8 @@ enum API_IDENTIFIER
 	API_WudfIsAnyDebuggerPresent,
 	API_WudfIsKernelDebuggerPresent,
 	API_WudfIsUserDebuggerPresent,
+	API_NtQueryLicenseValue,
+	API_RtlInitUnicodeString
 };
 
 enum API_OS_VERSION

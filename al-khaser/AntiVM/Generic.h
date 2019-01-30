@@ -24,3 +24,4 @@ BOOL process_id_processor_wmi();
 BOOL power_capabilities();
 BOOL hybridanalysismacdetect();
 BOOL cpu_fan_wmi();
+BOOL query_license_value();

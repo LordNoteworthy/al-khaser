@@ -27,6 +27,8 @@ API_DATA ApiData[] = {
 	{ API_IDENTIFIER::API_WudfIsAnyDebuggerPresent,		"WUDFPlatform.dll",	"WudfIsAnyDebuggerPresent",		API_OS_BITS::X64_ONLY,	API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
 	{ API_IDENTIFIER::API_WudfIsKernelDebuggerPresent,	"WUDFPlatform.dll",	"WudfIsKernelDebuggerPresent",	API_OS_BITS::X64_ONLY,	API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
 	{ API_IDENTIFIER::API_WudfIsUserDebuggerPresent,	"WUDFPlatform.dll",	"WudfIsUserDebuggerPresent",	API_OS_BITS::X64_ONLY,	API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtQueryLicenseValue,			"ntdll.dll",		"NtQueryLicenseValue",			API_OS_BITS::ANY,		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_RtlInitUnicodeString,			"ntdll.dll",		"RtlInitUnicodeString",			API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE }
 };
 
 void API::Init()

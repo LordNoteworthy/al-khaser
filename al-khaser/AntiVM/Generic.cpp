@@ -1091,3 +1091,29 @@ BOOL cpu_fan_wmi()
 		bFound = TRUE;
 	return bFound;
 }
+
+/*
+Detect Virtual machine by calling NtQueryLicenseValue with Kernel-VMDetection-Private as license value.
+This detection works on Windows 7 and does not detect Microsoft Hypervisor.
+*/
+BOOL query_license_value()
+{
+	auto RtlInitUnicodeString = static_cast<pRtlInitUnicodeString>(API::GetAPI(API_IDENTIFIER::API_RtlInitUnicodeString));
+	auto NtQueryLicenseValue = static_cast<pNtQueryLicenseValue>(API::GetAPI(API_IDENTIFIER::API_NtQueryLicenseValue));
+
+	if (RtlInitUnicodeString == nullptr || NtQueryLicenseValue == nullptr)
+		return FALSE;
+
+	UNICODE_STRING LicenseValue;
+	RtlInitUnicodeString(&LicenseValue, L"Kernel-VMDetection-Private");
+
+	ULONG Result = 0, ReturnLength;
+
+	NTSTATUS Status = NtQueryLicenseValue(&LicenseValue, NULL, reinterpret_cast<PVOID>(&Result), sizeof(ULONG), &ReturnLength);
+
+	if (NT_SUCCESS(Status)) {
+		return (Result != 0);
+	}
+
+	return FALSE;
+}
