@@ -65,7 +65,7 @@ char apis_user32[] = "ActivateKeyboardLayout AddClipboardFormatListener AdjustWi
 bool ModuleBoundsHookCheckSingle(HMODULE dll, char* apiList)
 {
 	MODULEINFO moduleInfo;
-	if (GetModuleInformation(GetCurrentProcess(), dll, &moduleInfo, sizeof(MODULEINFO)) != TRUE)
+	if (GetModuleInformation(GetCurrentProcess(), dll, &moduleInfo, sizeof(MODULEINFO)) == FALSE)
 	{
 		// todo: error condition
 		return FALSE;

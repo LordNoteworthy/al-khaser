@@ -228,18 +228,24 @@ BOOL timing_IcmpSendEcho(UINT delayInMillis)
 	hIcmpFile = IcmpCreateFile();
 	if (hIcmpFile == INVALID_HANDLE_VALUE) {
 		printf("\tUnable to open handle.\n");
-		printf("IcmpCreatefile returned error: %ld\n", GetLastError());
+		printf("IcmpCreatefile returned error: %u\n", GetLastError());
 		return TRUE;
 	}
 
-	ReplySize = sizeof(ICMP_ECHO_REPLY) + sizeof(SendData);
+	//
+	// Size of ICMP_ECHO_REPLY + size of send data + 8 extra bytes for ICMP error message
+	//
+	ReplySize = sizeof(ICMP_ECHO_REPLY) + sizeof(SendData) + 8;
 	ReplyBuffer = (VOID*)malloc(ReplySize);
 	if (ReplyBuffer == NULL) {
+		IcmpCloseHandle(hIcmpFile);
 		printf("\tUnable to allocate memory\n");
 		return TRUE;
 	}
 
 	IcmpSendEcho(hIcmpFile, DestinationAddress, SendData, sizeof(SendData), NULL, ReplyBuffer, ReplySize, delayInMillis);
+	IcmpCloseHandle(hIcmpFile);
+	free(ReplyBuffer);
 
 	return FALSE;
 }
@@ -249,29 +255,37 @@ Timing attack using waitable timers. Test fails if any of the calls return an er
 */
 BOOL timing_CreateWaitableTimer(UINT delayInMillis)
 {
-	HANDLE hTimer = NULL;
+	HANDLE hTimer;
 	LARGE_INTEGER dueTime;
+
+	BOOL bResult = FALSE;
+
 	dueTime.QuadPart = delayInMillis * -10000LL;
+	
 	hTimer = CreateWaitableTimer(NULL, TRUE, NULL);
-	if (hTimer == INVALID_HANDLE_VALUE)
+	
+	if (hTimer == NULL)
 	{
 		return TRUE;
 	}
+
 	if (SetWaitableTimer(hTimer, &dueTime, 0, NULL, NULL, FALSE) == FALSE)
 	{
-		return TRUE;
+		bResult = TRUE;
 	}
-	if (WaitForSingleObject(hTimer, INFINITE) != WAIT_OBJECT_0)
-	{
-		return TRUE;
+	else {
+		if (WaitForSingleObject(hTimer, INFINITE) != WAIT_OBJECT_0)
+		{
+			bResult = TRUE;
+		}
 	}
 
 	CancelWaitableTimer(hTimer);
 	CloseHandle(hTimer);
-	return FALSE;
+	return bResult;
 }
 
-HANDLE hEventCTQT = NULL;
+HANDLE g_hEventCTQT = NULL;
 
 /*
 Timing attack using CreateTimerQueueTimer. Test fails if any of the calls return an error state.
@@ -279,9 +293,12 @@ Timing attack using CreateTimerQueueTimer. Test fails if any of the calls return
 BOOL timing_CreateTimerQueueTimer(UINT delayInMillis)
 {
 	HANDLE hTimerQueue;
-	HANDLE hTimerQueueTimer;
+	HANDLE hTimerQueueTimer = NULL;
+	BOOL bResult = FALSE;
 
-	hEventCTQT = CreateEvent(NULL, FALSE, FALSE, NULL);
+	g_hEventCTQT = CreateEvent(NULL, FALSE, FALSE, NULL);
+	if (g_hEventCTQT == NULL)
+		return FALSE;
 
 	hTimerQueue = CreateTimerQueue();
 	if (hTimerQueue == NULL)
@@ -298,27 +315,31 @@ BOOL timing_CreateTimerQueueTimer(UINT delayInMillis)
 		0,
 		WT_EXECUTEDEFAULT) == FALSE)
 	{
-		return TRUE;
+		bResult = TRUE;
+	}
+	else {
+
+		// idea here is to wait only 10x the expected delay time
+		// if the wait expires before the timer comes back, we fail the test
+		if (WaitForSingleObject(g_hEventCTQT, delayInMillis * 10) != WAIT_OBJECT_0)
+		{
+			bResult = FALSE;
+		}
+
 	}
 
-	// idea here is to wait only 10x the expected delay time
-	// if the wait expires before the timer comes back, we fail the test
-	if (WaitForSingleObject(hEventCTQT, delayInMillis * 10) != WAIT_OBJECT_0)
-	{
-		return FALSE;
-	}
+	// Delete all timers in the timer queue.
+	DeleteTimerQueueEx(hTimerQueue, NULL);
 
-	CloseHandle(hEventCTQT);
-	CloseHandle(hTimerQueueTimer);
-	CloseHandle(hTimerQueue);
+	CloseHandle(g_hEventCTQT);
 
-	return FALSE;
+	return bResult;
 }
 
 VOID CALLBACK CallbackCTQT(PVOID lParam, BOOLEAN TimerOrWaitFired)
 {
 	if (TimerOrWaitFired == TRUE && lParam == reinterpret_cast<PVOID>(0xDEADBEEFULL))
 	{
-		SetEvent(hEventCTQT);
+		SetEvent(g_hEventCTQT);
 	}
 }

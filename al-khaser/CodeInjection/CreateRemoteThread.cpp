@@ -19,7 +19,7 @@ BOOL CreateRemoteThread_Injection()
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
 	if (dwProcessId == NULL)
 		return FALSE;
-	_tprintf(_T("\t[+] Getting proc id: %d\n"), dwProcessId);
+	_tprintf(_T("\t[+] Getting proc id: %u\n"), dwProcessId);
 
 	/* Set Debug privilege */
 	bDebugPrivilegeEnabled = SetDebugPrivileges();

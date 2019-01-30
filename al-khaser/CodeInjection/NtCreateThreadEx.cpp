@@ -33,7 +33,7 @@ BOOL NtCreateThreadEx_Injection()
 	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
 	if (dwProcessId == 0)
 		return FALSE;
-	_tprintf(_T("\t[+] Getting proc id: %d\n"), dwProcessId);
+	_tprintf(_T("\t[+] Getting proc id: %u\n"), dwProcessId);
 
 	/* Obtain a handle the process */
 	hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);

@@ -117,39 +117,45 @@ VOID print_os()
 	}
 }
 
-VOID print_last_error(LPCTSTR lpszFunction) 
-{ 
-    // Retrieve the system error message for the last-error code
+VOID print_last_error(LPCTSTR lpszFunction)
+{
+	// Retrieve the system error message for the last-error code
 
-    LPVOID lpMsgBuf;
-    LPVOID lpDisplayBuf;
-    DWORD dw = GetLastError(); 
+	LPVOID lpMsgBuf;
+	LPVOID lpDisplayBuf;
+	DWORD dw = GetLastError();
 
-    FormatMessage(			
-        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL,
-        dw,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR) &lpMsgBuf,
-        0, NULL );
+	if (FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		FORMAT_MESSAGE_FROM_SYSTEM |
+		FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL,
+		dw,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPTSTR)&lpMsgBuf,
+		0, NULL) == 0)
+	{
+		//FormatMessage failed, return
+		return;
+	}
 
-    // Display the error message and exit the process
+	// Display the error message and exit the process
 
-    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, 
-        (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR)); 
+	lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT,
+		(lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
 
-    StringCchPrintf((LPTSTR)lpDisplayBuf, 
-        LocalSize(lpDisplayBuf) / sizeof(TCHAR),
-        TEXT("%s failed with error %d: %s"), 
-        lpszFunction, dw, lpMsgBuf); 
+	if (lpDisplayBuf) {
 
-	_tprintf((LPCTSTR)lpDisplayBuf); 
+		StringCchPrintf((LPTSTR)lpDisplayBuf,
+			LocalSize(lpDisplayBuf) / sizeof(TCHAR),
+			TEXT("%s failed with error %u: %s"),
+			lpszFunction, dw, lpMsgBuf);
 
+		_tprintf((LPCTSTR)lpDisplayBuf);
 
-    LocalFree(lpMsgBuf);
-    LocalFree(lpDisplayBuf);
+		LocalFree(lpDisplayBuf);
+	}
+	LocalFree(lpMsgBuf);
 }
 
 WCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)

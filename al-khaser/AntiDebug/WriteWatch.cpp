@@ -16,19 +16,30 @@
 
 BOOL VirtualAlloc_WriteWatch_BufferOnly()
 {
-	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
 	ULONG_PTR hitCount;
 	DWORD granularity;
-	BOOL result;
+	BOOL result = FALSE;
+
+	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
+	if (addresses == NULL) {
+		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
+		return result;
+	}
 
 	int* buffer = static_cast<int*>(VirtualAlloc(NULL, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_READWRITE));
+	if (buffer == NULL) {
+		VirtualFree(addresses, 0, MEM_RELEASE);
+		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
+		return result;
+	}
+
 	// read the buffer once
 	buffer[0] = 1234;
 	
 	hitCount = 4096;
 	if (GetWriteWatch(0, buffer, 4096, addresses, &hitCount, &granularity) != 0)
 	{
-		printf("GetWriteWatch failed. Last error: %d\n", GetLastError());
+		printf("GetWriteWatch failed. Last error: %u\n", GetLastError());
 		result = FALSE;
 	}
 	else
@@ -45,12 +56,22 @@ BOOL VirtualAlloc_WriteWatch_BufferOnly()
 
 BOOL VirtualAlloc_WriteWatch_APICalls()
 {
-	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
 	ULONG_PTR hitCount;
 	DWORD granularity;
-	BOOL result, error = FALSE;
+	BOOL result = FALSE, error = FALSE;
+
+	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
+	if (addresses == NULL) {
+		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
+		return result;
+	}
 
 	int* buffer = static_cast<int*>(VirtualAlloc(NULL, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_READWRITE));
+	if (buffer == NULL) {
+		VirtualFree(addresses, 0, MEM_RELEASE);
+		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
+		return result;
+	}
 
 	// make a bunch of calls where buffer *can* be written to, but isn't actually touched due to invalid parameters.
 	// this can catch out API hooks whose return-by-parameter behaviour is different to that of regular APIs
@@ -105,7 +126,7 @@ BOOL VirtualAlloc_WriteWatch_APICalls()
 		hitCount = 4096;
 		if (GetWriteWatch(0, buffer, 4096, addresses, &hitCount, &granularity) != 0)
 		{
-			printf("GetWriteWatch failed. Last error: %d\n", GetLastError());
+			printf("GetWriteWatch failed. Last error: %u\n", GetLastError());
 			result = FALSE;
 		}
 		else
@@ -128,18 +149,29 @@ BOOL VirtualAlloc_WriteWatch_APICalls()
 
 BOOL VirtualAlloc_WriteWatch_IsDebuggerPresent()
 {
-	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
 	ULONG_PTR hitCount;
 	DWORD granularity;
-	BOOL result;
+	BOOL result = FALSE;
+
+	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
+	if (addresses == NULL) {
+		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
+		return result;
+	}
 
 	int* buffer = static_cast<int*>(VirtualAlloc(NULL, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_READWRITE));
+	if (buffer == NULL) {
+		VirtualFree(addresses, 0, MEM_RELEASE);
+		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
+		return result;
+	}
+
 	buffer[0] = IsDebuggerPresent();
 
 	hitCount = 4096;
 	if (GetWriteWatch(0, buffer, 4096, addresses, &hitCount, &granularity) != 0)
 	{
-		printf("GetWriteWatch failed. Last error: %d\n", GetLastError());
+		printf("GetWriteWatch failed. Last error: %u\n", GetLastError());
 		result = FALSE;
 	}
 	else
@@ -156,12 +188,22 @@ BOOL VirtualAlloc_WriteWatch_IsDebuggerPresent()
 
 BOOL VirtualAlloc_WriteWatch_CodeWrite()
 {
-	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
 	ULONG_PTR hitCount;
 	DWORD granularity;
 	BOOL result = FALSE;
 
+	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
+	if (addresses == NULL) {
+		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
+		return result;
+	}
+
 	byte* buffer = static_cast<byte*>(VirtualAlloc(NULL, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_EXECUTE_READWRITE));
+	if (buffer == NULL) {
+		VirtualFree(addresses, 0, MEM_RELEASE);
+		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
+		return result;
+	}
 	
 	// construct a call to isDebuggerPresent in assembly
 	ULONG_PTR isDebuggerPresentAddr = (ULONG_PTR)&IsDebuggerPresent;
@@ -238,7 +280,7 @@ BOOL VirtualAlloc_WriteWatch_CodeWrite()
 		hitCount = 4096;
 		if (GetWriteWatch(0, buffer, 4096, addresses, &hitCount, &granularity) != 0)
 		{
-			printf("GetWriteWatch failed. Last error: %d\n", GetLastError());
+			printf("GetWriteWatch failed. Last error: %u\n", GetLastError());
 			result = FALSE;
 		}
 		else

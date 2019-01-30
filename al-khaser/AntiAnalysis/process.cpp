@@ -33,14 +33,14 @@ VOID analysis_tools_process()
 		_T("sniff_hit.exe"),		// Part of SysAnalyzer iDefense
 		_T("windbg.exe"),			// Microsoft WinDbg
 		_T("joeboxcontrol.exe"),	// Part of Joe Sandbox
-		_T("joeboxserver.exe"),		// Part of Joe Sandbox
+		_T("joeboxserver.exe")		// Part of Joe Sandbox
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
 	for (int i = 0; i < iLength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking process of malware analysis tool: %s: "), szProcesses[i]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking process of malware analysis tool: %s "), szProcesses[i]);
 		if (GetProcessIdFromName(szProcesses[i]))
 			print_results(TRUE, msg);
 		else

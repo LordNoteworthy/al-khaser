@@ -20,10 +20,10 @@ void PageExceptionInitialEnum()
 	MEMORY_BASIC_INFORMATION memInfo = { 0 };
 
 	// Get the main module handle from an address stored within it (pointer to this method)
-	if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)PageExceptionBreakpointCheck, &hMainModule) == TRUE)
+	if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)PageExceptionBreakpointCheck, &hMainModule))
 	{
 		// Get information about the main module (we want to know the size of it)
-		if (GetModuleInformation(GetCurrentProcess(), hMainModule, &moduleInfo, sizeof(MODULEINFO)) == TRUE)
+		if (GetModuleInformation(GetCurrentProcess(), hMainModule, &moduleInfo, sizeof(MODULEINFO)))
 		{
 			// cast the module to a pointer
 			unsigned char* module = static_cast<unsigned char*>(moduleInfo.lpBaseOfDll);
@@ -60,10 +60,10 @@ BOOL PageExceptionBreakpointCheck()
 	// first we check if any of the pages are executable+guard or noaccess
 
 	// Get the main module handle from an address stored within it (pointer to this method)
-	if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)PageExceptionBreakpointCheck, &hMainModule) == TRUE)
+	if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)PageExceptionBreakpointCheck, &hMainModule))
 	{
 		// Get information about the main module (we want to know the size of it)
-		if (GetModuleInformation(GetCurrentProcess(), hMainModule, &moduleInfo, sizeof(MODULEINFO)) == TRUE)
+		if (GetModuleInformation(GetCurrentProcess(), hMainModule, &moduleInfo, sizeof(MODULEINFO)))
 		{
 			// cast the module to a pointer
 			unsigned char* module = static_cast<unsigned char*>(moduleInfo.lpBaseOfDll);

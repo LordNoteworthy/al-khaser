@@ -43,6 +43,7 @@ BOOL VMDriverServices()
 
 			if (ok)
 			{
+				CloseServiceHandle(hSCM);
 				return FALSE;
 			}
 			
@@ -51,6 +52,7 @@ BOOL VMDriverServices()
 		{
 			printf("Failed to get services list.\n");
 		}
+		CloseServiceHandle(hSCM);
 	}
 	else
 	{
@@ -62,9 +64,11 @@ BOOL VMDriverServices()
 
 BOOL get_services(_In_ SC_HANDLE hServiceManager, _In_ DWORD serviceType, _Out_ ENUM_SERVICE_STATUS_PROCESS** servicesBuffer, _Out_ DWORD* serviceCount)
 {
-	DWORD serviceArraySize = 1024;
-	DWORD serviceBufferSize = serviceArraySize * sizeof(ENUM_SERVICE_STATUS_PROCESS);
+	DWORD serviceBufferSize = 1024 * sizeof(ENUM_SERVICE_STATUS_PROCESS);
 	ENUM_SERVICE_STATUS_PROCESS* services = static_cast<ENUM_SERVICE_STATUS_PROCESS*>(malloc(serviceBufferSize));
+
+	if (serviceCount) //assume failure
+		*serviceCount = 0;
 
 	if (services) {
 
@@ -84,19 +88,25 @@ BOOL get_services(_In_ SC_HANDLE hServiceManager, _In_ DWORD serviceType, _Out_ 
 		{
 			// we didn't get all the services, so we'll just re-enumerate all to make things easy
 			serviceBufferSize += remainderBufferSize;
-			services = static_cast<ENUM_SERVICE_STATUS_PROCESS*>(realloc(services, serviceBufferSize));
-			SecureZeroMemory(services, serviceBufferSize);
-			if (EnumServicesStatusEx(hServiceManager, SC_ENUM_PROCESS_INFO, serviceType, SERVICE_STATE_ALL, (LPBYTE)services, serviceBufferSize, &remainderBufferSize, serviceCount, NULL, NULL) != 0)
-			{
-				*servicesBuffer = services;
-				return TRUE;
+
+			ENUM_SERVICE_STATUS_PROCESS* tmp;
+
+			tmp = static_cast<ENUM_SERVICE_STATUS_PROCESS*>(realloc(services, serviceBufferSize));
+			if (tmp) {
+				services = tmp;
+				SecureZeroMemory(services, serviceBufferSize);
+				if (EnumServicesStatusEx(hServiceManager, SC_ENUM_PROCESS_INFO, serviceType, SERVICE_STATE_ALL, (LPBYTE)services, serviceBufferSize, &remainderBufferSize, serviceCount, NULL, NULL) != 0)
+				{
+					*servicesBuffer = services;
+					return TRUE;
+				}
 			}
 		}
 		else
 		{
-			printf("ERROR: %d\n", lastError);
+			printf("ERROR: %u\n", lastError);
 		}
-
+		
 		free(services);
 
 	}
