@@ -1,4 +1,5 @@
 #### 0.77
+- Add a gitattributes to normalize line endings.
 - Update VMDriverServices routine thanks to @hfiref0x
 - Add virtual machine detect by license thanks to @hfiref0x
 - Fix for HardwareBreakpoints routine thanks to @hfiref0x
