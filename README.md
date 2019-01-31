@@ -272,9 +272,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
       - "XenVMMXenVMM"(Xen)
       - "prl hyperv  "( Parallels)
          -"VBoxVBoxVBox"( VirtualBox)
-
-      ​
-
+- NtQueryLicenseValue with Kernel-VMDetection-Private as license value.
 
 ### Anti-Analysis
 - **Processes**
