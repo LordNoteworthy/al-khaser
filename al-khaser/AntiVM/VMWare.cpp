@@ -198,7 +198,7 @@ VOID vmware_processes()
 	for (int i = 0; i < iLength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking vmware processe %s "), szProcesses[i]);
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking VWware process %s "), szProcesses[i]);
 		if (GetProcessIdFromName(szProcesses[i]))
 			print_results(TRUE, msg);
 		else

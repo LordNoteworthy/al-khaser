@@ -4,17 +4,20 @@
 
 BOOL VMDriverServices()
 {
-	const int KnownServiceCount = 10;
+	const int KnownServiceCount = 13;
 	const TCHAR* KnownVMServices[KnownServiceCount] = {
-		L"VBoxDrv",
-		L"VBoxNetAdp",
-		L"VBoxNetLwf",
-		L"VBoxUSB",
-		L"VBoxUSBMon",
-		L"VMnetAdapter",
-		L"VMnetBridge",
-		L"VMnetuserif",
+		L"VBoxWddm",
+		L"VBoxSF", //VirtualBox Shared Folders
+		L"VBoxMouse", //VirtualBox Guest Mouse
+		L"VBoxGuest", //VirtualBox Guest Driver
+		L"vmci", //VMWare VMCI Bus Driver
+		L"vmhgfs", //VMWare Host Guest Control Redirector
+		L"vmmouse",
+		L"vmmemctl", //VMWare Guest Memory Controller Driver
 		L"vmusb",
+		L"vmusbmouse",
+		L"vmx_svga",
+		L"vmxnet",
 		L"vmx86"
 	};
 
