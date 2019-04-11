@@ -724,7 +724,7 @@ BOOL serial_number_bios_wmi()
 						// Do our comparison
 						if (
 							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
-							(wcscmp(vtProp.bstrVal,  _T("0")) != 0) || // VBox (serial is just "0")
+							(wcscmp( vtProp.bstrVal, _T("0")) == 0) || // VBox (serial is just "0")
 							(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
 							(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
 							(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
