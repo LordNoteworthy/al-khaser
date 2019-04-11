@@ -23,7 +23,7 @@ VOID loaded_dlls()
 		_T("vmcheck.dll"),		// Virtual PC
 		_T("wpespy.dll"),		// WPE Pro
 		_T("cmdvrt64.dll"),		// Comodo Container
-        _T("cmdvrt32.dll"),		// Comodo Container
+		_T("cmdvrt32.dll"),		// Comodo Container
 
 	};
 
@@ -59,7 +59,7 @@ BOOL NumberOfProcessors()
 	PULONG ulNumberProcessors = (PULONG)(__readgsqword(0x60) + 0xB8);
 
 #elif defined(ENV32BIT)
-	PULONG ulNumberProcessors = (PULONG)(__readfsdword(0x30) + 0x64) ;
+	PULONG ulNumberProcessors = (PULONG)(__readfsdword(0x30) + 0x64);
 
 #endif
 
@@ -81,7 +81,7 @@ PS: Does not seem to work on newer version of VMWare Workstation (Tested on v12)
 BOOL idt_trick()
 {
 	UINT idt_base = get_idt_base();
-	if ((idt_base >> 24) == 0xff) 
+	if ((idt_base >> 24) == 0xff)
 		return TRUE;
 
 	else
@@ -89,15 +89,15 @@ BOOL idt_trick()
 }
 
 /*
-Same for Local Descriptor Table (LDT) 
+Same for Local Descriptor Table (LDT)
 */
 BOOL ldt_trick()
 {
 	UINT ldt_base = get_ldt_base();
 
-	if (ldt_base == 0xdead0000) 
+	if (ldt_base == 0xdead0000)
 		return FALSE;
-	else 
+	else
 		return TRUE; // VMWare detected	
 }
 
@@ -121,7 +121,7 @@ BOOL gdt_trick()
 The instruction STR (Store Task Register) stores the selector segment of the TR
 register (Task Register) in the specified operand (memory or other general purpose register).
 All x86 processors can manage tasks in the same way as an operating system would do it.
-That is, keeping the task state and recovering it when that task is executed again. All 
+That is, keeping the task state and recovering it when that task is executed again. All
 the states of a task are kept in its TSS; there is one TSS per task. How can we know which
 is the TSS associated to the execution task? Using STR instruction, due to the fact that
 the selector segment that was brought back points into the TSS of the present task.
@@ -265,10 +265,10 @@ BOOL disk_size_wmi()
 						VariantClear(&vtProp);
 					}
 				}
-				
+
 				// release class object
 				pclsObj->Release();
-				
+
 				// break from while
 				if (bFound)
 					break;
@@ -326,7 +326,7 @@ BOOL dizk_size_deviceiocontrol()
 			SecureZeroMemory(driveRootPathBuffer, MAX_PATH);
 
 			wnsprintf(driveRootPathBuffer, MAX_PATH, _T("\\\\.\\%C:"), _T('A') + driveNumber);
-			
+
 			// open a handle to the volume
 			HANDLE hVolume = CreateFile(
 				driveRootPathBuffer,
@@ -340,7 +340,7 @@ BOOL dizk_size_deviceiocontrol()
 			if (hVolume != INVALID_HANDLE_VALUE)
 			{
 				DWORD extentSize = 8192; //256 VOLUME_DISK_EXTENTS entries
-				PVOLUME_DISK_EXTENTS diskExtents = NULL; 
+				PVOLUME_DISK_EXTENTS diskExtents = NULL;
 
 				diskExtents = static_cast<PVOLUME_DISK_EXTENTS>(LocalAlloc(LPTR, extentSize));
 				if (diskExtents) {
@@ -514,7 +514,7 @@ BOOL setupdi_diskdrive()
 		}
 	}
 
-	if (buffer) 
+	if (buffer)
 		LocalFree(buffer);
 
 	//  Cleanup
@@ -548,7 +548,7 @@ BOOL mouse_movement() {
 		/* Probably a sandbox, because mouse position did not change. */
 		return TRUE;
 
-	else 
+	else
 		return FALSE;
 }
 
@@ -560,7 +560,7 @@ more tasks at the same time.
 BOOL memory_space()
 {
 	DWORDLONG ullMinRam = (1024LL * (1024LL * (1024LL * 1LL))); // 1GB
-	MEMORYSTATUSEX statex = {0};
+	MEMORYSTATUSEX statex = { 0 };
 
 	statex.dwLength = sizeof(statex);
 	GlobalMemoryStatusEx(&statex);
@@ -597,7 +597,7 @@ Sleep and check if time have been accelerated
 BOOL accelerated_sleep()
 {
 	DWORD dwStart = 0, dwEnd = 0, dwDiff = 0;
-	DWORD dwMillisecondsToSleep = 60*1000;
+	DWORD dwMillisecondsToSleep = 60 * 1000;
 
 	/* Retrieves the number of milliseconds that have elapsed since the system was started */
 	dwStart = GetTickCount();
@@ -612,13 +612,13 @@ BOOL accelerated_sleep()
 	dwDiff = dwEnd - dwStart;
 	if (dwDiff > dwMillisecondsToSleep - 1000) // substracted 1s just to be sure
 		return FALSE;
-	else 
+	else
 		return TRUE;
 }
 
 /*
-The CPUID instruction is a processor supplementary instruction (its name derived from 
-CPU IDentification) for the x86 architecture allowing software to discover details of 
+The CPUID instruction is a processor supplementary instruction (its name derived from
+CPU IDentification) for the x86 architecture allowing software to discover details of
 the processor. By calling CPUID with EAX =1, The 31bit of ECX register if set will
 reveal the precense of a hypervisor.
 */
@@ -628,7 +628,7 @@ BOOL cpuid_is_hypervisor()
 
 	/* Query hypervisor precense using CPUID (EAX=1), BIT 31 in ECX */
 	__cpuid(CPUInfo, 1);
-	if ((CPUInfo[2] >> 31) & 1) 
+	if ((CPUInfo[2] >> 31) & 1)
 		return TRUE;
 	else
 		return FALSE;
@@ -641,7 +641,7 @@ When CPUID is called with EAX=0x40000000, cpuid return the hypervisor signature.
 */
 BOOL cpuid_hypervisor_vendor()
 {
-	INT CPUInfo[4] = {-1};
+	INT CPUInfo[4] = { -1 };
 	CHAR szHypervisorVendor[0x40];
 	WCHAR *pwszConverted;
 
@@ -672,7 +672,7 @@ BOOL cpuid_hypervisor_vendor()
 		if (pwszConverted) {
 
 			bResult = (_tcscmp(pwszConverted, szBlacklistedHypervisors[i]) == 0);
-			
+
 			free(pwszConverted);
 
 			if (bResult)
@@ -718,13 +718,13 @@ BOOL serial_number_bios_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("SerialNumber"), 0, &vtProp, 0, 0);
-				if (SUCCEEDED(hRes)) {				
+				if (SUCCEEDED(hRes)) {
 					if (vtProp.vt == VT_BSTR) {
 
 						// Do our comparison
 						if (
 							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
-							(wcscmp( vtProp.bstrVal, _T("0")) == 0) || // VBox (serial is just "0")
+							(wcscmp(vtProp.bstrVal, _T("0")) == 0) || // VBox (serial is just "0")
 							(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
 							(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
 							(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
@@ -1089,6 +1089,74 @@ BOOL cpu_fan_wmi()
 
 	if (uObjCount == 0)
 		bFound = TRUE;
+	return bFound;
+}
+
+
+/*
+Check Caption from VideoController using WMI
+*/
+BOOL caption_video_controller_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+	BOOL bFound = FALSE;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_VideoController"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+			VARIANT vtProp;
+
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+				// Get the value of the Name property
+				hRes = pclsObj->Get(_T("Caption"), 0, &vtProp, 0, 0);
+				if (SUCCEEDED(hRes)) {
+					if (vtProp.vt == VT_BSTR) {
+
+						// Do our comparison
+						if (
+							(StrStrI(vtProp.bstrVal, _T("Hyper-V")) != 0) ||
+							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0)
+							)
+						{
+							VariantClear(&vtProp);
+							pclsObj->Release();
+							bFound = TRUE;
+							break;
+						}
+					}
+					VariantClear(&vtProp);
+				}
+
+				// release the current result object
+				pclsObj->Release();
+			}
+
+			// Cleanup
+			pSvc->Release();
+			pLoc->Release();
+			pEnumerator->Release();
+			CoUninitialize();
+		}
+	}
+
 	return bFound;
 }
 
