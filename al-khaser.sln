@@ -1,9 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "al-khaser", "al-khaser\al-khaser.vcxproj", "{77AEFBC3-0ECE-46AD-A113-966AAAA838E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{71BFEE2B-52EC-4526-90F5-D91D98B9C786}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ATAIdentifyDump", "Tools\ATAIdentifyDump\ATAIdentifyDump.vcxproj", "{245D8670-A888-4ECC-9B51-80584E55B701}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +25,20 @@ Global
 		{77AEFBC3-0ECE-46AD-A113-966AAAA838E1}.Release|x64.Build.0 = Release|x64
 		{77AEFBC3-0ECE-46AD-A113-966AAAA838E1}.Release|x86.ActiveCfg = Release|Win32
 		{77AEFBC3-0ECE-46AD-A113-966AAAA838E1}.Release|x86.Build.0 = Release|Win32
+		{245D8670-A888-4ECC-9B51-80584E55B701}.Debug|x64.ActiveCfg = Debug|x64
+		{245D8670-A888-4ECC-9B51-80584E55B701}.Debug|x64.Build.0 = Debug|x64
+		{245D8670-A888-4ECC-9B51-80584E55B701}.Debug|x86.ActiveCfg = Debug|Win32
+		{245D8670-A888-4ECC-9B51-80584E55B701}.Debug|x86.Build.0 = Debug|Win32
+		{245D8670-A888-4ECC-9B51-80584E55B701}.Release|x64.ActiveCfg = Release|x64
+		{245D8670-A888-4ECC-9B51-80584E55B701}.Release|x64.Build.0 = Release|x64
+		{245D8670-A888-4ECC-9B51-80584E55B701}.Release|x86.ActiveCfg = Release|Win32
+		{245D8670-A888-4ECC-9B51-80584E55B701}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{245D8670-A888-4ECC-9B51-80584E55B701} = {71BFEE2B-52EC-4526-90F5-D91D98B9C786}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0772817E-132F-4922-8377-5DA07255372F}
