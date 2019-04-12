@@ -300,6 +300,8 @@
     </MASM>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\CHANGELOG.md" />
+    <None Include="..\README.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

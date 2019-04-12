@@ -1,4 +1,4 @@
-## Al-Khaser v0.76
+## Al-Khaser v0.78
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -309,6 +309,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - [gsuberland](https://twitter.com/gsuberland): Graham Sutherland
 - [hFireF0x](https://github.com/hfiref0x): hfiref0x
 
+Pull requests welcome. Please read the [Developer Guidelines](https://github.com/LordNoteworthy/al-khaser/wiki/Developer-Guidelines) on our wiki if you wish to contribute to the project.
 
 ## References
 - An Anti-Reverse Engineering Guide By Josh Jackson.
