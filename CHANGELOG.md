@@ -1,3 +1,10 @@
+#### 0.78
+- Add README and CHANGELOG to VS solution file.
+- Delete compiled binaries from repository.
+- Ignores NuGet packages directory from  git.
+- Fix false positive in VirtualBox BIOS serial number WMI check thanks to @gsuberland
+
+
 #### 0.77
 - Add a gitattributes to normalize line endings.
 - Update VMDriverServices routine thanks to @hfiref0x
