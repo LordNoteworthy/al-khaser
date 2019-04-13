@@ -162,7 +162,7 @@ int main(void)
 		exec_check(&vbox_pnpentity_vboxname_wmi, TEXT("Checking Win32_PnPDevice Name from WMI for VBOX names "));
 		exec_check(&vbox_bus_wmi, TEXT("Checking Win32_Bus from WMI "));
 		exec_check(&vbox_baseboard_wmi, TEXT("Checking Win32_BaseBoard from WMI "));
-		exec_check(&vbox_mac_wmi, TEXT("Checking Mac address from WMI "));
+		exec_check(&vbox_mac_wmi, TEXT("Checking MAC address from WMI "));
 		exec_check(&vbox_eventlogfile_wmi, TEXT("Checking NTEventLog from WMI "));
 		exec_check(&vbox_firmware_SMBIOS, TEXT("Checking SMBIOS firmware  "));
 		exec_check(&vbox_firmware_ACPI, TEXT("Checking ACPI tables  "));
