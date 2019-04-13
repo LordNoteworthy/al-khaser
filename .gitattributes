@@ -33,8 +33,6 @@
 *.filters    text eol=crlf
 *.vcxitems   text eol=crlf
 
-*.cpp        diff
-
 
 #*.sln       merge=binary
 #*.csproj    merge=binary
