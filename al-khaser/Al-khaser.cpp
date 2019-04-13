@@ -127,6 +127,21 @@ int main(void)
 		exec_check(&power_capabilities, TEXT("Checking power capabilities "));
 		exec_check(&cpu_fan_wmi, TEXT("Checking CPU fan using WMI "));
 		exec_check(&query_license_value, TEXT("Checking NtQueryLicenseValue with Kernel-VMDetection-Private "));
+		exec_check(&cachememory_wmi, TEXT("Checking Win32_CacheMemory with WMI "));
+		exec_check(&physicalmemory_wmi, TEXT("Checking Win32_PhysicalMemory with WMI "));
+		exec_check(&memorydevice_wmi, TEXT("Checking Win32_MemoryDevice with WMI "));
+		exec_check(&memoryarray_wmi, TEXT("Checking Win32_MemoryArray with WMI "));
+		exec_check(&voltageprobe_wmi, TEXT("Checking Win32_VoltageProbe with WMI "));
+		exec_check(&portconnector_wmi, TEXT("Checking Win32_PortConnector with WMI "));
+		exec_check(&smbiosmemory_wmi, TEXT("Checking Win32_SMBIOSMemory with WMI "));
+		exec_check(&perfctrs_thermalzoneinfo_wmi, TEXT("Checking ThermalZoneInfo performance counters with WMI "));
+		exec_check(&cim_memory_wmi, TEXT("Checking CIM_Memory with WMI "));
+		exec_check(&cim_sensor_wmi, TEXT("Checking CIM_Sensor with WMI "));
+		exec_check(&cim_numericsensor_wmi, TEXT("Checking CIM_NumericSensor with WMI "));
+		exec_check(&cim_temperaturesensor_wmi, TEXT("Checking CIM_TemperatureSensor with WMI "));
+		exec_check(&cim_voltagesensor_wmi, TEXT("Checking CIM_VoltageSensor with WMI "));
+		exec_check(&cim_physicalconnector_wmi, TEXT("Checking CIM_PhysicalConnector with WMI "));
+		exec_check(&cim_slot_wmi, TEXT("Checking CIM_Slot with WMI "));
 	}
 
 	/* VirtualBox Detection */

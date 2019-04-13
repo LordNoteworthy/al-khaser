@@ -1117,3 +1117,251 @@ BOOL query_license_value()
 
 	return FALSE;
 }
+
+int wmi_query_count(const _TCHAR* query)
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+
+	int count = 0;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, query);
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+
+			// Iterate over our enumator
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+				count++;
+
+				pclsObj->Release();
+			}
+
+			// Cleanup
+			pEnumerator->Release();
+			pSvc->Release();
+			pLoc->Release();
+			CoUninitialize();
+		}
+		else
+		{
+			pSvc->Release();
+			pLoc->Release();
+			CoUninitialize();
+		}
+	}
+	else return -1;
+
+	return count;
+}
+
+/*
+Check Win32_CacheMemory for entries
+*/
+BOOL cachememory_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_CacheMemory"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_PhysicalMemory for entries
+*/
+BOOL physicalmemory_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_PhysicalMemory"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_MemoryDevice for entries
+*/
+BOOL memorydevice_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_MemoryDevice"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_MemoryArray for entries
+*/
+BOOL memoryarray_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_MemoryArray"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_VoltageProbe for entries
+*/
+BOOL voltageprobe_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_VoltageProbe"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_PortConnector for entries
+*/
+BOOL portconnector_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_PortConnector"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_SMBIOSMemory for entries
+*/
+BOOL smbiosmemory_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_SMBIOSMemory"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_PerfFormattedData_Counters_ThermalZoneInformation for entries
+*/
+BOOL perfctrs_thermalzoneinfo_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_PerfFormattedData_Counters_ThermalZoneInformation"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_Memory for entries
+*/
+BOOL cim_memory_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_Memory"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_NumericSensor for entries
+*/
+BOOL cim_numericsensor_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_NumericSensor"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_PhysicalConnector for entries
+*/
+BOOL cim_physicalconnector_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_PhysicalConnector"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_Sensor for entries
+*/
+BOOL cim_sensor_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_Sensor"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_Slot for entries
+*/
+BOOL cim_slot_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_Slot"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_TemperatureSensor for entries
+*/
+BOOL cim_temperaturesensor_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_TemperatureSensor"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_VoltageSensor for entries
+*/
+BOOL cim_voltagesensor_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_VoltageSensor"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
