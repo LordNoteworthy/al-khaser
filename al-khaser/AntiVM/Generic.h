@@ -24,6 +24,7 @@ BOOL process_id_processor_wmi();
 BOOL power_capabilities();
 BOOL hybridanalysismacdetect();
 BOOL cpu_fan_wmi();
+BOOL caption_video_controller_wmi();
 BOOL query_license_value();
 BOOL cachememory_wmi();
 BOOL physicalmemory_wmi();
