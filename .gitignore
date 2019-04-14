@@ -67,3 +67,6 @@ packages/
 
 # Alkhaser log file
 log.txt
+
+# Packages
+packages/
