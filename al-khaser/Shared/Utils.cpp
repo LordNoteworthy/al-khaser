@@ -17,6 +17,23 @@ BOOL IsWoW64()
 	return bIsWow64;
 }
 
+PVOID64 GetPeb64()
+{
+	PVOID64 peb64 = NULL;
+
+	if (API::IsAvailable(API_IDENTIFIER::API_NtWow64QueryInformationProcess64))
+	{
+		PROCESS_BASIC_INFORMATION_WOW64 pbi64 = {};
+
+		auto NtWow64QueryInformationProcess64 = static_cast<pNtWow64QueryInformationProcess64>(API::GetAPI(API_IDENTIFIER::API_NtWow64QueryInformationProcess64));
+		NTSTATUS status = NtWow64QueryInformationProcess64(GetCurrentProcess(), ProcessBasicInformation, &pbi64, sizeof(pbi64), nullptr);
+		if ( NT_SUCCESS ( status ) )
+			peb64 = pbi64.PebBaseAddress;
+	}
+
+	return peb64;
+}
+
 BOOL Is_RegKeyValueExists(HKEY hKey, const TCHAR* lpSubKey, const TCHAR* lpValueName, const TCHAR* search_str)
 {
 	HKEY hkResult = NULL;

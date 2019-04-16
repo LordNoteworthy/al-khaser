@@ -479,10 +479,10 @@ BOOL ScanForModules_LDR_Direct()
 
 			if (IsWoW64())
 			{
-				PPEB64 peb = reinterpret_cast<PPEB64>(reinterpret_cast<UCHAR*>(pbi.PebBaseAddress) - 0x1000);
+				PPEB64 peb64 = reinterpret_cast<PPEB64>(GetPeb64());
 				PEB_LDR_DATA64 ldrData = { 0 };
-
-				if (attempt_to_read_memory_wow64(&ldrData, sizeof(PEB_LDR_DATA64), peb->Ldr))
+				
+				if (peb64 && attempt_to_read_memory_wow64(&ldrData, sizeof(PEB_LDR_DATA64), peb64->Ldr))
 				{
 					auto ldrEntries = WalkLDR(&ldrData);
 					for (LDR_DATA_TABLE_ENTRY64* ldrEntry : *ldrEntries)

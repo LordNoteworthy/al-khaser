@@ -27,6 +27,14 @@ typedef struct _THREAD_BASIC_INFORMATION {
 	KPRIORITY               BasePriority;
 } THREAD_BASIC_INFORMATION, *PTHREAD_BASIC_INFORMATION;
 
+typedef struct _PROCESS_BASIC_INFORMATION_WOW64 {
+	PVOID Reserved1[2];
+	PVOID64 PebBaseAddress;
+	PVOID Reserved2[4];
+	ULONG_PTR UniqueProcessId[2];
+	PVOID Reserved3[2];
+} PROCESS_BASIC_INFORMATION_WOW64;
+
 typedef struct _PEB64 {
 	BYTE Reserved1[2];
 	BYTE BeingDebugged;
