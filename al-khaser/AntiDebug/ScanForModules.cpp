@@ -97,6 +97,14 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 
 	GetSystemDirectory(systemRootPath, MAX_PATH);
 
+#ifdef _X86_
+	TCHAR syswow64Path[MAX_PATH];
+	SHGetFolderPath (NULL, CSIDL_SYSTEMX86, NULL, 0, syswow64Path);
+	StringCbCat(syswow64Path, MAX_PATH, _T("\\"));
+	size_t syswow64PathLength = 0;
+	StringCbLength(syswow64Path, MAX_PATH, &syswow64PathLength);
+#endif
+
 	size_t exePathLength = GetProcessImageFileName(GetCurrentProcess(), exePath, MAX_PATH);
 	NormalizeNTPath(exePath, MAX_PATH);
 	StringCbLength(exePath, MAX_PATH, &exePathLength);
@@ -129,6 +137,14 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 				// path matched the regular system path
 				return false;
 			}
+
+#ifdef _X86_
+			if (IsWoW64() && StrNCmpI(syswow64Path, normalisedPath, (int)(min(syswow64PathLength, normalisedPathLength) / sizeof(TCHAR)) ) == 0)
+			{
+				// path matched the wow64 system path
+				return false;
+			}
+#endif
 
 			if (StrCmpI(exePath, normalisedPath) == 0)
 			{
