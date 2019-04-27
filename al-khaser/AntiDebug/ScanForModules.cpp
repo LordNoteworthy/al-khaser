@@ -97,6 +97,14 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 
 	GetSystemDirectory(systemRootPath, MAX_PATH);
 
+#ifdef _X86_
+	TCHAR syswow64Path[MAX_PATH];
+	SHGetFolderPath (NULL, CSIDL_SYSTEMX86, NULL, 0, syswow64Path);
+	StringCbCat(syswow64Path, MAX_PATH, _T("\\"));
+	size_t syswow64PathLength = 0;
+	StringCbLength(syswow64Path, MAX_PATH, &syswow64PathLength);
+#endif
+
 	size_t exePathLength = GetProcessImageFileName(GetCurrentProcess(), exePath, MAX_PATH);
 	NormalizeNTPath(exePath, MAX_PATH);
 	StringCbLength(exePath, MAX_PATH, &exePathLength);
@@ -129,6 +137,14 @@ bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
 				// path matched the regular system path
 				return false;
 			}
+
+#ifdef _X86_
+			if (IsWoW64() && StrNCmpI(syswow64Path, normalisedPath, (int)(min(syswow64PathLength, normalisedPathLength) / sizeof(TCHAR)) ) == 0)
+			{
+				// path matched the wow64 system path
+				return false;
+			}
+#endif
 
 			if (StrCmpI(exePath, normalisedPath) == 0)
 			{
@@ -479,10 +495,10 @@ BOOL ScanForModules_LDR_Direct()
 
 			if (IsWoW64())
 			{
-				PPEB64 peb = reinterpret_cast<PPEB64>(reinterpret_cast<UCHAR*>(pbi.PebBaseAddress) - 0x1000);
+				PPEB64 peb64 = reinterpret_cast<PPEB64>(GetPeb64());
 				PEB_LDR_DATA64 ldrData = { 0 };
-
-				if (attempt_to_read_memory_wow64(&ldrData, sizeof(PEB_LDR_DATA64), peb->Ldr))
+				
+				if (peb64 && attempt_to_read_memory_wow64(&ldrData, sizeof(PEB_LDR_DATA64), peb64->Ldr))
 				{
 					auto ldrEntries = WalkLDR(&ldrData);
 					for (LDR_DATA_TABLE_ENTRY64* ldrEntry : *ldrEntries)

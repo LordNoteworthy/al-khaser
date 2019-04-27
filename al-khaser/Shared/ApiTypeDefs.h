@@ -55,6 +55,12 @@ typedef NTSTATUS(WINAPI* pNtUnmapViewOfSection)(HANDLE ProcessHandle, PVOID Base
 typedef NTSTATUS(WINAPI* pNtYieldExecution)();
 typedef NTSTATUS(WINAPI* pRtlGetVersion)(RTL_OSVERSIONINFOEXW*);
 typedef ULONG (NTAPI* pRtlNtStatusToDosError)(IN NTSTATUS Status);
+typedef NTSTATUS(NTAPI * pNtWow64QueryInformationProcess64)(
+    IN HANDLE ProcessHandle,
+    ULONG ProcessInformationClass,
+    OUT PVOID ProcessInformation,
+    IN ULONG ProcessInformationLength,
+    OUT PULONG ReturnLength OPTIONAL);
 typedef NTSTATUS(WINAPI *pNtWow64ReadVirtualMemory64)(
 	HANDLE ProcessHandle,
 	PVOID64 BaseAddress,
