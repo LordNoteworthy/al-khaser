@@ -1,7 +1,15 @@
 #### 0.78
+- Fix crash for Wow64 binaries in ScanForModules_LDR_Direct thanks to @dvarshavsky
+- Fix IsBadLibrary() FP's for Wow64 binaries thanks to @dvarshavsky
+- Added checks for Win32_PnPDevice for VBOX entries thanks to @gsuberland
+- Added checks for Win32_BaseBoard thanks to @gsuberland
+- Added checks for Win32_Bus to see if only ACPIBus_BUS_0, PCI_BUS_0, PNP_BUS_0 are present thanks to @gsuberland
+- Added checks for Win32_PnPEntity for known VirtualBox hardware thanks to @gsuberland
+- Added checks for vbox devices (PCI\\VEN_80EE&DEV_CAFE) using WMI thanks to @gsuberland
+- Added ATAIdentifyDump and StructDumpCodegen tools to the repo thanks to @gsuberland
 - Add README and CHANGELOG to VS solution file.
 - Delete compiled binaries from repository.
-- Ignores NuGet packages directory from  git.
+- Ignores NuGet packages directory from git.
 - Fix false positive in VirtualBox BIOS serial number WMI check thanks to @gsuberland
 
 
