@@ -65,7 +65,7 @@ struct VERSION_FUNCTION_MAP
 		Function = function;
 	}
 
-	VERSION_FUNCTION_MAP()
+	VERSION_FUNCTION_MAP(): Version(), Function(nullptr)
 	{
 	}
 };
