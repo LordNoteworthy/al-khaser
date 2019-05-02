@@ -161,7 +161,7 @@ BOOL rdtsc_diff_locky()
 		tsc1 = __rdtsc();
 
 		// Waste some cycles - should be faster than CloseHandle on bare metal
-		GetProcessHeap();
+		GetProcessHeap(); //TODO: V530 https://www.viva64.com/en/w/v530/ The return value of function 'GetProcessHeap' is required to be utilized.
 
 		tsc2 = __rdtsc();
 
