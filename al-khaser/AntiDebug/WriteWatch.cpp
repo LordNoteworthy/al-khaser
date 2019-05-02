@@ -20,14 +20,14 @@ BOOL VirtualAlloc_WriteWatch_BufferOnly()
 	DWORD granularity;
 	BOOL result = FALSE;
 
-	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
-	if (addresses == NULL) {
+	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(nullptr, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
+	if (addresses == nullptr) {
 		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
 		return result;
 	}
 
-	int* buffer = static_cast<int*>(VirtualAlloc(NULL, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_READWRITE));
-	if (buffer == NULL) {
+	int* buffer = static_cast<int*>(VirtualAlloc(nullptr, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_READWRITE));
+	if (buffer == nullptr) {
 		VirtualFree(addresses, 0, MEM_RELEASE);
 		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
 		return result;
@@ -60,14 +60,14 @@ BOOL VirtualAlloc_WriteWatch_APICalls()
 	DWORD granularity;
 	BOOL result = FALSE, error = FALSE;
 
-	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
-	if (addresses == NULL) {
+	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(nullptr, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
+	if (addresses == nullptr) {
 		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
 		return result;
 	}
 
-	int* buffer = static_cast<int*>(VirtualAlloc(NULL, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_READWRITE));
-	if (buffer == NULL) {
+	int* buffer = static_cast<int*>(VirtualAlloc(nullptr, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_READWRITE));
+	if (buffer == nullptr) {
 		VirtualFree(addresses, 0, MEM_RELEASE);
 		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
 		return result;
@@ -94,13 +94,13 @@ BOOL VirtualAlloc_WriteWatch_APICalls()
 		result = FALSE;
 		error = TRUE;
 	}
-	if (HeapQueryInformation(0, (HEAP_INFORMATION_CLASS)69, buffer, 4096, NULL) != FALSE)
+	if (HeapQueryInformation(nullptr, (HEAP_INFORMATION_CLASS)69, buffer, 4096, nullptr) != FALSE)
 	{
 		printf("HeapQueryInformation succeeded when it should've failed... not sure what happened!\n");
 		result = FALSE;
 		error = TRUE;
 	}
-	if (ReadProcessMemory(INVALID_HANDLE_VALUE, (LPCVOID)0x69696969, buffer, 4096, NULL) != FALSE)
+	if (ReadProcessMemory(INVALID_HANDLE_VALUE, (LPCVOID)0x69696969, buffer, 4096, nullptr) != FALSE)
 	{
 		printf("ReadProcessMemory succeeded when it should've failed... not sure what happened!\n");
 		result = FALSE;
@@ -112,7 +112,7 @@ BOOL VirtualAlloc_WriteWatch_APICalls()
 		result = FALSE;
 		error = TRUE;
 	}
-	if (GetWriteWatch(0, &VirtualAlloc_WriteWatch_APICalls, 0, NULL, NULL, (PULONG)buffer) == 0)
+	if (GetWriteWatch(0, &VirtualAlloc_WriteWatch_APICalls, 0, nullptr, nullptr, (PULONG)buffer) == 0)
 	{
 		printf("GetWriteWatch succeeded when it should've failed... not sure what happened!\n");
 		result = FALSE;
@@ -153,14 +153,14 @@ BOOL VirtualAlloc_WriteWatch_IsDebuggerPresent()
 	DWORD granularity;
 	BOOL result = FALSE;
 
-	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
-	if (addresses == NULL) {
+	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(nullptr, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
+	if (addresses == nullptr) {
 		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
 		return result;
 	}
 
-	int* buffer = static_cast<int*>(VirtualAlloc(NULL, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_READWRITE));
-	if (buffer == NULL) {
+	int* buffer = static_cast<int*>(VirtualAlloc(nullptr, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_READWRITE));
+	if (buffer == nullptr) {
 		VirtualFree(addresses, 0, MEM_RELEASE);
 		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
 		return result;
@@ -192,14 +192,14 @@ BOOL VirtualAlloc_WriteWatch_CodeWrite()
 	DWORD granularity;
 	BOOL result = FALSE;
 
-	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(NULL, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
-	if (addresses == NULL) {
+	PVOID* addresses = static_cast<PVOID*>(VirtualAlloc(nullptr, 4096 * sizeof(PVOID), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
+	if (addresses == nullptr) {
 		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
 		return result;
 	}
 
-	byte* buffer = static_cast<byte*>(VirtualAlloc(NULL, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_EXECUTE_READWRITE));
-	if (buffer == NULL) {
+	byte* buffer = static_cast<byte*>(VirtualAlloc(nullptr, 4096 * 4096, MEM_RESERVE | MEM_COMMIT | MEM_WRITE_WATCH, PAGE_EXECUTE_READWRITE));
+	if (buffer == nullptr) {
 		VirtualFree(addresses, 0, MEM_RELEASE);
 		printf("VirtualAlloc failed. Last error: %u\n", GetLastError());
 		return result;

@@ -26,7 +26,7 @@ DWORD GetCsrssProcessId()
 BOOL CanOpenCsrss()
 {
 	 HANDLE hCsrss = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, GetCsrssProcessId());
-	 if (hCsrss != NULL)
+	 if (hCsrss != nullptr)
 	{
 		CloseHandle(hCsrss);
 		return TRUE;

@@ -129,11 +129,11 @@ VOID print_last_error(LPCTSTR lpszFunction)
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM |
 		FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		dw,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		(LPTSTR)&lpMsgBuf,
-		0, NULL) == 0)
+		0, nullptr) == 0)
 	{
 		//FormatMessage failed, return
 		return;
@@ -162,7 +162,7 @@ WCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)
 {
 
 	/* Get the required size */
-	INT iNumChars = MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, NULL, 0);
+	INT iNumChars = MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, nullptr, 0);
 
 	/* Allocate new wide string */
 

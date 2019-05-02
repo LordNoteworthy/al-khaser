@@ -12,17 +12,17 @@ debugged by OllyDBG.
 
 BOOL MemoryBreakpoints_PageGuard()
 {
-	UCHAR *pMem = NULL;
+	UCHAR *pMem = nullptr;
 	SYSTEM_INFO SystemInfo = { 0 };
 	DWORD OldProtect = 0;
-	PVOID pAllocation = NULL; // Get the page size for the system 
+	PVOID pAllocation = nullptr; // Get the page size for the system 
 
 	// Retrieves information about the current system.
 	GetSystemInfo(&SystemInfo);
 
 	// Allocate memory 
-	pAllocation = VirtualAlloc(NULL, SystemInfo.dwPageSize, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-	if (pAllocation == NULL)
+	pAllocation = VirtualAlloc(nullptr, SystemInfo.dwPageSize, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (pAllocation == nullptr)
 		return FALSE;
 
 	// Write a ret to the buffer (opcode 0xc3)

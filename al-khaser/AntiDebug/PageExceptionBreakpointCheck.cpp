@@ -17,7 +17,7 @@ void PageExceptionInitialEnum()
 	HMODULE hMainModule;
 	MODULEINFO moduleInfo;
 
-	MEMORY_BASIC_INFORMATION memInfo = { 0 };
+	MEMORY_BASIC_INFORMATION memInfo = { nullptr };
 
 	// Get the main module handle from an address stored within it (pointer to this method)
 	if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)PageExceptionBreakpointCheck, &hMainModule))
@@ -53,7 +53,7 @@ BOOL PageExceptionBreakpointCheck()
 	HMODULE hMainModule;
 	MODULEINFO moduleInfo;
 
-	MEMORY_BASIC_INFORMATION memInfo = { 0 };
+	MEMORY_BASIC_INFORMATION memInfo = { nullptr };
 
 	wchar_t buffer[512];
 

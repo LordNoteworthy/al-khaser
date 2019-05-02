@@ -21,7 +21,7 @@ LONG WINAPI UnhandledExcepFilter(PEXCEPTION_POINTERS pExcepPointers)
 BOOL UnhandledExcepFilterTest ()
 {
 	LPTOP_LEVEL_EXCEPTION_FILTER Top = SetUnhandledExceptionFilter(UnhandledExcepFilter);
-	RaiseException(EXCEPTION_FLT_DIVIDE_BY_ZERO, 0, 0, NULL);
+	RaiseException(EXCEPTION_FLT_DIVIDE_BY_ZERO, 0, 0, nullptr);
 	SetUnhandledExceptionFilter(Top);
 	return bIsBeinDbg;
 }

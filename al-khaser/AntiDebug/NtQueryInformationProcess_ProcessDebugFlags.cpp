@@ -18,7 +18,7 @@ BOOL NtQueryInformationProcess_ProcessDebugFlags()
 	NTSTATUS Status;
 	DWORD NoDebugInherit = 0; 
 
-	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDebugFlags, &NoDebugInherit, sizeof(DWORD), NULL);
+	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDebugFlags, &NoDebugInherit, sizeof(DWORD), nullptr);
 	if (Status == 0x00000000 && NoDebugInherit == 0)
 		return TRUE;
 	else        

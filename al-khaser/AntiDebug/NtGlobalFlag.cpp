@@ -31,7 +31,7 @@ Return Value:
 	FALSE - otherwise
 --*/
 {
-	PDWORD pNtGlobalFlag = NULL, pNtGlobalFlagWoW64 = NULL;
+	PDWORD pNtGlobalFlag = nullptr, pNtGlobalFlagWoW64 = nullptr;
 
 #if defined (ENV64BIT)
 	pNtGlobalFlag = (PDWORD)(__readgsqword(0x60) + 0xBC);

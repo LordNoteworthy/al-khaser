@@ -13,10 +13,10 @@ int main()
 			deviceNameBuffer,
 			GENERIC_READ | GENERIC_WRITE,
 			FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-			0,
+			nullptr,
 			OPEN_EXISTING,
 			0,
-			0
+			nullptr
 		);
 
 		if (diskHandle == INVALID_HANDLE_VALUE)
@@ -51,7 +51,7 @@ int main()
 			&pte,
 			sizeof(Buffer),
 			&br,
-			0
+			nullptr
 		);
 
 		if (!ioctlSuccess)

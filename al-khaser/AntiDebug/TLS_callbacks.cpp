@@ -14,8 +14,8 @@ VOID WINAPI tls_callback(PVOID hModule, DWORD dwReason, PVOID pContext)
 	if (!has_run)
 	{
 		has_run = true;
-		tls_callback_thread_event = CreateEvent(NULL, FALSE, FALSE, NULL);
-		tls_callback_process_event = CreateEvent(NULL, FALSE, FALSE, NULL);
+		tls_callback_thread_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+		tls_callback_process_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	}
 
 	if (dwReason == DLL_THREAD_ATTACH)
@@ -45,13 +45,13 @@ BOOL TLSCallbackThread()
 {
 	const int BLOWN = 1000;
 
-	if (CreateThread(NULL, 0, &TLSCallbackDummyThread, NULL, 0, NULL) == NULL)
+	if (CreateThread(nullptr, 0, &TLSCallbackDummyThread, nullptr, 0, nullptr) == nullptr)
 	{
 		OutputDebugString(L"TLS callback: couldn't start dummy thread");
 	}
 
 	int fuse = 0;
-	while (tls_callback_thread_event == NULL && ++fuse != BLOWN) { SwitchToThread(); }
+	while (tls_callback_thread_event == nullptr && ++fuse != BLOWN) { SwitchToThread(); }
 	if (fuse >= BLOWN)
 	{
 		OutputDebugString(L"TLSCallbackThread timeout on event creation.");
@@ -83,7 +83,7 @@ BOOL TLSCallbackProcess()
 	const int BLOWN = 1000;
 
 	int fuse = 0;
-	while (tls_callback_process_event == NULL && ++fuse != BLOWN) { SwitchToThread(); }
+	while (tls_callback_process_event == nullptr && ++fuse != BLOWN) { SwitchToThread(); }
 	if (fuse >= BLOWN)
 	{
 		OutputDebugString(L"TLSCallbackProcess timeout on event creation.");

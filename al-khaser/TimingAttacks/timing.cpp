@@ -36,21 +36,21 @@ BOOL timing_SetTimer(UINT delayInMillis)
 	UINT_PTR iTimerID;
 	
 	// Set our timer without window handle
-	iTimerID = SetTimer(NULL, 0, delayInMillis, TimerProc);
+	iTimerID = SetTimer(nullptr, 0, delayInMillis, TimerProc);
 
 	if (iTimerID == NULL)
 		return TRUE;
 	
 	// Because we are running in a console app, we should get the messages from
 	// the queue and check if msg is WM_TIMER
-	while (GetMessage(&Msg, NULL, 0, 0) & !bProcessed)  //-V564
+	while (GetMessage(&Msg, nullptr, 0, 0) & !bProcessed)  //-V564
 	{
 		TranslateMessage(&Msg); 
 		DispatchMessage(&Msg);
 	}
 
 	// Kill the timer
-	KillTimer(NULL, iTimerID);
+	KillTimer(nullptr, iTimerID);
 
 	return FALSE;
 }
@@ -102,8 +102,8 @@ BOOL timing_WaitForSingleObject(UINT delayInMillis)
 	HANDLE hEvent;
 
 	// Create a nonsignaled event
-	hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-	if (hEvent == NULL)
+	hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+	if (hEvent == nullptr)
 	{
 		print_last_error(_T("CreateEvent"));
 		return TRUE;
@@ -166,7 +166,7 @@ BOOL rdtsc_diff_locky()
 		tsc2 = __rdtsc();
 
 		// Waste some cycles - slightly longer than GetProcessHeap() on bare metal
-		CloseHandle(0);
+		CloseHandle(nullptr);
 
 		tsc3 = __rdtsc();
 
@@ -221,7 +221,7 @@ BOOL timing_IcmpSendEcho(UINT delayInMillis)
 	HANDLE hIcmpFile;
 	unsigned long DestinationAddress = INADDR_NONE;
 	char SendData[32] = "Data Buffer";
-	LPVOID ReplyBuffer = NULL;
+	LPVOID ReplyBuffer = nullptr;
 	DWORD ReplySize = 0;
 	const char ipaddr[] = "224.0.0.0";
 
@@ -237,13 +237,13 @@ BOOL timing_IcmpSendEcho(UINT delayInMillis)
 	//
 	ReplySize = sizeof(ICMP_ECHO_REPLY) + sizeof(SendData) + 8;
 	ReplyBuffer = (VOID*)malloc(ReplySize);
-	if (ReplyBuffer == NULL) {
+	if (ReplyBuffer == nullptr) {
 		IcmpCloseHandle(hIcmpFile);
 		printf("\tUnable to allocate memory\n");
 		return TRUE;
 	}
 
-	IcmpSendEcho(hIcmpFile, DestinationAddress, SendData, sizeof(SendData), NULL, ReplyBuffer, ReplySize, delayInMillis);
+	IcmpSendEcho(hIcmpFile, DestinationAddress, SendData, sizeof(SendData), nullptr, ReplyBuffer, ReplySize, delayInMillis);
 	IcmpCloseHandle(hIcmpFile);
 	free(ReplyBuffer);
 
@@ -262,14 +262,14 @@ BOOL timing_CreateWaitableTimer(UINT delayInMillis)
 
 	dueTime.QuadPart = delayInMillis * -10000LL;
 	
-	hTimer = CreateWaitableTimer(NULL, TRUE, NULL);
+	hTimer = CreateWaitableTimer(nullptr, TRUE, nullptr);
 	
-	if (hTimer == NULL)
+	if (hTimer == nullptr)
 	{
 		return TRUE;
 	}
 
-	if (SetWaitableTimer(hTimer, &dueTime, 0, NULL, NULL, FALSE) == FALSE)
+	if (SetWaitableTimer(hTimer, &dueTime, 0, nullptr, nullptr, FALSE) == FALSE)
 	{
 		bResult = TRUE;
 	}
@@ -285,7 +285,7 @@ BOOL timing_CreateWaitableTimer(UINT delayInMillis)
 	return bResult;
 }
 
-HANDLE g_hEventCTQT = NULL;
+HANDLE g_hEventCTQT = nullptr;
 
 /*
 Timing attack using CreateTimerQueueTimer. Test fails if any of the calls return an error state.
@@ -293,15 +293,15 @@ Timing attack using CreateTimerQueueTimer. Test fails if any of the calls return
 BOOL timing_CreateTimerQueueTimer(UINT delayInMillis)
 {
 	HANDLE hTimerQueue;
-	HANDLE hTimerQueueTimer = NULL;
+	HANDLE hTimerQueueTimer = nullptr;
 	BOOL bResult = FALSE;
 
-	g_hEventCTQT = CreateEvent(NULL, FALSE, FALSE, NULL);
-	if (g_hEventCTQT == NULL)
+	g_hEventCTQT = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	if (g_hEventCTQT == nullptr)
 		return FALSE;
 
 	hTimerQueue = CreateTimerQueue();
-	if (hTimerQueue == NULL)
+	if (hTimerQueue == nullptr)
 	{
 		return TRUE;
 	}
@@ -329,7 +329,7 @@ BOOL timing_CreateTimerQueueTimer(UINT delayInMillis)
 	}
 
 	// Delete all timers in the timer queue.
-	DeleteTimerQueueEx(hTimerQueue, NULL);
+	DeleteTimerQueueEx(hTimerQueue, nullptr);
 
 	CloseHandle(g_hEventCTQT);
 

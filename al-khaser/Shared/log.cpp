@@ -11,7 +11,7 @@ TCHAR* print_time()
 	TCHAR timestr[32];
 
 	/* get current calendar time */
-	time_t const sourceTime = time(NULL); 
+	time_t const sourceTime = time(nullptr); 
 	tm tmDest = { 0 };
 	err = localtime_s(&tmDest, &sourceTime);
 	if (err)
@@ -46,7 +46,7 @@ void log_print(const TCHAR* filename, const TCHAR *fmt, ...)
 	const TCHAR *p, *r;
 	int e;
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 	errno_t error;
 
 	TCHAR *pszTime;
@@ -57,7 +57,7 @@ void log_print(const TCHAR* filename, const TCHAR *fmt, ...)
 		error = _tfopen_s(&fp, _T("log.txt"), _T("w"));
 
 	// file create/open failed
-	if ((error != 0) || (fp == NULL))
+	if ((error != 0) || (fp == nullptr))
 		return;
 
 	pszTime = print_time();

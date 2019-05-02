@@ -15,7 +15,7 @@ BOOL HardwareBreakpoints()
 
 	// This structure is key to the function and is the 
 	// medium for detection and removal
-	PCONTEXT ctx = PCONTEXT(VirtualAlloc(NULL, sizeof(CONTEXT), MEM_COMMIT, PAGE_READWRITE));
+	PCONTEXT ctx = PCONTEXT(VirtualAlloc(nullptr, sizeof(CONTEXT), MEM_COMMIT, PAGE_READWRITE));
 
 	if (ctx) {
 

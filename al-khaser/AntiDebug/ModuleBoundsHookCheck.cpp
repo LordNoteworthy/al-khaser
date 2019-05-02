@@ -74,16 +74,16 @@ bool ModuleBoundsHookCheckSingle(HMODULE dll, char* apiList)
 	PVOID moduleBottom = moduleInfo.lpBaseOfDll;
 	PVOID moduleTop = reinterpret_cast<PVOID>((reinterpret_cast<unsigned char*>(moduleBottom) + moduleInfo.SizeOfImage));
 
-	char* currentAPI = NULL;
-	char* nextAPI = NULL;
+	char* currentAPI = nullptr;
+	char* nextAPI = nullptr;
 	currentAPI = strtok_s(apiList, " ", &nextAPI);
 
 	bool foundHook = false;
 
-	while (currentAPI != NULL)
+	while (currentAPI != nullptr)
 	{
 		PVOID procAddr = GetProcAddress(dll, currentAPI);
-		if (procAddr != NULL)
+		if (procAddr != nullptr)
 		{
 			if (procAddr < moduleBottom || procAddr >= moduleTop)
 			{
@@ -92,7 +92,7 @@ bool ModuleBoundsHookCheckSingle(HMODULE dll, char* apiList)
 			}
 		}
 
-		currentAPI = strtok_s(NULL, " ", &nextAPI);
+		currentAPI = strtok_s(nullptr, " ", &nextAPI);
 	}
 
 	return foundHook;

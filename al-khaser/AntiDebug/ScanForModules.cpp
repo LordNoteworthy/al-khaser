@@ -69,7 +69,7 @@ bool IsGlobalizationNls(TCHAR* filename)
 	// exclude this nls
 	// consider removing this hack with proper implementation of memory scan
 	PCTSTR ret = StrStrI(filename, _T("\\Windows\\Globalization\\Sorting\\SortDefault.nls"));
-	return (ret != NULL);
+	return (ret != nullptr);
 }
 
 bool IsBadLibrary(TCHAR* filename, DWORD filenameLength)
@@ -228,10 +228,10 @@ BOOL ScanForModules_MemoryWalk_GMI()
 {
 	// TODO: Convert this to the new enumerate_memory() API for speed!
 
-	MEMORY_BASIC_INFORMATION memInfo = { 0 };
-	HMODULE moduleHandle = 0;
+	MEMORY_BASIC_INFORMATION memInfo = { nullptr };
+	HMODULE moduleHandle = nullptr;
 	TCHAR moduleName[MAX_PATH];
-	MODULEINFO moduleInfo = { 0 };
+	MODULEINFO moduleInfo = { nullptr };
 
 	auto memoryRegions = enumerate_memory();
 
@@ -294,7 +294,7 @@ BOOL ScanForModules_MemoryWalk_GMI()
 
 BOOL ScanForModules_MemoryWalk_Hidden()
 {
-	HMODULE moduleHandle = 0;
+	HMODULE moduleHandle = nullptr;
 	TCHAR moduleName[MAX_PATH];
 
 	auto memoryRegions = enumerate_memory();
@@ -348,7 +348,7 @@ BOOL ScanForModules_MemoryWalk_Hidden()
 			}
 			else
 			{
-				MODULEINFO modInfo = { 0 };
+				MODULEINFO modInfo = { nullptr };
 				if (GetModuleInformation(GetCurrentProcess(), moduleHandle, &modInfo, sizeof(MODULEINFO)))
 				{
 					size_t moduleSizeRoundedUp = (modInfo.SizeOfImage + 1);
@@ -397,7 +397,7 @@ std::vector<LDR_DATA_TABLE_ENTRY*>* WalkLDR(PPEB_LDR_DATA ldrData)
 
 	do
 	{
-		LDR_DATA_TABLE_ENTRY ldrEntry = { 0 };
+		LDR_DATA_TABLE_ENTRY ldrEntry = { nullptr };
 		LDR_DATA_TABLE_ENTRY* pLdrEntry = CONTAINING_RECORD(node, LDR_DATA_TABLE_ENTRY, InMemoryOrderLinks);
 
 		if (attempt_to_read_memory(pLdrEntry, &ldrEntry, sizeof(ldrEntry)))
@@ -430,7 +430,7 @@ std::vector<LDR_DATA_TABLE_ENTRY64*>* WalkLDR(PPEB_LDR_DATA64 ldrData)
 	}
 	ULONGLONG nodeAddr = ldrData->InMemoryOrderModuleList.Flink;
 	LIST_ENTRY64 node = head;
-	LDR_DATA_TABLE_ENTRY64 ldrEntry = { 0 };
+	LDR_DATA_TABLE_ENTRY64 ldrEntry = { nullptr };
 
 	do
 	{
@@ -458,7 +458,7 @@ std::vector<LDR_DATA_TABLE_ENTRY64*>* WalkLDR(PPEB_LDR_DATA64 ldrData)
 
 BOOL ScanForModules_LDR_Direct()
 {
-	PROCESS_BASIC_INFORMATION pbi = { 0 };
+	PROCESS_BASIC_INFORMATION pbi = { nullptr };
 	THREAD_BASIC_INFORMATION tbi = { 0 };
 
 	//printf("MemoryWalk_LDR()\n");
@@ -536,7 +536,7 @@ VOID NTAPI LdrEnumCallback(_In_ PLDR_DATA_TABLE_ENTRY ModuleInformation, _In_ PV
 
 	ldtEntries->push_back(LDR_DATA_TABLE_ENTRY(*ModuleInformation));
 
-	Stop = FALSE;
+	Stop = nullptr;
 }
 
 BOOL ScanForModules_LdrEnumerateLoadedModules()

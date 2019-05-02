@@ -24,12 +24,12 @@ BOOL SetWindowsHooksEx_Injection()
 	_tprintf(_T("\t[+] Getting main thread id of proc id: %u\n"), dwThreadId);
 
 	/* Get the full path of the dll to be injected */
-	GetFullPathName(lpDllName, MAX_PATH, lpDllPath, NULL);
+	GetFullPathName(lpDllName, MAX_PATH, lpDllPath, nullptr);
 	_tprintf(_T("\t[+] Full DLL Path: %s\n"), lpDllPath);
 
 	/* Obtain a handle to our injected dll */
 	hOurDll = LoadLibrary(lpDllPath);
-	if (hOurDll == NULL) {
+	if (hOurDll == nullptr) {
 		print_last_error(_T("LoadLibrary"));
 		return FALSE;
 	}
@@ -37,7 +37,7 @@ BOOL SetWindowsHooksEx_Injection()
 	/* Get 'MyProc' address */
 	_tprintf(_T("\t[+] Looking for 'MyProc' in our dll\n"));
 	 myFunctionAddress = (HOOKPROC)GetProcAddress(hOurDll, "MyProc");
-	if (myFunctionAddress == NULL) {
+	if (myFunctionAddress == nullptr) {
 		print_last_error(_T("GetProcAddress"));
 		return FALSE;
 	}
@@ -45,7 +45,7 @@ BOOL SetWindowsHooksEx_Injection()
 
 	/* Injection happens here */
 	hHook = SetWindowsHookEx(WH_KEYBOARD, myFunctionAddress, hOurDll, dwThreadId);
-	if (hHook == NULL) {
+	if (hHook == nullptr) {
 		print_last_error(_T("SetWindowsHookEx"));
 		return FALSE;
 	}

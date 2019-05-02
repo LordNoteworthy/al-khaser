@@ -39,13 +39,13 @@ void API::Init()
 		ApiData[i].ExpectedAvailable = ShouldFunctionExistOnCurrentPlatform(ApiData[i].PlatformBits, ApiData[i].MinVersion, ApiData[i].RemovedInVersion);
 
 		HMODULE hLib = LoadLibraryA(ApiData[i].Library);
-		if (hLib == NULL)
+		if (hLib == nullptr)
 		{
 			ApiData[i].Available = false;
 			continue;
 		}
 		ApiData[i].Pointer = GetProcAddress(hLib, ApiData[i].EntryName);
-		if (ApiData[i].Pointer == NULL)
+		if (ApiData[i].Pointer == nullptr)
 		{
 			ApiData[i].Available = false;
 			continue;

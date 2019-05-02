@@ -18,20 +18,20 @@ BOOL NtQueryObject_ObjectAllTypesInformation()
 
 	// Some vars
 	ULONG size;
-	PVOID pMemory = NULL;
-	POBJECT_ALL_INFORMATION pObjectAllInfo = NULL;
+	PVOID pMemory = nullptr;
+	POBJECT_ALL_INFORMATION pObjectAllInfo = nullptr;
 	NTSTATUS Status;
 
 	// Get the size of the information needed
-	Status = NtQueryObject(NULL, 3, &size, sizeof(ULONG), &size);
+	Status = NtQueryObject(nullptr, 3, &size, sizeof(ULONG), &size);
 
 	// Alocate memory for the list
-	pMemory = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-	if (pMemory == NULL)
+	pMemory = VirtualAlloc(nullptr, size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+	if (pMemory == nullptr)
 		return FALSE;
 
 	// Now we can actually retrieve the list
-	Status = NtQueryObject((HANDLE)-1, 3, pMemory, size, NULL);
+	Status = NtQueryObject((HANDLE)-1, 3, pMemory, size, nullptr);
 
 	// Status != STATUS_SUCCESS
 	if (Status != 0x00000000)

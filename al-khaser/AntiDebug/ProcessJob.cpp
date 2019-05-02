@@ -26,7 +26,7 @@ BOOL ProcessJob()
 
 		jobProcessIdList->NumberOfProcessIdsInList = 1024;
 
-		if (QueryInformationJobObject(NULL, JobObjectBasicProcessIdList, jobProcessIdList, jobProcessStructSize, NULL))
+		if (QueryInformationJobObject(nullptr, JobObjectBasicProcessIdList, jobProcessIdList, jobProcessStructSize, nullptr))
 		{
 			int ok_processes = 0;
 			for (DWORD i = 0; i < jobProcessIdList->NumberOfAssignedProcesses; i++)
@@ -43,7 +43,7 @@ BOOL ProcessJob()
 
 					// find the process name for this job process
 					HANDLE hJobProcess = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, (DWORD)processId);
-					if (hJobProcess != NULL)
+					if (hJobProcess != nullptr)
 					{
 						const int processNameBufferSize = 4096;
 						LPTSTR processName = static_cast<LPTSTR>(malloc(sizeof(TCHAR) * processNameBufferSize));

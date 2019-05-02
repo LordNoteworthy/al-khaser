@@ -21,7 +21,7 @@ DWORD GetParentProcessId()
 	SecureZeroMemory(&pbi, sizeof(ALK_PROCESS_BASIC_INFORMATION));
 
 	// Now we can call NtQueryInformationProcess, the second param 0 == ProcessBasicInformation
-	Status = NtQueryInfoProcess(GetCurrentProcess(), 0, (PVOID)&pbi, sizeof(ALK_PROCESS_BASIC_INFORMATION), 0);
+	Status = NtQueryInfoProcess(GetCurrentProcess(), 0, (PVOID)&pbi, sizeof(ALK_PROCESS_BASIC_INFORMATION), nullptr);
 
 	if (Status != 0x00000000)
 		return 0;

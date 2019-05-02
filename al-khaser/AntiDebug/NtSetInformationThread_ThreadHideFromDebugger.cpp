@@ -37,18 +37,18 @@ BOOL NtSetInformationThread_ThreadHideFromDebugger()
 		return TRUE;
 
 	// Next try again but give it a bogus thread handle. If it succeeds, again we know NtSetInformationThread was hooked.
-	Status = NtSetInformationThread((HANDLE)0xFFFF, ThreadHideFromDebugger, NULL, 0);
+	Status = NtSetInformationThread((HANDLE)0xFFFF, ThreadHideFromDebugger, nullptr, 0);
 	if (Status == 0)
 		return TRUE;
 	
 	// Now try a legitimate call.
-	Status = NtSetInformationThread(GetCurrentThread(), ThreadHideFromDebugger, NULL, 0);
+	Status = NtSetInformationThread(GetCurrentThread(), ThreadHideFromDebugger, nullptr, 0);
 
 	if (Status == 0)
 	{
 		if (doQITcheck)
 		{
-			Status = NtQueryInformationThread(GetCurrentThread(), ThreadHideFromDebugger, &isThreadHidden, sizeof(BOOL), NULL);
+			Status = NtQueryInformationThread(GetCurrentThread(), ThreadHideFromDebugger, &isThreadHidden, sizeof(BOOL), nullptr);
 			if (Status == 0)
 			{
 				// if the thread isn't hidden we know the ThreadHideFromDebugger call didn't do what it told us it did

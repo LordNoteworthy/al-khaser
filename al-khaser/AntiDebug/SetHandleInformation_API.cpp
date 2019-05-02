@@ -9,7 +9,7 @@ BOOL SetHandleInformatiom_ProtectedHandle()
 	HANDLE hMutex;
 
 	/* Create a mutex so we can get a handle */
-	hMutex = CreateMutex(NULL, FALSE, _T("Random name"));
+	hMutex = CreateMutex(nullptr, FALSE, _T("Random name"));
 
 	if (hMutex) {
 

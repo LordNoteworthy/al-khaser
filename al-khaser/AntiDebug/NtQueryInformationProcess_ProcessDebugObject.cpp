@@ -17,7 +17,7 @@ BOOL NtQueryInformationProcess_ProcessDebugObject()
 
 	// Other Vars
 	NTSTATUS Status;
-	HANDLE hDebugObject = NULL; 
+	HANDLE hDebugObject = nullptr; 
 
 #if defined (ENV64BIT)
 	DWORD dProcessInformationLength = sizeof(ULONG) * 2;
@@ -28,7 +28,7 @@ BOOL NtQueryInformationProcess_ProcessDebugObject()
 	DWORD32 IsRemotePresent = 0;
 #endif
 
-	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDebugObjectHandle, &hDebugObject, dProcessInformationLength, NULL);
+	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDebugObjectHandle, &hDebugObject, dProcessInformationLength, nullptr);
     
 	if (Status == 0x00000000 && hDebugObject)
         return TRUE;

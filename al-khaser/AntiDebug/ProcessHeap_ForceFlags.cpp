@@ -13,8 +13,8 @@ On Windows 7, these flags exist at 0x44 offset from heap base in 32bit system an
 #if defined (ENV64BIT)
 PUINT32 GetForceFlags_x64()
 {
-	PINT64 pProcessHeap = NULL;
-	PUINT32 pHeapForceFlags = NULL;
+	PINT64 pProcessHeap = nullptr;
+	PUINT32 pHeapForceFlags = nullptr;
 	if (IsWindowsVistaOrGreater()){
 		pProcessHeap = (PINT64)(__readgsqword(0x60) + 0x30);
 		pHeapForceFlags = (PUINT32)(*pProcessHeap + 0x74);
@@ -50,7 +50,7 @@ PUINT32 GetForceFlags_x86()
 
 BOOL HeapForceFlags()
 {
-	PUINT32 pHeapForceFlags = NULL;
+	PUINT32 pHeapForceFlags = nullptr;
 
 #if defined (ENV64BIT)
 	pHeapForceFlags = GetForceFlags_x64();

@@ -20,7 +20,7 @@ BOOL NtQueryObject_ObjectTypeInformation()
 	// Some vars
 	HANDLE DebugObjectHandle;
 	OBJECT_ATTRIBUTES ObjectAttributes;
-	InitializeObjectAttributes(&ObjectAttributes, 0, 0, 0, 0);
+	InitializeObjectAttributes(&ObjectAttributes, nullptr, 0, nullptr, nullptr);
 	BYTE memory[0x1000] = { 0 };
 	POBJECT_TYPE_INFORMATION ObjectInformation = (POBJECT_TYPE_INFORMATION)memory;
 	NTSTATUS Status;
@@ -29,7 +29,7 @@ BOOL NtQueryObject_ObjectTypeInformation()
 
 	if (API::IsAvailable(API_IDENTIFIER::API_NtQueryObject))
 	{
-		Status = NtQueryObject(DebugObjectHandle, ObjectTypeInformation, ObjectInformation, sizeof(memory), 0);
+		Status = NtQueryObject(DebugObjectHandle, ObjectTypeInformation, ObjectInformation, sizeof(memory), nullptr);
 		
 		// Make sure to not screw up later checks
 		CloseHandle(DebugObjectHandle);

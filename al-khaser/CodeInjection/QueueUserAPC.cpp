@@ -45,13 +45,13 @@ BOOL QueueUserAPC_Injection()
 
 	DWORD dwTargetProcessId, dwCurrentProcessId = GetCurrentProcessId();
 
-	HANDLE hProcess = NULL;
-	HANDLE hThread = NULL;
+	HANDLE hProcess = nullptr;
+	HANDLE hThread = nullptr;
 
 	HMODULE hKernel32;
 
 	FARPROC LoadLibraryAddress;
-	LPVOID lpBaseAddress = NULL;
+	LPVOID lpBaseAddress = nullptr;
 	BOOL bStatus = FALSE;
 
 
@@ -71,7 +71,7 @@ BOOL QueueUserAPC_Injection()
 
 	/* Obtain a hmodule of kernel32 */
 	hKernel32 = GetModuleHandle(_T("kernel32.dll"));
-	if (hKernel32 == NULL) {
+	if (hKernel32 == nullptr) {
 		print_last_error(_T("GetModuleHandle"));
 		return FALSE;
 	}
@@ -79,7 +79,7 @@ BOOL QueueUserAPC_Injection()
 	/* Get LoadLibrary address */
 	_tprintf(_T("\t[+] Looking for LoadLibrary in kernel32\n"));
 	LoadLibraryAddress = GetProcAddress(hKernel32, "LoadLibraryW");
-	if (LoadLibraryAddress == NULL) {
+	if (LoadLibraryAddress == nullptr) {
 		print_last_error(_T("GetProcAddress"));
 		return FALSE;
 	}
@@ -89,7 +89,7 @@ BOOL QueueUserAPC_Injection()
 
 	/* Obtain a handle the process */
 	hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwTargetProcessId);
-	if (hProcess == NULL) {
+	if (hProcess == nullptr) {
 		print_last_error(_T("OpenProcess"));
 		return FALSE;
 	}
@@ -97,7 +97,7 @@ BOOL QueueUserAPC_Injection()
 	do { // not a loop
 
 		/* Get the full path of the dll */
-		GetFullPathName(lpDllName, MAX_PATH, lpDllPath, NULL);
+		GetFullPathName(lpDllName, MAX_PATH, lpDllPath, nullptr);
 		_tprintf(_T("\t[+] Full DLL Path: %s\n"), lpDllPath);
 
 		// The maximum size of the string buffer.
@@ -105,15 +105,15 @@ BOOL QueueUserAPC_Injection()
 
 		/* Allocate memory into the remote process */
 		_tprintf(_T("\t[+] Allocating space for the path of the DLL\n"));
-		lpBaseAddress = VirtualAllocEx(hProcess, NULL, WriteBufferSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-		if (lpBaseAddress == NULL) {
+		lpBaseAddress = VirtualAllocEx(hProcess, nullptr, WriteBufferSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+		if (lpBaseAddress == nullptr) {
 			print_last_error(_T("VirtualAllocEx"));
 			break;
 		}
 
 		/* Write to the remote process */
 		printf("\t[+] Writing into the current process space at 0x%p\n", lpBaseAddress);
-		if (!WriteProcessMemory(hProcess, lpBaseAddress, lpDllPath, WriteBufferSize, NULL)) {
+		if (!WriteProcessMemory(hProcess, lpBaseAddress, lpDllPath, WriteBufferSize, nullptr)) {
 			print_last_error(_T("WriteProcessMemory"));
 			break;
 		}

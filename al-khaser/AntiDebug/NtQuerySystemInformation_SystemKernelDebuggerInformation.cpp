@@ -18,7 +18,7 @@ BOOL NtQuerySystemInformation_SystemKernelDebuggerInformation()
 	auto NtQuerySystemInformation = static_cast<pNtQuerySystemInformation>(API::GetAPI(API_IDENTIFIER::API_NtQuerySystemInformation));
 
 	// Call NtQuerySystemInformation
-	NTSTATUS Status = NtQuerySystemInformation(SystemKernelDebuggerInformation, &KdDebuggerInfo, sizeof(SYSTEM_KERNEL_DEBUGGER_INFORMATION), NULL);
+	NTSTATUS Status = NtQuerySystemInformation(SystemKernelDebuggerInformation, &KdDebuggerInfo, sizeof(SYSTEM_KERNEL_DEBUGGER_INFORMATION), nullptr);
 	if (Status >= 0)
 	{
 		// KernelDebuggerEnabled almost always implies !KernelDebuggerNotPresent. KernelDebuggerNotPresent can sometimes
