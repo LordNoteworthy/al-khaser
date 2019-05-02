@@ -7,9 +7,6 @@ Check if the DLL is loaded in the context of the process
 */
 VOID loaded_dlls()
 {
-	/* Some vars */
-	HMODULE hDll;
-
 	/* Array of strings of blacklisted dlls */
 	CONST TCHAR* szDlls[] = {
 		_T("avghookx.dll"),		// AVG
@@ -27,15 +24,15 @@ VOID loaded_dlls()
 
 	};
 
-	WORD dwlength = sizeof(szDlls) / sizeof(szDlls[0]);
-	for (int i = 0; i < dwlength; i++)
+	const WORD dwlength = sizeof szDlls / sizeof szDlls[0];
+	for (auto i = 0; i < dwlength; i++)
 	{
 		TCHAR msg[256] = _T("");
-		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking if process loaded modules contains: %s "), szDlls[i]);
+		_stprintf_s(msg, sizeof msg / sizeof(TCHAR), _T("Checking if process loaded modules contains: %s "), szDlls[i]);
 
 		/* Check if process loaded modules contains the blacklisted dll */
-		hDll = GetModuleHandle(szDlls[i]);
-		if (hDll == NULL)
+		const HMODULE hDll = GetModuleHandle(szDlls[i]);
+		if (hDll == nullptr)
 			print_results(FALSE, msg);
 		else
 			print_results(TRUE, msg);
@@ -56,7 +53,7 @@ Number of Processors in VM
 BOOL NumberOfProcessors()
 {
 #if defined (ENV64BIT)
-	PULONG ulNumberProcessors = (PULONG)(__readgsqword(0x60) + 0xB8);
+	const PULONG ulNumberProcessors = reinterpret_cast<PULONG>(__readgsqword(0x60) + 0xB8);
 
 #elif defined(ENV32BIT)
 	PULONG ulNumberProcessors = (PULONG)(__readfsdword(0x30) + 0x64);
@@ -65,8 +62,7 @@ BOOL NumberOfProcessors()
 
 	if (*ulNumberProcessors < 2)
 		return TRUE;
-	else
-		return FALSE;
+	return FALSE;
 }
 
 
@@ -80,12 +76,10 @@ PS: Does not seem to work on newer version of VMWare Workstation (Tested on v12)
 */
 BOOL idt_trick()
 {
-	UINT idt_base = get_idt_base();
-	if ((idt_base >> 24) == 0xff)
+	const UINT idt_base = get_idt_base();
+	if (idt_base >> 24 == 0xff)
 		return TRUE;
-
-	else
-		return FALSE;
+	return FALSE;
 }
 
 /*
@@ -93,12 +87,12 @@ Same for Local Descriptor Table (LDT)
 */
 BOOL ldt_trick()
 {
-	UINT ldt_base = get_ldt_base();
+	const UINT ldt_base = get_ldt_base();
 
 	if (ldt_base == 0xdead0000)
 		return FALSE;
-	else
-		return TRUE; // VMWare detected	
+	return TRUE; // VMWare detected	
+	
 }
 
 
@@ -107,13 +101,11 @@ Same for Global Descriptor Table (GDT)
 */
 BOOL gdt_trick()
 {
-	UINT gdt_base = get_gdt_base();
+	const UINT gdt_base = get_gdt_base();
 
-	if ((gdt_base >> 24) == 0xff)
+	if (gdt_base >> 24 == 0xff)
 		return TRUE; // VMWare detected	
-
-	else
-		return FALSE;
+	return FALSE;
 }
 
 
@@ -137,10 +129,9 @@ BOOL str_trick()
 	__asm str mem;
 #endif
 
-	if ((mem[0] == 0x00) && (mem[1] == 0x40))
+	if (mem[0] == 0x00 && mem[1] == 0x40)
 		return TRUE; // VMWare detected	
-	else
-		return FALSE;
+	return FALSE;
 }
 
 
@@ -149,11 +140,10 @@ Check number of cores using WMI
 */
 BOOL number_cores_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bStatus = FALSE;
-	HRESULT hRes;
 	BOOL bFound = FALSE;
 
 	// Init WMI
@@ -165,19 +155,19 @@ BOOL number_cores_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			// Iterate over our enumator
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("NumberOfCores"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("NumberOfCores"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 					if (V_VT(&vtProp) != VT_NULL) {
 
@@ -216,13 +206,12 @@ Check hard disk size using WMI
 */
 BOOL disk_size_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bStatus = FALSE;
-	HRESULT hRes;
 	BOOL bFound = FALSE;
-	UINT64 minHardDiskSize = (80ULL * (1024ULL * (1024ULL * (1024ULL))));
+	const UINT64 minHardDiskSize = 80ULL * (1024ULL * (1024ULL * 1024ULL));
 
 	// Init WMI
 	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
@@ -233,25 +222,25 @@ BOOL disk_size_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			// Iterate over our enumator
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("Size"), 0, &vtProp, NULL, 0);
+				hRes = pclsObj->Get(_T("Size"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 					if (V_VT(&vtProp) != VT_NULL)
 					{
 						// convert disk size string to bytes
 						errno = 0;
-						unsigned long long diskSizeBytes = _tcstoui64_l(vtProp.bstrVal, NULL, 10, _get_current_locale());
+						const auto diskSizeBytes = _tcstoui64_l(vtProp.bstrVal, nullptr, 10, _get_current_locale());
 						// do the check only if we successfuly got the disk size
 						if (errno == 0)
 						{
@@ -296,7 +285,7 @@ BOOL dizk_size_deviceiocontrol()
 	BOOL bResult = FALSE;
 	GET_LENGTH_INFORMATION size = { 0 };
 	DWORD lpBytesReturned = 0;
-	LONGLONG minHardDiskSize = (80LL * (1024LL * (1024LL * (1024LL))));
+	const LONGLONG minHardDiskSize = 80LL * (1024LL * (1024LL * 1024LL));
 	LARGE_INTEGER totalDiskSize;
 	totalDiskSize.QuadPart = 0LL;
 
@@ -313,12 +302,12 @@ BOOL dizk_size_deviceiocontrol()
 	// get the Windows system directory
 	wchar_t winDirBuffer[MAX_PATH];
 	SecureZeroMemory(winDirBuffer, MAX_PATH);
-	UINT winDirLen = GetSystemWindowsDirectory(winDirBuffer, MAX_PATH);
+	const UINT winDirLen = GetSystemWindowsDirectory(winDirBuffer, MAX_PATH);
 
 	if (winDirLen)
 	{
 		// get the drive number (0-25 for A-Z) associated with the directory
-		int driveNumber = PathGetDriveNumber(winDirBuffer);
+		const int driveNumber = PathGetDriveNumber(winDirBuffer);
 		if (driveNumber >= 0)
 		{
 			// convert the drive number to a root path (e.g. C:\)
@@ -328,25 +317,25 @@ BOOL dizk_size_deviceiocontrol()
 			wnsprintf(driveRootPathBuffer, MAX_PATH, _T("\\\\.\\%C:"), _T('A') + driveNumber);
 
 			// open a handle to the volume
-			HANDLE hVolume = CreateFile(
+			const HANDLE hVolume = CreateFile(
 				driveRootPathBuffer,
 				GENERIC_READ,
 				FILE_SHARE_READ | FILE_SHARE_WRITE,
-				NULL,
+				nullptr,
 				OPEN_EXISTING,
 				FILE_FLAG_BACKUP_SEMANTICS,
-				NULL);
+				nullptr);
 
 			if (hVolume != INVALID_HANDLE_VALUE)
 			{
-				DWORD extentSize = 8192; //256 VOLUME_DISK_EXTENTS entries
-				PVOLUME_DISK_EXTENTS diskExtents = NULL;
+				const DWORD extentSize = 8192; //256 VOLUME_DISK_EXTENTS entries
+				PVOLUME_DISK_EXTENTS diskExtents = nullptr;
 
 				diskExtents = static_cast<PVOLUME_DISK_EXTENTS>(LocalAlloc(LPTR, extentSize));
 				if (diskExtents) {
 
 					DWORD dummy = 0;
-					BOOL extentsIoctlOK = DeviceIoControl(hVolume, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, diskExtents, extentSize, &dummy, NULL);
+					const BOOL extentsIoctlOK = DeviceIoControl(hVolume, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, nullptr, 0, diskExtents, extentSize, &dummy, nullptr);
 
 					if (extentsIoctlOK && diskExtents->NumberOfDiskExtents > 0)
 					{
@@ -363,10 +352,10 @@ BOOL dizk_size_deviceiocontrol()
 									physicalPathBuffer,
 									GENERIC_READ,
 									FILE_SHARE_READ,
-									NULL,
+									nullptr,
 									OPEN_EXISTING,
 									0,
-									NULL);
+									nullptr);
 
 								if (hDevice != INVALID_HANDLE_VALUE)
 								{
@@ -374,10 +363,10 @@ BOOL dizk_size_deviceiocontrol()
 									bResult = DeviceIoControl(
 										hDevice,					// device to be queried
 										IOCTL_DISK_GET_LENGTH_INFO, // operation to perform
-										NULL, 0,					// no input buffer
+										nullptr, 0,					// no input buffer
 										&size, sizeof(GET_LENGTH_INFORMATION),
 										&lpBytesReturned,			// bytes returned
-										(LPOVERLAPPED)NULL);		// synchronous I/O
+										static_cast<LPOVERLAPPED>(nullptr));		// synchronous I/O
 
 									if (bResult)
 									{
@@ -428,20 +417,20 @@ BOOL dizk_size_deviceiocontrol()
 		hDevice = CreateFile(_T("\\\\.\\PhysicalDrive0"),
 			GENERIC_READ,               // no access to the drive
 			FILE_SHARE_READ, 			// share mode
-			NULL,						// default security attributes
+			nullptr,						// default security attributes
 			OPEN_EXISTING,				// disposition
 			0,							// file attributes
-			NULL);						// do not copy file attributes
+			nullptr);						// do not copy file attributes
 
 		if (hDevice != INVALID_HANDLE_VALUE) {
 
 			if (DeviceIoControl(
 				hDevice,					// device to be queried
 				IOCTL_DISK_GET_LENGTH_INFO, // operation to perform
-				NULL, 0,					// no input buffer
+				nullptr, 0,					// no input buffer
 				&size, sizeof(GET_LENGTH_INFORMATION),
 				&lpBytesReturned,			// bytes returned
-				(LPOVERLAPPED)NULL))		// synchronous I/O
+				static_cast<LPOVERLAPPED>(nullptr)))		// synchronous I/O
 			{
 				totalDiskSize.QuadPart = size.Length.QuadPart;
 			}
@@ -460,16 +449,14 @@ BOOL dizk_size_deviceiocontrol()
 
 BOOL setupdi_diskdrive()
 {
-	HDEVINFO hDevInfo;
 	SP_DEVINFO_DATA DeviceInfoData;
-	DWORD i;
 	BOOL bFound = FALSE;
 
 	// Create a HDEVINFO with all present devices.
-	hDevInfo = SetupDiGetClassDevs((LPGUID)&GUID_DEVCLASS_DISKDRIVE,
-		0, // Enumerator
-		0,
-		DIGCF_PRESENT);
+	const HDEVINFO hDevInfo = SetupDiGetClassDevs(const_cast<LPGUID>(&GUID_DEVCLASS_DISKDRIVE),
+	                                        nullptr, // Enumerator
+	                                        nullptr,
+	                                        DIGCF_PRESENT);
 
 	if (hDevInfo == INVALID_HANDLE_VALUE)
 		return FALSE;
@@ -479,21 +466,21 @@ BOOL setupdi_diskdrive()
 
 	/* Init some vars */
 	DWORD dwPropertyRegDataType;
-	LPTSTR buffer = NULL;
+	LPTSTR buffer = nullptr;
 	DWORD dwSize = 0;
 
-	for (i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &DeviceInfoData); i++)
+	for (DWORD i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &DeviceInfoData); i++)
 	{
 		while (!SetupDiGetDeviceRegistryProperty(hDevInfo, &DeviceInfoData, SPDRP_HARDWAREID,
-			&dwPropertyRegDataType, (PBYTE)buffer, dwSize, &dwSize))
+			&dwPropertyRegDataType, reinterpret_cast<PBYTE>(buffer), dwSize, &dwSize))
 		{
 			if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
 				// Change the buffer size.
 				if (buffer)LocalFree(buffer);
 				// Double the size to avoid problems on 
 				// W2k MBCS systems per KB 888609. 
-				buffer = (LPTSTR)LocalAlloc(LPTR, dwSize * 2);
-				if (buffer == NULL)
+				buffer = static_cast<LPTSTR>(LocalAlloc(LPTR, dwSize * 2));
+				if (buffer == nullptr)
 					break;
 			}
 			else
@@ -503,10 +490,10 @@ BOOL setupdi_diskdrive()
 
 		if (buffer) {
 			// Do our comparison
-			if ((StrStrI(buffer, _T("vbox")) != NULL) ||
-				(StrStrI(buffer, _T("vmware")) != NULL) ||
-				(StrStrI(buffer, _T("qemu")) != NULL) ||
-				(StrStrI(buffer, _T("virtual")) != NULL))
+			if (StrStrI(buffer, _T("vbox")) != nullptr ||
+				StrStrI(buffer, _T("vmware")) != nullptr ||
+				StrStrI(buffer, _T("qemu")) != nullptr ||
+				StrStrI(buffer, _T("virtual")) != nullptr)
 			{
 				bFound = TRUE;
 				break;
@@ -544,7 +531,7 @@ BOOL mouse_movement() {
 	/* Retrieve the poition gain */
 	GetCursorPos(&positionB);
 
-	if ((positionA.x == positionB.x) && (positionA.y == positionB.y))
+	if (positionA.x == positionB.x && positionA.y == positionB.y)
 		/* Probably a sandbox, because mouse position did not change. */
 		return TRUE;
 
@@ -559,13 +546,13 @@ more tasks at the same time.
 */
 BOOL memory_space()
 {
-	DWORDLONG ullMinRam = (1024LL * (1024LL * (1024LL * 1LL))); // 1GB
+	const DWORDLONG ullMinRam = 1024LL * (1024LL * (1024LL * 1LL)); // 1GB
 	MEMORYSTATUSEX statex = { 0 };
 
-	statex.dwLength = sizeof(statex);
+	statex.dwLength = sizeof statex;
 	GlobalMemoryStatusEx(&statex);
 
-	return (statex.ullTotalPhys < ullMinRam) ? TRUE : FALSE;
+	return statex.ullTotalPhys < ullMinRam ? TRUE : FALSE;
 }
 
 /*
@@ -574,15 +561,15 @@ This can be used to expose a sandbox.
 */
 BOOL disk_size_getdiskfreespace()
 {
-	ULONGLONG minHardDiskSize = (80ULL * (1024ULL * (1024ULL * (1024ULL))));
-	LPCWSTR pszDrive = NULL;
+	const ULONGLONG minHardDiskSize = 80ULL * (1024ULL * (1024ULL * 1024ULL));
+	const LPCWSTR pszDrive = nullptr;
 	BOOL bStatus = FALSE;
 
 	// 64 bits integer, low and high bytes
 	ULARGE_INTEGER totalNumberOfBytes;
 
 	// If the function succeeds, the return value is nonzero. If the function fails, the return value is 0 (zero).
-	bStatus = GetDiskFreeSpaceEx(pszDrive, NULL, &totalNumberOfBytes, NULL);
+	bStatus = GetDiskFreeSpaceEx(pszDrive, nullptr, &totalNumberOfBytes, nullptr);
 	if (bStatus) {
 		if (totalNumberOfBytes.QuadPart < minHardDiskSize)  // 80GB
 			return TRUE;
@@ -597,7 +584,7 @@ Sleep and check if time have been accelerated
 BOOL accelerated_sleep()
 {
 	DWORD dwStart = 0, dwEnd = 0, dwDiff = 0;
-	DWORD dwMillisecondsToSleep = 60 * 1000;
+	const DWORD dwMillisecondsToSleep = 60 * 1000;
 
 	/* Retrieves the number of milliseconds that have elapsed since the system was started */
 	dwStart = GetTickCount();
@@ -628,7 +615,7 @@ BOOL cpuid_is_hypervisor()
 
 	/* Query hypervisor precense using CPUID (EAX=1), BIT 31 in ECX */
 	__cpuid(CPUInfo, 1);
-	if ((CPUInfo[2] >> 31) & 1)
+	if (CPUInfo[2] >> 31 & 1)
 		return TRUE;
 	else
 		return FALSE;
@@ -643,8 +630,6 @@ BOOL cpuid_hypervisor_vendor()
 {
 	INT CPUInfo[4] = { -1 };
 	CHAR szHypervisorVendor[0x40];
-	WCHAR *pwszConverted;
-
 	BOOL bResult = FALSE;
 
 	const TCHAR* szBlacklistedHypervisors[] = {
@@ -655,7 +640,7 @@ BOOL cpuid_hypervisor_vendor()
 		_T("prl hyperv  "),		/* Parallels */
 		_T("VBoxVBoxVBox"),		/* VirtualBox */
 	};
-	WORD dwlength = sizeof(szBlacklistedHypervisors) / sizeof(szBlacklistedHypervisors[0]);
+	const WORD dwlength = sizeof szBlacklistedHypervisors / sizeof szBlacklistedHypervisors[0];
 
 	// __cpuid with an InfoType argument of 0 returns the number of
 	// valid Ids in CPUInfo[0] and the CPU identification string in
@@ -663,15 +648,15 @@ BOOL cpuid_hypervisor_vendor()
 	// not in linear order. The code below arranges the information 
 	// in a human readable form.
 	__cpuid(CPUInfo, 0x40000000);
-	memset(szHypervisorVendor, 0, sizeof(szHypervisorVendor));
+	memset(szHypervisorVendor, 0, sizeof szHypervisorVendor);
 	memcpy(szHypervisorVendor, CPUInfo + 1, 12);
 
 	for (int i = 0; i < dwlength; i++)
 	{
-		pwszConverted = ascii_to_wide_str(szHypervisorVendor);
+		WCHAR* pwszConverted = ascii_to_wide_str(szHypervisorVendor);
 		if (pwszConverted) {
 
-			bResult = (_tcscmp(pwszConverted, szBlacklistedHypervisors[i]) == 0);
+			bResult = _tcscmp(pwszConverted, szBlacklistedHypervisors[i]) == 0;
 
 			free(pwszConverted);
 
@@ -689,11 +674,10 @@ Check SerialNumber devices using WMI
 */
 BOOL serial_number_bios_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bStatus = FALSE;
-	HRESULT hRes;
 	BOOL bFound = FALSE;
 
 	// Init WMI
@@ -706,28 +690,28 @@ BOOL serial_number_bios_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("SerialNumber"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("SerialNumber"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 					if (vtProp.vt == VT_BSTR) {
 
 						// Do our comparison
 						if (
-							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
-							(wcscmp(vtProp.bstrVal, _T("0")) == 0) || // VBox (serial is just "0")
-							(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
-							(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
-							(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
+							StrStrI(vtProp.bstrVal, _T("VMWare")) != nullptr ||
+							wcscmp(vtProp.bstrVal, _T("0")) == 0 || // VBox (serial is just "0")
+							StrStrI(vtProp.bstrVal, _T("Xen")) != nullptr ||
+							StrStrI(vtProp.bstrVal, _T("Virtual")) != nullptr ||
+							StrStrI(vtProp.bstrVal, _T("A M I")) != nullptr
 							)
 						{
 							VariantClear(&vtProp);
@@ -760,11 +744,10 @@ Check Model from ComputerSystem using WMI
 */
 BOOL model_computer_system_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bStatus = FALSE;
-	HRESULT hRes;
 	BOOL bFound = FALSE;
 
 	// Init WMI
@@ -777,26 +760,26 @@ BOOL model_computer_system_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("Model"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("Model"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 					if (vtProp.vt == VT_BSTR) {
 
 						// Do our comparison
 						if (
-							(StrStrI(vtProp.bstrVal, _T("VirtualBox")) != 0) ||
-							(StrStrI(vtProp.bstrVal, _T("HVM domU")) != 0) || //Xen
-							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0)
+							StrStrI(vtProp.bstrVal, _T("VirtualBox")) != nullptr ||
+							StrStrI(vtProp.bstrVal, _T("HVM domU")) != nullptr || //Xen
+							StrStrI(vtProp.bstrVal, _T("VMWare")) != nullptr
 							)
 						{
 							VariantClear(&vtProp);
@@ -829,11 +812,10 @@ Check Manufacturer from ComputerSystem using WMI
 */
 BOOL manufacturer_computer_system_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bStatus = FALSE;
-	HRESULT hRes;
 	BOOL bFound = FALSE;
 
 	// Init WMI
@@ -846,27 +828,27 @@ BOOL manufacturer_computer_system_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("Manufacturer"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("Manufacturer"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 					if (vtProp.vt == VT_BSTR) {
 
 						// Do our comparison
 						if (
-							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
-							(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
-							(StrStrI(vtProp.bstrVal, _T("innotek GmbH")) != 0) || // Vbox
-							(StrStrI(vtProp.bstrVal, _T("QEMU")) != 0)
+							StrStrI(vtProp.bstrVal, _T("VMWare")) != nullptr ||
+							StrStrI(vtProp.bstrVal, _T("Xen")) != nullptr ||
+							StrStrI(vtProp.bstrVal, _T("innotek GmbH")) != nullptr || // Vbox
+							StrStrI(vtProp.bstrVal, _T("QEMU")) != nullptr
 							)
 						{
 							VariantClear(&vtProp);
@@ -899,11 +881,10 @@ In my tests, it works against vbox, vmware, kvm and xen.
 */
 BOOL current_temperature_acpi_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bStatus = FALSE;
-	HRESULT hRes;
 	BOOL bFound = FALSE;
 
 	// This technique required admin priviliege
@@ -920,20 +901,20 @@ BOOL current_temperature_acpi_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn) {
 					bFound = TRUE;
 					break;
 				}
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("CurrentTemperature"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("CurrentTemperature"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 					VariantClear(&vtProp);
 					pclsObj->Release();
@@ -962,11 +943,10 @@ KVM, XEN anv VMWare seems to return something, VBOX return NULL
 */
 BOOL process_id_processor_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bStatus = FALSE;
-	HRESULT hRes;
 	BOOL bFound = FALSE;
 
 	// Init WMI
@@ -979,22 +959,22 @@ BOOL process_id_processor_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("ProcessorId"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("ProcessorId"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 
 					// Do our comparison
-					if (vtProp.bstrVal == NULL)
+					if (vtProp.bstrVal == nullptr)
 					{
 						bFound = TRUE;
 					}
@@ -1032,7 +1012,7 @@ BOOL power_capabilities()
 	{
 		if ((powerCaps.SystemS1 | powerCaps.SystemS2 | powerCaps.SystemS3 | powerCaps.SystemS4) == FALSE)
 		{
-			bFound = (powerCaps.ThermalControl == FALSE);
+			bFound = powerCaps.ThermalControl == FALSE;
 		}
 	}
 
@@ -1047,11 +1027,10 @@ which would most likely be true in a non-virtual environment.
 */
 BOOL cpu_fan_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bStatus = FALSE;
-	HRESULT hRes;
 	BOOL bFound = FALSE;
 	ULONG uObjCount = 0;
 
@@ -1064,12 +1043,12 @@ BOOL cpu_fan_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn) {
 					break;
 				}
@@ -1098,11 +1077,10 @@ Check Caption from VideoController using WMI
 */
 BOOL caption_video_controller_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bStatus = FALSE;
-	HRESULT hRes;
 	BOOL bFound = FALSE;
 
 	// Init WMI
@@ -1115,25 +1093,25 @@ BOOL caption_video_controller_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("Caption"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("Caption"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 					if (vtProp.vt == VT_BSTR) {
 
 						// Do our comparison
 						if (
-							(StrStrI(vtProp.bstrVal, _T("Hyper-V")) != 0) ||
-							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0)
+							StrStrI(vtProp.bstrVal, _T("Hyper-V")) != nullptr ||
+							StrStrI(vtProp.bstrVal, _T("VMWare")) != nullptr
 							)
 						{
 							VariantClear(&vtProp);
@@ -1166,8 +1144,8 @@ This detection works on Windows 7 and does not detect Microsoft Hypervisor.
 */
 BOOL query_license_value()
 {
-	auto RtlInitUnicodeString = static_cast<pRtlInitUnicodeString>(API::GetAPI(API_IDENTIFIER::API_RtlInitUnicodeString));
-	auto NtQueryLicenseValue = static_cast<pNtQueryLicenseValue>(API::GetAPI(API_IDENTIFIER::API_NtQueryLicenseValue));
+	const auto RtlInitUnicodeString = static_cast<pRtlInitUnicodeString>(API::GetAPI(API_IDENTIFIER::API_RtlInitUnicodeString));
+	const auto NtQueryLicenseValue = static_cast<pNtQueryLicenseValue>(API::GetAPI(API_IDENTIFIER::API_NtQueryLicenseValue));
 
 	if (RtlInitUnicodeString == nullptr || NtQueryLicenseValue == nullptr)
 		return FALSE;
@@ -1177,10 +1155,10 @@ BOOL query_license_value()
 
 	ULONG Result = 0, ReturnLength;
 
-	NTSTATUS Status = NtQueryLicenseValue(&LicenseValue, NULL, reinterpret_cast<PVOID>(&Result), sizeof(ULONG), &ReturnLength);
+	const NTSTATUS Status = NtQueryLicenseValue(&LicenseValue, nullptr, reinterpret_cast<PVOID>(&Result), sizeof(ULONG), &ReturnLength);
 
 	if (NT_SUCCESS(Status)) {
-		return (Result != 0);
+		return Result != 0;
 	}
 
 	return FALSE;
@@ -1188,11 +1166,10 @@ BOOL query_license_value()
 
 int wmi_query_count(const _TCHAR* query)
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bStatus = FALSE;
-	HRESULT hRes;
 
 	int count = 0;
 
@@ -1205,13 +1182,13 @@ int wmi_query_count(const _TCHAR* query)
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 
 			// Iterate over our enumator
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
@@ -1243,7 +1220,7 @@ Check Win32_CacheMemory for entries
 */
 BOOL cachememory_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM Win32_CacheMemory"));
+	const int count = wmi_query_count(_T("SELECT * FROM Win32_CacheMemory"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1256,7 +1233,7 @@ Check Win32_PhysicalMemory for entries
 */
 BOOL physicalmemory_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM Win32_PhysicalMemory"));
+	const int count = wmi_query_count(_T("SELECT * FROM Win32_PhysicalMemory"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1269,7 +1246,7 @@ Check Win32_MemoryDevice for entries
 */
 BOOL memorydevice_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM Win32_MemoryDevice"));
+	const int count = wmi_query_count(_T("SELECT * FROM Win32_MemoryDevice"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1282,7 +1259,7 @@ Check Win32_MemoryArray for entries
 */
 BOOL memoryarray_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM Win32_MemoryArray"));
+	const int count = wmi_query_count(_T("SELECT * FROM Win32_MemoryArray"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1295,7 +1272,7 @@ Check Win32_VoltageProbe for entries
 */
 BOOL voltageprobe_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM Win32_VoltageProbe"));
+	const int count = wmi_query_count(_T("SELECT * FROM Win32_VoltageProbe"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1308,7 +1285,7 @@ Check Win32_PortConnector for entries
 */
 BOOL portconnector_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM Win32_PortConnector"));
+	const int count = wmi_query_count(_T("SELECT * FROM Win32_PortConnector"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1321,7 +1298,7 @@ Check Win32_SMBIOSMemory for entries
 */
 BOOL smbiosmemory_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM Win32_SMBIOSMemory"));
+	const int count = wmi_query_count(_T("SELECT * FROM Win32_SMBIOSMemory"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1334,7 +1311,7 @@ Check Win32_PerfFormattedData_Counters_ThermalZoneInformation for entries
 */
 BOOL perfctrs_thermalzoneinfo_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM Win32_PerfFormattedData_Counters_ThermalZoneInformation"));
+	const int count = wmi_query_count(_T("SELECT * FROM Win32_PerfFormattedData_Counters_ThermalZoneInformation"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1347,7 +1324,7 @@ Check CIM_Memory for entries
 */
 BOOL cim_memory_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM CIM_Memory"));
+	const int count = wmi_query_count(_T("SELECT * FROM CIM_Memory"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1360,7 +1337,7 @@ Check CIM_NumericSensor for entries
 */
 BOOL cim_numericsensor_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM CIM_NumericSensor"));
+	const int count = wmi_query_count(_T("SELECT * FROM CIM_NumericSensor"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1373,7 +1350,7 @@ Check CIM_PhysicalConnector for entries
 */
 BOOL cim_physicalconnector_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM CIM_PhysicalConnector"));
+	const int count = wmi_query_count(_T("SELECT * FROM CIM_PhysicalConnector"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1386,7 +1363,7 @@ Check CIM_Sensor for entries
 */
 BOOL cim_sensor_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM CIM_Sensor"));
+	const int count = wmi_query_count(_T("SELECT * FROM CIM_Sensor"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1399,7 +1376,7 @@ Check CIM_Slot for entries
 */
 BOOL cim_slot_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM CIM_Slot"));
+	const int count = wmi_query_count(_T("SELECT * FROM CIM_Slot"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1412,7 +1389,7 @@ Check CIM_TemperatureSensor for entries
 */
 BOOL cim_temperaturesensor_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM CIM_TemperatureSensor"));
+	const int count = wmi_query_count(_T("SELECT * FROM CIM_TemperatureSensor"));
 	if (count == 0)
 	{
 		return TRUE;
@@ -1425,7 +1402,7 @@ Check CIM_VoltageSensor for entries
 */
 BOOL cim_voltagesensor_wmi()
 {
-	int count = wmi_query_count(_T("SELECT * FROM CIM_VoltageSensor"));
+	const int count = wmi_query_count(_T("SELECT * FROM CIM_VoltageSensor"));
 	if (count == 0)
 	{
 		return TRUE;
