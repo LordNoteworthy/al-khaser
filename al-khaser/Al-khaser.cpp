@@ -37,17 +37,17 @@ int main(void)
 	print_os();
 	API::PrintAvailabilityReport();
 
-	if (ENABLE_DEBUG_CHECKS) PageExceptionInitialEnum();
+	if (ENABLE_DEBUG_CHECKS) PageExceptionInitialEnum(); //-V547
 
 	/* TLS checks */
-	if (ENABLE_TLS_CHECKS) {
+	if (ENABLE_TLS_CHECKS) { //-V547
 		print_category(TEXT("TLS Callbacks"));
 		exec_check(&TLSCallbackProcess, TEXT("TLS process attach callback "));
 		exec_check(&TLSCallbackThread, TEXT("TLS thread attach callback "));
 	}
 
 	/* Debugger Detection */
-	if (ENABLE_DEBUG_CHECKS) {
+	if (ENABLE_DEBUG_CHECKS) { //-V547
 		print_category(TEXT("Debugger Detection"));
 		exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API "));
 		exec_check(&IsDebuggerPresentPEB, TEXT("Checking PEB.BeingDebugged "));
@@ -87,7 +87,7 @@ int main(void)
 		exec_check(&ModuleBoundsHookCheck, TEXT("Checking for API hooks outside module bounds "));
 	}
 
-	if (ENABLE_INJECTION_CHECKS) {
+	if (ENABLE_INJECTION_CHECKS) { //-V547
 		print_category(TEXT("DLL Injection Detection"));
 		exec_check(&ScanForModules_EnumProcessModulesEx_32bit, TEXT("Enumerating modules with EnumProcessModulesEx [32-bit] "));
 		exec_check(&ScanForModules_EnumProcessModulesEx_64bit, TEXT("Enumerating modules with EnumProcessModulesEx [64-bit] "));
@@ -100,7 +100,7 @@ int main(void)
 	}
 
 	/* Generic sandbox detection */
-	if (ENABLE_GEN_SANDBOX_CHECKS) {
+	if (ENABLE_GEN_SANDBOX_CHECKS) { //-V547
 		print_category(TEXT("Generic Sandboxe/VM Detection"));
 		loaded_dlls();
 		exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine "));
@@ -145,7 +145,7 @@ int main(void)
 	}
 
 	/* VirtualBox Detection */
-	if (ENABLE_VBOX_CHECKS) {
+	if (ENABLE_VBOX_CHECKS) { //-V547
 		print_category(TEXT("VirtualBox Detection"));
 		vbox_reg_key_value();
 		exec_check(&vbox_dir, TEXT("Checking VirtualBox Guest Additions directory "));
@@ -169,7 +169,7 @@ int main(void)
 	}
 
 	/* VMWare Detection */
-	if (ENABLE_VMWARE_CHECKS) {
+	if (ENABLE_VMWARE_CHECKS) { //-V547
 		print_category(TEXT("VMWare Detection"));
 		vmware_reg_key_value();
 		vmware_reg_keys();
@@ -183,14 +183,14 @@ int main(void)
 	}
 
 	/* Virtual PC Detection */
-	if (ENABLE_VPC_CHECKS) {
+	if (ENABLE_VPC_CHECKS) { //-V547
 		print_category(TEXT("Virtual PC Detection"));
 		virtual_pc_process();
 		virtual_pc_reg_keys();
 	}
 
 	/* QEMU Detection */
-	if (ENABLE_QEMU_CHECKS) {
+	if (ENABLE_QEMU_CHECKS) { //-V547
 		print_category(TEXT("QEMU Detection"));
 		qemu_reg_key_value();
 		qemu_processes();
@@ -199,7 +199,7 @@ int main(void)
 	}
 
 	/* Xen Detection */
-	if (ENABLE_XEN_CHECKS) {
+	if (ENABLE_XEN_CHECKS) { //-V547
 		print_category(TEXT("Xen Detection"));
 		xen_process();
 		exec_check(&xen_check_mac, TEXT("Checking Mac Address start with 08:16:3E "));
@@ -207,21 +207,21 @@ int main(void)
 	}
 
 	/* Wine Detection */
-	if (ENABLE_WINE_CHECKS) {
+	if (ENABLE_WINE_CHECKS) { //-V547
 		print_category(TEXT("Wine Detection"));
 		exec_check(&wine_exports, TEXT("Checking Wine via dll exports "));
 		wine_reg_keys();
 	}
 
 	/* Paralles Detection */
-	if (ENABLE_PARALLELS_CHECKS) {
+	if (ENABLE_PARALLELS_CHECKS) { //-V547
 		print_category(TEXT("Paralles Detection"));
 		parallels_process();
 		exec_check(&parallels_check_mac, TEXT("Checking Mac Address start with 08:1C:42 "));
 	}
 
 	/* Code injections techniques */
-	if (ENABLE_CODE_INJECTIONS) {
+	if (ENABLE_CODE_INJECTIONS) { //-V547
 		CreateRemoteThread_Injection();
 		SetWindowsHooksEx_Injection();
 		NtCreateThreadEx_Injection();
@@ -231,7 +231,7 @@ int main(void)
 	}
 
 	/* Timing Attacks */
-	if (ENABLE_TIMING_ATTACKS) {
+	if (ENABLE_TIMING_ATTACKS) { //-V547
 		print_category(TEXT("Timing-attacks"));
 		UINT delayInSeconds = 600U;
 		UINT delayInMillis = delayInSeconds * 1000U;
@@ -251,13 +251,13 @@ int main(void)
 	}
 
 	/* Malware analysis tools */
-	if (ENABLE_ANALYSIS_TOOLS_CHECK) {
+	if (ENABLE_ANALYSIS_TOOLS_CHECK) { //-V547
 		print_category(TEXT("Analysis-tools"));
 		analysis_tools_process();
 	}
 
 	/* Anti Dumping */
-	if (ENABLE_DUMPING_CHECK) {
+	if (ENABLE_DUMPING_CHECK) { //-V547
 		print_category(TEXT("Anti Dumping"));
 		ErasePEHeaderFromMemory();
 		SizeOfImage();

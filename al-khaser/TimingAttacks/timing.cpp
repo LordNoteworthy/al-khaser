@@ -43,7 +43,7 @@ BOOL timing_SetTimer(UINT delayInMillis)
 	
 	// Because we are running in a console app, we should get the messages from
 	// the queue and check if msg is WM_TIMER
-	while (GetMessage(&Msg, NULL, 0, 0) & !bProcessed) 
+	while (GetMessage(&Msg, NULL, 0, 0) & !bProcessed)  //-V564
 	{
 		TranslateMessage(&Msg); 
 		DispatchMessage(&Msg);
@@ -83,7 +83,7 @@ BOOL timing_timeSetEvent(UINT delayInMillis)
 	if (idEvent == NULL)
 		return TRUE;
 
-	while (!bProcessed){
+	while (!bProcessed){ //-V712
 		// wait until uor function finish
 	}
 
@@ -161,7 +161,7 @@ BOOL rdtsc_diff_locky()
 		tsc1 = __rdtsc();
 
 		// Waste some cycles - should be faster than CloseHandle on bare metal
-		GetProcessHeap(); //TODO: V530 https://www.viva64.com/en/w/v530/ The return value of function 'GetProcessHeap' is required to be utilized.
+		GetProcessHeap(); //TODO: V530 https://www.viva64.com/en/w/v530/ The return value of function 'GetProcessHeap' is required to be utilized. //-V530
 
 		tsc2 = __rdtsc();
 
