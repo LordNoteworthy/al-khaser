@@ -261,7 +261,7 @@ BOOL vbox_mac_wmi()
 
 					if (V_VT(&vtProp) != VT_NULL) {
 
-						if (vtProp.vt | VT_BSTR == VT_BSTR)
+						if (vtProp.vt | VT_BSTR == VT_BSTR) //TODO: V501 https://www.viva64.com/en/w/v501/ There are identical sub-expressions to the left and to the right of the '==' operator: VT_BSTR == VT_BSTR
 						{
 							// Do our comparison
 							if (_tcsstr(vtProp.bstrVal, _T("08:00:27")) != 0) {
