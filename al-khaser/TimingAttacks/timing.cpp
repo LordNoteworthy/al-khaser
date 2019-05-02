@@ -21,7 +21,7 @@ BOOL timing_NtDelayexecution(UINT delayInMillis)
 	return FALSE;
 }
 
-BOOL bProcessed = FALSE;
+BOOL volatile bProcessed = FALSE;
 
 VOID CALLBACK TimerProc(HWND hwnd, UINT message, UINT_PTR iTimerID, DWORD dwTime)
 {
