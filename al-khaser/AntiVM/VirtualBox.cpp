@@ -398,11 +398,11 @@ BOOL vbox_firmware_SMBIOS()
 	const auto smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
 	if (smbios != nullptr)
 	{
-		const auto virtualBoxString = reinterpret_cast<PBYTE>("VirtualBox");
+		const PBYTE virtualBoxString = (PBYTE)"VirtualBox";
 		const size_t virtualBoxStringLen = 10;
-		const auto vboxLowerString = reinterpret_cast<PBYTE>("vbox");
+		const PBYTE vboxLowerString = (PBYTE)"vbox";
 		const size_t vboxLowerStringLen = 4;
-		const auto vboxUpperString = reinterpret_cast<PBYTE>("VBOX");
+		const PBYTE vboxUpperString = (PBYTE)"VBOX";
 		const size_t vboxUpperStringLen = 4;
 
 		if (find_str_in_data(virtualBoxString, virtualBoxStringLen, smbios, smbiosSize) ||
@@ -449,11 +449,11 @@ BOOL vbox_firmware_ACPI()
 			const auto table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize_);
 
 			if (table) {
-				const auto virtualBoxString = reinterpret_cast<PBYTE>("VirtualBox");
+				const PBYTE virtualBoxString = (PBYTE)"VirtualBox";
 				const size_t virtualBoxStringLen = 10;
-				const auto vboxLowerString = reinterpret_cast<PBYTE>("vbox");
+				const PBYTE vboxLowerString = (PBYTE)"vbox";
 				const size_t vboxLowerStringLen = 4;
-				const auto vboxUpperString = reinterpret_cast<PBYTE>("VBOX");
+				const PBYTE vboxUpperString = (PBYTE)"VBOX";
 				const size_t vboxUpperStringLen = 4;
 
 				if (find_str_in_data(virtualBoxString, virtualBoxStringLen, table, tableSize_) ||

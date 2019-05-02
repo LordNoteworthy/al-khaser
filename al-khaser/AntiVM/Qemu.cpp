@@ -63,9 +63,9 @@ BOOL qemu_firmware_SMBIOS()
 	const auto smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
 	if (smbios != nullptr)
 	{
-		const auto qemuString1 = reinterpret_cast<PBYTE>("qemu");
+		PBYTE qemuString1 = (PBYTE)"qemu";
 		const size_t StringLen = 4;
-		const auto qemuString2 = reinterpret_cast<PBYTE>("QEMU");
+		PBYTE qemuString2 = (PBYTE)"QEMU";
 
 		if (find_str_in_data(qemuString1, StringLen, smbios, smbiosSize) ||
 			find_str_in_data(qemuString2, StringLen, smbios, smbiosSize))
@@ -110,9 +110,9 @@ BOOL qemu_firmware_ACPI()
 				const auto table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize_);
 
 				if (table) {
-					const auto qemuString1 = reinterpret_cast<PBYTE>("BOCHS");
+					PBYTE qemuString1 = (PBYTE)"BOCHS";
 					const size_t StringLen = 4;
-					const auto qemuString2 = reinterpret_cast<PBYTE>("BXPC");
+					PBYTE qemuString2 = (PBYTE)"BXPC";
 
 					if (find_str_in_data(qemuString1, StringLen, table, tableSize_) ||
 						find_str_in_data(qemuString2, StringLen, table, tableSize_))
