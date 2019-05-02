@@ -12,8 +12,8 @@ VOID xen_process()
 		_T("xenservice.exe"),
 	};
 
-	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
-	for (int i = 0; i < iLength; i++)
+	const WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
+	for (auto i = 0; i < iLength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking Citrix Xen process %s"), szProcesses[i]);
