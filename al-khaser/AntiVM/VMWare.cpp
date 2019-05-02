@@ -16,9 +16,9 @@ VOID vmware_reg_key_value()
 		{ _T("SYSTEM\\ControlSet001\\Control\\SystemInformation"), _T("SystemProductName"), _T("VMWARE") },
 	};
 
-	WORD dwLength = sizeof(szEntries) / sizeof(szEntries[0]);
+	const WORD dwLength = sizeof(szEntries) / sizeof(szEntries[0]);
 
-	for (int i = 0; i < dwLength; i++)
+	for (auto i = 0; i < dwLength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s"), szEntries[i][0]);
@@ -41,10 +41,10 @@ VOID vmware_reg_keys()
 		_T("SOFTWARE\\VMware, Inc.\\VMware Tools"),
 	};
 
-	WORD dwlength = sizeof(szKeys) / sizeof(szKeys[0]);
+	const WORD dwlength = sizeof(szKeys) / sizeof(szKeys[0]);
 
 	/* Check one by one */
-	for (int i = 0; i < dwlength; i++)
+	for (auto i = 0; i < dwlength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s "), szKeys[i]);
@@ -75,7 +75,7 @@ VOID vmware_files()
 	};
 
 	/* Getting Windows Directory */
-	WORD dwlength = sizeof(szPaths) / sizeof(szPaths[0]);
+	const WORD dwlength = sizeof(szPaths) / sizeof(szPaths[0]);
 	TCHAR szWinDir[MAX_PATH] = _T("");
 	TCHAR szPath[MAX_PATH] = _T("");
 	GetWindowsDirectory(szWinDir, MAX_PATH);
@@ -105,7 +105,7 @@ BOOL vmware_dir()
 	if (IsWoW64())
 		ExpandEnvironmentStrings(_T("%ProgramW6432%"), szProgramFile, ARRAYSIZE(szProgramFile));
 	else
-		SHGetSpecialFolderPath(NULL, szProgramFile, CSIDL_PROGRAM_FILES, FALSE);
+		SHGetSpecialFolderPath(nullptr, szProgramFile, CSIDL_PROGRAM_FILES, FALSE);
 
 	PathCombine(szPath, szProgramFile, szTarget);
 	return is_DirectoryExists(szPath);
@@ -125,10 +125,10 @@ VOID vmware_mac()
 		{ _T("\x00\x50\x56"), _T("00:50:56") },	// VMWare, Inc.
 	};
 
-	WORD dwLength = sizeof(szMac) / sizeof(szMac[0]);
+	const WORD dwLength = sizeof(szMac) / sizeof(szMac[0]);
 
 	/* Check one by one */
-	for (int i = 0; i < dwLength; i++)
+	for (auto i = 0; i < dwLength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking MAC starting with %s"), szMac[i][1]);
@@ -145,11 +145,10 @@ Check against VMWare adapter name
 */
 BOOL vmware_adapter_name()
 {
-	const TCHAR* szAdapterName = _T("VMWare");
+	auto szAdapterName = _T("VMWare");
 	if (check_adapter_name(szAdapterName))
 		return TRUE;
-	else
-		return FALSE;
+	return FALSE;
 }
 
 
@@ -163,10 +162,10 @@ VOID vmware_devices()
 		_T("\\\\.\\vmci"),
 	};
 
-	WORD iLength = sizeof(devices) / sizeof(devices[0]);
-	for (int i = 0; i < iLength; i++)
+	const WORD iLength = sizeof(devices) / sizeof(devices[0]);
+	for (auto i = 0; i < iLength; i++)
 	{
-		HANDLE hFile = CreateFile(devices[i], GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		const auto hFile = CreateFile(devices[i], GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking device %s "), devices[i]);
 		
@@ -194,8 +193,8 @@ VOID vmware_processes()
 		_T("vmacthlp.exe"),
 	};
 
-	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
-	for (int i = 0; i < iLength; i++)
+	const WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
+	for (auto i = 0; i < iLength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking VWware process %s "), szProcesses[i]);
@@ -211,15 +210,15 @@ Check for SMBIOS firmware
 */
 BOOL vmware_firmware_SMBIOS()
 {
-	BOOL result = FALSE;
-	const DWORD Signature = static_cast<DWORD>('RSMB');
+	auto result = FALSE;
+	//const auto Signature = static_cast<DWORD>('RSMB');
 
 	DWORD smbiosSize = 0;
-	PBYTE smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
-	if (smbios != NULL)
+	const auto smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
+	if (smbios != nullptr)
 	{
-		PBYTE vmwareString = (PBYTE)"VMware";
-		size_t vmwwareStringLen = 6;
+		const auto vmwareString = (PBYTE)"VMware";
+		const size_t vmwwareStringLen = 6;
 
 		if (find_str_in_data(vmwareString, vmwwareStringLen, smbios, smbiosSize))
 		{
@@ -237,21 +236,21 @@ Check for ACPI firmware
 */
 BOOL vmware_firmware_ACPI()
 {
-	BOOL result = FALSE;
+	auto result = FALSE;
 
-	PDWORD tableNames = static_cast<PDWORD>(malloc(4096));
+	const auto tableNames = static_cast<PDWORD>(malloc(4096));
 
-	if (tableNames == NULL)
+	if (tableNames == nullptr)
 		return FALSE;
 
 	SecureZeroMemory(tableNames, 4096);
-	DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
+	const DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
 
 	// API not available
 	if (tableSize == -1)
 		return FALSE;
 
-	DWORD tableCount = tableSize / 4;
+	const auto tableCount = tableSize / 4;
 	if (tableSize < 4 || tableCount == 0)
 	{
 		result = TRUE;
@@ -259,15 +258,14 @@ BOOL vmware_firmware_ACPI()
 	else
 	{
 		for (DWORD i = 0; i < tableCount; i++) {
-			DWORD tableSize = 0;
-			PBYTE table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize);
+			DWORD tableSize_ = 0;
+			const auto table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize_);
 
 			if (table) {
+				const auto vmwareString = (PBYTE)"VMWARE";
+				const size_t vmwwareStringLen = 6;
 
-				PBYTE vmwareString = (PBYTE)"VMWARE";
-				size_t vmwwareStringLen = 6;
-
-				if (find_str_in_data(vmwareString, vmwwareStringLen, table, tableSize)) {
+				if (find_str_in_data(vmwareString, vmwwareStringLen, table, tableSize_)) {
 					result = TRUE;
 				}
 

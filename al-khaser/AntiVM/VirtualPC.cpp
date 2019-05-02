@@ -13,8 +13,8 @@ VOID virtual_pc_process()
 		_T("VMUSrvc.exe"),
 	};
 
-	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
-	for (int i = 0; i < iLength; i++)
+	const WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
+	for (auto i = 0; i < iLength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking Virtual PC processes %s "), szProcesses[i]);
@@ -34,10 +34,10 @@ VOID virtual_pc_reg_keys()
 		_T("SOFTWARE\\Microsoft\\Virtual Machine\\Guest\\Parameters"),
 	};
 
-	WORD dwlength = sizeof(szKeys) / sizeof(szKeys[0]);
+	const WORD dwlength = sizeof(szKeys) / sizeof(szKeys[0]);
 
 	/* Check one by one */
-	for (int i = 0; i < dwlength; i++)
+	for (auto i = 0; i < dwlength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s "), szKeys[i]);
