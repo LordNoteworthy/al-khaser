@@ -6,7 +6,6 @@ VOID print_category(const TCHAR* text);
 VOID print_last_error(LPCTSTR lpszFunction);
 VOID print_os();
 WCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr);
-CHAR* wide_str_to_multibyte(TCHAR* lpWideStr);
 VOID resize_console_window();
 VOID print_results(int result, TCHAR* szMsg);
 VOID _print_check_text(const TCHAR* szMsg);
