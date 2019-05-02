@@ -97,7 +97,7 @@ BOOL CreateRemoteThread_Injection()
 	}
 
 	/* Create the more thread */
-	const HANDLE hRemoteThread = CreateRemoteThread(hProcess, nullptr, 0, (LPTHREAD_START_ROUTINE)LoadLibraryAddress,
+	const HANDLE hRemoteThread = CreateRemoteThread(hProcess, nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(LoadLibraryAddress),
 	                                                lpBaseAddress, NULL, nullptr);
 	if (hRemoteThread == nullptr)
 	{
