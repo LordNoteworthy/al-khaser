@@ -4,7 +4,7 @@
 
 BOOL VMDriverServices()
 {
-	const int KnownServiceCount = 13;
+	const auto KnownServiceCount = 13;
 	const TCHAR* KnownVMServices[KnownServiceCount] = {
 		L"VBoxWddm",
 		L"VBoxSF", //VirtualBox Shared Folders
@@ -21,18 +21,18 @@ BOOL VMDriverServices()
 		L"vmx86"
 	};
 
-	SC_HANDLE hSCM = OpenSCManager(NULL, SERVICES_ACTIVE_DATABASE, SC_MANAGER_CONNECT | SC_MANAGER_ENUMERATE_SERVICE);
-	if (hSCM != NULL)
+	const auto hSCM = OpenSCManager(nullptr, SERVICES_ACTIVE_DATABASE, SC_MANAGER_CONNECT | SC_MANAGER_ENUMERATE_SERVICE);
+	if (hSCM != nullptr)
 	{
-		ENUM_SERVICE_STATUS_PROCESS* services = NULL;
+		ENUM_SERVICE_STATUS_PROCESS* services = nullptr;
 		DWORD serviceCount = 0;
 		if (get_services(hSCM, SERVICE_DRIVER, &services, &serviceCount))
 		{
-			bool ok = true;
+			auto ok = true;
 
 			for (DWORD i = 0; i < serviceCount; i++)
 			{
-				for (int s = 0; s < KnownServiceCount; s++)
+				for (auto s = 0; s < KnownServiceCount; s++)
 				{
 					if (StrCmpIW(services[i].lpServiceName, KnownVMServices[s]) == 0)
 					{
@@ -65,10 +65,10 @@ BOOL VMDriverServices()
 	return TRUE;
 }
 
-BOOL get_services(_In_ SC_HANDLE hServiceManager, _In_ DWORD serviceType, _Out_ ENUM_SERVICE_STATUS_PROCESS** servicesBuffer, _Out_ DWORD* serviceCount)
+BOOL get_services(_In_ const SC_HANDLE hServiceManager, _In_ DWORD serviceType, _Out_ ENUM_SERVICE_STATUS_PROCESS** servicesBuffer, _Out_ DWORD* serviceCount)
 {
 	DWORD serviceBufferSize = 1024 * sizeof(ENUM_SERVICE_STATUS_PROCESS);
-	ENUM_SERVICE_STATUS_PROCESS* services = static_cast<ENUM_SERVICE_STATUS_PROCESS*>(malloc(serviceBufferSize));
+	auto services = static_cast<ENUM_SERVICE_STATUS_PROCESS*>(malloc(serviceBufferSize));
 
 	if (serviceCount) //assume failure
 		*serviceCount = 0;
@@ -79,26 +79,24 @@ BOOL get_services(_In_ SC_HANDLE hServiceManager, _In_ DWORD serviceType, _Out_ 
 
 		DWORD remainderBufferSize = 0;
 		DWORD resumeHandle = 0;
-		if (EnumServicesStatusEx(hServiceManager, SC_ENUM_PROCESS_INFO, serviceType, SERVICE_STATE_ALL, (LPBYTE)services, serviceBufferSize, &remainderBufferSize, serviceCount, &resumeHandle, NULL) != 0)
+		if (EnumServicesStatusEx(hServiceManager, SC_ENUM_PROCESS_INFO, serviceType, SERVICE_STATE_ALL, reinterpret_cast<LPBYTE>(services), serviceBufferSize, &remainderBufferSize, serviceCount, &resumeHandle, nullptr) != 0)
 		{
 			// success and we enumerated all the services
 			*servicesBuffer = services;
 			return TRUE;
 		}
 
-		DWORD lastError = GetLastError();
+		const auto lastError = GetLastError();
 		if (lastError == ERROR_MORE_DATA)
 		{
 			// we didn't get all the services, so we'll just re-enumerate all to make things easy
 			serviceBufferSize += remainderBufferSize;
 
-			ENUM_SERVICE_STATUS_PROCESS* tmp;
-
-			tmp = static_cast<ENUM_SERVICE_STATUS_PROCESS*>(realloc(services, serviceBufferSize));
+			const auto tmp = static_cast<ENUM_SERVICE_STATUS_PROCESS*>(realloc(services, serviceBufferSize));
 			if (tmp) {
 				services = tmp;
 				SecureZeroMemory(services, serviceBufferSize);
-				if (EnumServicesStatusEx(hServiceManager, SC_ENUM_PROCESS_INFO, serviceType, SERVICE_STATE_ALL, (LPBYTE)services, serviceBufferSize, &remainderBufferSize, serviceCount, NULL, NULL) != 0)
+				if (EnumServicesStatusEx(hServiceManager, SC_ENUM_PROCESS_INFO, serviceType, SERVICE_STATE_ALL, reinterpret_cast<LPBYTE>(services), serviceBufferSize, &remainderBufferSize, serviceCount, nullptr, nullptr) != 0)
 				{
 					*servicesBuffer = services;
 					return TRUE;

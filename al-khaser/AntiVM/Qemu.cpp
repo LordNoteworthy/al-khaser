@@ -14,9 +14,9 @@ VOID qemu_reg_key_value()
 		{ _T("HARDWARE\\Description\\System"), _T("SystemBiosVersion"), _T("QEMU") },
 	};
 
-	WORD dwLength = sizeof(szEntries) / sizeof(szEntries[0]);
+	const WORD dwLength = sizeof(szEntries) / sizeof(szEntries[0]);
 
-	for (int i = 0; i < dwLength; i++)
+	for (auto i = 0; i < dwLength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s "), szEntries[i][0]);
@@ -39,8 +39,8 @@ VOID qemu_processes()
 		_T("qemu-ga.exe"),
 	};
 
-	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
-	for (int i = 0; i < iLength; i++)
+	const WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
+	for (auto i = 0; i < iLength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking qemu processes %s "), szProcesses[i]);
@@ -57,15 +57,15 @@ Check for SMBIOS firmware
 */
 BOOL qemu_firmware_SMBIOS()
 {
-	BOOL result = FALSE;
+	auto result = FALSE;
 
 	DWORD smbiosSize = 0;
-	PBYTE smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
-	if (smbios != NULL)
+	const auto smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
+	if (smbios != nullptr)
 	{
-		PBYTE qemuString1 = (PBYTE)"qemu";
-		size_t StringLen = 4;
-		PBYTE qemuString2 = (PBYTE)"QEMU";
+		const auto qemuString1 = reinterpret_cast<PBYTE>("qemu");
+		const size_t StringLen = 4;
+		const auto qemuString2 = reinterpret_cast<PBYTE>("QEMU");
 
 		if (find_str_in_data(qemuString1, StringLen, smbios, smbiosSize) ||
 			find_str_in_data(qemuString2, StringLen, smbios, smbiosSize))
@@ -85,19 +85,19 @@ Check for ACPI firmware
 */
 BOOL qemu_firmware_ACPI()
 {
-	BOOL result = FALSE;
+	auto result = FALSE;
 
-	PDWORD tableNames = static_cast<PDWORD>(malloc(4096));
+	const auto tableNames = static_cast<PDWORD>(malloc(4096));
 	
 	if (tableNames) {
 		SecureZeroMemory(tableNames, 4096);
-		DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
+		const DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
 
 		// API not available
 		if (tableSize == -1)
 			return FALSE;
 
-		DWORD tableCount = tableSize / 4;
+		const auto tableCount = tableSize / 4;
 		if (tableSize < 4 || tableCount == 0)
 		{
 			result = TRUE;
@@ -106,17 +106,16 @@ BOOL qemu_firmware_ACPI()
 		{
 			for (DWORD i = 0; i < tableCount; i++)
 			{
-				DWORD tableSize = 0;
-				PBYTE table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize);
+				DWORD tableSize_ = 0;
+				const auto table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize_);
 
 				if (table) {
+					const auto qemuString1 = reinterpret_cast<PBYTE>("BOCHS");
+					const size_t StringLen = 4;
+					const auto qemuString2 = reinterpret_cast<PBYTE>("BXPC");
 
-					PBYTE qemuString1 = (PBYTE)"BOCHS";
-					size_t StringLen = 4;
-					PBYTE qemuString2 = (PBYTE)"BXPC";
-
-					if (find_str_in_data(qemuString1, StringLen, table, tableSize) ||
-						find_str_in_data(qemuString2, StringLen, table, tableSize))
+					if (find_str_in_data(qemuString1, StringLen, table, tableSize_) ||
+						find_str_in_data(qemuString2, StringLen, table, tableSize_))
 					{
 						result = TRUE;
 					}

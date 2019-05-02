@@ -15,9 +15,9 @@ VOID vbox_reg_key_value()
 		{ _T("HARDWARE\\Description\\System"), _T("SystemBiosDate"), _T("06/23/99") },
 	};
 
-	WORD dwLength = sizeof(szEntries) / sizeof(szEntries[0]);
+	const WORD dwLength = sizeof(szEntries) / sizeof(szEntries[0]);
 
-	for (int i = 0; i < dwLength; i++)
+	for (auto i = 0; i < dwLength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key HARDWARE\\Description\\System - %s is set to %s"), szEntries[i][1], szEntries[i][2]);
@@ -47,10 +47,10 @@ VOID vbox_reg_keys()
 		_T("SYSTEM\\ControlSet001\\Services\\VBoxVideo")
 	};
 
-	WORD dwlength = sizeof(szKeys) / sizeof(szKeys[0]);
+	const WORD dwlength = sizeof(szKeys) / sizeof(szKeys[0]);
 
 	/* Check one by one */
-	for (int i = 0; i < dwlength; i++)
+	for (auto i = 0; i < dwlength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking reg key %s "), szKeys[i]);
@@ -89,13 +89,13 @@ VOID vbox_files()
 	};
 
 	/* Getting Windows Directory */
-	WORD dwlength = sizeof(szPaths) / sizeof(szPaths[0]);
+	const WORD dwlength = sizeof(szPaths) / sizeof(szPaths[0]);
 	TCHAR szWinDir[MAX_PATH] = _T("");
 	TCHAR szPath[MAX_PATH] = _T("");
 	GetWindowsDirectory(szWinDir, MAX_PATH);
 
 	/* Check one by one */
-	for (int i = 0; i < dwlength; i++)
+	for (auto i = 0; i < dwlength; i++)
 	{
 		PathCombine(szPath, szWinDir, szPaths[i]);
 		TCHAR msg[256] = _T("");
@@ -120,7 +120,7 @@ BOOL vbox_dir()
 	if (IsWoW64())
 		ExpandEnvironmentStrings(_T("%ProgramW6432%"), szProgramFile, ARRAYSIZE(szProgramFile));
 	else
-		SHGetSpecialFolderPath(NULL, szProgramFile, CSIDL_PROGRAM_FILES, FALSE);
+		SHGetSpecialFolderPath(nullptr, szProgramFile, CSIDL_PROGRAM_FILES, FALSE);
 
 	PathCombine(szPath, szProgramFile, szTarget);
 	return is_DirectoryExists(szPath);
@@ -150,10 +150,10 @@ VOID vbox_devices()
 		_T("\\\\.\\pipe\\VBoxTrayIPC")
 	};
 
-	WORD iLength = sizeof(devices) / sizeof(devices[0]);
-	for (int i = 0; i < iLength; i++)
+	const WORD iLength = sizeof(devices) / sizeof(devices[0]);
+	for (auto i = 0; i < iLength; i++)
 	{
-		HANDLE hFile = CreateFile(devices[i], GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		const auto hFile = CreateFile(devices[i], GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking device %s "), devices[i]);
 		if (hFile != INVALID_HANDLE_VALUE) {
@@ -171,13 +171,12 @@ Check for Window class
 */
 BOOL vbox_window_class()
 {
-	HWND hClass = FindWindow(_T("VBoxTrayToolWndClass"), NULL);
-	HWND hWindow = FindWindow(NULL, _T("VBoxTrayToolWnd"));
+	const auto hClass = FindWindow(_T("VBoxTrayToolWndClass"), nullptr);
+	const auto hWindow = FindWindow(nullptr, _T("VBoxTrayToolWnd"));
 
 	if (hClass || hWindow)
 		return TRUE;
-	else
-		return FALSE;
+	return FALSE;
 }
 
 
@@ -193,8 +192,7 @@ BOOL vbox_network_share()
 	{
 		if (StrCmpI(szProviderName, _T("VirtualBox Shared Folders")) == 0)
 			return TRUE;
-		else
-			return FALSE;
+		return FALSE;
 	}
 	return FALSE;
 }
@@ -210,8 +208,8 @@ VOID vbox_processes()
 		_T("vboxtray.exe")
 	};
 
-	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
-	for (int i = 0; i < iLength; i++)
+	const WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
+	for (auto i = 0; i < iLength; i++)
 	{
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking VirtualBox process %s "), szProcesses[i]);
@@ -228,15 +226,13 @@ Check vbox mac @ using WMI
 */
 BOOL vbox_mac_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
-	BOOL bStatus = FALSE;
-	HRESULT hRes;
-	BOOL bFound = FALSE;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
+	auto bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+	auto bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -244,19 +240,19 @@ BOOL vbox_mac_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			// Iterate over our enumator
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				auto hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("MACAddress"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("MACAddress"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 
 					if (V_VT(&vtProp) != VT_NULL) {
@@ -264,7 +260,7 @@ BOOL vbox_mac_wmi()
 						if (vtProp.vt | VT_BSTR == VT_BSTR) //TODO: V501 https://www.viva64.com/en/w/v501/ There are identical sub-expressions to the left and to the right of the '==' operator: VT_BSTR == VT_BSTR
 						{
 							// Do our comparison
-							if (_tcsstr(vtProp.bstrVal, _T("08:00:27")) != 0) {
+							if (_tcsstr(vtProp.bstrVal, _T("08:00:27")) != nullptr) {
 								bFound = TRUE;
 							}
 						}
@@ -297,11 +293,9 @@ Check vbox event log using WMI
 */
 BOOL vbox_eventlogfile_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
-	BOOL bStatus = FALSE;
-	HRESULT hRes;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bFound = FALSE;
 
 	const TCHAR *szVBoxSources[] = {
@@ -310,10 +304,10 @@ BOOL vbox_eventlogfile_wmi()
 		_T("VBoxWddm")
 	};
 
-	USHORT MaxVBoxSources = _countof(szVBoxSources);
+	const USHORT MaxVBoxSources = _countof(szVBoxSources);
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+	BOOL bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -321,19 +315,19 @@ BOOL vbox_eventlogfile_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			// Iterate over our enumator
 			while (pEnumerator && !bFound)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the FileName property
-				hRes = pclsObj->Get(_T("FileName"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("FileName"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes) && (V_VT(&vtProp) != VT_NULL)) {
 
 					if (vtProp.vt | VT_BSTR == VT_BSTR)
@@ -343,22 +337,22 @@ BOOL vbox_eventlogfile_wmi()
 
 							// Now, grab the Source property
 							VariantClear(&vtProp);
-							hRes = pclsObj->Get(_T("Sources"), 0, &vtProp, 0, 0);
+							hRes = pclsObj->Get(_T("Sources"), 0, &vtProp, nullptr, nullptr);
 
 							// Get the number of elements of our SAFEARRAY
-							SAFEARRAY* saSources = vtProp.parray;
+							const auto saSources = vtProp.parray;
 							LONG* pVals;
-							HRESULT hr = SafeArrayAccessData(saSources, (VOID**)&pVals); // direct access to SA memory
+							const auto hr = SafeArrayAccessData(saSources, reinterpret_cast<VOID**>(&pVals)); // direct access to SA memory
 							if (SUCCEEDED(hr)) {
 								LONG lowerBound, upperBound;
 								SafeArrayGetLBound(saSources, 1, &lowerBound);
 								SafeArrayGetUBound(saSources, 1, &upperBound);
-								LONG iLength = upperBound - lowerBound + 1;
+								const LONG iLength = upperBound - lowerBound + 1;
 
 								// Iteare over our array of BTSR
 								TCHAR* bstrItem;
 								for (LONG ix = 0; ix < iLength; ix++) {
-									SafeArrayGetElement(saSources, &ix, (void *)&bstrItem);
+									SafeArrayGetElement(saSources, &ix, static_cast<void *>(&bstrItem));
 
 									for (UINT id = 0; id < MaxVBoxSources; id++) {
 										if (_tcsicmp(bstrItem, szVBoxSources[id]) == 0)
@@ -398,18 +392,18 @@ BOOL vbox_eventlogfile_wmi()
 
 BOOL vbox_firmware_SMBIOS()
 {
-	BOOL result = FALSE;
+	auto result = FALSE;
 
 	DWORD smbiosSize = 0;
-	PBYTE smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
-	if (smbios != NULL)
+	const auto smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
+	if (smbios != nullptr)
 	{
-		PBYTE virtualBoxString = (PBYTE)"VirtualBox";
-		size_t virtualBoxStringLen = 10;
-		PBYTE vboxLowerString = (PBYTE)"vbox";
-		size_t vboxLowerStringLen = 4;
-		PBYTE vboxUpperString = (PBYTE)"VBOX";
-		size_t vboxUpperStringLen = 4;
+		const auto virtualBoxString = reinterpret_cast<PBYTE>("VirtualBox");
+		const size_t virtualBoxStringLen = 10;
+		const auto vboxLowerString = reinterpret_cast<PBYTE>("vbox");
+		const size_t vboxLowerStringLen = 4;
+		const auto vboxUpperString = reinterpret_cast<PBYTE>("VBOX");
+		const size_t vboxUpperStringLen = 4;
 
 		if (find_str_in_data(virtualBoxString, virtualBoxStringLen, smbios, smbiosSize) ||
 			find_str_in_data(vboxLowerString, vboxLowerStringLen, smbios, smbiosSize) ||
@@ -427,21 +421,21 @@ BOOL vbox_firmware_SMBIOS()
 
 BOOL vbox_firmware_ACPI()
 {
-	BOOL result = FALSE;
+	auto result = FALSE;
 
-	PDWORD tableNames = static_cast<PDWORD>(malloc(4096));
+	const auto tableNames = static_cast<PDWORD>(malloc(4096));
 
-	if (tableNames == NULL)
+	if (tableNames == nullptr)
 		return FALSE;
 
 	SecureZeroMemory(tableNames, 4096);
-	DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
+	const DWORD tableSize = enum_system_firmware_tables(static_cast<DWORD>('ACPI'), tableNames, 4096);
 
 	// API not available
 	if (tableSize == -1)
 		return FALSE;
 
-	DWORD tableCount = tableSize / 4;
+	const auto tableCount = tableSize / 4;
 
 	if (tableSize < 4 || tableCount == 0)
 	{
@@ -451,21 +445,20 @@ BOOL vbox_firmware_ACPI()
 	{
 		for (DWORD i = 0; i < tableCount; i++)
 		{
-			DWORD tableSize = 0;
-			PBYTE table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize);
+			DWORD tableSize_ = 0;
+			const auto table = get_system_firmware(static_cast<DWORD>('ACPI'), tableNames[i], &tableSize_);
 
 			if (table) {
+				const auto virtualBoxString = reinterpret_cast<PBYTE>("VirtualBox");
+				const size_t virtualBoxStringLen = 10;
+				const auto vboxLowerString = reinterpret_cast<PBYTE>("vbox");
+				const size_t vboxLowerStringLen = 4;
+				const auto vboxUpperString = reinterpret_cast<PBYTE>("VBOX");
+				const size_t vboxUpperStringLen = 4;
 
-				PBYTE virtualBoxString = (PBYTE)"VirtualBox";
-				size_t virtualBoxStringLen = 10;
-				PBYTE vboxLowerString = (PBYTE)"vbox";
-				size_t vboxLowerStringLen = 4;
-				PBYTE vboxUpperString = (PBYTE)"VBOX";
-				size_t vboxUpperStringLen = 4;
-
-				if (find_str_in_data(virtualBoxString, virtualBoxStringLen, table, tableSize) ||
-					find_str_in_data(vboxLowerString, vboxLowerStringLen, table, tableSize) ||
-					find_str_in_data(vboxUpperString, vboxUpperStringLen, table, tableSize))
+				if (find_str_in_data(virtualBoxString, virtualBoxStringLen, table, tableSize_) ||
+					find_str_in_data(vboxLowerString, vboxLowerStringLen, table, tableSize_) ||
+					find_str_in_data(vboxUpperString, vboxUpperStringLen, table, tableSize_))
 				{
 					result = TRUE;
 				}
@@ -485,15 +478,13 @@ Check vbox devices using WMI
 */
 BOOL vbox_pnpentity_pcideviceid_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
-	BOOL bStatus = FALSE;
-	HRESULT hRes;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
 	BOOL bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+	BOOL bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -501,24 +492,24 @@ BOOL vbox_pnpentity_pcideviceid_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("DeviceId"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("DeviceId"), 0, &vtProp, nullptr, nullptr);
 
 				if (SUCCEEDED(hRes)) {
 					if (vtProp.vt == VT_BSTR) {
 
 						// Do our comparaison
-						if (_tcsstr(vtProp.bstrVal, _T("PCI\\VEN_80EE&DEV_CAFE")) != 0)
+						if (_tcsstr(vtProp.bstrVal, _T("PCI\\VEN_80EE&DEV_CAFE")) != nullptr)
 						{
 							bFound = TRUE;
 						}
@@ -550,15 +541,13 @@ Check Win32_PnPEntity for known VirtualBox hardware
 */
 BOOL vbox_pnpentity_controllers_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
-	BOOL bStatus = FALSE;
-	HRESULT hRes;
-	BOOL bFound = FALSE;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
+	auto bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+	BOOL bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -566,22 +555,22 @@ BOOL vbox_pnpentity_controllers_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
-			int findCount = 0;
-			const int findThreshold = 3;
+			auto findCount = 0;
+			const auto findThreshold = 3;
 
 			// Iterate over our enumator
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("Name"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("Name"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 
 					if (V_VT(&vtProp) != VT_NULL) {
@@ -589,16 +578,16 @@ BOOL vbox_pnpentity_controllers_wmi()
 						if (vtProp.vt | VT_BSTR == VT_BSTR)
 						{
 							// increment the find counter if this instance matches any of the known VBox hardware
-							if (_tcsstr(vtProp.bstrVal, _T("82801FB")) != 0) {
+							if (_tcsstr(vtProp.bstrVal, _T("82801FB")) != nullptr) {
 								findCount++;
 							}
-							else if (_tcsstr(vtProp.bstrVal, _T("82441FX")) != 0) {
+							else if (_tcsstr(vtProp.bstrVal, _T("82441FX")) != nullptr) {
 								findCount++;
 							}
-							else if (_tcsstr(vtProp.bstrVal, _T("82371SB")) != 0) {
+							else if (_tcsstr(vtProp.bstrVal, _T("82371SB")) != nullptr) {
 								findCount++;
 							}
-							else if (_tcsstr(vtProp.bstrVal, _T("OpenHCD")) != 0) {
+							else if (_tcsstr(vtProp.bstrVal, _T("OpenHCD")) != nullptr) {
 								findCount++;
 							}
 						}
@@ -632,15 +621,13 @@ Check Win32_Bus to see if only ACPIBus_BUS_0, PCI_BUS_0, PNP_BUS_0 are present
 */
 BOOL vbox_bus_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
-	BOOL bStatus = FALSE;
-	HRESULT hRes;
-	BOOL bFound = FALSE;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
+	auto bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+	BOOL bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -648,25 +635,25 @@ BOOL vbox_bus_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
-			
-			int count = 0;
-			int findCount = 0;
-			const int findThreshold = 3;
+
+			auto count = 0;
+			auto findCount = 0;
+			const auto findThreshold = 3;
 
 			// Iterate over our enumator
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				count++;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("Name"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("Name"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 
 					if (V_VT(&vtProp) != VT_NULL)
@@ -674,13 +661,13 @@ BOOL vbox_bus_wmi()
 						if (vtProp.vt | VT_BSTR == VT_BSTR)
 						{
 							// increment the find counter if this is 
-							if (_tcsstr(vtProp.bstrVal, _T("ACPIBus_BUS_0")) != 0) {
+							if (_tcsstr(vtProp.bstrVal, _T("ACPIBus_BUS_0")) != nullptr) {
 								findCount++;
 							}
-							else if (_tcsstr(vtProp.bstrVal, _T("PCI_BUS_0")) != 0) {
+							else if (_tcsstr(vtProp.bstrVal, _T("PCI_BUS_0")) != nullptr) {
 								findCount++;
 							}
-							else if (_tcsstr(vtProp.bstrVal, _T("PNP_BUS_0")) != 0) {
+							else if (_tcsstr(vtProp.bstrVal, _T("PNP_BUS_0")) != nullptr) {
 								findCount++;
 							}
 						}
@@ -716,12 +703,12 @@ Check Win32_BaseBoard
 */
 BOOL vbox_baseboard_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
-	BOOL bStatus = FALSE;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
+	auto bStatus = FALSE;
 	HRESULT hRes;
-	BOOL bFound = FALSE;
+	auto bFound = FALSE;
 
 	// Init WMI
 	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
@@ -732,7 +719,7 @@ BOOL vbox_baseboard_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp = { 0 };
 
@@ -744,7 +731,7 @@ BOOL vbox_baseboard_wmi()
 					break;
 
 				// Get the value of the Product property
-				hRes = pclsObj->Get(_T("Product"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("Product"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 
 					if (V_VT(&vtProp) != VT_NULL) {
@@ -752,7 +739,7 @@ BOOL vbox_baseboard_wmi()
 						if (vtProp.vt | VT_BSTR == VT_BSTR)
 						{
 							// Do our comparison
-							if (_tcsstr(vtProp.bstrVal, _T("VirtualBox")) != 0) {
+							if (_tcsstr(vtProp.bstrVal, _T("VirtualBox")) != nullptr) {
 								bFound = TRUE;
 							}
 						}
@@ -765,7 +752,7 @@ BOOL vbox_baseboard_wmi()
 				vtProp = { 0 };
 
 				// Get the value of the Manufacturer property
-				hRes = pclsObj->Get(_T("Manufacturer"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("Manufacturer"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 
 					if (V_VT(&vtProp) != VT_NULL) {
@@ -773,7 +760,7 @@ BOOL vbox_baseboard_wmi()
 						if (vtProp.vt | VT_BSTR == VT_BSTR)
 						{
 							// Do our comparison
-							if (_tcsstr(vtProp.bstrVal, _T("Oracle Corporation")) != 0) {
+							if (_tcsstr(vtProp.bstrVal, _T("Oracle Corporation")) != nullptr) {
 								bFound = TRUE;
 							}
 						}
@@ -807,15 +794,13 @@ Check Win32_PnPDevice for VBOX entries
 */
 BOOL vbox_pnpentity_vboxname_wmi()
 {
-	IWbemServices *pSvc = NULL;
-	IWbemLocator *pLoc = NULL;
-	IEnumWbemClassObject* pEnumerator = NULL;
-	BOOL bStatus = FALSE;
-	HRESULT hRes;
-	BOOL bFound = FALSE;
+	IWbemServices *pSvc = nullptr;
+	IWbemLocator *pLoc = nullptr;
+	IEnumWbemClassObject* pEnumerator = nullptr;
+	auto bFound = FALSE;
 
 	// Init WMI
-	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+	BOOL bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
 	if (bStatus)
 	{
 		// If success, execute the desired query
@@ -823,19 +808,19 @@ BOOL vbox_pnpentity_vboxname_wmi()
 		if (bStatus)
 		{
 			// Get the data from the query
-			IWbemClassObject *pclsObj = NULL;
+			IWbemClassObject *pclsObj = nullptr;
 			ULONG uReturn = 0;
 			VARIANT vtProp;
 
 			// Iterate over our enumator
 			while (pEnumerator)
 			{
-				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				HRESULT hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
 
 				// Get the value of the Name property
-				hRes = pclsObj->Get(_T("Name"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("Name"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 
 					if (V_VT(&vtProp) != VT_NULL) {
@@ -843,7 +828,7 @@ BOOL vbox_pnpentity_vboxname_wmi()
 						if (vtProp.vt | VT_BSTR == VT_BSTR)
 						{
 							// Do our comparison
-							if (_tcsstr(vtProp.bstrVal, _T("VBOX")) != 0) {
+							if (_tcsstr(vtProp.bstrVal, _T("VBOX")) != nullptr) {
 								bFound = TRUE;
 							}
 						}
@@ -854,7 +839,7 @@ BOOL vbox_pnpentity_vboxname_wmi()
 				}
 
 				// Get the value of the Caption property
-				hRes = pclsObj->Get(_T("Caption"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("Caption"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 
 					if (V_VT(&vtProp) != VT_NULL) {
@@ -862,7 +847,7 @@ BOOL vbox_pnpentity_vboxname_wmi()
 						if (vtProp.vt | VT_BSTR == VT_BSTR)
 						{
 							// Do our comparison
-							if (_tcsstr(vtProp.bstrVal, _T("VBOX")) != 0) {
+							if (_tcsstr(vtProp.bstrVal, _T("VBOX")) != nullptr) {
 								bFound = TRUE;
 							}
 						}
@@ -873,7 +858,7 @@ BOOL vbox_pnpentity_vboxname_wmi()
 				}
 
 				// Get the value of the PNPDeviceID property
-				hRes = pclsObj->Get(_T("PNPDeviceID"), 0, &vtProp, 0, 0);
+				hRes = pclsObj->Get(_T("PNPDeviceID"), 0, &vtProp, nullptr, nullptr);
 				if (SUCCEEDED(hRes)) {
 
 					if (V_VT(&vtProp) != VT_NULL) {
@@ -881,7 +866,7 @@ BOOL vbox_pnpentity_vboxname_wmi()
 						if (vtProp.vt | VT_BSTR == VT_BSTR)
 						{
 							// Do our comparison
-							if (_tcsstr(vtProp.bstrVal, _T("VEN_VBOX")) != 0) {
+							if (_tcsstr(vtProp.bstrVal, _T("VEN_VBOX")) != nullptr) {
 								bFound = TRUE;
 							}
 						}

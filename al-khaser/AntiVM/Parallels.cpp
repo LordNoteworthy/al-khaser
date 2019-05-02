@@ -13,7 +13,7 @@ VOID parallels_process()
 		_T("prl_tools.exe"),
 	};
 
-	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
+	const WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
 	for (int i = 0; i < iLength; i++)
 	{
 		TCHAR msg[256] = _T("");
