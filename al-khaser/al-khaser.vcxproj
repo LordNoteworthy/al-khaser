@@ -225,7 +225,6 @@
     <ClInclude Include="CodeInjection\QueueUserAPC.h" />
     <ClInclude Include="CodeInjection\RtlCreateUserThread.h" />
     <ClInclude Include="CodeInjection\SetWindowsHooksEx.h" />
-    <ClInclude Include="DetectDebugPort.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Shared\APIs.h" />
     <ClInclude Include="Shared\ApiTypeDefs.h" />

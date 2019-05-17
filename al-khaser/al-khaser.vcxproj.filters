@@ -271,7 +271,6 @@
     <ClInclude Include="Shared\sha1.h">
       <Filter>Shared\Header</Filter>
     </ClInclude>
-    <ClInclude Include="DetectDebugPort.h" />
     <ClInclude Include="AntiDebug\DetectDebugPort.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
