@@ -23,7 +23,7 @@ int main(void)
 	BOOL	ENABLE_DUMPING_CHECK = TRUE;
 	BOOL	ENABLE_ANALYSIS_TOOLS_CHECK = TRUE;
 
-	// uncomment if you're debugging
+	// comment if you're debugging
 	//StopDebugger();
 
 	/* Resize the console window for better visibility */
@@ -57,7 +57,8 @@ int main(void)
 		exec_check(&PEBDebugFlagWithAsm, TEXT("Checking PEBDebugFlag is being debugged"));
 		exec_check(&AutomaticDebugging, TEXT("Checking AutomaticDebugging registry"));
 		exec_check(&PImageCheck, TEXT("Checking PImageCheck"));
-		exec_check(&PImageCheckChecksum, TEXT("Checking PImageCheckChecksum"));
+		// comment if you're debugging
+		//exec_check(&PImageCheckChecksum, TEXT("Checking PImageCheckChecksum"));
 		exec_check(&ContextFlags, TEXT("Checking ContextFlags"));
 
 		//TODO: need fix this checks
