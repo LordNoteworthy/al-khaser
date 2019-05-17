@@ -19,3 +19,4 @@ BOOL vbox_baseboard_wmi();
 BOOL vbox_pnpentity_pcideviceid_wmi();
 BOOL vbox_pnpentity_controllers_wmi();
 BOOL vbox_pnpentity_vboxname_wmi();
+BOOL vbox_ht();

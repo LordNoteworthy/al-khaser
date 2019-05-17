@@ -150,6 +150,7 @@ int main(void)
 		print_category(TEXT("VirtualBox Detection"));
 		vbox_reg_key_value();
 		exec_check(&vbox_dir, TEXT("Checking VirtualBox Guest Additions directory "));
+		exec_check(&vbox_ht, TEXT("Checking VirtualBox with HackedTeam method from Soldier-Win"));
 		vbox_files();
 		vbox_reg_keys();
 		exec_check(&vbox_check_mac, TEXT("Checking Mac Address start with 08:00:27 "));
@@ -176,7 +177,7 @@ int main(void)
 		vmware_reg_keys();
 		vmware_files();
 		vmware_mac();
-		exec_check(&vmware_ht, TEXT("Checking VMWare with HackedTeam methid from Soldier-Win"));
+		exec_check(&vmware_ht, TEXT("Checking VMWare with HackedTeam method from Soldier-Win"));
 		exec_check(&vmware_adapter_name, TEXT("Checking VMWare network adapter name "));
 		vmware_devices();
 		exec_check(&vmware_dir, TEXT("Checking VMWare directory "));

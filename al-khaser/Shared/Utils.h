@@ -29,6 +29,8 @@ bool attempt_to_read_memory_wow64(PVOID buffer, DWORD size, ULONGLONG address);
 std::vector<PMEMORY_BASIC_INFORMATION>* enumerate_memory();
 std::vector<PMEMORY_BASIC_INFORMATION64>* enumerate_memory_wow64();
 BOOL WMIExecQueryGetProp(IWbemServices *pSvc, LPWSTR strQuery, LPWSTR strField, LPVARIANT lpVar);
+BOOL WMIExecQuerySearchEntryHash(IWbemServices *pSvc, LPWSTR strQuery, LPWSTR strField, LPBYTE pSearchHash, LPVARIANT lpVar);
+
 VOID CalculateSHA1(__out PBYTE pSha1Buffer, __in PBYTE pBuffer, __in ULONG uBufflen);
 
 #define	MALLOC(x)	HeapAlloc(GetProcessHeap(), 0, x)
