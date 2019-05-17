@@ -57,6 +57,7 @@ int main(void)
 		exec_check(&PEBDebugFlagWithAsm, TEXT("Checking PEBDebugFlag is being debugged"));
 
 		//TODO: need fix this checks
+		exec_check(&AutomaticDebugging, TEXT("Checking AutomaticDebugging registry"));
 		exec_check(&PEBNtGlobalFlags, TEXT("Checking PEBNtGlobalFlags is being debugged")); // VS debug return 0
 		exec_check(&IsPEBForceFlagsWithAsm, TEXT("Checking PEBForceFlags is being debugged"));
 		exec_check(&IsPEBHeapFlagsWithAsm, TEXT("Checking PEBHeapFlags is being debugged"));

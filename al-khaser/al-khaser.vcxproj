@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClInclude Include="AntiAnalysis\pch.h" />
     <ClInclude Include="AntiAnalysis\process.h" />
+    <ClInclude Include="AntiDebug\AutomaticDebugging.h" />
     <ClInclude Include="AntiDebug\BeingDebugged.h" />
     <ClInclude Include="AntiDebug\CheckRemoteDebuggerPresent.h" />
     <ClInclude Include="AntiDebug\CloseHandle_InvalidHandle.h" />
@@ -245,6 +246,7 @@
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
     <ClCompile Include="AntiAnalysis\process.cpp" />
+    <ClCompile Include="AntiDebug\AutomaticDebugging.cpp" />
     <ClCompile Include="AntiDebug\BeingDebugged.cpp" />
     <ClCompile Include="AntiDebug\CheckRemoteDebuggerPresent.cpp" />
     <ClCompile Include="AntiDebug\CloseHandle_InvalidHandle.cpp" />
