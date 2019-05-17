@@ -86,6 +86,7 @@ int main(void)
 		exec_check(&PageExceptionBreakpointCheck, TEXT("Checking for page exception breakpoints "));
 		exec_check(&ModuleBoundsHookCheck, TEXT("Checking for API hooks outside module bounds "));
 		exec_check(&DetectDebugPort, TEXT("Checking process is being debugged"));
+		exec_check(&IsHeapTail, TEXT("Checking HeapTail is being debugged"));
 	}
 
 	if (ENABLE_INJECTION_CHECKS) {

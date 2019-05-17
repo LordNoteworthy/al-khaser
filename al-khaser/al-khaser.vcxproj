@@ -175,6 +175,7 @@
     <ClInclude Include="AntiDebug\CloseHandle_InvalidHandle.h" />
     <ClInclude Include="AntiDebug\DetectDebugPort.h" />
     <ClInclude Include="AntiDebug\HardwareBreakpoints.h" />
+    <ClInclude Include="AntiDebug\HeapTail.h" />
     <ClInclude Include="AntiDebug\Interrupt_0x2d.h" />
     <ClInclude Include="AntiDebug\Interrupt_3.h" />
     <ClInclude Include="AntiDebug\IsDebuggerPresent.h" />
@@ -247,6 +248,7 @@
     <ClCompile Include="AntiDebug\CloseHandle_InvalidHandle.cpp" />
     <ClCompile Include="AntiDebug\DetectDebugPort.cpp" />
     <ClCompile Include="AntiDebug\HardwareBreakpoints.cpp" />
+    <ClCompile Include="AntiDebug\HeapTail.cpp" />
     <ClCompile Include="AntiDebug\Interrupt_0x2d.cpp" />
     <ClCompile Include="AntiDebug\Interrupt_3.cpp" />
     <ClCompile Include="AntiDebug\IsDebuggerPresent.cpp" />

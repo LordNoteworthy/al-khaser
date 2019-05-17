@@ -274,6 +274,9 @@
     <ClInclude Include="AntiDebug\DetectDebugPort.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiDebug\HeapTail.h">
+      <Filter>AntiDebug\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -456,6 +459,9 @@
       <Filter>Shared\Source</Filter>
     </ClCompile>
     <ClCompile Include="AntiDebug\DetectDebugPort.cpp">
+      <Filter>AntiDebug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiDebug\HeapTail.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
   </ItemGroup>
