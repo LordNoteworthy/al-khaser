@@ -292,6 +292,9 @@
     <ClInclude Include="AntiDebug\ContextFlags.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiDebug\Background.h">
+      <Filter>AntiDebug\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -492,6 +495,9 @@
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
     <ClCompile Include="AntiDebug\ContextFlags.cpp">
+      <Filter>AntiDebug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiDebug\Background.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
   </ItemGroup>
