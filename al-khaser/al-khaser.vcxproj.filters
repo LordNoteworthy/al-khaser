@@ -277,6 +277,9 @@
     <ClInclude Include="AntiDebug\HeapTail.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiDebug\Int3Exception.h">
+      <Filter>AntiDebug\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -462,6 +465,9 @@
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
     <ClCompile Include="AntiDebug\HeapTail.cpp">
+      <Filter>AntiDebug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiDebug\Int3Exception.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
   </ItemGroup>
