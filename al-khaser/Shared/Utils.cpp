@@ -1075,3 +1075,11 @@ BOOL WMIExecQuerySearchEntryHash(IWbemServices *pSvc, LPWSTR strQuery, LPWSTR st
 
 	return bFound;
 }
+
+void StopDebugger()
+{
+	HMODULE hModule = LoadLibrary(TEXT("ntdll.dll"));
+	NtSetInformationThreadPtr NtSetInformationThread = (NtSetInformationThreadPtr)GetProcAddress(hModule, "NtSetInformationThread");
+
+	NtSetInformationThread(OpenThread(THREAD_ALL_ACCESS, FALSE, GetCurrentThreadId()), (THREADINFOCLASS)0x11, 0, 0);
+}

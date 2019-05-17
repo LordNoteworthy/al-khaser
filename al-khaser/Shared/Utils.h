@@ -1,4 +1,8 @@
 #pragma once
+typedef NTSTATUS(CALLBACK *NtSetInformationThreadPtr)(HANDLE threadHandle,
+	THREADINFOCLASS threadInformationClass,
+	PVOID threadInformation,
+	ULONG threadInformationLength);
 
 BOOL IsWoW64();
 PVOID64 GetPeb64();
@@ -30,6 +34,8 @@ std::vector<PMEMORY_BASIC_INFORMATION>* enumerate_memory();
 std::vector<PMEMORY_BASIC_INFORMATION64>* enumerate_memory_wow64();
 BOOL WMIExecQueryGetProp(IWbemServices *pSvc, LPWSTR strQuery, LPWSTR strField, LPVARIANT lpVar);
 BOOL WMIExecQuerySearchEntryHash(IWbemServices *pSvc, LPWSTR strQuery, LPWSTR strField, LPBYTE pSearchHash, LPVARIANT lpVar);
+
+void StopDebugger();
 
 VOID CalculateSHA1(__out PBYTE pSha1Buffer, __in PBYTE pBuffer, __in ULONG uBufflen);
 

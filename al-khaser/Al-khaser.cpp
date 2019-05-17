@@ -23,6 +23,9 @@ int main(void)
 	BOOL	ENABLE_DUMPING_CHECK = TRUE;
 	BOOL	ENABLE_ANALYSIS_TOOLS_CHECK = TRUE;
 
+	// uncomment if you're debugging
+	//StopDebugger();
+
 	/* Resize the console window for better visibility */
 	resize_console_window();
 
