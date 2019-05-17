@@ -286,6 +286,9 @@
     <ClInclude Include="AntiDebug\AutomaticDebugging.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiDebug\PImageCheck.h">
+      <Filter>AntiDebug\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -480,6 +483,9 @@
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
     <ClCompile Include="AntiDebug\AutomaticDebugging.cpp">
+      <Filter>AntiDebug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiDebug\PImageCheck.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
   </ItemGroup>
