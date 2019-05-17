@@ -39,6 +39,7 @@ int Int3Exception()
 //			retn
 //	}
 //#endif
+	return 69;
 }
 // TODO: need fix, does not work
 BOOL isInt3Exception() {

@@ -194,6 +194,7 @@
     <ClInclude Include="AntiDebug\PageExceptionBreakpointCheck.h" />
     <ClInclude Include="AntiDebug\ParentProcess.h" />
     <ClInclude Include="AntiDebug\pch.h" />
+    <ClInclude Include="AntiDebug\PEBForceFlags.h" />
     <ClInclude Include="AntiDebug\ProcessHeap_Flags.h" />
     <ClInclude Include="AntiDebug\ProcessHeap_ForceFlags.h" />
     <ClInclude Include="AntiDebug\ProcessJob.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="AntiDebug\OutputDebugStringAPI.cpp" />
     <ClCompile Include="AntiDebug\PageExceptionBreakpointCheck.cpp" />
     <ClCompile Include="AntiDebug\ParentProcess.cpp" />
+    <ClCompile Include="AntiDebug\PEBForceFlags.cpp" />
     <ClCompile Include="AntiDebug\ProcessHeap_Flags.cpp" />
     <ClCompile Include="AntiDebug\ProcessHeap_ForceFlags.cpp" />
     <ClCompile Include="AntiDebug\ProcessJob.cpp" />

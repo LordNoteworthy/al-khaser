@@ -88,6 +88,7 @@ int main(void)
 		exec_check(&DetectDebugPort, TEXT("Checking process is being debugged"));
 		exec_check(&IsHeapTail, TEXT("Checking HeapTail is being debugged"));
 		exec_check(&isInt3Exception, TEXT("Checking Int3Exception is being debugged"));
+		exec_check(&IsPEBForceFlags, TEXT("Checking PEBForceFlags is being debugged"));
 	}
 
 	if (ENABLE_INJECTION_CHECKS) {
