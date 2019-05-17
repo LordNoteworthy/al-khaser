@@ -265,6 +265,12 @@
     <ClInclude Include="AntiDebug\NtGlobalFlag.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiVM\AntiCuckoo.h">
+      <Filter>AntiVM\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared\sha1.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -439,6 +445,12 @@
     </ClCompile>
     <ClCompile Include="AntiDebug\BeingDebugged.cpp">
       <Filter>AntiDebug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiVM\AntiCuckoo.cpp">
+      <Filter>AntiVM\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Shared\sha1.cpp">
+      <Filter>Shared\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -176,6 +176,7 @@ int main(void)
 		vmware_reg_keys();
 		vmware_files();
 		vmware_mac();
+		exec_check(&vmware_ht, TEXT("Checking VMWare with HackedTeam methid from Soldier-Win"));
 		exec_check(&vmware_adapter_name, TEXT("Checking VMWare network adapter name "));
 		vmware_devices();
 		exec_check(&vmware_dir, TEXT("Checking VMWare directory "));

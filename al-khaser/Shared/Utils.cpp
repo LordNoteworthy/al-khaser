@@ -991,3 +991,48 @@ std::vector<PMEMORY_BASIC_INFORMATION64>* enumerate_memory_wow64()
 
 	return regions;
 }
+BOOL WMIExecQueryGetProp(IWbemServices *pSvc, LPWSTR strQuery, LPWSTR strField, LPVARIANT lpVar)
+{
+	BOOL bRet = FALSE;
+	IEnumWbemClassObject *pEnum;
+
+	BSTR bstrQuery = SysAllocString(strQuery);
+	BSTR bstrField = SysAllocString(strField);
+
+	WCHAR strWQL[] = { L'W', L'Q', L'L', L'\0' };
+	BSTR bWQL = SysAllocString(strWQL);
+
+	HRESULT hr = pSvc->ExecQuery(bWQL, bstrQuery, 0, NULL, &pEnum);
+	if (hr == S_OK)
+	{
+		ULONG uRet;
+		IWbemClassObject *apObj;
+		hr = pEnum->Next(5000, 1, &apObj, &uRet);
+		if (hr == S_OK)
+		{
+			hr = apObj->Get(bstrField, 0, lpVar, NULL, NULL);
+			if (hr == WBEM_S_NO_ERROR)
+				bRet = TRUE;
+
+			apObj->Release();
+		}
+		pEnum->Release();
+	}
+
+	SysFreeString(bstrQuery);
+	SysFreeString(bstrField);
+	SysFreeString(bWQL);
+
+	return bRet;
+}
+VOID CalculateSHA1(__out PBYTE pSha1Buffer, __in PBYTE pBuffer, __in ULONG uBufflen)
+{
+	SHA1Context pSha1Context;
+
+	SHA1Reset(&pSha1Context);
+	SHA1Input(&pSha1Context, pBuffer, uBufflen);
+	SHA1Result(&pSha1Context);
+
+	for (ULONG x = 0; x < 5; x++)
+		((PULONG)pSha1Buffer)[x] = ntohl(pSha1Context.Message_Digest[x]);
+}

@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "AntiCuckoo.h"
+// TODO: change this function to bool
 VOID AntiCuckoo()
 {
 #ifdef _X86_

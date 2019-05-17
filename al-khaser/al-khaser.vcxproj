@@ -23,7 +23,7 @@
     <ProjectGuid>{77AEFBC3-0ECE-46AD-A113-966AAAA838E1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>alkhaser</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -96,6 +96,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -138,6 +139,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(OutDir)$(AssemblyName).exe $(SolutionDir)$(AssemblyName)_$(PlatformTarget).exe</Command>
@@ -204,6 +206,7 @@
     <ClInclude Include="AntiDump\ErasePEHeaderFromMemory.h" />
     <ClInclude Include="AntiDump\pch.h" />
     <ClInclude Include="AntiDump\SizeOfImage.h" />
+    <ClInclude Include="AntiVM\AntiCuckoo.h" />
     <ClInclude Include="AntiVM\Generic.h" />
     <ClInclude Include="AntiVM\Parallels.h" />
     <ClInclude Include="AntiVM\pch.h" />
@@ -227,6 +230,7 @@
     <ClInclude Include="Shared\Common.h" />
     <ClInclude Include="Shared\log.h" />
     <ClInclude Include="Shared\pch.h" />
+    <ClInclude Include="Shared\sha1.h" />
     <ClInclude Include="Shared\Utils.h" />
     <ClInclude Include="Shared\VersionHelpers.h" />
     <ClInclude Include="Shared\winapifamily.h" />
@@ -272,6 +276,7 @@
     <ClCompile Include="AntiDebug\WUDF_IsDebuggerPresent.cpp" />
     <ClCompile Include="AntiDump\ErasePEHeaderFromMemory.cpp" />
     <ClCompile Include="AntiDump\SizeOfImage.cpp" />
+    <ClCompile Include="AntiVM\AntiCuckoo.cpp" />
     <ClCompile Include="AntiVM\Generic.cpp" />
     <ClCompile Include="AntiVM\Parallels.cpp" />
     <ClCompile Include="AntiVM\Qemu.cpp" />
@@ -297,6 +302,7 @@
     <ClCompile Include="Shared\ApiTypeDefs.cpp" />
     <ClCompile Include="Shared\Common.cpp" />
     <ClCompile Include="Shared\log.cpp" />
+    <ClCompile Include="Shared\sha1.cpp" />
     <ClCompile Include="Shared\Utils.cpp" />
     <ClCompile Include="TimingAttacks\timing.cpp" />
   </ItemGroup>
