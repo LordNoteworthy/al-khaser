@@ -1,3 +1,5 @@
 #pragma once
 BOOL PEBForceFlags();
-BOOL IsPEBForceFlags();
+BOOL PEBHeapFlags();
+BOOL IsPEBForceFlagsWithAsm();
+BOOL IsPEBHeapFlagsWithAsm();
