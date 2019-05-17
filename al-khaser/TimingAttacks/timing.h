@@ -11,3 +11,4 @@ BOOL timing_IcmpSendEcho(UINT delayInMillis);
 BOOL timing_CreateWaitableTimer(UINT delayInMillis);
 BOOL timing_CreateTimerQueueTimer(UINT delayInMillis);
 VOID CALLBACK CallbackCTQT(PVOID lParam, BOOLEAN TimerOrWaitFired);
+BOOL CheckReadTimeStampCounter();

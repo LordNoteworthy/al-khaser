@@ -343,3 +343,23 @@ VOID CALLBACK CallbackCTQT(PVOID lParam, BOOLEAN TimerOrWaitFired)
 		SetEvent(g_hEventCTQT);
 	}
 }
+
+BOOL CheckReadTimeStampCounter()
+{
+	DWORD time1, time2;
+	__asm
+	{
+		rdtsc
+		mov time1, eax
+		rdtsc
+		mov time2, eax
+	}
+	if (time2 - time1 < 0xff)
+	{
+		return FALSE;
+	}
+	else
+	{
+		return TRUE;
+	}
+}

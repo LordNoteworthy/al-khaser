@@ -60,6 +60,7 @@ int main(void)
 		// comment if you're debugging
 		//exec_check(&PImageCheckChecksum, TEXT("Checking PImageCheckChecksum"));
 		exec_check(&ContextFlags, TEXT("Checking ContextFlags"));
+		exec_check(&CheckReadTimeStampCounter, TEXT("Checking Read Time Stamp Counter"));
 
 		//TODO: need fix this checks
 		exec_check(&PEBNtGlobalFlags, TEXT("Checking PEBNtGlobalFlags is being debugged")); // VS debug return 0
