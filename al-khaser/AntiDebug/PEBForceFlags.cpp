@@ -62,3 +62,35 @@ BOOL IsPEBHeapFlagsWithAsm() {
 		return FALSE;
 	}
 }
+
+// TODO: PEBNtGlobalFlags need fix, does not work
+BOOL PEBNtGlobalFlags()
+{
+	BOOL bRet = FALSE;
+	__asm
+	{
+		mov eax, fs:[30h]
+		mov eax, [eax + 68h]
+		and eax, 0x70
+		mov bRet, eax
+	}
+
+	return bRet != 0;
+}
+
+// I think it works
+BOOL PEBDebugFlagWithAsm()
+{
+	DWORD bRet = 0;
+
+	__asm
+	{
+		// IsDebuggerPresent函数原型，获取PEB地址，PEB第三个字节存放的调试标志
+		mov     eax, fs:[0x30]
+		movzx   eax, byte ptr ds : [eax + 2]
+		mov		bRet, eax
+	}
+
+	return bRet == TRUE;
+}
+

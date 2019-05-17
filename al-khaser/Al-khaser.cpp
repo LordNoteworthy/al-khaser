@@ -51,6 +51,15 @@ int main(void)
 		print_category(TEXT("Debugger Detection"));
 		exec_check(&IsDebuggerPresentAPI, TEXT("Checking IsDebuggerPresent API "));
 		exec_check(&IsDebuggerPresentPEB, TEXT("Checking PEB.BeingDebugged "));
+		exec_check(&PEBDebugFlagWithAsm, TEXT("Checking PEBDebugFlag is being debugged"));
+
+		//TODO: need fix this checks
+		exec_check(&PEBNtGlobalFlags, TEXT("Checking PEBNtGlobalFlags is being debugged")); // VS debug return 0
+		exec_check(&IsPEBForceFlagsWithAsm, TEXT("Checking PEBForceFlags is being debugged"));
+		exec_check(&IsPEBHeapFlagsWithAsm, TEXT("Checking PEBHeapFlags is being debugged"));
+		exec_check(&isInt3Exception, TEXT("Checking Int3Exception is being debugged"));
+		// END TODO
+
 		exec_check(&CheckRemoteDebuggerPresentAPI, TEXT("Checking CheckRemoteDebuggerPresent API "));
 		exec_check(&NtGlobalFlag, TEXT("Checking PEB.NtGlobalFlag "));
 		exec_check(&HeapFlags, TEXT("Checking ProcessHeap.Flags "));
@@ -87,9 +96,7 @@ int main(void)
 		exec_check(&ModuleBoundsHookCheck, TEXT("Checking for API hooks outside module bounds "));
 		exec_check(&DetectDebugPort, TEXT("Checking process is being debugged"));
 		exec_check(&IsHeapTail, TEXT("Checking HeapTail is being debugged"));
-		exec_check(&isInt3Exception, TEXT("Checking Int3Exception is being debugged"));
-		exec_check(&IsPEBForceFlagsWithAsm, TEXT("Checking PEBForceFlags is being debugged"));
-		exec_check(&IsPEBHeapFlagsWithAsm, TEXT("Checking PEBHeapFlags is being debugged"));
+
 	}
 
 	if (ENABLE_INJECTION_CHECKS) {
