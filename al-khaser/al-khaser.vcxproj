@@ -173,6 +173,7 @@
     <ClInclude Include="AntiDebug\BeingDebugged.h" />
     <ClInclude Include="AntiDebug\CheckRemoteDebuggerPresent.h" />
     <ClInclude Include="AntiDebug\CloseHandle_InvalidHandle.h" />
+    <ClInclude Include="AntiDebug\DetectDebugPort.h" />
     <ClInclude Include="AntiDebug\HardwareBreakpoints.h" />
     <ClInclude Include="AntiDebug\Interrupt_0x2d.h" />
     <ClInclude Include="AntiDebug\Interrupt_3.h" />
@@ -224,6 +225,7 @@
     <ClInclude Include="CodeInjection\QueueUserAPC.h" />
     <ClInclude Include="CodeInjection\RtlCreateUserThread.h" />
     <ClInclude Include="CodeInjection\SetWindowsHooksEx.h" />
+    <ClInclude Include="DetectDebugPort.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Shared\APIs.h" />
     <ClInclude Include="Shared\ApiTypeDefs.h" />
@@ -244,6 +246,7 @@
     <ClCompile Include="AntiDebug\BeingDebugged.cpp" />
     <ClCompile Include="AntiDebug\CheckRemoteDebuggerPresent.cpp" />
     <ClCompile Include="AntiDebug\CloseHandle_InvalidHandle.cpp" />
+    <ClCompile Include="AntiDebug\DetectDebugPort.cpp" />
     <ClCompile Include="AntiDebug\HardwareBreakpoints.cpp" />
     <ClCompile Include="AntiDebug\Interrupt_0x2d.cpp" />
     <ClCompile Include="AntiDebug\Interrupt_3.cpp" />

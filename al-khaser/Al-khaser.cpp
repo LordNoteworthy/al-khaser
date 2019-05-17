@@ -85,6 +85,7 @@ int main(void)
 		exec_check(&VirtualAlloc_WriteWatch_CodeWrite, TEXT("Checking VirtualAlloc write watch (code write) "));
 		exec_check(&PageExceptionBreakpointCheck, TEXT("Checking for page exception breakpoints "));
 		exec_check(&ModuleBoundsHookCheck, TEXT("Checking for API hooks outside module bounds "));
+		exec_check(&DetectDebugPort, TEXT("Checking process is being debugged"));
 	}
 
 	if (ENABLE_INJECTION_CHECKS) {
