@@ -57,6 +57,7 @@ int main(void)
 		exec_check(&PEBDebugFlagWithAsm, TEXT("Checking PEBDebugFlag is being debugged"));
 		exec_check(&AutomaticDebugging, TEXT("Checking AutomaticDebugging registry"));
 		exec_check(&PImageCheck, TEXT("Checking PImageCheck"));
+		exec_check(&PImageCheckChecksum, TEXT("Checking PImageCheckChecksum"));
 		exec_check(&ContextFlags, TEXT("Checking ContextFlags"));
 
 		//TODO: need fix this checks
