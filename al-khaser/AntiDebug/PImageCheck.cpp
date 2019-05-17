@@ -14,7 +14,7 @@ BOOL PImageCheck()
 		(WORD)pNtHeaders->FileHeader.SizeOfOptionalHeader);
 	DWORD dwAddr = pSectionHeader->VirtualAddress + dwBaseImage;
 	DWORD dwCodeSize = pSectionHeader->SizeOfRawData;
-	BOOL Found = FALSE;
+	BOOL Found = TRUE;
 	__asm
 	{
 		cld
@@ -23,7 +23,7 @@ BOOL PImageCheck()
 		mov     al, 0CCH
 		repne   scasb
 		jnz     NotFound
-		mov Found, 1
+		mov Found, 0
 		NotFound:
 	}
 	return Found;
