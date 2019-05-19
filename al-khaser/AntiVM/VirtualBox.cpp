@@ -261,7 +261,7 @@ BOOL vbox_mac_wmi()
 
 					if (V_VT(&vtProp) != VT_NULL) {
 
-						if (vtProp.vt | VT_BSTR == VT_BSTR)
+						if ((vtProp.vt & VT_BSTR) == VT_BSTR)
 						{
 							// Do our comparison
 							if (_tcsstr(vtProp.bstrVal, _T("08:00:27")) != 0) {
@@ -336,7 +336,7 @@ BOOL vbox_eventlogfile_wmi()
 				hRes = pclsObj->Get(_T("FileName"), 0, &vtProp, 0, 0);
 				if (SUCCEEDED(hRes) && (V_VT(&vtProp) != VT_NULL)) {
 
-					if (vtProp.vt | VT_BSTR == VT_BSTR)
+					if ((vtProp.vt & VT_BSTR) == VT_BSTR)
 					{
 						// Do our comparaison
 						if (StrCmpI(vtProp.bstrVal, _T("System")) == 0) {
@@ -586,7 +586,7 @@ BOOL vbox_pnpentity_controllers_wmi()
 
 					if (V_VT(&vtProp) != VT_NULL) {
 
-						if (vtProp.vt | VT_BSTR == VT_BSTR)
+						if ((vtProp.vt & VT_BSTR) == VT_BSTR)
 						{
 							// increment the find counter if this instance matches any of the known VBox hardware
 							if (_tcsstr(vtProp.bstrVal, _T("82801FB")) != 0) {
@@ -671,7 +671,7 @@ BOOL vbox_bus_wmi()
 
 					if (V_VT(&vtProp) != VT_NULL)
 					{
-						if (vtProp.vt | VT_BSTR == VT_BSTR)
+						if ((vtProp.vt & VT_BSTR) == VT_BSTR)
 						{
 							// increment the find counter if this is 
 							if (_tcsstr(vtProp.bstrVal, _T("ACPIBus_BUS_0")) != 0) {
@@ -749,7 +749,7 @@ BOOL vbox_baseboard_wmi()
 
 					if (V_VT(&vtProp) != VT_NULL) {
 
-						if (vtProp.vt | VT_BSTR == VT_BSTR)
+						if ((vtProp.vt & VT_BSTR) == VT_BSTR)
 						{
 							// Do our comparison
 							if (_tcsstr(vtProp.bstrVal, _T("VirtualBox")) != 0) {
@@ -770,7 +770,7 @@ BOOL vbox_baseboard_wmi()
 
 					if (V_VT(&vtProp) != VT_NULL) {
 
-						if (vtProp.vt | VT_BSTR == VT_BSTR)
+						if ((vtProp.vt & VT_BSTR) == VT_BSTR)
 						{
 							// Do our comparison
 							if (_tcsstr(vtProp.bstrVal, _T("Oracle Corporation")) != 0) {
@@ -840,7 +840,7 @@ BOOL vbox_pnpentity_vboxname_wmi()
 
 					if (V_VT(&vtProp) != VT_NULL) {
 
-						if (vtProp.vt | VT_BSTR == VT_BSTR)
+						if ((vtProp.vt & VT_BSTR) == VT_BSTR)
 						{
 							// Do our comparison
 							if (_tcsstr(vtProp.bstrVal, _T("VBOX")) != 0) {
@@ -859,7 +859,7 @@ BOOL vbox_pnpentity_vboxname_wmi()
 
 					if (V_VT(&vtProp) != VT_NULL) {
 
-						if (vtProp.vt | VT_BSTR == VT_BSTR)
+						if ((vtProp.vt & VT_BSTR) == VT_BSTR)
 						{
 							// Do our comparison
 							if (_tcsstr(vtProp.bstrVal, _T("VBOX")) != 0) {
@@ -878,7 +878,7 @@ BOOL vbox_pnpentity_vboxname_wmi()
 
 					if (V_VT(&vtProp) != VT_NULL) {
 
-						if (vtProp.vt | VT_BSTR == VT_BSTR)
+						if ((vtProp.vt & VT_BSTR) == VT_BSTR)
 						{
 							// Do our comparison
 							if (_tcsstr(vtProp.bstrVal, _T("VEN_VBOX")) != 0) {
