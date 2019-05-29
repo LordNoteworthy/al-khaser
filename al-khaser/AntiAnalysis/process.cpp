@@ -33,7 +33,21 @@ VOID analysis_tools_process()
 		_T("sniff_hit.exe"),		// Part of SysAnalyzer iDefense
 		_T("windbg.exe"),			// Microsoft WinDbg
 		_T("joeboxcontrol.exe"),	// Part of Joe Sandbox
-		_T("joeboxserver.exe")		// Part of Joe Sandbox
+		_T("joeboxserver.exe"),		// Part of Joe Sandbox
+		_T("HxD.exe"),				// HxD - Freeware Hex Editor and Disk Editor
+		_T("ResourceHacker.exe"),	// Resource Hacker
+		_T("httpdebugger.exe"),		// Http Debugger
+		_T("windowrenamer.exe"),	// Window Renamer
+		_T("PerfWatson2.exe"),		// Visual Studio
+		_T("devenv.exe"),			// Visual Studio
+		_T("ServiceHub.Host.Node.x86.exe"), // Visual Studio
+		_T("ServiceHub.VSDetouredHost.exe"), // Visual Studio
+		_T("ServiceHub.IdentityHost.exe"), // Visual Studio
+		_T("ServiceHub.SettingsHost.exe"), // Visual Studio
+		_T("ServiceHub.Host.CLR.x86.exe"), // Visual Studio
+		_T("x32dbg.exe"),			// x32dbg
+		_T("x64dbg.exe"),			// x64dbg
+		_T("HttpAnalyzerStdV7.exe")	// HttpAnalyzerStdV7
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
