@@ -1,0 +1,1 @@
+BOOL CloseHandle_InvalideHandle();

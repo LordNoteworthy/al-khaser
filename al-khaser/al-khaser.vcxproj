@@ -1,17 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -19,34 +19,36 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7E05B007-AFB0-44EB-BDD0-8CD8CFBC88FF}</ProjectGuid>
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{77AEFBC3-0ECE-46AD-A113-966AAAA838E1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>alkhaser</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140_xp</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -54,16 +56,18 @@
   <ImportGroup Label="ExtensionSettings">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -81,209 +85,240 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(OutDir)$(AssemblyName).exe $(SolutionDir)$(AssemblyName)_$(PlatformTarget).exe</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(OutDir)$(AssemblyName).exe $(SolutionDir)$(AssemblyName)_$(Platform).exe</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\.gitignore" />
-    <None Include="..\CHANGELOG.md" />
-    <None Include="..\LICENSE" />
-    <None Include="..\README.md" />
-    <None Include="macros.vba" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Al-khaser.cpp" />
-    <ClCompile Include="Anti Analysis\file.cpp" />
-    <ClCompile Include="Anti Analysis\process.cpp" />
-    <ClCompile Include="Anti Debug\CheckRemoteDebuggerPresentAPI.cpp" />
-    <ClCompile Include="Anti Debug\CloseHandle_InvalidHandle.cpp" />
-    <ClCompile Include="Anti Debug\HardwareBreakpoints.cpp" />
-    <ClCompile Include="Anti Debug\Interrupt_0x2d.cpp" />
-    <ClCompile Include="Anti Debug\Interrupt_3.cpp" />
-    <ClCompile Include="Anti Debug\IsDebuggerPresent.cpp" />
-    <ClCompile Include="Anti Debug\MemoryBreakpoints_PageGuard.cpp" />
-    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.cpp" />
-    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.cpp" />
-    <ClCompile Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.cpp" />
-    <ClCompile Include="Anti Debug\NtQueryObject_AllTypesInformation.cpp" />
-    <ClCompile Include="Anti Debug\NtQueryObject_ObjectTypeInformation.cpp" />
-    <ClCompile Include="Anti Debug\NtQuerySystemInformation_SystemKernelDebuggerInformation.cpp" />
-    <ClCompile Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.cpp" />
-    <ClCompile Include="Anti Debug\NtYieldExecution.cpp" />
-    <ClCompile Include="Anti Debug\OutputDebugStringAPI.cpp" />
-    <ClCompile Include="Anti Debug\ParentProcess.cpp" />
-    <ClCompile Include="Anti Debug\PEB_BeingDebugged.cpp" />
-    <ClCompile Include="Anti Debug\ProcessHeap_Flags.cpp" />
-    <ClCompile Include="Anti Debug\ProcessHeap_ForceFlags.cpp" />
-    <ClCompile Include="Anti Debug\ProcessHeap_NtGlobalFlag.cpp" />
-    <ClCompile Include="Anti Debug\ProcessJob.cpp" />
-    <ClCompile Include="Anti Debug\SeDebugPrivilege.cpp" />
-    <ClCompile Include="Anti Debug\SetHandleInformation_API.cpp" />
-    <ClCompile Include="Anti Debug\SharedUserData_KernelDebugger.cpp" />
-    <ClCompile Include="Anti Debug\SoftwareBreakpoints.cpp" />
-    <ClCompile Include="Anti Debug\TLS_callbacks.cpp" />
-    <ClCompile Include="Anti Debug\UnhandledExceptionFilter_Handler.cpp" />
-    <ClCompile Include="Anti Debug\WriteWatch.cpp" />
-    <ClCompile Include="Anti Dump\ErasePEHeaderFromMemory.cpp" />
-    <ClCompile Include="Anti Dump\SizeOfImage.cpp" />
-    <ClCompile Include="Anti VM\Generic.cpp" />
-    <ClCompile Include="Anti VM\Parallels.cpp" />
-    <ClCompile Include="Anti VM\Qemu.cpp" />
-    <ClCompile Include="Anti VM\Services.cpp" />
-    <ClCompile Include="Anti VM\SystemFirmware.cpp" />
-    <ClCompile Include="Anti VM\VirtualBox.cpp" />
-    <ClCompile Include="Anti VM\VirtualPC.cpp" />
-    <ClCompile Include="Anti VM\VMWare.cpp" />
-    <ClCompile Include="Anti VM\Wine.cpp" />
-    <ClCompile Include="Anti VM\Xen.cpp" />
-    <ClCompile Include="Code Injections\CreateRemoteThread.cpp" />
-    <ClCompile Include="Code Injections\GetSetThreadContext.cpp" />
-    <ClCompile Include="Code Injections\NtCreateThreadEx.cpp" />
-    <ClCompile Include="Code Injections\QueueUserAPC.cpp" />
-    <ClCompile Include="Code Injections\RtlCreateUserThread.cpp" />
-    <ClCompile Include="Code Injections\SetWindowsHooksEx.cpp" />
-    <ClCompile Include="Shared\Common.cpp" />
-    <ClCompile Include="Shared\log.cpp" />
-    <ClCompile Include="Shared\Utils.cpp" />
-    <ClCompile Include="timing-attacks\timing.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Anti Analysis\file.h" />
-    <ClInclude Include="Anti Analysis\process.h" />
-    <ClInclude Include="Anti Debug\CheckRemoteDebuggerPresentAPI.h" />
-    <ClInclude Include="Anti Debug\CloseHandle_InvalidHandle.h" />
-    <ClInclude Include="Anti Debug\HardwareBreakpoints.h" />
-    <ClInclude Include="Anti Debug\Interrupt_0x2d.h" />
-    <ClInclude Include="Anti Debug\Interrupt_3.h" />
-    <ClInclude Include="Anti Debug\IsDebuggerPresent.h" />
-    <ClInclude Include="Anti Debug\MemoryBreakpoints_PageGuard.h" />
-    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugObject.h" />
-    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugPort.h" />
-    <ClInclude Include="Anti Debug\NtQueryInformationProcess_ProcessDebugFlags.h" />
-    <ClInclude Include="Anti Debug\NtQueryObject_ObjectInformation.h" />
-    <ClInclude Include="Anti Debug\NtQuerySystemInformation_SystemKernelDebuggerInformation.h" />
-    <ClInclude Include="Anti Debug\NtSetInformationThread_ThreadHideFromDebugger.h" />
-    <ClInclude Include="Anti Debug\NtYieldExecution.h" />
-    <ClInclude Include="Anti Debug\OutputDebugStringAPI.h" />
-    <ClInclude Include="Anti Debug\ParentProcess.h" />
-    <ClInclude Include="Anti Debug\PEB_BeingDebugged.h" />
-    <ClInclude Include="Anti Debug\ProcessHeap_Flags.h" />
-    <ClInclude Include="Anti Debug\ProcessHeap_ForceFlags.h" />
-    <ClInclude Include="Anti Debug\ProcessHeap_NtGlobalFlag.h" />
-    <ClInclude Include="Anti Debug\ProcessJob.h" />
-    <ClInclude Include="Anti Debug\SeDebugPrivilege.h" />
-    <ClInclude Include="Anti Debug\SetHandleInformation_API.h" />
-    <ClInclude Include="Anti Debug\SharedUserData_KernelDebugger.h" />
-    <ClInclude Include="Anti Debug\SoftwareBreakpoints.h" />
-    <ClInclude Include="Anti Debug\TLS_callbacks.h" />
-    <ClInclude Include="Anti Debug\UnhandledExceptionFilter_Handler.h" />
-    <ClInclude Include="Anti Debug\WriteWatch.h" />
-    <ClInclude Include="Anti Dump\ErasePEHeaderFromMemory.h" />
-    <ClInclude Include="Anti Dump\SizeOfImage.h" />
-    <ClInclude Include="Anti VM\Generic.h" />
-    <ClInclude Include="Anti VM\Parallels.h" />
-    <ClInclude Include="Anti VM\Qemu.h" />
-    <ClInclude Include="Anti VM\Services.h" />
-    <ClInclude Include="Anti VM\SystemFirmware.h" />
-    <ClInclude Include="Anti VM\VirtualBox.h" />
-    <ClInclude Include="Anti VM\VirtualPC.h" />
-    <ClInclude Include="Anti VM\VMWare.h" />
-    <ClInclude Include="Anti VM\Wine.h" />
-    <ClInclude Include="Anti VM\Xen.h" />
-    <ClInclude Include="Code Injections\CreateRemoteThread.h" />
-    <ClInclude Include="Code Injections\GetSetThreadContext.h" />
-    <ClInclude Include="Code Injections\NtCreateThreadEx.h" />
-    <ClInclude Include="Code Injections\QueueUserAPC.h" />
-    <ClInclude Include="Code Injections\RtlCreateUserThread.h" />
-    <ClInclude Include="Code Injections\SetWindowsHooksEx.h" />
+    <ClInclude Include="AntiAnalysis\pch.h" />
+    <ClInclude Include="AntiAnalysis\process.h" />
+    <ClInclude Include="AntiDebug\BeingDebugged.h" />
+    <ClInclude Include="AntiDebug\CheckRemoteDebuggerPresent.h" />
+    <ClInclude Include="AntiDebug\CloseHandle_InvalidHandle.h" />
+    <ClInclude Include="AntiDebug\HardwareBreakpoints.h" />
+    <ClInclude Include="AntiDebug\Interrupt_0x2d.h" />
+    <ClInclude Include="AntiDebug\Interrupt_3.h" />
+    <ClInclude Include="AntiDebug\IsDebuggerPresent.h" />
+    <ClInclude Include="AntiDebug\MemoryBreakpoints_PageGuard.h" />
+    <ClInclude Include="AntiDebug\ModuleBoundsHookCheck.h" />
+    <ClInclude Include="AntiDebug\NtGlobalFlag.h" />
+    <ClInclude Include="AntiDebug\NtQueryInformationProcess_ProcessDebugFlags.h" />
+    <ClInclude Include="AntiDebug\NtQueryInformationProcess_ProcessDebugObject.h" />
+    <ClInclude Include="AntiDebug\NtQueryInformationProcess_ProcessDebugPort.h" />
+    <ClInclude Include="AntiDebug\NtQueryObject_ObjectInformation.h" />
+    <ClInclude Include="AntiDebug\NtQuerySystemInformation_SystemKernelDebuggerInformation.h" />
+    <ClInclude Include="AntiDebug\NtSetInformationThread_ThreadHideFromDebugger.h" />
+    <ClInclude Include="AntiDebug\NtYieldExecution.h" />
+    <ClInclude Include="AntiDebug\OutputDebugStringAPI.h" />
+    <ClInclude Include="AntiDebug\PageExceptionBreakpointCheck.h" />
+    <ClInclude Include="AntiDebug\ParentProcess.h" />
+    <ClInclude Include="AntiDebug\pch.h" />
+    <ClInclude Include="AntiDebug\ProcessHeap_Flags.h" />
+    <ClInclude Include="AntiDebug\ProcessHeap_ForceFlags.h" />
+    <ClInclude Include="AntiDebug\ProcessJob.h" />
+    <ClInclude Include="AntiDebug\ScanForModules.h" />
+    <ClInclude Include="AntiDebug\SeDebugPrivilege.h" />
+    <ClInclude Include="AntiDebug\SetHandleInformation_API.h" />
+    <ClInclude Include="AntiDebug\SharedUserData_KernelDebugger.h" />
+    <ClInclude Include="AntiDebug\SoftwareBreakpoints.h" />
+    <ClInclude Include="AntiDebug\TLS_callbacks.h" />
+    <ClInclude Include="AntiDebug\UnhandledExceptionFilter_Handler.h" />
+    <ClInclude Include="AntiDebug\WriteWatch.h" />
+    <ClInclude Include="AntiDebug\WUDF_IsDebuggerPresent.h" />
+    <ClInclude Include="AntiDump\ErasePEHeaderFromMemory.h" />
+    <ClInclude Include="AntiDump\pch.h" />
+    <ClInclude Include="AntiDump\SizeOfImage.h" />
+    <ClInclude Include="AntiVM\Generic.h" />
+    <ClInclude Include="AntiVM\Parallels.h" />
+    <ClInclude Include="AntiVM\pch.h" />
+    <ClInclude Include="AntiVM\Qemu.h" />
+    <ClInclude Include="AntiVM\Services.h" />
+    <ClInclude Include="AntiVM\VirtualBox.h" />
+    <ClInclude Include="AntiVM\VirtualPC.h" />
+    <ClInclude Include="AntiVM\VMWare.h" />
+    <ClInclude Include="AntiVM\Wine.h" />
+    <ClInclude Include="AntiVM\Xen.h" />
+    <ClInclude Include="CodeInjection\CreateRemoteThread.h" />
+    <ClInclude Include="CodeInjection\GetSetThreadContext.h" />
+    <ClInclude Include="CodeInjection\NtCreateThreadEx.h" />
+    <ClInclude Include="CodeInjection\pch.h" />
+    <ClInclude Include="CodeInjection\QueueUserAPC.h" />
+    <ClInclude Include="CodeInjection\RtlCreateUserThread.h" />
+    <ClInclude Include="CodeInjection\SetWindowsHooksEx.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Shared\APIs.h" />
+    <ClInclude Include="Shared\ApiTypeDefs.h" />
     <ClInclude Include="Shared\Common.h" />
     <ClInclude Include="Shared\log.h" />
-    <ClInclude Include="Shared\Main.h" />
+    <ClInclude Include="Shared\pch.h" />
     <ClInclude Include="Shared\Utils.h" />
     <ClInclude Include="Shared\VersionHelpers.h" />
     <ClInclude Include="Shared\winapifamily.h" />
-    <ClInclude Include="timing-attacks\timing.h" />
+    <ClInclude Include="Shared\WinStructs.h" />
+    <ClInclude Include="TimingAttacks\pch.h" />
+    <ClInclude Include="TimingAttacks\timing.h" />
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="Anti Debug\int2d_x64.asm">
+    <ClCompile Include="al-khaser.cpp" />
+    <ClCompile Include="AntiAnalysis\process.cpp" />
+    <ClCompile Include="AntiDebug\BeingDebugged.cpp" />
+    <ClCompile Include="AntiDebug\CheckRemoteDebuggerPresent.cpp" />
+    <ClCompile Include="AntiDebug\CloseHandle_InvalidHandle.cpp" />
+    <ClCompile Include="AntiDebug\HardwareBreakpoints.cpp" />
+    <ClCompile Include="AntiDebug\Interrupt_0x2d.cpp" />
+    <ClCompile Include="AntiDebug\Interrupt_3.cpp" />
+    <ClCompile Include="AntiDebug\IsDebuggerPresent.cpp" />
+    <ClCompile Include="AntiDebug\MemoryBreakpoints_PageGuard.cpp" />
+    <ClCompile Include="AntiDebug\ModuleBoundsHookCheck.cpp" />
+    <ClCompile Include="AntiDebug\NtGlobalFlag.cpp" />
+    <ClCompile Include="AntiDebug\NtQueryInformationProcess_ProcessDebugFlags.cpp" />
+    <ClCompile Include="AntiDebug\NtQueryInformationProcess_ProcessDebugObject.cpp" />
+    <ClCompile Include="AntiDebug\NtQueryInformationProcess_ProcessDebugPort.cpp" />
+    <ClCompile Include="AntiDebug\NtQueryObject_AllTypesInformation.cpp" />
+    <ClCompile Include="AntiDebug\NtQueryObject_ObjectTypeInformation.cpp" />
+    <ClCompile Include="AntiDebug\NtQuerySystemInformation_SystemKernelDebuggerInformation.cpp" />
+    <ClCompile Include="AntiDebug\NtSetInformationThread_ThreadHideFromDebugger.cpp" />
+    <ClCompile Include="AntiDebug\NtYieldExecution.cpp" />
+    <ClCompile Include="AntiDebug\OutputDebugStringAPI.cpp" />
+    <ClCompile Include="AntiDebug\PageExceptionBreakpointCheck.cpp" />
+    <ClCompile Include="AntiDebug\ParentProcess.cpp" />
+    <ClCompile Include="AntiDebug\ProcessHeap_Flags.cpp" />
+    <ClCompile Include="AntiDebug\ProcessHeap_ForceFlags.cpp" />
+    <ClCompile Include="AntiDebug\ProcessJob.cpp" />
+    <ClCompile Include="AntiDebug\ScanForModules.cpp" />
+    <ClCompile Include="AntiDebug\SeDebugPrivilege.cpp" />
+    <ClCompile Include="AntiDebug\SetHandleInformation_API.cpp" />
+    <ClCompile Include="AntiDebug\SharedUserData_KernelDebugger.cpp" />
+    <ClCompile Include="AntiDebug\SoftwareBreakpoints.cpp" />
+    <ClCompile Include="AntiDebug\TLS_callbacks.cpp" />
+    <ClCompile Include="AntiDebug\UnhandledExceptionFilter_Handler.cpp" />
+    <ClCompile Include="AntiDebug\WriteWatch.cpp" />
+    <ClCompile Include="AntiDebug\WUDF_IsDebuggerPresent.cpp" />
+    <ClCompile Include="AntiDump\ErasePEHeaderFromMemory.cpp" />
+    <ClCompile Include="AntiDump\SizeOfImage.cpp" />
+    <ClCompile Include="AntiVM\Generic.cpp" />
+    <ClCompile Include="AntiVM\Parallels.cpp" />
+    <ClCompile Include="AntiVM\Qemu.cpp" />
+    <ClCompile Include="AntiVM\Services.cpp" />
+    <ClCompile Include="AntiVM\VirtualBox.cpp" />
+    <ClCompile Include="AntiVM\VirtualPC.cpp" />
+    <ClCompile Include="AntiVM\VMWare.cpp" />
+    <ClCompile Include="AntiVM\Wine.cpp" />
+    <ClCompile Include="AntiVM\Xen.cpp" />
+    <ClCompile Include="CodeInjection\CreateRemoteThread.cpp" />
+    <ClCompile Include="CodeInjection\GetSetThreadContext.cpp" />
+    <ClCompile Include="CodeInjection\NtCreateThreadEx.cpp" />
+    <ClCompile Include="CodeInjection\QueueUserAPC.cpp" />
+    <ClCompile Include="CodeInjection\RtlCreateUserThread.cpp" />
+    <ClCompile Include="CodeInjection\SetWindowsHooksEx.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Shared\APIs.cpp" />
+    <ClCompile Include="Shared\ApiTypeDefs.cpp" />
+    <ClCompile Include="Shared\Common.cpp" />
+    <ClCompile Include="Shared\log.cpp" />
+    <ClCompile Include="Shared\Utils.cpp" />
+    <ClCompile Include="TimingAttacks\timing.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="AntiDebug\int2d_x64.asm">
       <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </MASM>
-    <MASM Include="Anti Debug\int2d_x86.asm">
+    <MASM Include="AntiDebug\int2d_x86.asm">
+      <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</UseSafeExceptionHandlers>
       <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
     </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\CHANGELOG.md" />
+    <None Include="..\README.md" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

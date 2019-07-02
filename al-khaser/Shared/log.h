@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <tchar.h>
+#pragma once
 
 #define WIDEN2(x) L##x
 #define WIDEN(x) WIDEN2(x)
@@ -11,7 +10,7 @@
 #define __TFILE__ __FILE__
 #endif
 
-void log_print(TCHAR* filename, TCHAR *fmt, ...);
+void log_print(const TCHAR* filename, const TCHAR *fmt, ...);
 
 #define LOG_PRINT(...) log_print(__TFILE__, __VA_ARGS__ )
 

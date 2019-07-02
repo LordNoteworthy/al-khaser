@@ -1,6 +1,5 @@
+#include "pch.h"
 #include "Common.h"
-#include "Utils.h"
-#include "log.h"
 
 VOID print_detected()
 {
@@ -34,7 +33,7 @@ VOID print_not_detected()
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
-VOID print_category(TCHAR* text)
+VOID print_category(const TCHAR* text)
 {
 	/* Get handle to standard output */
 	HANDLE nStdHandle = GetStdHandle(STD_OUTPUT_HANDLE);  
@@ -50,17 +49,20 @@ VOID print_category(TCHAR* text)
 	SetConsoleTextAttribute(nStdHandle, OriginalColors);
 }
 
-VOID print_results(int result, TCHAR* szMsg)
+VOID _print_check_text(const TCHAR* szMsg)
 {
 	_tprintf(TEXT("[*] %s"), szMsg);
 
 	/* align the result according to the length of the text */
-	int spaces_to_padd = 95 - _tcslen(szMsg);
+	size_t spaces_to_padd = 95 - _tcslen(szMsg);
 	while (spaces_to_padd > 0) {
 		_tprintf(TEXT(" "));
 		spaces_to_padd--;
 	}
-	
+}
+
+VOID _print_check_result(int result, const TCHAR* szMsg)
+{
 	if (result == TRUE)
 		print_detected();
 	else
@@ -72,14 +74,24 @@ VOID print_results(int result, TCHAR* szMsg)
 	LOG_PRINT(buffer);
 }
 
-VOID exec_check(int(*callback)(), TCHAR* szMsg) 
+VOID print_results(int result, TCHAR* szMsg)
 {
+	_print_check_text(szMsg);
+	_print_check_result(result, szMsg);
+}
+
+// note: templated version of this function is in Common.h
+VOID exec_check(int(*callback)(), const TCHAR* szMsg)
+{
+	/* Print the text to screen so we can see what's currently running */
+	_print_check_text(szMsg);
+
 	/* Call our check */
 	int result = callback();
 
 	/* Print / Log the result */
 	if (szMsg)
-		print_results(result, szMsg);
+		_print_check_result(result, szMsg);
 }
 
 VOID resize_console_window()
@@ -100,58 +112,69 @@ VOID print_os()
 	TCHAR szOS[MAX_PATH] = _T("");
 	if (GetOSDisplayString(szOS))
 	{
-		_tcscpy_s(szOS, MAX_PATH, szOS);
-		_tprintf(_T("\nOS: %s\n"), szOS);
+		//_tcscpy_s(szOS, MAX_PATH, szOS);
+		_tprintf(_T("\n[*] You are running: %s\n"), szOS);
 	}
 }
 
-VOID print_last_error(LPTSTR lpszFunction) 
-{ 
-    // Retrieve the system error message for the last-error code
+VOID print_last_error(LPCTSTR lpszFunction)
+{
+	// Retrieve the system error message for the last-error code
 
-    LPVOID lpMsgBuf;
-    LPVOID lpDisplayBuf;
-    DWORD dw = GetLastError(); 
+	LPVOID lpMsgBuf;
+	LPVOID lpDisplayBuf;
+	DWORD dw = GetLastError();
 
-    FormatMessage(			
-        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL,
-        dw,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR) &lpMsgBuf,
-        0, NULL );
+	if (FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		FORMAT_MESSAGE_FROM_SYSTEM |
+		FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL,
+		dw,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPTSTR)&lpMsgBuf,
+		0, NULL) == 0)
+	{
+		//FormatMessage failed, return
+		return;
+	}
 
-    // Display the error message and exit the process
+	// Display the error message and exit the process
 
-    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, 
-        (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR)); 
+	lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT,
+		(lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
 
-    StringCchPrintf((LPTSTR)lpDisplayBuf, 
-        LocalSize(lpDisplayBuf) / sizeof(TCHAR),
-        TEXT("%s failed with error %d: %s"), 
-        lpszFunction, dw, lpMsgBuf); 
+	if (lpDisplayBuf) {
 
-	_tprintf((LPCTSTR)lpDisplayBuf); 
+		StringCchPrintf((LPTSTR)lpDisplayBuf,
+			LocalSize(lpDisplayBuf) / sizeof(TCHAR),
+			TEXT("%s failed with error %u: %s"),
+			lpszFunction, dw, lpMsgBuf);
 
+		_tprintf((LPCTSTR)lpDisplayBuf);
 
-    LocalFree(lpMsgBuf);
-    LocalFree(lpDisplayBuf);
+		LocalFree(lpDisplayBuf);
+	}
+	LocalFree(lpMsgBuf);
 }
 
-TCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)
+WCHAR* ascii_to_wide_str(CHAR* lpMultiByteStr)
 {
 
 	/* Get the required size */
-	CONST INT iSizeRequired = MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, NULL, 0);
+	INT iNumChars = MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, NULL, 0);
 
 	/* Allocate new wide string */
-	TCHAR *lpWideCharStr = new TCHAR[iSizeRequired];
 
-	/* Do the conversion */
-	INT iNumChars =  MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, lpWideCharStr, iSizeRequired);
+	SIZE_T Size = (1 + iNumChars) * sizeof(WCHAR);
+	
+	WCHAR *lpWideCharStr = reinterpret_cast<WCHAR*>(malloc(Size));
 
+	if (lpWideCharStr) {
+		SecureZeroMemory(lpWideCharStr, Size);
+		/* Do the conversion */
+		iNumChars = MultiByteToWideChar(CP_ACP, 0, lpMultiByteStr, -1, lpWideCharStr, iNumChars);
+	}
 	return lpWideCharStr;
 }
 

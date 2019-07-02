@@ -1,4 +1,4 @@
-## Al-Khaser v0.72
+## Al-Khaser v0.78
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -26,7 +26,9 @@ It performs a bunch of common malware tricks with the goal of seeing if you stay
 
 ## Download
 
-You can download the latest release [here](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser.exe?raw=true).
+~~You can download the latest release here: [x86](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser_x86.exe?raw=true) | [x64](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser_x64.exe?raw=true).~~
+
+**Sorry, binaries have been removed for now as they were triggering Google's Safe Browsing heuristics.**
 
 
 ## Possible uses
@@ -42,13 +44,16 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 ### Anti-debugging attacks
 - IsDebuggerPresent
 - CheckRemoteDebuggerPresent
-- Process Environement Block (BeingDebugged)
-- Process Environement Block (NtGlobalFlag)
+- Process Environment Block (BeingDebugged)
+- Process Environment Block (NtGlobalFlag)
 - ProcessHeap (Flags)
 - ProcessHeap (ForceFlags)
 - NtQueryInformationProcess (ProcessDebugPort)
 - NtQueryInformationProcess (ProcessDebugFlags)
 - NtQueryInformationProcess (ProcessDebugObject)
+- WudfIsAnyDebuggerPresent
+- WudfIsKernelDebuggerPresent
+- WudfIsUserDebuggerPresent
 - NtSetInformationThread (HideThreadFromDebugger)
 - NtQueryObject (ObjectTypeInformation)
 - NtQueryObject (ObjectAllTypesInformation)
@@ -67,7 +72,17 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - TLS callbacks
 - Process jobs
 - Memory write watching
+- Page exception breakpoint detection
+- API hook detection (module bounds based)
 
+
+### Anti-injection
+- Enumerate modules with EnumProcessModulesEx (32-bit, 64-bit, and all options)
+- Enumerate modules with ToolHelp32  
+- Enumerate the process LDR structures with LdrEnumerateLoadedModules
+- Enumerate the process LDR structures directly
+- Walk memory with GetModuleInformation
+- Walk memory for hidden modules
 
 ### Anti-Dumping
 - Erase PE header from memory
@@ -86,8 +101,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - WaitForSingleObject -> WaitForSingleObjectEx -> NtWaitForSingleObject
 - WaitForMultipleObjects -> WaitForMultipleObjectsEx -> NtWaitForMultipleObjects (todo)
 - IcmpSendEcho (CCleaner Malware)
-- CreateWaitableTimer (todo)
-- CreateTimerQueueTimer (todo)
+- CreateWaitableTimer
+- CreateTimerQueueTimer
 - Big crypto loops (todo)
 
 
@@ -119,18 +134,21 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
   - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 1\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
   - HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 2\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0 (Identifier) (VMWARE)
+  - SYSTEM\\ControlSet001\\Control\\SystemInformation (SystemManufacturer) (VMWARE)
+  - SYSTEM\\ControlSet001\\Control\\SystemInformation (SystemProductName) (VMWARE)
 - **Registry Keys artifacts**
-  - "HARDWARE\\ACPI\\DSDT\\VBOX__"
-  - "HARDWARE\\ACPI\\FADT\\VBOX__"
-  - "HARDWARE\\ACPI\\RSDT\\VBOX__"
-  - "SOFTWARE\\Oracle\\VirtualBox Guest Additions"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxGuest"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxMouse"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxService"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxSF"
-  - "SYSTEM\\ControlSet001\\Services\\VBoxVideo"
-  - SOFTWARE\\VMware, Inc.\\VMware Tools
-  - SOFTWARE\\Wine
+  - HARDWARE\\ACPI\\DSDT\\VBOX__ (VBOX)
+  - HARDWARE\\ACPI\\FADT\\VBOX__ (VBOX)
+  - HARDWARE\\ACPI\\RSDT\\VBOX__ (VBOX)
+  - SOFTWARE\\Oracle\\VirtualBox Guest Additions (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxGuest (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxMouse (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxService (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxSF (VBOX)
+  - SYSTEM\\ControlSet001\\Services\\VBoxVideo (VBOX)
+  - SOFTWARE\\VMware, Inc.\\VMware Tools (VMWARE)
+  - SOFTWARE\\Wine (WINE)
+  - SOFTWARE\Microsoft\Virtual Machine\Guest\Parameters (HYPER-V)
 - **File system artifacts**
   - "system32\\drivers\\VBoxMouse.sys"
   - "system32\\drivers\\VBoxGuest.sys"
@@ -151,6 +169,15 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "system32\\VBoxControl.exe"
   - "system32\\drivers\\vmmouse.sys"
   - "system32\\drivers\\vmhgfs.sys"
+  - "system32\\drivers\\vm3dmp.sys"
+  - "system32\\drivers\\vmci.sys"
+  - "system32\\drivers\\vmhgfs.sys"
+  - "system32\\drivers\\vmmemctl.sys"
+  - "system32\\drivers\\vmmouse.sys"
+  - "system32\\drivers\\vmrawdsk.sys"
+  - "system32\\drivers\\vmusbmouse.sys"
+
+
 - **Directories artifacts**
   - "%PROGRAMFILES%\\oracle\\virtualbox guest additions\\"
   - "%PROGRAMFILES%\\VMWare\\"
@@ -165,6 +192,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "\x00\x0C\x29" (VMWARE)
   - "\x00\x1C\x14" (VMWARE)
   - "\x00\x50\x56" (VMWARE)
+  - "\x00\x1C\x42" (Parallels)
+  - "\x00\x16\x3E" (Xen)
+  - "\x0A\x00\x27" (Hybrid Analysis)
 - **Virtual devices**
   - "\\\\.\\VBoxMiniRdrDN"
   - "\\\\.\\VBoxGuest"
@@ -179,9 +209,14 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
     - VMWare
     - VBOX
     - VIRTUAL HD
+  - Power policies (S1-S4 states, thermal control)
 - **System Firmware Tables**
   - SMBIOS string checks (VirtualBox)
+  - SMBIOS string checks (VMWare)
+  - SMBIOS string checks (Qemu)
   - ACPI string checks (VirtualBox)
+  - ACPI string checks (VMWare)
+  - ACPI string checks (Qemu)
 - **Driver Services**
   - VirtualBox
   - VMWare
@@ -194,23 +229,32 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - VirtualBox Shared Folders
 - **Processes**
   - vboxservice.exe	(VBOX)
-    - vboxtray.exe	(VBOX)
-      - vmtoolsd.exe(VMWARE)
-    - vmwaretray.exe(VMWARE)
-      - vmwareuser(VMWARE)
-      - vmsrvc.exe(VirtualPC)
-      - vmusrvc.exe(VirtualPC)
-      - prl_cc.exe(Parallels)
-      - prl_tools.exe(Parallels)
-    - xenservice.exe(Citrix Xen)
+  - vboxtray.exe	(VBOX)
+  - vmtoolsd.exe(VMWARE)
+  - vmwaretray.exe(VMWARE)
+  - vmwareuser(VMWARE)
+  - VGAuthService.exe (VMWARE)
+  - vmacthlp.exe (VMWARE)
+  - vmsrvc.exe(VirtualPC)
+  - vmusrvc.exe(VirtualPC)
+  - prl_cc.exe(Parallels)
+  - prl_tools.exe(Parallels)
+  - xenservice.exe(Citrix Xen)
+  - qemu-ga.exe (QEMU)
 - **WMI**
-  - SELECT * FROM Win32_Bios (SerialNumber) (VMWARE)
+  - SELECT * FROM Win32_Bios (SerialNumber) (GENERIC)
   - SELECT * FROM Win32_PnPEntity (DeviceId) (VBOX)
   - SELECT * FROM Win32_NetworkAdapterConfiguration (MACAddress) (VBOX)
   - SELECT * FROM Win32_NTEventlogFile (VBOX)
-  - SELECT * FROM Win32_Processor (NumberOfCores) (GENERIC)
+  - SELECT * FROM Win32_Processor (NumberOfCores and ProcessorId) (GENERIC)
   - SELECT * FROM Win32_LogicalDisk (Size) (GENERIC)
+  - SELECT * FROM Win32_ComputerSystem (Model and Manufacturer) (GENERIC)
+  - SELECT * FROM MSAcpi_ThermalZoneTemperature CurrentTemperature) (GENERIC)
+  - SELECT * FROM Win32_Fan (GENERIC)
 - **DLL Exports and Loaded DLLs**
+  - avghookx.dll (AVG)
+  - avghooka.dll (AVG)
+  - snxhk.dll (Avast)
   - kernel32.dll!wine_get_unix_file_nameWine (Wine)
   - sbiedll.dll (Sandboxie)
   - dbghelp.dll (MS debugging support routines)
@@ -219,6 +263,8 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - pstorec.dll (SunBelt Sandbox)
   - vmcheck.dll (Virtual PC)
   - wpespy.dll (WPE Pro)
+  - cmdvrt32.dll (Comodo Container)
+  - cmdvrt64.dll (Comodo Container)
 - **CPU**
   - Hypervisor presence using (EAX=0x1)
   - Hypervisor vendor using (EAX=0x40000000)
@@ -228,9 +274,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
       - "XenVMMXenVMM"(Xen)
       - "prl hyperv  "( Parallels)
          -"VBoxVBoxVBox"( VirtualBox)
-
-      ​
-
+- NtQueryLicenseValue with Kernel-VMDetection-Private as license value.
 
 ### Anti-Analysis
 - **Processes**
@@ -265,7 +309,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - [mrexodia](http://mrexodia.cf): Main developer of [x64dbg](http://x64dbg.com/)
 - [Mattiwatti](https://github.com/Mattiwatti): Matthijs Lavrijsen
 - [gsuberland](https://twitter.com/gsuberland): Graham Sutherland
+- [hFireF0x](https://github.com/hfiref0x): hfiref0x
 
+Pull requests welcome. Please read the [Developer Guidelines](https://github.com/LordNoteworthy/al-khaser/wiki/Developer-Guidelines) on our wiki if you wish to contribute to the project.
 
 ## References
 - An Anti-Reverse Engineering Guide By Josh Jackson.

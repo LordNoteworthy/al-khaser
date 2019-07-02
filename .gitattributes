@@ -1,0 +1,53 @@
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+* text=auto
+
+###############################################################################
+# Set the merge driver for project and solution files
+#
+# Merging from the command prompt will add diff markers to the files if there
+# are conflicts (Merging from VS is not affected by the settings below, in VS
+# the diff markers are never inserted). Diff markers may cause the following 
+# file extensions to fail to load in VS. An alternative would be to treat
+# these files as binary and thus will always conflict and require user
+# intervention with every merge. To do so, just comment the entries below and
+# uncomment the group further below
+###############################################################################
+
+*.sln        text eol=crlf
+*.csproj     text eol=crlf
+*.vbproj     text eol=crlf
+*.vcxproj    text eol=crlf
+*.vcproj     text eol=crlf
+*.dbproj     text eol=crlf
+*.fsproj     text eol=crlf
+*.lsproj     text eol=crlf
+*.wixproj    text eol=crlf
+*.modelproj  text eol=crlf
+*.sqlproj    text eol=crlf
+*.wmaproj    text eol=crlf
+
+*.xproj      text eol=crlf
+*.props      text eol=crlf
+*.filters    text eol=crlf
+*.vcxitems   text eol=crlf
+
+
+#*.sln       merge=binary
+#*.csproj    merge=binary
+#*.vbproj    merge=binary
+#*.vcxproj   merge=binary
+#*.vcproj    merge=binary
+#*.dbproj    merge=binary
+#*.fsproj    merge=binary
+#*.lsproj    merge=binary
+#*.wixproj   merge=binary
+#*.modelproj merge=binary
+#*.sqlproj   merge=binary
+#*.wwaproj   merge=binary
+
+#*.xproj     merge=binary
+#*.props     merge=binary
+#*.filters   merge=binary
+#*.vcxitems  merge=binary
