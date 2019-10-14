@@ -201,6 +201,8 @@
     <ClInclude Include="AntiDebug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="AntiDebug\WriteWatch.h" />
     <ClInclude Include="AntiDebug\WUDF_IsDebuggerPresent.h" />
+    <ClInclude Include="AntiDisassm\AntiDisassm.h" />
+    <ClInclude Include="AntiDisassm\pch.h" />
     <ClInclude Include="AntiDump\ErasePEHeaderFromMemory.h" />
     <ClInclude Include="AntiDump\pch.h" />
     <ClInclude Include="AntiDump\SizeOfImage.h" />
@@ -270,6 +272,7 @@
     <ClCompile Include="AntiDebug\UnhandledExceptionFilter_Handler.cpp" />
     <ClCompile Include="AntiDebug\WriteWatch.cpp" />
     <ClCompile Include="AntiDebug\WUDF_IsDebuggerPresent.cpp" />
+    <ClCompile Include="AntiDisassm\AntiDisassm.cpp" />
     <ClCompile Include="AntiDump\ErasePEHeaderFromMemory.cpp" />
     <ClCompile Include="AntiDump\SizeOfImage.cpp" />
     <ClCompile Include="AntiVM\Generic.cpp" />
@@ -311,6 +314,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
+    </MASM>
+    <MASM Include="AntiDisassm\AntiDisassm_x64.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="AntiDisassm\AntiDisassm_x86.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </MASM>
   </ItemGroup>
   <ItemGroup>

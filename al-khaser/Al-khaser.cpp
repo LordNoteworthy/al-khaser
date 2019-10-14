@@ -22,12 +22,13 @@ int main(void)
 	BOOL	ENABLE_TIMING_ATTACKS = TRUE;
 	BOOL	ENABLE_DUMPING_CHECK = TRUE;
 	BOOL	ENABLE_ANALYSIS_TOOLS_CHECK = TRUE;
+	BOOL	ENABLE_ANTI_DISASSM_CHECKS = TRUE;
 
 	/* Resize the console window for better visibility */
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.77]"));
+	_tprintf(_T("[al-khaser version 0.79]"));
 
 	if (IsWoW64())
 		_tprintf(_T("Process is running under WOW64\n\n"));
@@ -254,6 +255,21 @@ int main(void)
 	if (ENABLE_ANALYSIS_TOOLS_CHECK) {
 		print_category(TEXT("Analysis-tools"));
 		analysis_tools_process();
+	}
+
+	/* Anti disassembler tricks */
+	if (ENABLE_ANTI_DISASSM_CHECKS) {
+
+		_tprintf(_T("Begin AntiDisassmConstantCondition\n"));
+		AntiDisassmConstantCondition();
+		_tprintf(_T("Begin AntiDisassmAsmJmpSameTarget\n"));
+		AntiDisassmAsmJmpSameTarget();
+		_tprintf(_T("Begin AntiDisassmImpossibleDiasassm\n"));
+		AntiDisassmImpossibleDiasassm();
+		_tprintf(_T("Begin AntiDisassmFunctionPointer\n"));
+		AntiDisassmFunctionPointer();
+		_tprintf(_T("Begin AntiDisassmReturnPointerAbuse\n"));
+		AntiDisassmReturnPointerAbuse();
 	}
 
 	/* Anti Dumping */
