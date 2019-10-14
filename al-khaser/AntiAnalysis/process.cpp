@@ -33,7 +33,13 @@ VOID analysis_tools_process()
 		_T("sniff_hit.exe"),		// Part of SysAnalyzer iDefense
 		_T("windbg.exe"),			// Microsoft WinDbg
 		_T("joeboxcontrol.exe"),	// Part of Joe Sandbox
-		_T("joeboxserver.exe")		// Part of Joe Sandbox
+		_T("joeboxserver.exe"),		// Part of Joe Sandbox
+		_T("joeboxserver.exe"),		// Part of Joe Sandbox
+		_T("ResourceHacker.exe"),	// Resource Hacker
+		_T("x32dbg.exe"),			// x32dbg
+		_T("x64dbg.exe"),			// x64dbg
+		_T("Fiddler.exe"),			// Fiddler
+		_T("httpdebugger.exe"),		// Http Debugger
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);

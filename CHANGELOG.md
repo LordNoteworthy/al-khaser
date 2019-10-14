@@ -4,6 +4,8 @@
 - Add anti-disassembly trick: Impossible disassembly
 - Add anti-disassembly trick: Function Pointers
 - Add anti-disassembly trick: Return Pointer Abuse
+- Add additional tools thanks to @darianvaughanm.
+
 
 #### 0.78
 - Fix anti-dump SizeOfImage() thanks to @Mattiwatti
