@@ -1,4 +1,4 @@
-## Al-Khaser v0.78
+## Al-Khaser v0.79
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -12,6 +12,7 @@
  - [Timing Attacks](#timingattack)
  - [Human Interaction](#antidump)
  - [Anti-VM](#antivm)
+ - [Anti-Disassembly](#antidisassm)
 - [Requirements](#requirements)
 - [License](#license)
 
@@ -285,7 +286,14 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - ImportREC / PETools / LordPE
   - JoeBox Sandbox
 
-  ​
+
+### Anti-Disassembly
+- Jump with constant condition
+- Jump instruction with same target
+- Impossible disassembly
+- Function Pointers
+- Return Pointer Abuse
+
 
 ### Macro malware attacks
 - Document_Close / Auto_Close.
