@@ -10,14 +10,14 @@ the process isn't being debugged
 
 BOOL NtQueryInformationProcess_ProcessDebugObject()
 {
-	// ProcessDebugFlags
+	// ProcessDebugObjectHandle
 	const int ProcessDebugObjectHandle =  0x1e;
 
 	auto NtQueryInfoProcess = static_cast<pNtQueryInformationProcess>(API::GetAPI(API_IDENTIFIER::API_NtQueryInformationProcess));
 
 	// Other Vars
 	NTSTATUS Status;
-	HANDLE hDebugObject = NULL; 
+	HANDLE hDebugObject = NULL;
 
 #if defined (ENV64BIT)
 	DWORD dProcessInformationLength = sizeof(ULONG) * 2;
@@ -29,9 +29,11 @@ BOOL NtQueryInformationProcess_ProcessDebugObject()
 #endif
 
 	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDebugObjectHandle, &hDebugObject, dProcessInformationLength, NULL);
-    
-	if (Status == 0x00000000 && hDebugObject)
-        return TRUE;
-    else
-        return FALSE;
+
+	if (Status != STATUS_PORT_NOT_SET)
+		return TRUE;
+	if (hDebugObject != NULL)
+		return TRUE;
+
+	return FALSE;
 }
