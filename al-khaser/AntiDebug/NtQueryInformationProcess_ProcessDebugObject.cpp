@@ -28,12 +28,22 @@ BOOL NtQueryInformationProcess_ProcessDebugObject()
 	DWORD32 IsRemotePresent = 0;
 #endif
 
+	// Regular check
 	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDebugObjectHandle, &hDebugObject, dProcessInformationLength, NULL);
 
 	if (Status != STATUS_PORT_NOT_SET)
 		return TRUE;
 	if (hDebugObject != NULL)
 		return TRUE;
+
+	// Check with overlapping return length and debug object handle buffers to find anti-anti-debuggers
+	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessDebugObjectHandle, &hDebugObject, dProcessInformationLength, (PULONG)&hDebugObject);
+	if (Status != STATUS_PORT_NOT_SET)
+		return TRUE;
+	if (hDebugObject == NULL)
+		return TRUE; // Handle incorrectly zeroed
+	if ((ULONG)(ULONG_PTR)hDebugObject != dProcessInformationLength)
+		return TRUE; // Return length incorrectly overwritten
 
 	return FALSE;
 }
