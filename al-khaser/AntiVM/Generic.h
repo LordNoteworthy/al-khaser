@@ -1,6 +1,7 @@
 #pragma once
 
 VOID loaded_dlls();
+VOID known_file_names();
 BOOL NumberOfProcessors();
 BOOL idt_trick();
 BOOL ldt_trick();

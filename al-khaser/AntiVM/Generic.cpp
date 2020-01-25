@@ -41,6 +41,63 @@ VOID loaded_dlls()
 			print_results(TRUE, msg);
 	}
 }
+
+/*
+Check if the file name contains any of the following strings.
+This is likely an automated malware sandbox.
+*/
+VOID known_file_names() {
+
+	/* Array of strings of filenames seen in sandboxes */
+	CONST TCHAR* szFilenames[] = {
+		_T("sample.exe"),
+		_T("bot.exe"),		
+		_T("sandbox.exe"),		
+		_T("malware.exe"),	
+		_T("test.exe"),	
+		_T("klavme.exe"),		
+		_T("myapp.exe"),
+		_T("testapp.exe"),
+
+	};
+
+#if defined (ENV64BIT)
+	PPEB pPeb = (PPEB)__readgsqword(0x60);
+
+#elif defined(ENV32BIT)
+	PPEB pPeb = (PPEB)__readfsdword(0x30);
+#endif
+
+	if (!pPeb->ProcessParameters->ImagePathName.Buffer) {
+		return;
+	}
+
+	// Get the file name from path/
+	WCHAR* szFileName = PathFindFileNameW(pPeb->ProcessParameters->ImagePathName.Buffer);
+	
+	TCHAR msg[256] = _T("");
+	WORD dwlength = sizeof(szFilenames) / sizeof(szFilenames[0]);
+	for (int i = 0; i < dwlength; i++)
+	{
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking if process file name contains: %s "), szFilenames[i]);
+
+		/* Check if file name matches any blacklisted filenames */
+		if (StrCmpIW(szFilenames[i], szFileName) != 0)
+			print_results(FALSE, msg);
+		else
+			print_results(TRUE, msg);
+	}
+
+	// Some malware do check if the file name is a known hash (like md5 or sha1)
+	PathRemoveExtensionW(szFileName);
+	_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking if process file name looks like a hash: %s "), szFileName);
+	if ( (wcslen(szFileName) == 32 || wcslen(szFileName) == 40 || wcslen(szFileName) == 64) && IsHexString(szFileName))
+		print_results(TRUE, msg);
+	else 
+		print_results(FALSE, msg);
+}
+	
+
 /*
 Detect Hybrid Analysis with mac vendor
 */
