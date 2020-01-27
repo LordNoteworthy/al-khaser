@@ -110,6 +110,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 ### Human Interaction / Generic [Anti-Sandbox]
 - Mouse movement
+- File names like `sample.exe` or sandbox.exe`.
 - Total Physical memory (GlobalMemoryStatusEx)
 - Disk size using DeviceIoControl (IOCTL_DISK_GET_LENGTH_INFO)
 - Disk size using GetDiskFreeSpaceEx (TotalNumberOfBytes)
