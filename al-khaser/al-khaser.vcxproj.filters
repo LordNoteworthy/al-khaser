@@ -280,6 +280,9 @@
     <ClInclude Include="AntiDisassm\pch.h">
       <Filter>AntiDisassm\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiDebug\TrapFlag.h">
+      <Filter>AntiDebug\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -457,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="AntiDisassm\AntiDisassm.cpp">
       <Filter>AntiDisassm\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiDebug\TrapFlag.cpp">
+      <Filter>AntiDebug\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
