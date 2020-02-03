@@ -198,6 +198,7 @@
     <ClInclude Include="AntiDebug\SharedUserData_KernelDebugger.h" />
     <ClInclude Include="AntiDebug\SoftwareBreakpoints.h" />
     <ClInclude Include="AntiDebug\TLS_callbacks.h" />
+    <ClInclude Include="AntiDebug\TrapFlag.h" />
     <ClInclude Include="AntiDebug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="AntiDebug\WriteWatch.h" />
     <ClInclude Include="AntiDebug\WUDF_IsDebuggerPresent.h" />
@@ -269,6 +270,7 @@
     <ClCompile Include="AntiDebug\SharedUserData_KernelDebugger.cpp" />
     <ClCompile Include="AntiDebug\SoftwareBreakpoints.cpp" />
     <ClCompile Include="AntiDebug\TLS_callbacks.cpp" />
+    <ClCompile Include="AntiDebug\TrapFlag.cpp" />
     <ClCompile Include="AntiDebug\UnhandledExceptionFilter_Handler.cpp" />
     <ClCompile Include="AntiDebug\WriteWatch.cpp" />
     <ClCompile Include="AntiDebug\WUDF_IsDebuggerPresent.cpp" />
@@ -322,6 +324,7 @@
     <MASM Include="AntiDisassm\AntiDisassm_x86.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
     </MASM>
   </ItemGroup>
   <ItemGroup>
