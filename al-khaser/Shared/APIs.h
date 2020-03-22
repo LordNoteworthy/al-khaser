@@ -7,6 +7,8 @@ enum API_IDENTIFIER
 	API_GetSystemFirmwareTable,
 	API_GetNativeSystemInfo,
 	API_GetProductInfo,
+	API_EnumProcessModulesEx_Kernel,
+	API_EnumProcessModulesEx_PSAPI,
 	API_IsWow64Process,
 	API_LdrEnumerateLoadedModules,
 	API_NtClose,
@@ -14,6 +16,7 @@ enum API_IDENTIFIER
 	API_NtDelayExecution,
 	API_NtQueryInformationThread,
 	API_NtQueryInformationProcess,
+	API_NtQueryLicenseValue,
 	API_NtQueryObject,
 	API_NtQuerySystemInformation,
 	API_NtSetInformationThread,
@@ -22,11 +25,10 @@ enum API_IDENTIFIER
 	API_NtWow64ReadVirtualMemory64,
 	API_NtYieldExecution,
 	API_RtlGetVersion,
+	API_RtlInitUnicodeString,
 	API_WudfIsAnyDebuggerPresent,
 	API_WudfIsKernelDebuggerPresent,
 	API_WudfIsUserDebuggerPresent,
-	API_NtQueryLicenseValue,
-	API_RtlInitUnicodeString
 };
 
 enum API_OS_VERSION

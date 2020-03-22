@@ -472,6 +472,9 @@
     <MASM Include="AntiDebug\int2d_x64.asm">
       <Filter>AntiDebug\Source</Filter>
     </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="al-khaser.manifest" />
     <MASM Include="AntiDisassm\AntiDisassm_x86.asm">
       <Filter>AntiDisassm\Source</Filter>
     </MASM>

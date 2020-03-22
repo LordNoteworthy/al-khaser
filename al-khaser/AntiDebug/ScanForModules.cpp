@@ -164,11 +164,30 @@ BOOL ScanForModules_EnumProcessModulesEx_Internal(DWORD moduleFlag)
 	DWORD currentSize = 1024 * sizeof(HMODULE);
 	DWORD requiredSize = 0;
 	bool anyBadLibs = false;
+	
+	// the EnumProcessModulesEx API was moved from psapi.dll into kernel32.dll for Windows 7, then back out afterwards.
+	// check for availability of either.
+	if (!API::IsAvailable(API_EnumProcessModulesEx_PSAPI) && !API::IsAvailable(API_EnumProcessModulesEx_Kernel))
+	{
+		// neither available
+		return FALSE;
+	}
+	
+	// API is available in one of the two libraries, use whichever is available.
+	pEnumProcessModulesEx fnEnumProcessModulesEx;
+	if (API::IsAvailable(API_EnumProcessModulesEx_PSAPI))
+	{
+		fnEnumProcessModulesEx = static_cast<pEnumProcessModulesEx>(API::GetAPI(API_IDENTIFIER::API_EnumProcessModulesEx_PSAPI));
+	}
+	else
+	{
+		fnEnumProcessModulesEx = static_cast<pEnumProcessModulesEx>(API::GetAPI(API_IDENTIFIER::API_EnumProcessModulesEx_Kernel));
+	}
 
 	moduleList = static_cast<HMODULE*>(calloc(1024, sizeof(HMODULE)));
 	if (moduleList) {
 
-		if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag))
+		if (fnEnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag))
 		{
 			bool success = true;
 			if (requiredSize > currentSize)
@@ -177,7 +196,7 @@ BOOL ScanForModules_EnumProcessModulesEx_Internal(DWORD moduleFlag)
 				tmp = static_cast<HMODULE*>(realloc(moduleList, currentSize));
 				if (tmp) {
 					moduleList = tmp;
-					if (EnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag) == FALSE)
+					if (fnEnumProcessModulesEx(GetCurrentProcess(), moduleList, currentSize, &requiredSize, moduleFlag) == FALSE)
 					{
 						success = false;
 					}
@@ -216,6 +235,7 @@ BOOL ScanForModules_EnumProcessModulesEx_32bit()
 
 BOOL ScanForModules_EnumProcessModulesEx_64bit()
 {
+	
 	return ScanForModules_EnumProcessModulesEx_Internal(LIST_MODULES_64BIT);
 }
 
