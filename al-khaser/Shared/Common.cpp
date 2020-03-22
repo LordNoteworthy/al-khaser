@@ -188,3 +188,12 @@ CHAR* wide_str_to_multibyte (TCHAR* lpWideStr)
 	status = wctomb_s(pRetValue, mbchar, sizeInBytes, *lpWideStr);
 	return mbchar;
 }
+
+BOOL IsHexString(WCHAR* szStr) {
+	std::wstring s(szStr);
+
+	if (std::find_if(s.begin(), s.end(), [](wchar_t c) {return !std::isxdigit(static_cast<unsigned char>(c)); }) == s.end())
+		return TRUE;
+	else
+		return FALSE;
+}

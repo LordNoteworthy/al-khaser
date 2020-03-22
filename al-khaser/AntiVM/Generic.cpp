@@ -23,7 +23,7 @@ VOID loaded_dlls()
 		_T("vmcheck.dll"),		// Virtual PC
 		_T("wpespy.dll"),		// WPE Pro
 		_T("cmdvrt64.dll"),		// Comodo Container
-        _T("cmdvrt32.dll"),		// Comodo Container
+		_T("cmdvrt32.dll"),		// Comodo Container
 
 	};
 
@@ -41,6 +41,63 @@ VOID loaded_dlls()
 			print_results(TRUE, msg);
 	}
 }
+
+/*
+Check if the file name contains any of the following strings.
+This is likely an automated malware sandbox.
+*/
+VOID known_file_names() {
+
+	/* Array of strings of filenames seen in sandboxes */
+	CONST TCHAR* szFilenames[] = {
+		_T("sample.exe"),
+		_T("bot.exe"),		
+		_T("sandbox.exe"),		
+		_T("malware.exe"),	
+		_T("test.exe"),	
+		_T("klavme.exe"),		
+		_T("myapp.exe"),
+		_T("testapp.exe"),
+
+	};
+
+#if defined (ENV64BIT)
+	PPEB pPeb = (PPEB)__readgsqword(0x60);
+
+#elif defined(ENV32BIT)
+	PPEB pPeb = (PPEB)__readfsdword(0x30);
+#endif
+
+	if (!pPeb->ProcessParameters->ImagePathName.Buffer) {
+		return;
+	}
+
+	// Get the file name from path/
+	WCHAR* szFileName = PathFindFileNameW(pPeb->ProcessParameters->ImagePathName.Buffer);
+	
+	TCHAR msg[256] = _T("");
+	WORD dwlength = sizeof(szFilenames) / sizeof(szFilenames[0]);
+	for (int i = 0; i < dwlength; i++)
+	{
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking if process file name contains: %s "), szFilenames[i]);
+
+		/* Check if file name matches any blacklisted filenames */
+		if (StrCmpIW(szFilenames[i], szFileName) != 0)
+			print_results(FALSE, msg);
+		else
+			print_results(TRUE, msg);
+	}
+
+	// Some malware do check if the file name is a known hash (like md5 or sha1)
+	PathRemoveExtensionW(szFileName);
+	_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking if process file name looks like a hash: %s "), szFileName);
+	if ( (wcslen(szFileName) == 32 || wcslen(szFileName) == 40 || wcslen(szFileName) == 64) && IsHexString(szFileName))
+		print_results(TRUE, msg);
+	else 
+		print_results(FALSE, msg);
+}
+	
+
 /*
 Detect Hybrid Analysis with mac vendor
 */
@@ -59,7 +116,7 @@ BOOL NumberOfProcessors()
 	PULONG ulNumberProcessors = (PULONG)(__readgsqword(0x60) + 0xB8);
 
 #elif defined(ENV32BIT)
-	PULONG ulNumberProcessors = (PULONG)(__readfsdword(0x30) + 0x64) ;
+	PULONG ulNumberProcessors = (PULONG)(__readfsdword(0x30) + 0x64);
 
 #endif
 
@@ -81,7 +138,7 @@ PS: Does not seem to work on newer version of VMWare Workstation (Tested on v12)
 BOOL idt_trick()
 {
 	UINT idt_base = get_idt_base();
-	if ((idt_base >> 24) == 0xff) 
+	if ((idt_base >> 24) == 0xff)
 		return TRUE;
 
 	else
@@ -89,15 +146,15 @@ BOOL idt_trick()
 }
 
 /*
-Same for Local Descriptor Table (LDT) 
+Same for Local Descriptor Table (LDT)
 */
 BOOL ldt_trick()
 {
 	UINT ldt_base = get_ldt_base();
 
-	if (ldt_base == 0xdead0000) 
+	if (ldt_base == 0xdead0000)
 		return FALSE;
-	else 
+	else
 		return TRUE; // VMWare detected	
 }
 
@@ -121,7 +178,7 @@ BOOL gdt_trick()
 The instruction STR (Store Task Register) stores the selector segment of the TR
 register (Task Register) in the specified operand (memory or other general purpose register).
 All x86 processors can manage tasks in the same way as an operating system would do it.
-That is, keeping the task state and recovering it when that task is executed again. All 
+That is, keeping the task state and recovering it when that task is executed again. All
 the states of a task are kept in its TSS; there is one TSS per task. How can we know which
 is the TSS associated to the execution task? Using STR instruction, due to the fact that
 the selector segment that was brought back points into the TSS of the present task.
@@ -265,10 +322,10 @@ BOOL disk_size_wmi()
 						VariantClear(&vtProp);
 					}
 				}
-				
+
 				// release class object
 				pclsObj->Release();
-				
+
 				// break from while
 				if (bFound)
 					break;
@@ -326,7 +383,7 @@ BOOL dizk_size_deviceiocontrol()
 			SecureZeroMemory(driveRootPathBuffer, MAX_PATH);
 
 			wnsprintf(driveRootPathBuffer, MAX_PATH, _T("\\\\.\\%C:"), _T('A') + driveNumber);
-			
+
 			// open a handle to the volume
 			HANDLE hVolume = CreateFile(
 				driveRootPathBuffer,
@@ -340,7 +397,7 @@ BOOL dizk_size_deviceiocontrol()
 			if (hVolume != INVALID_HANDLE_VALUE)
 			{
 				DWORD extentSize = 8192; //256 VOLUME_DISK_EXTENTS entries
-				PVOLUME_DISK_EXTENTS diskExtents = NULL; 
+				PVOLUME_DISK_EXTENTS diskExtents = NULL;
 
 				diskExtents = static_cast<PVOLUME_DISK_EXTENTS>(LocalAlloc(LPTR, extentSize));
 				if (diskExtents) {
@@ -514,7 +571,7 @@ BOOL setupdi_diskdrive()
 		}
 	}
 
-	if (buffer) 
+	if (buffer)
 		LocalFree(buffer);
 
 	//  Cleanup
@@ -548,7 +605,7 @@ BOOL mouse_movement() {
 		/* Probably a sandbox, because mouse position did not change. */
 		return TRUE;
 
-	else 
+	else
 		return FALSE;
 }
 
@@ -560,7 +617,7 @@ more tasks at the same time.
 BOOL memory_space()
 {
 	DWORDLONG ullMinRam = (1024LL * (1024LL * (1024LL * 1LL))); // 1GB
-	MEMORYSTATUSEX statex = {0};
+	MEMORYSTATUSEX statex = { 0 };
 
 	statex.dwLength = sizeof(statex);
 	GlobalMemoryStatusEx(&statex);
@@ -597,7 +654,7 @@ Sleep and check if time have been accelerated
 BOOL accelerated_sleep()
 {
 	DWORD dwStart = 0, dwEnd = 0, dwDiff = 0;
-	DWORD dwMillisecondsToSleep = 60*1000;
+	DWORD dwMillisecondsToSleep = 60 * 1000;
 
 	/* Retrieves the number of milliseconds that have elapsed since the system was started */
 	dwStart = GetTickCount();
@@ -612,13 +669,13 @@ BOOL accelerated_sleep()
 	dwDiff = dwEnd - dwStart;
 	if (dwDiff > dwMillisecondsToSleep - 1000) // substracted 1s just to be sure
 		return FALSE;
-	else 
+	else
 		return TRUE;
 }
 
 /*
-The CPUID instruction is a processor supplementary instruction (its name derived from 
-CPU IDentification) for the x86 architecture allowing software to discover details of 
+The CPUID instruction is a processor supplementary instruction (its name derived from
+CPU IDentification) for the x86 architecture allowing software to discover details of
 the processor. By calling CPUID with EAX =1, The 31bit of ECX register if set will
 reveal the precense of a hypervisor.
 */
@@ -628,7 +685,7 @@ BOOL cpuid_is_hypervisor()
 
 	/* Query hypervisor precense using CPUID (EAX=1), BIT 31 in ECX */
 	__cpuid(CPUInfo, 1);
-	if ((CPUInfo[2] >> 31) & 1) 
+	if ((CPUInfo[2] >> 31) & 1)
 		return TRUE;
 	else
 		return FALSE;
@@ -641,7 +698,7 @@ When CPUID is called with EAX=0x40000000, cpuid return the hypervisor signature.
 */
 BOOL cpuid_hypervisor_vendor()
 {
-	INT CPUInfo[4] = {-1};
+	INT CPUInfo[4] = { -1 };
 	CHAR szHypervisorVendor[0x40];
 	WCHAR *pwszConverted;
 
@@ -672,7 +729,7 @@ BOOL cpuid_hypervisor_vendor()
 		if (pwszConverted) {
 
 			bResult = (_tcscmp(pwszConverted, szBlacklistedHypervisors[i]) == 0);
-			
+
 			free(pwszConverted);
 
 			if (bResult)
@@ -718,13 +775,13 @@ BOOL serial_number_bios_wmi()
 
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("SerialNumber"), 0, &vtProp, 0, 0);
-				if (SUCCEEDED(hRes)) {				
+				if (SUCCEEDED(hRes)) {
 					if (vtProp.vt == VT_BSTR) {
 
 						// Do our comparison
 						if (
 							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0) ||
-							(StrStrI(vtProp.bstrVal, _T("0")) != 0) || // VBox
+							(wcscmp(vtProp.bstrVal, _T("0")) == 0) || // VBox (serial is just "0")
 							(StrStrI(vtProp.bstrVal, _T("Xen")) != 0) ||
 							(StrStrI(vtProp.bstrVal, _T("Virtual")) != 0) ||
 							(StrStrI(vtProp.bstrVal, _T("A M I")) != 0)
@@ -1092,6 +1149,74 @@ BOOL cpu_fan_wmi()
 	return bFound;
 }
 
+
+/*
+Check Caption from VideoController using WMI
+*/
+BOOL caption_video_controller_wmi()
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+	BOOL bFound = FALSE;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, _T("SELECT * FROM Win32_VideoController"));
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+			VARIANT vtProp;
+
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+				// Get the value of the Name property
+				hRes = pclsObj->Get(_T("Caption"), 0, &vtProp, 0, 0);
+				if (SUCCEEDED(hRes)) {
+					if (vtProp.vt == VT_BSTR) {
+
+						// Do our comparison
+						if (
+							(StrStrI(vtProp.bstrVal, _T("Hyper-V")) != 0) ||
+							(StrStrI(vtProp.bstrVal, _T("VMWare")) != 0)
+							)
+						{
+							VariantClear(&vtProp);
+							pclsObj->Release();
+							bFound = TRUE;
+							break;
+						}
+					}
+					VariantClear(&vtProp);
+				}
+
+				// release the current result object
+				pclsObj->Release();
+			}
+
+			// Cleanup
+			pSvc->Release();
+			pLoc->Release();
+			pEnumerator->Release();
+			CoUninitialize();
+		}
+	}
+
+	return bFound;
+}
+
 /*
 Detect Virtual machine by calling NtQueryLicenseValue with Kernel-VMDetection-Private as license value.
 This detection works on Windows 7 and does not detect Microsoft Hypervisor.
@@ -1117,3 +1242,251 @@ BOOL query_license_value()
 
 	return FALSE;
 }
+
+int wmi_query_count(const _TCHAR* query)
+{
+	IWbemServices *pSvc = NULL;
+	IWbemLocator *pLoc = NULL;
+	IEnumWbemClassObject* pEnumerator = NULL;
+	BOOL bStatus = FALSE;
+	HRESULT hRes;
+
+	int count = 0;
+
+	// Init WMI
+	bStatus = InitWMI(&pSvc, &pLoc, _T("ROOT\\CIMV2"));
+	if (bStatus)
+	{
+		// If success, execute the desired query
+		bStatus = ExecWMIQuery(&pSvc, &pLoc, &pEnumerator, query);
+		if (bStatus)
+		{
+			// Get the data from the query
+			IWbemClassObject *pclsObj = NULL;
+			ULONG uReturn = 0;
+
+			// Iterate over our enumator
+			while (pEnumerator)
+			{
+				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
+				if (0 == uReturn)
+					break;
+
+				count++;
+
+				pclsObj->Release();
+			}
+
+			// Cleanup
+			pEnumerator->Release();
+			pSvc->Release();
+			pLoc->Release();
+			CoUninitialize();
+		}
+		else
+		{
+			pSvc->Release();
+			pLoc->Release();
+			CoUninitialize();
+		}
+	}
+	else return -1;
+
+	return count;
+}
+
+/*
+Check Win32_CacheMemory for entries
+*/
+BOOL cachememory_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_CacheMemory"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_PhysicalMemory for entries
+*/
+BOOL physicalmemory_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_PhysicalMemory"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_MemoryDevice for entries
+*/
+BOOL memorydevice_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_MemoryDevice"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_MemoryArray for entries
+*/
+BOOL memoryarray_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_MemoryArray"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_VoltageProbe for entries
+*/
+BOOL voltageprobe_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_VoltageProbe"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_PortConnector for entries
+*/
+BOOL portconnector_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_PortConnector"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_SMBIOSMemory for entries
+*/
+BOOL smbiosmemory_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_SMBIOSMemory"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check Win32_PerfFormattedData_Counters_ThermalZoneInformation for entries
+*/
+BOOL perfctrs_thermalzoneinfo_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_PerfFormattedData_Counters_ThermalZoneInformation"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_Memory for entries
+*/
+BOOL cim_memory_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_Memory"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_NumericSensor for entries
+*/
+BOOL cim_numericsensor_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_NumericSensor"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_PhysicalConnector for entries
+*/
+BOOL cim_physicalconnector_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_PhysicalConnector"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_Sensor for entries
+*/
+BOOL cim_sensor_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_Sensor"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_Slot for entries
+*/
+BOOL cim_slot_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_Slot"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_TemperatureSensor for entries
+*/
+BOOL cim_temperaturesensor_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_TemperatureSensor"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check CIM_VoltageSensor for entries
+*/
+BOOL cim_voltagesensor_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM CIM_VoltageSensor"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+

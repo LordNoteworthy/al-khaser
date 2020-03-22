@@ -63,23 +63,33 @@ VOID vmware_files()
 {
 	/* Array of strings of blacklisted paths */
 	const TCHAR* szPaths[] = {
-		_T("system32\\drivers\\vmmouse.sys"),
-		_T("system32\\drivers\\vmhgfs.sys"),
-		_T("system32\\drivers\\vm3dmp.sys"),
-		_T("system32\\drivers\\vmci.sys"),
-		_T("system32\\drivers\\vmhgfs.sys"),
-		_T("system32\\drivers\\vmmemctl.sys"),
-		_T("system32\\drivers\\vmmouse.sys"),
-		_T("system32\\drivers\\vmrawdsk.sys"),
-		_T("system32\\drivers\\vmusbmouse.sys"),
+		_T("System32\\drivers\\vmnet.sys"),
+		_T("System32\\drivers\\vmmouse.sys"),
+		_T("System32\\drivers\\vmusb.sys"),
+		_T("System32\\drivers\\vm3dmp.sys"),
+		_T("System32\\drivers\\vmci.sys"),
+		_T("System32\\drivers\\vmhgfs.sys"),
+		_T("System32\\drivers\\vmmemctl.sys"),
+		_T("System32\\drivers\\vmx86.sys"),
+		_T("System32\\drivers\\vmrawdsk.sys"),
+		_T("System32\\drivers\\vmusbmouse.sys"),
+		_T("System32\\drivers\\vmkdb.sys"),
+		_T("System32\\drivers\\vmnetuserif.sys"),
+		_T("System32\\drivers\\vmnetadapter.sys"),
 	};
 
 	/* Getting Windows Directory */
 	WORD dwlength = sizeof(szPaths) / sizeof(szPaths[0]);
 	TCHAR szWinDir[MAX_PATH] = _T("");
 	TCHAR szPath[MAX_PATH] = _T("");
+	PVOID OldValue = NULL;
+
 	GetWindowsDirectory(szWinDir, MAX_PATH);
 
+	if (IsWoW64()) {
+		Wow64DisableWow64FsRedirection(&OldValue);
+	}
+	
 	/* Check one by one */
 	for (int i = 0; i < dwlength; i++)
 	{
@@ -91,6 +101,11 @@ VOID vmware_files()
 		else
 			print_results(FALSE, msg);
 	}
+
+	if (IsWoW64()) {
+		Wow64RevertWow64FsRedirection(&OldValue);
+	}
+	
 }
 
 /*

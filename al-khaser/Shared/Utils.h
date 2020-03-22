@@ -1,6 +1,7 @@
 #pragma once
 
 BOOL IsWoW64();
+PVOID64 GetPeb64();
 BOOL Is_RegKeyValueExists(HKEY hKey, const TCHAR* lpSubKey, const TCHAR* lpValueName, const TCHAR* search_str);
 BOOL Is_RegKeyExists(HKEY hKey, const TCHAR* lpSubKey);
 BOOL is_FileExists(TCHAR* szPath);

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="AntiDebug">
@@ -63,6 +63,15 @@
     </Filter>
     <Filter Include="TimingAttacks\Header">
       <UniqueIdentifier>{bcf9eab0-7525-4627-843b-878d0ae1732f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AntiDisassm">
+      <UniqueIdentifier>{3c7ae943-1975-45bf-a23c-2bdfc5e58f93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AntiDisassm\Source">
+      <UniqueIdentifier>{fcfb2a05-4437-4cb4-a3e3-6467c256b185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AntiDisassm\Header">
+      <UniqueIdentifier>{c5411e59-e406-4610-87a8-321a00883ffe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +274,15 @@
     <ClInclude Include="AntiDebug\NtGlobalFlag.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiDisassm\AntiDisassm.h">
+      <Filter>AntiDisassm\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiDisassm\pch.h">
+      <Filter>AntiDisassm\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiDebug\TrapFlag.h">
+      <Filter>AntiDebug\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -440,6 +458,12 @@
     <ClCompile Include="AntiDebug\BeingDebugged.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="AntiDisassm\AntiDisassm.cpp">
+      <Filter>AntiDisassm\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiDebug\TrapFlag.cpp">
+      <Filter>AntiDebug\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="AntiDebug\int2d_x86.asm">
@@ -450,9 +474,17 @@
     </MASM>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Manifest Include="al-khaser.manifest" />
+    <MASM Include="AntiDisassm\AntiDisassm_x86.asm">
+      <Filter>AntiDisassm\Source</Filter>
+    </MASM>
+    <MASM Include="AntiDisassm\AntiDisassm_x64.asm">
+      <Filter>AntiDisassm\Source</Filter>
+    </MASM>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="al-khaser.manifest" />
+    <None Include="packages.config" />
+    <None Include="..\README.md" />
+    <None Include="..\CHANGELOG.md" />
   </ItemGroup>
 </Project>

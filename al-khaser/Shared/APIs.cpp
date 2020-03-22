@@ -4,34 +4,35 @@
 #define API_COUNT (sizeof(ApiData)/sizeof(*ApiData))
 
 API_DATA ApiData[] = {
-	/*                Identifier                        Library             Export Name                     X86/X64/either			Minimum OS Version              Removed in OS Version   */
-	{ API_IDENTIFIER::API_CsrGetProcessId,				"ntdll.dll",		"CsrGetProcessId",				API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	/*                Identifier                            Library             Export Name                         X86/X64/either			Minimum OS Version              Removed in OS Version   */
+	{ API_IDENTIFIER::API_CsrGetProcessId,				    "ntdll.dll",		"CsrGetProcessId",				    API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
 	/* the EnumProcessModulesEx API was moved from psapi.dll into kernel32.dll for Windows 7, then back out afterwards, so we need both versions. */
-	{ API_IDENTIFIER::API_EnumProcessModulesEx_Kernel,	"kernel32.dll",		"EnumProcessModulesEx",			API_OS_BITS::ANY,		API_OS_VERSION::WIN_7,			API_OS_VERSION::WIN_80 },
-	{ API_IDENTIFIER::API_EnumProcessModulesEx_PSAPI,	"psapi.dll",		"EnumProcessModulesEx",			API_OS_BITS::ANY,		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_EnumSystemFirmwareTables,		"kernel32.dll",		"EnumSystemFirmwareTables",		API_OS_BITS::ANY,		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_GetNativeSystemInfo,			"kernel32.dll",		"GetNativeSystemInfo",			API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_GetProductInfo,				"kernel32.dll",		"GetProductInfo",				API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_GetSystemFirmwareTable,		"kernel32.dll",		"GetSystemFirmwareTable",		API_OS_BITS::ANY,		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_IsWow64Process,				"kernel32.dll",		"IsWow64Process",				API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP_SP2,		API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_LdrEnumerateLoadedModules,	"ntdll.dll",		"LdrEnumerateLoadedModules",	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP_SP1,		API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtClose,						"ntdll.dll",		"NtClose",						API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtCreateDebugObject,			"ntdll.dll",		"NtCreateDebugObject",			API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtDelayExecution,				"ntdll.dll",		"NtDelayExecution",				API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtQueryInformationThread,		"ntdll.dll",		"NtQueryInformationThread",		API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtQueryInformationProcess,	"ntdll.dll",		"NtQueryInformationProcess",	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtQueryLicenseValue,			"ntdll.dll",		"NtQueryLicenseValue",			API_OS_BITS::ANY,		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtQueryObject,				"ntdll.dll",		"NtQueryObject",				API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtQuerySystemInformation,		"ntdll.dll",		"NtQuerySystemInformation",		API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtSetInformationThread,		"ntdll.dll",		"NtSetInformationThread",		API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtWow64ReadVirtualMemory64,	"ntdll.dll",		"NtWow64ReadVirtualMemory64",	API_OS_BITS::X86_ONLY,	API_OS_VERSION::WIN_XP_SP1,		API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_NtWow64QueryVirtualMemory64,	"ntdll.dll",		"NtWow64QueryVirtualMemory64",	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP_SP1,		API_OS_VERSION::WIN_10 },
-	{ API_IDENTIFIER::API_NtYieldExecution,				"ntdll.dll",		"NtYieldExecution",				API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_RtlInitUnicodeString,			"ntdll.dll",		"RtlInitUnicodeString",			API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_RtlGetVersion,				"ntdll.dll",		"RtlGetVersion",				API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_WudfIsAnyDebuggerPresent,		"WUDFPlatform.dll",	"WudfIsAnyDebuggerPresent",		API_OS_BITS::X64_ONLY,	API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_WudfIsKernelDebuggerPresent,	"WUDFPlatform.dll",	"WudfIsKernelDebuggerPresent",	API_OS_BITS::X64_ONLY,	API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
-	{ API_IDENTIFIER::API_WudfIsUserDebuggerPresent,	"WUDFPlatform.dll",	"WudfIsUserDebuggerPresent",	API_OS_BITS::X64_ONLY,	API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE }
+	{ API_IDENTIFIER::API_EnumProcessModulesEx_Kernel,		"kernel32.dll",		"EnumProcessModulesEx",				API_OS_BITS::ANY,		API_OS_VERSION::WIN_7,			API_OS_VERSION::WIN_80 },
+	{ API_IDENTIFIER::API_EnumProcessModulesEx_PSAPI,		"psapi.dll",		"EnumProcessModulesEx",				API_OS_BITS::ANY,		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_EnumSystemFirmwareTables,		    "kernel32.dll",		"EnumSystemFirmwareTables",		    API_OS_BITS::ANY,		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_GetNativeSystemInfo,			    "kernel32.dll",		"GetNativeSystemInfo",		    	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_GetProductInfo,				    "kernel32.dll",		"GetProductInfo",				    API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_GetSystemFirmwareTable,		    "kernel32.dll",		"GetSystemFirmwareTable",	    	API_OS_BITS::ANY,		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_IsWow64Process,				    "kernel32.dll",		"IsWow64Process",			    	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP_SP2,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_LdrEnumerateLoadedModules,	    "ntdll.dll",		"LdrEnumerateLoadedModules",    	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP_SP1,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtClose,						    "ntdll.dll",		"NtClose",					    	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtCreateDebugObject,			    "ntdll.dll",		"NtCreateDebugObject",		    	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtDelayExecution,				    "ntdll.dll",		"NtDelayExecution",			    	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtQueryInformationThread,		    "ntdll.dll",		"NtQueryInformationThread",	    	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtQueryInformationProcess,	    "ntdll.dll",		"NtQueryInformationProcess",	    API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtQueryLicenseValue,			    "ntdll.dll",		"NtQueryLicenseValue",	    		API_OS_BITS::ANY,		API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtQueryObject,				    "ntdll.dll",		"NtQueryObject",				    API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtQuerySystemInformation,		    "ntdll.dll",		"NtQuerySystemInformation",		    API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtSetInformationThread,		    "ntdll.dll",		"NtSetInformationThread",		    API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtWow64QueryInformationProcess64, "ntdll.dll",        "NtWow64QueryInformationProcess64",	API_OS_BITS::X86_ONLY,	API_OS_VERSION::WIN_XP_SP1,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtWow64ReadVirtualMemory64,	    "ntdll.dll",		"NtWow64ReadVirtualMemory64",	    API_OS_BITS::X86_ONLY,	API_OS_VERSION::WIN_XP_SP1,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_NtWow64QueryVirtualMemory64,	    "ntdll.dll",		"NtWow64QueryVirtualMemory64",	    API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP_SP1,		API_OS_VERSION::WIN_10 },
+	{ API_IDENTIFIER::API_NtYieldExecution,			    	"ntdll.dll",		"NtYieldExecution",			    	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_RtlInitUnicodeString,			    "ntdll.dll",		"RtlInitUnicodeString",		    	API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_RtlGetVersion,		    		"ntdll.dll",		"RtlGetVersion",		    		API_OS_BITS::ANY,		API_OS_VERSION::WIN_XP,			API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_WudfIsAnyDebuggerPresent,	    	"WUDFPlatform.dll",	"WudfIsAnyDebuggerPresent",	    	API_OS_BITS::X64_ONLY,	API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_WudfIsKernelDebuggerPresent,	    "WUDFPlatform.dll",	"WudfIsKernelDebuggerPresent",	    API_OS_BITS::X64_ONLY,	API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE },
+	{ API_IDENTIFIER::API_WudfIsUserDebuggerPresent,	    "WUDFPlatform.dll",	"WudfIsUserDebuggerPresent",    	API_OS_BITS::X64_ONLY,	API_OS_VERSION::WIN_VISTA,		API_OS_VERSION::NONE }
 };
 
 void API::Init()

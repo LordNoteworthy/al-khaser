@@ -1,3 +1,39 @@
+
+#### 0.80
+
+- Fixed path names in vmware_files() and vbox_files() due to wow64 fs redirection.
+- Fixed string comparaison in check_adapter_name().
+- Anti anti-debug trick: trap flag.
+- Add check for well known names used by malware sandboxes.
+- Improve ProcessDebugObject anti-debug check thanks to @Mattiwatti
+
+
+#### 0.79
+- Add anti-disassembly trick: Jump with constant condition
+- Add anti-disassembly trick: Jump instruction with same target
+- Add anti-disassembly trick: Impossible disassembly
+- Add anti-disassembly trick: Function Pointers
+- Add anti-disassembly trick: Return Pointer Abuse
+- Add additional tools thanks to @darianvaughanm.
+
+
+#### 0.78
+- Fix anti-dump SizeOfImage() thanks to @Mattiwatti
+- Fix Virtualbox vartype flag check of VARIANT properties from WMI thanks to @Mattiwatti
+- Fix crash for Wow64 binaries in ScanForModules_LDR_Direct thanks to @dvarshavsky
+- Fix IsBadLibrary() FP's for Wow64 binaries thanks to @dvarshavsky
+- Added checks for Win32_PnPDevice for VBOX entries thanks to @gsuberland
+- Added checks for Win32_BaseBoard thanks to @gsuberland
+- Added checks for Win32_Bus to see if only ACPIBus_BUS_0, PCI_BUS_0, PNP_BUS_0 are present thanks to @gsuberland
+- Added checks for Win32_PnPEntity for known VirtualBox hardware thanks to @gsuberland
+- Added checks for vbox devices (PCI\\VEN_80EE&DEV_CAFE) using WMI thanks to @gsuberland
+- Added ATAIdentifyDump and StructDumpCodegen tools to the repo thanks to @gsuberland
+- Add README and CHANGELOG to VS solution file.
+- Delete compiled binaries from repository.
+- Ignores NuGet packages directory from git.
+- Fix false positive in VirtualBox BIOS serial number WMI check thanks to @gsuberland
+
+
 #### 0.77
 - Add a gitattributes to normalize line endings.
 - Update VMDriverServices routine thanks to @hfiref0x

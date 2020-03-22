@@ -1,6 +1,7 @@
 #pragma once
 
 VOID loaded_dlls();
+VOID known_file_names();
 BOOL NumberOfProcessors();
 BOOL idt_trick();
 BOOL ldt_trick();
@@ -24,4 +25,21 @@ BOOL process_id_processor_wmi();
 BOOL power_capabilities();
 BOOL hybridanalysismacdetect();
 BOOL cpu_fan_wmi();
+BOOL caption_video_controller_wmi();
 BOOL query_license_value();
+BOOL cachememory_wmi();
+BOOL physicalmemory_wmi();
+BOOL memorydevice_wmi();
+BOOL memoryarray_wmi();
+BOOL voltageprobe_wmi();
+BOOL portconnector_wmi();
+BOOL smbiosmemory_wmi();
+BOOL perfctrs_thermalzoneinfo_wmi();
+BOOL cim_memory_wmi();
+BOOL cim_numericsensor_wmi();
+BOOL cim_physicalconnector_wmi();
+BOOL cim_sensor_wmi();
+BOOL cim_slot_wmi();
+BOOL cim_temperaturesensor_wmi();
+BOOL cim_voltagesensor_wmi();
+

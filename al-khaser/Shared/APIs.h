@@ -20,6 +20,7 @@ enum API_IDENTIFIER
 	API_NtQueryObject,
 	API_NtQuerySystemInformation,
 	API_NtSetInformationThread,
+	API_NtWow64QueryInformationProcess64,
 	API_NtWow64QueryVirtualMemory64,
 	API_NtWow64ReadVirtualMemory64,
 	API_NtYieldExecution,

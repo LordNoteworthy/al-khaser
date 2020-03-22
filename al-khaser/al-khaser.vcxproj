@@ -97,6 +97,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -112,6 +116,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -131,6 +139,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(OutDir)$(AssemblyName).exe $(SolutionDir)$(AssemblyName)_$(PlatformTarget).exe</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -150,6 +161,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(OutDir)$(AssemblyName).exe $(SolutionDir)$(AssemblyName)_$(Platform).exe</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AntiAnalysis\pch.h" />
@@ -184,9 +198,12 @@
     <ClInclude Include="AntiDebug\SharedUserData_KernelDebugger.h" />
     <ClInclude Include="AntiDebug\SoftwareBreakpoints.h" />
     <ClInclude Include="AntiDebug\TLS_callbacks.h" />
+    <ClInclude Include="AntiDebug\TrapFlag.h" />
     <ClInclude Include="AntiDebug\UnhandledExceptionFilter_Handler.h" />
     <ClInclude Include="AntiDebug\WriteWatch.h" />
     <ClInclude Include="AntiDebug\WUDF_IsDebuggerPresent.h" />
+    <ClInclude Include="AntiDisassm\AntiDisassm.h" />
+    <ClInclude Include="AntiDisassm\pch.h" />
     <ClInclude Include="AntiDump\ErasePEHeaderFromMemory.h" />
     <ClInclude Include="AntiDump\pch.h" />
     <ClInclude Include="AntiDump\SizeOfImage.h" />
@@ -253,9 +270,11 @@
     <ClCompile Include="AntiDebug\SharedUserData_KernelDebugger.cpp" />
     <ClCompile Include="AntiDebug\SoftwareBreakpoints.cpp" />
     <ClCompile Include="AntiDebug\TLS_callbacks.cpp" />
+    <ClCompile Include="AntiDebug\TrapFlag.cpp" />
     <ClCompile Include="AntiDebug\UnhandledExceptionFilter_Handler.cpp" />
     <ClCompile Include="AntiDebug\WriteWatch.cpp" />
     <ClCompile Include="AntiDebug\WUDF_IsDebuggerPresent.cpp" />
+    <ClCompile Include="AntiDisassm\AntiDisassm.cpp" />
     <ClCompile Include="AntiDump\ErasePEHeaderFromMemory.cpp" />
     <ClCompile Include="AntiDump\SizeOfImage.cpp" />
     <ClCompile Include="AntiVM\Generic.cpp" />
@@ -298,11 +317,19 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
     </MASM>
+    <MASM Include="AntiDisassm\AntiDisassm_x64.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="AntiDisassm\AntiDisassm_x86.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
+    </MASM>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="..\CHANGELOG.md" />
+    <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="al-khaser.manifest" />

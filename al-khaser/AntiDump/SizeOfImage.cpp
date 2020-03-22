@@ -14,6 +14,10 @@ VOID SizeOfImage()
 #endif
 
 	_tprintf(_T("[*] Increasing SizeOfImage in PE Header to: 0x100000\n"));
-	PLDR_DATA_TABLE_ENTRY tableEntry = (PLDR_DATA_TABLE_ENTRY)(pPeb->Ldr->InMemoryOrderModuleList.Flink);
-	tableEntry->DllBase = (PVOID)((INT_PTR)tableEntry->DllBase + 0x100000);
+
+	// The following pointer hackery is because winternl.h defines incomplete PEB types
+	PLIST_ENTRY InLoadOrderModuleList = (PLIST_ENTRY)pPeb->Ldr->Reserved2[1]; // pPeb->Ldr->InLoadOrderModuleList
+	PLDR_DATA_TABLE_ENTRY tableEntry = CONTAINING_RECORD(InLoadOrderModuleList, LDR_DATA_TABLE_ENTRY, Reserved1[0] /*InLoadOrderLinks*/);
+	PULONG pEntrySizeOfImage = (PULONG)&tableEntry->Reserved3[1]; // &tableEntry->SizeOfImage
+	*pEntrySizeOfImage = (ULONG)((INT_PTR)tableEntry->DllBase + 0x100000);
 }
