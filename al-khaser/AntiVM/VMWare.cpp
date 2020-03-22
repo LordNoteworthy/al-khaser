@@ -63,15 +63,19 @@ VOID vmware_files()
 {
 	/* Array of strings of blacklisted paths */
 	const TCHAR* szPaths[] = {
-		_T("system32\\drivers\\vmmouse.sys"),
-		_T("system32\\drivers\\vmhgfs.sys"),
-		_T("system32\\drivers\\vm3dmp.sys"),
-		_T("system32\\drivers\\vmci.sys"),
-		_T("system32\\drivers\\vmhgfs.sys"),
-		_T("system32\\drivers\\vmmemctl.sys"),
-		_T("system32\\drivers\\vmmouse.sys"),
-		_T("system32\\drivers\\vmrawdsk.sys"),
-		_T("system32\\drivers\\vmusbmouse.sys"),
+		_T("SysNative\\drivers\\vmnet.sys"),
+		_T("SysNative\\drivers\\vmmouse.sys"),
+		_T("SysNative\\drivers\\vmusb.sys"),
+		_T("SysNative\\drivers\\vm3dmp.sys"),
+		_T("SysNative\\drivers\\vmci.sys"),
+		_T("SysNative\\drivers\\vmhgfs.sys"),
+		_T("SysNative\\drivers\\vmmemctl.sys"),
+		_T("SysNative\\drivers\\vmx86.sys"),
+		_T("SysNative\\drivers\\vmrawdsk.sys"),
+		_T("SysNative\\drivers\\vmusbmouse.sys"),
+		_T("SysNative\\drivers\\vmkdb.sys"),
+		_T("SysNative\\drivers\\vmnetuserif.sys"),
+		_T("SysNative\\drivers\\vmnetadapter.sys"),
 	};
 
 	/* Getting Windows Directory */
