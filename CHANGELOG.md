@@ -1,6 +1,7 @@
 
 #### 0.80
 
+- Fixed string comparaison in check_adapter_name().
 - Anti anti-debug trick: trap flag.
 - Add check for well known names used by malware sandboxes.
 - Improve ProcessDebugObject anti-debug check thanks to @Mattiwatti

@@ -178,7 +178,7 @@ BOOL check_adapter_name(const TCHAR* szName)
 		{
 			pwszConverted = ascii_to_wide_str(pAdapterInfoPtr->Description);
 			if (pwszConverted) {
-				if (StrCmpI(pwszConverted, szName) == 0)
+				if (StrStrI(pwszConverted, szName) != NULL)
 				{
 					bResult = TRUE;
 				}
