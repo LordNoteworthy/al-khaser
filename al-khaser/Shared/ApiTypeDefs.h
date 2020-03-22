@@ -1,6 +1,12 @@
 #pragma once
 
 typedef DWORD(NTAPI* pCsrGetId)(VOID);
+typedef BOOL(WINAPI* pEnumProcessModulesEx)(
+	HANDLE hProcess,
+	HMODULE *lphModule,
+	DWORD cb,
+	LPDWORD lpcbNeeded,
+	DWORD dwFilterFlag);
 typedef UINT(WINAPI* pEnumSystemFirmwareTables)(DWORD, PVOID, DWORD);
 typedef UINT(WINAPI* pGetSystemFirmwareTable)(DWORD, DWORD, PVOID, DWORD); 
 typedef void (WINAPI *pGetNativeSystemInfo)(LPSYSTEM_INFO);
