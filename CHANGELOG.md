@@ -1,6 +1,7 @@
 
 #### 0.80
 
+- Fixed path names in vmware_files() and vbox_files() due to wow64 fs redirection.
 - Fixed string comparaison in check_adapter_name().
 - Anti anti-debug trick: trap flag.
 - Add check for well known names used by malware sandboxes.
