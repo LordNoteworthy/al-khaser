@@ -69,30 +69,36 @@ VOID vbox_files()
 {
 	/* Array of strings of blacklisted paths */
 	const TCHAR* szPaths[] = {
-		_T("SysNative\\drivers\\VBoxMouse.sys"),
-		_T("SysNative\\drivers\\VBoxGuest.sys"),
-		_T("SysNative\\drivers\\VBoxSF.sys"),
-		_T("SysNative\\drivers\\VBoxVideo.sys"),
-		_T("SysNative\\vboxdisp.dll"),
-		_T("SysNative\\vboxhook.dll"),
-		_T("SysNative\\vboxmrxnp.dll"),
-		_T("SysNative\\vboxogl.dll"),
-		_T("SysNative\\vboxoglarrayspu.dll"),
-		_T("SysNative\\vboxoglcrutil.dll"),
-		_T("SysNative\\vboxoglerrorspu.dll"),
-		_T("SysNative\\vboxoglfeedbackspu.dll"),
-		_T("SysNative\\vboxoglpackspu.dll"),
-		_T("SysNative\\vboxoglpassthroughspu.dll"),
-		_T("SysNative\\vboxservice.exe"),
-		_T("SysNative\\vboxtray.exe"),
-		_T("SysNative\\VBoxControl.exe"),
+		_T("System32\\drivers\\VBoxMouse.sys"),
+		_T("System32\\drivers\\VBoxGuest.sys"),
+		_T("System32\\drivers\\VBoxSF.sys"),
+		_T("System32\\drivers\\VBoxVideo.sys"),
+		_T("System32\\vboxdisp.dll"),
+		_T("System32\\vboxhook.dll"),
+		_T("System32\\vboxmrxnp.dll"),
+		_T("System32\\vboxogl.dll"),
+		_T("System32\\vboxoglarrayspu.dll"),
+		_T("System32\\vboxoglcrutil.dll"),
+		_T("System32\\vboxoglerrorspu.dll"),
+		_T("System32\\vboxoglfeedbackspu.dll"),
+		_T("System32\\vboxoglpackspu.dll"),
+		_T("System32\\vboxoglpassthroughspu.dll"),
+		_T("System32\\vboxservice.exe"),
+		_T("System32\\vboxtray.exe"),
+		_T("System32\\VBoxControl.exe"),
 	};
 
 	/* Getting Windows Directory */
 	WORD dwlength = sizeof(szPaths) / sizeof(szPaths[0]);
 	TCHAR szWinDir[MAX_PATH] = _T("");
 	TCHAR szPath[MAX_PATH] = _T("");
+	PVOID OldValue = NULL;
+
 	GetWindowsDirectory(szWinDir, MAX_PATH);
+
+	if (IsWoW64()) {
+		Wow64DisableWow64FsRedirection(&OldValue);
+	}
 
 	/* Check one by one */
 	for (int i = 0; i < dwlength; i++)
@@ -104,6 +110,10 @@ VOID vbox_files()
 			print_results(TRUE, msg);
 		else
 			print_results(FALSE, msg);
+	}
+
+	if (IsWoW64()) {
+		Wow64RevertWow64FsRedirection(&OldValue);
 	}
 }
 
