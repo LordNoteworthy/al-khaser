@@ -55,7 +55,7 @@ VOID AntiDisassmFunctionPointer()
 
 
 /*
-	The most obvious result of this technique is that the disassembler doesn’t show any
+	The most obvious result of this technique is that the disassembler doesnï¿½t show any
 	code cross - reference to the target being jumped to.
 */
 VOID AntiDisassmReturnPointerAbuse()
