@@ -239,10 +239,18 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 			{
 				if (osvi.wProductType == VER_NT_WORKSTATION)
 					StringCchCat(pszOS, MAX_PATH, TEXT("Windows 10 "));
-				else
-					StringCchCat(pszOS, MAX_PATH, TEXT("Windows Server 2016 Technical Preview "));
+				else {
+					if (osvi.dwBuildNumber > 17763) {
+						StringCchCat(pszOS, MAX_PATH, TEXT("Windows Server 20XX "));
+					}
+					else if (osvi.dwBuildNumber > 14393) {
+						StringCchCat(pszOS, MAX_PATH, TEXT("Windows Server 2019 "));
+					}
+					else {
+						StringCchCat(pszOS, MAX_PATH, TEXT("Windows Server 2016 "));
+					}
+				}
 			}
-
 		}
 
 		else if (osvi.dwMajorVersion == 6)
@@ -260,7 +268,6 @@ BOOL GetOSDisplayString(LPTSTR pszOS)
 					StringCchCat(pszOS, MAX_PATH, TEXT("Windows 7 "));
 				else StringCchCat(pszOS, MAX_PATH, TEXT("Windows Server 2008 R2 "));
 			}
-
 
 			if (osvi.dwMinorVersion == 2)
 			{
