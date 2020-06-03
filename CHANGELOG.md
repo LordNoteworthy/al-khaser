@@ -1,6 +1,11 @@
 
 #### 0.80
 
+- Add Windows Genuine check. 
+- Improve GetOSDisplayString by adding Windows Server 2019.
+- Fixed the encoding of some files thanks to @not-matthias.
+- Add Missing manifest makes version checks return incorrect values.
+- Fix EnumProcessModulesEx crash on XP and some versions of Win7.
 - Fixed path names in vmware_files() and vbox_files() due to wow64 fs redirection.
 - Fixed string comparaison in check_adapter_name().
 - Anti anti-debug trick: trap flag.

@@ -42,6 +42,7 @@
 #include <SetupAPI.h>
 #include <algorithm>
 #include <cctype>
+#include <slpublic.h> // SLIsGenuineLocal
 
 #pragma comment(lib, "wbemuuid.lib")
 #pragma comment(lib, "Shlwapi.lib")
@@ -53,6 +54,7 @@
 #pragma comment(lib, "Winmm.lib")
 #pragma comment(lib, "setupapi.lib")
 #pragma comment(lib, "powrprof.lib")
+#pragma comment(lib, "Slwga.lib")
 
 #include "Shared/Common.h"
 #include "Shared/VersionHelpers.h"

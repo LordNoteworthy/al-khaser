@@ -1,4 +1,4 @@
-## Al-Khaser v0.79
+## Al-Khaser v0.80
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -123,7 +123,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Sandbox known product IDs (todo)
 - Color of background pixel (todo)
 - Keyboard layout (Win32/Banload) (todo)
-
+- Genuine Windows installation.
 
 
 ### Anti-Virtualization / Full-System Emulation
@@ -315,7 +315,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 
 
-## Contributors
+## Authors
 - [mrexodia](http://mrexodia.cf): Main developer of [x64dbg](http://x64dbg.com/)
 - [Mattiwatti](https://github.com/Mattiwatti): Matthijs Lavrijsen
 - [gsuberland](https://twitter.com/gsuberland): Graham Sutherland
