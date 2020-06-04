@@ -28,7 +28,7 @@ int main(void)
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.79]"));
+	_tprintf(_T("[al-khaser version 0.80]"));
 
 	print_category(TEXT("Initialisation"));
 	API::Init();
@@ -146,6 +146,7 @@ int main(void)
 		exec_check(&cim_voltagesensor_wmi, TEXT("Checking CIM_VoltageSensor with WMI "));
 		exec_check(&cim_physicalconnector_wmi, TEXT("Checking CIM_PhysicalConnector with WMI "));
 		exec_check(&cim_slot_wmi, TEXT("Checking CIM_Slot with WMI "));
+		exec_check(&pirated_windows, TEXT("Checking if Windows is Genuine "));
 	}
 
 	/* VirtualBox Detection */

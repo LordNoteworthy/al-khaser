@@ -42,4 +42,4 @@ BOOL cim_sensor_wmi();
 BOOL cim_slot_wmi();
 BOOL cim_temperaturesensor_wmi();
 BOOL cim_voltagesensor_wmi();
-
+BOOL pirated_windows();

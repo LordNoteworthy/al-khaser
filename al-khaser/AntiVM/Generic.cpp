@@ -1490,3 +1490,30 @@ BOOL cim_voltagesensor_wmi()
 	return FALSE;
 }
 
+/*
+Checks whether the specified application is a genuine Windows installation.
+
+*/
+
+#define WINDOWS_SLID                                                \
+            { 0x55c92734,                                           \
+              0xd682,                                               \
+              0x4d71,                                               \
+              { 0x98, 0x3e, 0xd6, 0xec, 0x3f, 0x16, 0x05, 0x9f }    \
+            }
+
+BOOL pirated_windows()
+{
+	CONST SLID AppId = WINDOWS_SLID;
+	SL_GENUINE_STATE GenuineState;
+	HRESULT hResult;
+
+	hResult = SLIsGenuineLocal(&AppId, &GenuineState, NULL);
+
+	if (hResult == S_OK) {
+		if (GenuineState != SL_GEN_STATE_IS_GENUINE) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
