@@ -1502,7 +1502,7 @@ Checks whether the specified application is a genuine Windows installation.
               { 0x98, 0x3e, 0xd6, 0xec, 0x3f, 0x16, 0x05, 0x9f }    \
             }
 
-BOOL IsWindowsGenuine()
+BOOL pirated_windows()
 {
 	CONST SLID AppId = WINDOWS_SLID;
 	SL_GENUINE_STATE GenuineState;

@@ -146,7 +146,7 @@ int main(void)
 		exec_check(&cim_voltagesensor_wmi, TEXT("Checking CIM_VoltageSensor with WMI "));
 		exec_check(&cim_physicalconnector_wmi, TEXT("Checking CIM_PhysicalConnector with WMI "));
 		exec_check(&cim_slot_wmi, TEXT("Checking CIM_Slot with WMI "));
-		exec_check(&IsWindowsGenuine, TEXT("Checking if Windows is Genuine "));
+		exec_check(&pirated_windows, TEXT("Checking if Windows is Genuine "));
 	}
 
 	/* VirtualBox Detection */
