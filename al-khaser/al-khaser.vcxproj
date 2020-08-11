@@ -175,6 +175,7 @@
     <ClInclude Include="AntiDebug\Interrupt_0x2d.h" />
     <ClInclude Include="AntiDebug\Interrupt_3.h" />
     <ClInclude Include="AntiDebug\IsDebuggerPresent.h" />
+    <ClInclude Include="AntiDebug\LowFragmentationHeap.h" />
     <ClInclude Include="AntiDebug\MemoryBreakpoints_PageGuard.h" />
     <ClInclude Include="AntiDebug\ModuleBoundsHookCheck.h" />
     <ClInclude Include="AntiDebug\NtGlobalFlag.h" />
@@ -247,6 +248,7 @@
     <ClCompile Include="AntiDebug\Interrupt_0x2d.cpp" />
     <ClCompile Include="AntiDebug\Interrupt_3.cpp" />
     <ClCompile Include="AntiDebug\IsDebuggerPresent.cpp" />
+    <ClCompile Include="AntiDebug\LowFragmentationHeap.cpp" />
     <ClCompile Include="AntiDebug\MemoryBreakpoints_PageGuard.cpp" />
     <ClCompile Include="AntiDebug\ModuleBoundsHookCheck.cpp" />
     <ClCompile Include="AntiDebug\NtGlobalFlag.cpp" />

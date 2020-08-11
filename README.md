@@ -49,6 +49,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Process Environment Block (NtGlobalFlag)
 - ProcessHeap (Flags)
 - ProcessHeap (ForceFlags)
+- Low Fragmentation Heap (LFH)
 - NtQueryInformationProcess (ProcessDebugPort)
 - NtQueryInformationProcess (ProcessDebugFlags)
 - NtQueryInformationProcess (ProcessDebugObject)

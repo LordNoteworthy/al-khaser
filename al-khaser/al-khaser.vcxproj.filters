@@ -283,6 +283,9 @@
     <ClInclude Include="AntiDebug\TrapFlag.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiDebug\LowFragmentationHeap.h">
+      <Filter>AntiDebug\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -462,6 +465,9 @@
       <Filter>AntiDisassm\Source</Filter>
     </ClCompile>
     <ClCompile Include="AntiDebug\TrapFlag.cpp">
+      <Filter>AntiDebug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiDebug\LowFragmentationHeap.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
   </ItemGroup>
