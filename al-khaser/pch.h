@@ -99,6 +99,7 @@
 #include "AntiDebug/ModuleBoundsHookCheck.h"
 #include "AntiDebug/ScanForModules.h"
 #include "AntiDebug/WUDF_IsDebuggerPresent.h"
+#include "AntiDebug/LowFragmentationHeap.h"
 
 
 /* Anti dumping headers */

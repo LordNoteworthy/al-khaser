@@ -1,3 +1,6 @@
+#### 0.81
+
+- Add anti-debug trick: Low Fragmentation Heap.
 
 #### 0.80
 
