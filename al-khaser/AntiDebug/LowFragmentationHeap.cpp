@@ -53,7 +53,7 @@ Return Value:
 
 	// In Windows 10. the offset changes very often.
 	// Ignoring it from now.
-	if (*FrontEndHeap == NULL) {
+	if (FrontEndHeap && *FrontEndHeap == NULL) {
 		return TRUE;
 	}
 
