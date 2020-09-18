@@ -51,6 +51,11 @@ Return Value:
 #endif
 	}
 
+	// When running in a Win10 VM FrontEndHeap does not get initialized,
+	// so we get a null pointer dereferencing error.
+	if (FrontEndHeap == NULL) {
+	        return TRUE;
+	}
 	// In Windows 10. the offset changes very often.
 	// Ignoring it from now.
 	if (*FrontEndHeap == NULL) {
