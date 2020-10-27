@@ -108,6 +108,9 @@ int main(void)
 		print_category(TEXT("Generic Sandboxe/VM Detection"));
 		loaded_dlls();
 		known_file_names();
+		known_usernames();
+		known_hostnames();
+		other_known_sandbox_environment_checks();
 		exec_check(&NumberOfProcessors, TEXT("Checking Number of processors in machine "));
 		exec_check(&idt_trick, TEXT("Checking Interupt Descriptor Table location "));
 		exec_check(&ldt_trick, TEXT("Checking Local Descriptor Table location "));
