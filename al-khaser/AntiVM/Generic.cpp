@@ -130,8 +130,8 @@ VOID known_usernames() {
 		_T("HAPUBWS"),
 		_T("Hong Lee"),
 		_T("IT-ADMIN"),
-		_T("Johnson"),
-		_T("Miller"),
+		_T("Johnson"), /* Lastline Sandbox */
+		_T("Miller"), /* Lastline Sandbox */
 		_T("milozs"),
 		_T("Peter Wilson"),
 		_T("timmy"),
@@ -268,20 +268,6 @@ VOID known_hostnames() {
 	free(DNSHostName);
 }
 
-static BOOL check_file_exists(TCHAR *path) {
-	HANDLE hFile;
-	
-	hFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	if (hFile == INVALID_HANDLE_VALUE) {
-		return FALSE;
-	}
-	else {
-		CloseHandle(hFile);
-		return TRUE;
-	}
-}
-
 /*
 Check for a combination of environmental conditions, replicating what malware
 could/has used to detect that it's running in a sandbox. */
@@ -329,25 +315,25 @@ VOID other_known_sandbox_environment_checks() {
 
 	matched = FALSE;
 	if ((0 == StrCmp(username, _T("John"))) &&
-		(check_file_exists((TCHAR *)_T("C:\\take_screenshot.ps1"))) &&
-		(check_file_exists((TCHAR *)_T("C:\\loaddll.exe")))) {
+		(is_FileExists((TCHAR *)_T("C:\\take_screenshot.ps1"))) &&
+		(is_FileExists((TCHAR *)_T("C:\\loaddll.exe")))) {
 		matched = TRUE;
 	}
 	print_results(matched, (TCHAR *)_T("Checking whether username is 'John' and two sandbox files exist "));
 
 	matched = FALSE;
-	if ((check_file_exists((TCHAR *)_T("C:\\email.doc"))) &&
-		(check_file_exists((TCHAR *)_T("C:\\email.htm"))) &&
-		(check_file_exists((TCHAR *)_T("C:\\123\\email.doc"))) &&
-		(check_file_exists((TCHAR *)_T("C:\\123\\email.docx")))) {
+	if ((is_FileExists((TCHAR *)_T("C:\\email.doc"))) &&
+		(is_FileExists((TCHAR *)_T("C:\\email.htm"))) &&
+		(is_FileExists((TCHAR *)_T("C:\\123\\email.doc"))) &&
+		(is_FileExists((TCHAR *)_T("C:\\123\\email.docx")))) {
 		matched = TRUE;
 	}
 	print_results(matched, (TCHAR *)_T("Checking whether four known sandbox 'email' file paths exist "));
 
 	matched = FALSE;
-	if ((check_file_exists((TCHAR *)_T("C:\\a\\foobar.bmp"))) &&
-		(check_file_exists((TCHAR *)_T("C:\\a\\foobar.doc"))) &&
-		(check_file_exists((TCHAR *)_T("C:\\a\\foobar.gif")))) {
+	if ((is_FileExists((TCHAR *)_T("C:\\a\\foobar.bmp"))) &&
+		(is_FileExists((TCHAR *)_T("C:\\a\\foobar.doc"))) &&
+		(is_FileExists((TCHAR *)_T("C:\\a\\foobar.gif")))) {
 		matched = TRUE;
 	}
 	print_results(matched, (TCHAR *)_T("Checking whether three known sandbox 'foobar' files exist "));
