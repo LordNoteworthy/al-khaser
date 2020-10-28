@@ -46,3 +46,5 @@ BOOL cim_slot_wmi();
 BOOL cim_temperaturesensor_wmi();
 BOOL cim_voltagesensor_wmi();
 BOOL pirated_windows();
+BOOL registry_services_disk_enum();
+BOOL registry_disk_enum();

@@ -1762,3 +1762,134 @@ BOOL pirated_windows()
 	}
 	return FALSE;
 }
+
+/* Check HKLM\System\CurrentControlSet\Services\Disk\Enum for values related
+ * to virtual machines. */
+BOOL registry_services_disk_enum()
+{
+	HKEY hkResult = NULL;
+	const TCHAR* diskEnumKey = _T("System\\CurrentControlSet\\Services\\Disk\\Enum");
+	DWORD diskCount = 0;
+	DWORD cbData = sizeof(diskCount);
+	const TCHAR* szChecks[] = {
+		/* Checked for by Smokeloader
+		 * https://research.checkpoint.com/2019-resurgence-of-smokeloader/*/
+		 _T("qemu"),
+		 _T("virtio"),
+		 _T("vmware"),
+		 _T("vbox"),
+		 _T("xen"),
+
+		 /* Checked for by Kutaki (not including ones from above)
+		 * https://cofense.com/kutaki-malware-bypasses-gateways-steal-users-credentials/ */
+		_T("VMW"),
+		_T("Virtual"),
+
+	};
+	WORD dwChecksLength = sizeof(szChecks) / sizeof(szChecks[0]);
+	BOOL bFound = FALSE;
+
+	/* Each disk has a corresponding value where the value name starts at '0' for
+	 * the first disk and increases by 1 for each subsequent disk.  The 'Count'
+	 * value appears to store the total number of disk entries.*/
+
+	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, diskEnumKey, NULL, KEY_READ, &hkResult) == ERROR_SUCCESS)
+	{
+		if (RegQueryValueEx(hkResult, _T("Count"), NULL, NULL, (LPBYTE)&diskCount, &cbData) != ERROR_SUCCESS)
+		{
+			RegCloseKey(hkResult);
+			return bFound;
+		}
+		RegCloseKey(hkResult);
+	}
+
+	for (unsigned int i = 0; i < diskCount; i++) {
+		TCHAR subkey[11];
+
+		_stprintf_s(subkey, sizeof(subkey) / sizeof(subkey[0]), _T("%d"), i);
+
+		for (unsigned int j = 0; j < dwChecksLength; j++) {
+			//_tprintf(_T("Checking %s %s for %s (%d)\n"), diskEnumKey, subkey, szChecks[j], diskCount);
+			if (Is_RegKeyValueExists(HKEY_LOCAL_MACHINE, diskEnumKey, subkey, szChecks[j])) {
+				bFound = TRUE;
+				break;
+			}
+		}
+		if (bFound) {
+			break;
+		}
+	}
+	return bFound;
+}
+
+BOOL registry_disk_enum()
+{
+	HKEY hkResult = NULL;
+	const TCHAR* szEntries[] = {
+		_T("System\\CurrentControlSet\\Enum\\IDE"),
+		_T("System\\CurrentControlSet\\Enum\\SCSI"),
+	};
+	const TCHAR* szChecks[] = {
+		/* Checked for by Smokeloader
+		 * https://research.checkpoint.com/2019-resurgence-of-smokeloader/*/
+		 _T("qemu"),
+		 _T("virtio"),
+		 _T("vmware"),
+		 _T("vbox"),
+		 _T("xen"),
+
+		 /* Checked for by Kutaki (not including ones from above)
+		 * https://cofense.com/kutaki-malware-bypasses-gateways-steal-users-credentials/ */
+		_T("VMW"),
+		_T("Virtual"),
+
+	};
+	WORD dwEntriesLength = sizeof(szEntries) / sizeof(szEntries[0]);
+	WORD dwChecksLength = sizeof(szChecks) / sizeof(szChecks[0]);
+	BOOL bFound = FALSE;
+
+	for (unsigned int i = 0; i < dwEntriesLength; i++) {
+		DWORD cSubKeys = 0;
+		DWORD cbMaxSubKeyLen = 0;
+		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, szEntries[i], NULL, KEY_READ, &hkResult) != ERROR_SUCCESS) {
+			continue;
+		}
+
+		if (RegQueryInfoKey(hkResult, NULL, NULL, NULL, &cSubKeys, &cbMaxSubKeyLen, NULL, NULL, NULL, NULL, NULL, NULL) != ERROR_SUCCESS) {
+			RegCloseKey(hkResult);
+			continue;
+		}
+
+		DWORD subKeyBufferLen = (cbMaxSubKeyLen + 1) * sizeof(TCHAR);
+		TCHAR* subKeyBuffer = (TCHAR *)malloc(subKeyBufferLen);
+		if (!subKeyBuffer) {
+			RegCloseKey(hkResult);
+			continue;
+		}
+
+		for (unsigned int j = 0; j < cSubKeys; j++) {
+			DWORD cchName = subKeyBufferLen;
+			if (RegEnumKeyEx(hkResult, j, subKeyBuffer, &cchName, NULL, NULL, NULL, NULL) != ERROR_SUCCESS) {
+				continue;
+			}
+			for (unsigned int k = 0; k < dwChecksLength; k++) {
+				//_tprintf(_T("Checking %s %s for %s (%d)\n"), szEntries[i], subKeyBuffer, szChecks[k], cSubKeys);
+				if (StrStrI(subKeyBuffer, szChecks[k]) != NULL) {
+					bFound = TRUE;
+					break;
+				}
+			}
+			if (bFound) {
+				break;
+			}
+		}
+
+		free(subKeyBuffer);
+		RegCloseKey(hkResult);
+
+		if (bFound) {
+			break;
+		}
+	}
+	return bFound;
+}
