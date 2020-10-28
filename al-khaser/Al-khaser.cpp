@@ -151,6 +151,8 @@ int main(void)
 		exec_check(&cim_physicalconnector_wmi, TEXT("Checking CIM_PhysicalConnector with WMI "));
 		exec_check(&cim_slot_wmi, TEXT("Checking CIM_Slot with WMI "));
 		exec_check(&pirated_windows, TEXT("Checking if Windows is Genuine "));
+		exec_check(&registry_services_disk_enum, TEXT("Checking Services\\Disk\\Enum entries for VM strings "));
+		exec_check(&registry_disk_enum, TEXT("Checking Enum\\IDE and Enum\\SCSI entries for VM strings "));
 	}
 
 	/* VirtualBox Detection */

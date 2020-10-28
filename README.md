@@ -154,6 +154,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - SOFTWARE\\VMware, Inc.\\VMware Tools (VMWARE)
   - SOFTWARE\\Wine (WINE)
   - SOFTWARE\Microsoft\Virtual Machine\Guest\Parameters (HYPER-V)
+  - SYSTEM\\CurrentControlSet\\Services\\Disk\\Enum
+  - SYSTEM\\CurrentControlSet\\Enum\\IDE
+  - SYSTEM\\CurrentControlSet\\Enum\\SCSI
 - **File system artifacts**
   - "system32\\drivers\\VBoxMouse.sys"
   - "system32\\drivers\\VBoxGuest.sys"
