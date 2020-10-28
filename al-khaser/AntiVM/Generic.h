@@ -2,6 +2,9 @@
 
 VOID loaded_dlls();
 VOID known_file_names();
+VOID known_usernames();
+VOID known_hostnames();
+VOID other_known_sandbox_environment_checks();
 BOOL NumberOfProcessors();
 BOOL idt_trick();
 BOOL ldt_trick();

@@ -125,6 +125,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Color of background pixel (todo)
 - Keyboard layout (Win32/Banload) (todo)
 - Genuine Windows installation.
+- Known Sandbox hostnames and usernames
 
 
 ### Anti-Virtualization / Full-System Emulation
