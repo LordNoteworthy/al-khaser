@@ -49,10 +49,21 @@ BOOL NtSetInformationThread_ThreadHideFromDebugger()
 		if (doQITcheck)
 		{
 			Status = NtQueryInformationThread(GetCurrentThread(), ThreadHideFromDebugger, &isThreadHidden, sizeof(BOOL), NULL);
+			//NtQueryInformationThread 0x11 always return STATUS_INFO_LENGTH_MISMATCH even useing SIZE_T or some other or null
+			//0x11无论什么参数都会返回0xc0000004
+			if (Status == 0xc0000004)
+			{
+				return FALSE;
+			}
 			if (Status == 0)
 			{
-				// if the thread isn't hidden we know the ThreadHideFromDebugger call didn't do what it told us it did
-				return isThreadHidden ? FALSE : TRUE;
+				//it's can't be ,absolute something wrong in here 绝对有问题
+				return TRUE;
+			}
+			else
+			{
+				//maybe anything ok?
+				return FALSE;
 			}
 		}
 	}
