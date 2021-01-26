@@ -1,9 +1,10 @@
 .code 
 
 __int2d proc
+    mov rax, 0
     int 2dh
     nop
-	ret
+    ret
 __int2d endp
 
 end
