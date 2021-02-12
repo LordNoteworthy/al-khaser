@@ -854,6 +854,40 @@ BOOL mouse_movement() {
 		return FALSE;
 }
 
+
+/*
+Check for the lack of user input.
+This version is slightly different from the original:
+https://www.lastline.com/labsblog/malware-evasion-techniques/
+It does not run inside an infinite loop (preventing al-khaser to get stuck)
+*/
+BOOL lack_user_input() {
+	int correct_idle_time_counter = 0;
+	DWORD current_tick_count = 0, idle_time = 0;
+	LASTINPUTINFO last_input_info; // Contains the time of the last input
+	last_input_info.cbSize = sizeof(LASTINPUTINFO);
+
+	for (int i = 0; i < 128; ++i) {
+		Sleep(0xb);
+		// Retrieves the time of the last input event
+		if (GetLastInputInfo(&last_input_info)) {
+			current_tick_count = GetTickCount();
+			if (current_tick_count < last_input_info.dwTime)
+				// impossible case unless GetTickCount is manipulated
+				return TRUE;
+			if (current_tick_count - last_input_info.dwTime < 100) {
+				correct_idle_time_counter++;
+				if (correct_idle_time_counter >= 10)
+					return FALSE;
+			}
+		}
+		else  // GetLastInputInfo must not fail
+			return TRUE;
+	}
+	return TRUE;
+}
+
+
 /*
 Check if the machine have enough memory space, usually VM get a small ammount,
 one reason if because several VMs are running on the same servers so they can run

@@ -121,6 +121,7 @@ int main(void)
 		exec_check(&dizk_size_deviceiocontrol, TEXT("Checking hard disk size using DeviceIoControl "));
 		exec_check(&setupdi_diskdrive, TEXT("Checking SetupDi_diskdrive "));
 		exec_check(&mouse_movement, TEXT("Checking mouse movement "));
+		exec_check(&lack_user_input, TEXT("Checking lack of user input "));
 		exec_check(&memory_space, TEXT("Checking memory space using GlobalMemoryStatusEx "));
 		exec_check(&disk_size_getdiskfreespace, TEXT("Checking disk size using GetDiskFreeSpaceEx "));
 		exec_check(&cpuid_is_hypervisor, TEXT("Checking if CPU hypervisor field is set using cpuid(0x1)"));
