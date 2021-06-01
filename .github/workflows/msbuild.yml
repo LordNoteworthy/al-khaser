@@ -1,11 +1,5 @@
 name: MSBuild
-
 on: [push]
-
-env:
-  SOLUTION_FILE_PATH: al-khaser.sln
-  BUILD_CONFIGURATION: Release
-  PLATFORM: x86
 
 jobs:
   build:
@@ -20,13 +14,11 @@ jobs:
     - name: Restore NuGet packages
       run: nuget restore ${{env.SOLUTION_FILE_PATH}}
 
-    - name: Build
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Platform=${{env.PLATFORM}} /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} 
+    - name: Build x86
+      run: msbuild /m /p:Platform=x86 /p:Configuration=Release al-khaser.sln
 
-    - name: DIR
-      run: cmd.exe /c dir
+    - name: Build x64
+      run: msbuild /m /p:Platform=x64 /p:Configuration=Release al-khaser.sln
       
     - name: x86 Binaries
       uses: actions/upload-artifact@v1
@@ -39,3 +31,9 @@ jobs:
       with:
           name: x64
           path: "al-khaser_x64.exe"
+          
+    - name: GITHUB VPS TEST al-khaser_x64
+      run: cmd.exe /c al-khaser_x64.exe
+
+    - name: GITHUB VPS TEST al-khaser_x86
+      run: cmd.exe /c al-khaser_x86.exe
