@@ -5,6 +5,7 @@ on: [push]
 env:
   SOLUTION_FILE_PATH: al-khaser.sln
   BUILD_CONFIGURATION: Release
+  PLATFORM: x86
 
 jobs:
   build:
@@ -22,7 +23,7 @@ jobs:
     - name: Build
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} 
+      run: msbuild /m /p:Platform=${{env.PLATFORM}} /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} 
 
     - name: DIR
       run: cmd.exe /c dir
@@ -31,10 +32,10 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
           name: x86
-          path: "x86"
+          path: "al-khaser_x86.exe"
 
     - name: x64 Binaries
       uses: actions/upload-artifact@v1
       with:
           name: x64
-          path: "x64"
+          path: "al-khaser_x64.exe"
