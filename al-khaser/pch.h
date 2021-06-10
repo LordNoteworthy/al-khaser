@@ -15,6 +15,7 @@
 
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include <Windows.h>
 #include <winternl.h>

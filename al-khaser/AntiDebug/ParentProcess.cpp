@@ -15,27 +15,68 @@ DWORD GetParentProcessId()
 {
 	auto NtQueryInfoProcess = static_cast<pNtQueryInformationProcess>(API::GetAPI(API_IDENTIFIER::API_NtQueryInformationProcess));
 
-	// Some locals
 	NTSTATUS Status = 0;
 	ALK_PROCESS_BASIC_INFORMATION pbi;
 	SecureZeroMemory(&pbi, sizeof(ALK_PROCESS_BASIC_INFORMATION));
 
-	// Now we can call NtQueryInformationProcess, the second param 0 == ProcessBasicInformation
-	Status = NtQueryInfoProcess(GetCurrentProcess(), 0, (PVOID)&pbi, sizeof(ALK_PROCESS_BASIC_INFORMATION), 0);
+	const UINT ProcessBasicInformation = 0;
 
-	if (Status != 0x00000000)
+	Status = NtQueryInfoProcess(GetCurrentProcess(), ProcessBasicInformation, (PVOID)&pbi, sizeof(ALK_PROCESS_BASIC_INFORMATION), 0);
+
+	if (Status != 0)
+	{
 		return 0;
+	}
 	else
+	{
 		return (DWORD)pbi.ParentProcessId;
+	}
 }
-
 
 BOOL IsParentExplorerExe()
 {
-	//NOTE this check is wank because you can use an alternative file manager
-	DWORD dwExplorerProcessId = GetParentProcessId();
-	if (dwExplorerProcessId != GetExplorerPIDbyShellWindow())
-		return TRUE;
-	else
-		return FALSE;
+	// this check will throw a false positive if you're running an alternative shell.
+
+	DWORD parentPid = GetParentProcessId();
+
+	bool parentPidEqualsExplorerPid = false;
+
+	if (parentPid > 0)
+	{
+		// first check 
+		HANDLE hParent = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, parentPid);
+		if (hParent != INVALID_HANDLE_VALUE)
+		{
+			WCHAR winDir[MAX_PATH];
+			WCHAR parentProcessPath[MAX_PATH];
+			if (GetModuleFileNameExW(hParent, NULL, parentProcessPath, MAX_PATH) && GetWindowsDirectory(winDir, MAX_PATH))
+			{
+				CloseHandle(hParent);
+
+				// get path to X:\Windows\explorer.exe
+				auto expectedPath = std::experimental::filesystem::path(winDir);
+				expectedPath = expectedPath.append("explorer.exe");
+
+				// get path to parent process
+				auto actualPath = std::experimental::filesystem::path(parentProcessPath);
+
+				// if the paths are equivalent, no detection.
+				return std::experimental::filesystem::equivalent(expectedPath, actualPath) ? FALSE : TRUE;
+			}
+			CloseHandle(hParent);
+		}
+
+		// if the first check couldn't be completed, fall back to the shell window approach.
+		// this check is less ideal because it throws false positives if you have explorer process isolation enabled (i.e. one process per explorer window)
+		DWORD explorerPid = GetExplorerPIDbyShellWindow();
+		if (explorerPid > 0)
+		{
+			if (parentPid != explorerPid)
+			{
+				return TRUE;
+			}
+		}
+	}
+
+	return FALSE;
 }
