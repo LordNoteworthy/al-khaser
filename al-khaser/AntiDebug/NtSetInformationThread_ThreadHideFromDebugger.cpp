@@ -11,8 +11,22 @@ is called, the thread will continue  to run but a debugger will no longer receiv
 These checks also look for hooks on the NtSetInformationThread API that try to block ThreadHideFromDebugger.
 */
 
+#ifndef STATUS_INFO_LENGTH_MISMATCH
+#define STATUS_INFO_LENGTH_MISMATCH ((DWORD)0xC0000004L)
+#endif
+#ifndef STATUS_DATATYPE_MISALIGNMENT
+#define STATUS_DATATYPE_MISALIGNMENT ((DWORD)0x80000002L)
+#endif
+
+
 BOOL NtSetInformationThread_ThreadHideFromDebugger()
 {
+	// this is needed because the bool data type can be at unaligned memory locations, whereas the NtQueryInformationThread API expects 32-bit aligned pointers.
+	struct AlignedBool
+	{
+		alignas(4) bool Value;
+	};
+
 	// ThreadHideFromDebugger
 	const int ThreadHideFromDebugger =  0x11;
 
@@ -29,8 +43,9 @@ BOOL NtSetInformationThread_ThreadHideFromDebugger()
 		doQITcheck = IsWindowsVistaOrGreater();
 	}
 
-	BOOL isThreadHidden = FALSE;
-
+	AlignedBool isThreadHidden;
+	isThreadHidden.Value = false;
+	
 	// First issue a bogus call with an incorrect length parameter. If it succeeds, we know NtSetInformationThread was hooked.
 	Status = NtSetInformationThread(GetCurrentThread(), ThreadHideFromDebugger, &isThreadHidden, 12345);
 	if (Status == 0)
@@ -48,11 +63,62 @@ BOOL NtSetInformationThread_ThreadHideFromDebugger()
 	{
 		if (doQITcheck)
 		{
-			Status = NtQueryInformationThread(GetCurrentThread(), ThreadHideFromDebugger, &isThreadHidden, sizeof(BOOL), NULL);
+			// note: the ThreadHideFromDebugger query expects a bool (1 byte), not a BOOL (4 bytes)
+			// if a BOOL is used, the kernel returns 0xC0000004 (STATUS_INFO_LENGTH_MISMATCH) because BOOL is typedef int.
+
+			// first do a legitimate call. this should succeed or return an error such as access denied.
+			Status = NtQueryInformationThread(GetCurrentThread(), ThreadHideFromDebugger, &isThreadHidden.Value, sizeof(bool), NULL);
+
+			// this shouldn't happen, because we used the correct length. this will only happen if a buggy hook mistakenly expects a BOOL rather than a bool.
+			if (Status == STATUS_INFO_LENGTH_MISMATCH)
+			{
+				// we found a buggy hook that expects some size other than 1
+				return TRUE;
+			}
+
+			// if the legitimate call succeeded, continue with additional bogus API call checks
 			if (Status == 0)
 			{
-				// if the thread isn't hidden we know the ThreadHideFromDebugger call didn't do what it told us it did
-				return isThreadHidden ? FALSE : TRUE;
+				AlignedBool bogusIsThreadHidden;
+				bogusIsThreadHidden.Value = false;
+
+				// now do a bogus call with the wrong size. this will catch buggy hooks that accept BOOL (4 bytes) or just don't have any size checks
+				Status = NtQueryInformationThread(GetCurrentThread(), ThreadHideFromDebugger, &bogusIsThreadHidden.Value, sizeof(BOOL), NULL);
+				if (Status != STATUS_INFO_LENGTH_MISMATCH)
+				{
+					// we found a buggy hook that allows for incorrect size values
+					return TRUE;
+				}
+
+				// NtQueryInformationThread explicitly requires the ThreadInformation pointer to be aligned. as such, it should reject unaligned pointers.
+				// hooks are almost certainly guaranteed to not retain this behaviour, so it's a very nice way to catch them out.
+				const size_t UnalignedCheckCount = 8;
+				bool bogusUnalignedValues[UnalignedCheckCount];
+				int alignmentErrorCount = 0;
+#if _WIN64
+				// on 64-bit, up to two elements in the array should be aligned.
+				const size_t MaxAlignmentCheckSuccessCount = 2;
+#else
+				// on 32-bit, there should be either two or four aligned elements (unsure how WoW64 affects this, so I'm just gonna assume 2 or 4 are ok)
+				const size_t MaxAlignmentCheckSuccessCount = 4;
+#endif
+				for (size_t i = 0; i < UnalignedCheckCount; i++)
+				{
+					Status = NtQueryInformationThread(GetCurrentThread(), ThreadHideFromDebugger, &(bogusUnalignedValues[i]), sizeof(BOOL), NULL);
+					if (Status == STATUS_DATATYPE_MISALIGNMENT)
+					{
+						alignmentErrorCount++;
+					}
+				}
+				// if there weren't enough alignment errors, we know that the API must be hooked and not checking alignment properly!
+				if (UnalignedCheckCount - MaxAlignmentCheckSuccessCount > alignmentErrorCount)
+				{
+					return TRUE;
+				}
+
+				// the legitimate call was successful, and the bogus call was unsuccessful, so return false (no detection) if the HideFromDebugger flag was properly set.
+				// if the HideFromDebugger flag was not set, i.e. the NtSetInformationThread call lied to us about being successful, then return true (debugger/hook detected)
+				return isThreadHidden.Value ? FALSE : TRUE;
 			}
 		}
 	}
