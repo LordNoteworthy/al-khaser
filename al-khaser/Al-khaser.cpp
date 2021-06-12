@@ -101,6 +101,7 @@ int main(void)
 		exec_check(&ScanForModules_LDR_Direct, TEXT("Enumerating the process LDR directly "));
 		exec_check(&ScanForModules_MemoryWalk_GMI, TEXT("Walking process memory with GetModuleInformation "));
 		exec_check(&ScanForModules_MemoryWalk_Hidden, TEXT("Walking process memory for hidden modules "));
+		exec_check(&ScanForModules_DotNetModuleStructures, TEXT("Walking process memory for .NET module structures "));
 	}
 
 	/* Generic sandbox detection */

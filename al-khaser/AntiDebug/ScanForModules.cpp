@@ -342,12 +342,14 @@ BOOL ScanForModules_MemoryWalk_Hidden()
 			if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (TCHAR*)addr, &moduleHandle) == FALSE)
 			{
 				// not a known module
-				if ((region->Protect & PAGE_EXECUTE) == PAGE_EXECUTE ||
-					(region->Protect & PAGE_EXECUTE_READ) == PAGE_EXECUTE_READ ||
-					(region->Protect & PAGE_EXECUTE_WRITECOPY) == PAGE_EXECUTE_WRITECOPY ||
-					(region->Protect & PAGE_EXECUTE_READWRITE) == PAGE_EXECUTE_READWRITE)
+				if ((region->State & MEM_COMMIT) == MEM_COMMIT &&
+					((region->Protect == PAGE_READONLY) ||
+					(region->Protect == PAGE_READWRITE) || 
+					(region->Protect == PAGE_EXECUTE_READ) || 
+					(region->Protect == PAGE_EXECUTE_READWRITE) || 
+					(region->Protect == PAGE_EXECUTE_WRITECOPY)))
 				{
-					auto moduleData = static_cast<PBYTE>(region->AllocationBase);
+					auto moduleData = static_cast<PBYTE>(region->BaseAddress);
 					if (moduleData[0] == 'M' && moduleData[1] == 'Z')
 					{
 						if (firstPrint)
@@ -361,7 +363,7 @@ BOOL ScanForModules_MemoryWalk_Hidden()
 							}
 						}
 
-						printf(" [!] Executable at %p\n", region->AllocationBase);
+						printf(" [!] Executable at %p\n", region->BaseAddress);
 						anyBadLibs = true;
 					}
 				}
@@ -399,6 +401,90 @@ BOOL ScanForModules_MemoryWalk_Hidden()
 
 			if (!skippedForward)
 				addr += 4096;
+		}
+
+		delete region;
+	}
+	delete memoryRegions;
+
+	return anyBadLibs ? TRUE : FALSE;
+}
+
+BOOL ScanForModules_DotNetModuleStructures()
+{
+	HMODULE moduleHandle = 0;
+	TCHAR moduleName[MAX_PATH];
+
+	auto memoryRegions = enumerate_memory();
+
+	bool anyBadLibs = false;
+
+	/*
+	This works because the .NET runtime loads structures into memory that describe modules. This happens even if the module is loaded dynamically, from memory.
+	If al-khaser were a .NET application we'd need to apply some additional checks on the results, but since it isn't then we can just report every .NET module we find.
+	This check is quite effective because it catches pretty much any kind of .NET injection, even if the injector uses tricks like messing with PE headers or patching EWT.
+	*/
+
+	bool firstPrint = true;
+	for (PMEMORY_BASIC_INFORMATION region : *memoryRegions)
+	{
+		if (region->State == MEM_FREE || region->Type == MEM_MAPPED || region->Type == MEM_IMAGE)
+		{
+			//printf("region %p skipped for being free, mapped, or image.\n", region->BaseAddress);
+			delete region;
+			continue;
+		}
+
+		if ((region->State & MEM_COMMIT) == MEM_COMMIT &&
+			region->Protect == PAGE_READWRITE &&
+			region->AllocationProtect == PAGE_READWRITE)
+		{
+			uint64_t* addr = static_cast<uint64_t*>(region->BaseAddress);
+			uint64_t* regionEnd = addr + (region->RegionSize / sizeof(uint64_t));
+
+			// check first qword at region base address. should be zero.
+			if (*addr == 0)
+			{
+				// find the pattern of QWORDs we want (0, 0, 0, 0, 0, 0, pointer, length, 1, 2, 0, 2, 0, 2, 0)
+				while (addr < regionEnd - 32)
+				{
+					uint64_t* ptr = addr;
+					bool sixZeroes = true;
+					for (int i = 0; i < 6; i++)
+					{
+						sixZeroes &= *(ptr++) == 0;
+					}
+					if (sixZeroes)
+					{
+						//printf("got six zeroes at %p\n", ptr);
+						uint64_t stringPtrVal = *ptr;
+						PCWSTR stringPtr = reinterpret_cast<PCWSTR>(*ptr);
+						ptr++;
+						uint64_t stringLen = *ptr;
+						ptr++;
+						if (*ptr++ == 1 && *ptr++ == 2 && *ptr++ == 0 && *ptr++ == 2 && *ptr++ == 0 && *ptr++ == 2 && *ptr++ == 0)
+						{
+							// pattern matches, check string addr
+							if ((stringPtrVal & 0xFFFFFFFF00000000ULL) == ((uint64_t)ptr & 0xFFFFFFFF00000000ULL))
+							{
+								// check string length is sane
+								if (stringLen < MAX_PATH * sizeof(wchar_t))
+								{
+									// ok, we're sure it's the right structure. report it.
+
+									if (firstPrint)
+									{
+										printf("\n\n");
+									}
+									printf(" [!] Found module: %S (structure address %p)\n", stringPtr, stringPtr);
+									anyBadLibs = true;
+								}
+							}
+						}
+					}
+					addr++;
+				}
+			}
 		}
 
 		delete region;
