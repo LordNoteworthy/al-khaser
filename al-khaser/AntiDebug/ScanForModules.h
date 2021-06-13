@@ -8,3 +8,4 @@ BOOL ScanForModules_LDR_Direct();
 BOOL ScanForModules_LdrEnumerateLoadedModules();
 BOOL ScanForModules_MemoryWalk_GMI();
 BOOL ScanForModules_MemoryWalk_Hidden();
+BOOL ScanForModules_DotNetModuleStructures();
