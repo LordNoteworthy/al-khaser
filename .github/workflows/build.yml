@@ -1,4 +1,4 @@
-name: MSBuild
+name: Build
 on: [push]
 
 jobs:
@@ -20,13 +20,13 @@ jobs:
     - name: Build x64
       run: msbuild /m /p:Platform=x64 /p:Configuration=Release al-khaser.sln
       
-    - name: x86 Binaries
+    - name: Upload x86 Binaries
       uses: actions/upload-artifact@v1
       with:
           name: x86
           path: "al-khaser_x86.exe"
 
-    - name: x64 Binaries
+    - name: Upload x64 Binaries
       uses: actions/upload-artifact@v1
       with:
           name: x64
