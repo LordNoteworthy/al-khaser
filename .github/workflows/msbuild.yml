@@ -31,9 +31,3 @@ jobs:
       with:
           name: x64
           path: "al-khaser_x64.exe"
-          
-    - name: GITHUB VPS TEST al-khaser_x64
-      run: cmd.exe /c al-khaser_x64.exe
-
-    - name: GITHUB VPS TEST al-khaser_x86
-      run: cmd.exe /c al-khaser_x86.exe
