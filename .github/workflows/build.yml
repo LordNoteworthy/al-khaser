@@ -21,14 +21,10 @@ jobs:
       run: msbuild /m /p:Platform=x64 /p:Configuration=Release al-khaser.sln
 
     - name: Zip x86 Binaries
-      uses: edgarrc/action-7z@v1
-      with:
-        args: 7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=32m al-khaser_x86.7z al-khaser_x86.exe
+      run: 7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=32m al-khaser_x86.7z al-khaser_x86.exe
 
     - name: Zip x64 Binaries
-      uses: edgarrc/action-7z@v1
-      with:
-        args: 7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=32m al-khaser_x64.7z al-khaser_x64.exe
+      run: 7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=32m al-khaser_x64.7z al-khaser_x64.exe
         
     - name: Upload x86 Binaries
       uses: actions/upload-artifact@v1
