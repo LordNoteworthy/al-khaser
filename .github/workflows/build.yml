@@ -1,0 +1,38 @@
+name: Build
+on: [pull_request, push]
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore NuGet packages
+      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Build x86
+      run: msbuild /m /p:Platform=x86 /p:Configuration=Release al-khaser.sln
+
+    - name: Build x64
+      run: msbuild /m /p:Platform=x64 /p:Configuration=Release al-khaser.sln
+
+    - name: Zip x86 Binaries
+      run: 7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=32m -mhe=on -p"yug69gG89T98HGUY8y" al-khaser_x86.7z al-khaser_x86.exe
+
+    - name: Zip x64 Binaries
+      run: 7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=32m -mhe=on -p"yug69gG89T98HGUY8y" al-khaser_x64.7z al-khaser_x64.exe
+        
+    - name: Upload x86 Binaries
+      uses: actions/upload-artifact@v1
+      with:
+          name: x86
+          path: "al-khaser_x86.7z"
+
+    - name: Upload x64 Binaries
+      uses: actions/upload-artifact@v1
+      with:
+          name: x64
+          path: "al-khaser_x64.7z"
