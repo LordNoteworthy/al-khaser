@@ -1074,3 +1074,48 @@ std::vector<PMEMORY_BASIC_INFORMATION64>* enumerate_memory_wow64()
 
 	return regions;
 }
+
+
+std::vector<wchar_t*>* enumerate_object_directory(const wchar_t* path)
+{
+	if (!API::IsAvailable(API_NtOpenDirectoryObject) || !API::IsAvailable(API_NtQueryDirectoryObject))
+	{
+		return nullptr;
+	}
+
+	UNICODE_STRING usPath = { 0 };
+	usPath.Buffer = const_cast<wchar_t*>(path);
+	usPath.Length = lstrlenW(path) * sizeof(wchar_t);
+	usPath.MaximumLength = usPath.Length;
+	
+	OBJECT_ATTRIBUTES objAttr = { 0 };
+	InitializeObjectAttributes(&objAttr, &usPath, OBJ_CASE_INSENSITIVE, NULL, NULL);
+
+	auto ntOpenDirectoryObject = static_cast<pNtOpenDirectoryObject>(API::GetAPI(API_NtOpenDirectoryObject));
+	auto ntQueryDirectoryObject = static_cast<pNtQueryDirectoryObject>(API::GetAPI(API_NtQueryDirectoryObject));
+
+	const int DIRECTORY_QUERY = 0x0001;
+	HANDLE hDirectory = 0;
+	NTSTATUS status = ntOpenDirectoryObject(&hDirectory, DIRECTORY_QUERY, &objAttr);
+	if (status != 0)
+	{
+		//printf("\nNTODO failed: %x\n", status);
+		return nullptr;
+	}
+
+	auto pObjDirInfo = static_cast<OBJECT_DIRECTORY_INFORMATION*>(calloc(0x800, 1));
+	ULONG returnedLength = 0;
+	ULONG context = 0;
+	auto results = new std::vector<wchar_t*>();
+	while (ntQueryDirectoryObject(hDirectory, pObjDirInfo, 0x800, TRUE, FALSE, &context, &returnedLength) == 0 && returnedLength > 0)
+	{
+		//wprintf(L"\nobject: %s\n", pObjDirInfo->Name.Buffer);
+		wchar_t* name = static_cast<wchar_t*>(calloc(pObjDirInfo->Name.Length + 1, sizeof(wchar_t)));
+		memcpy(name, pObjDirInfo->Name.Buffer, pObjDirInfo->Name.Length * sizeof(wchar_t));
+		results->push_back(name);
+	}
+
+	free(pObjDirInfo);
+
+	return results;
+}

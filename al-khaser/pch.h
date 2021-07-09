@@ -117,6 +117,7 @@
 #include "AntiVM/Xen.h"
 #include "AntiVM/Parallels.h"
 #include "AntiVM/Services.h"
+#include "AntiVM/HyperV.h"
 
 /* Code Injections Headers */
 #include "CodeInjection/CreateRemoteThread.h"

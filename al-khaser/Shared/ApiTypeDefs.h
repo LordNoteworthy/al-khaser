@@ -8,6 +8,7 @@ typedef BOOL(WINAPI* pEnumProcessModulesEx)(
 	LPDWORD lpcbNeeded,
 	DWORD dwFilterFlag);
 typedef UINT(WINAPI* pEnumSystemFirmwareTables)(DWORD, PVOID, DWORD);
+typedef DWORD(WINAPI* pGetActiveProcessorCount)(WORD);
 typedef UINT(WINAPI* pGetSystemFirmwareTable)(DWORD, DWORD, PVOID, DWORD); 
 typedef void (WINAPI *pGetNativeSystemInfo)(LPSYSTEM_INFO);
 typedef BOOL(WINAPI *pGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
@@ -53,6 +54,10 @@ typedef NTSTATUS(NTAPI *pNtQueryLicenseValue)(
 typedef VOID (NTAPI *pRtlInitUnicodeString)(
 	_Out_ PUNICODE_STRING DestinationString,
 	_In_opt_ PCWSTR SourceString);
+
+
+typedef NTSTATUS(WINAPI *pNtQueryDirectoryObject)(_In_ HANDLE, _Out_opt_ PVOID, _In_ ULONG, _In_ BOOLEAN, _In_ BOOLEAN, _Inout_ PULONG, _Out_opt_ PULONG);
+typedef NTSTATUS(WINAPI *pNtOpenDirectoryObject)(OUT PHANDLE, IN ACCESS_MASK, IN POBJECT_ATTRIBUTES);
 
 typedef NTSTATUS(WINAPI *pNtQueryObject)(IN HANDLE, IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
 typedef NTSTATUS(WINAPI *pNtQuerySystemInformation)(IN UINT, OUT PVOID, IN ULONG, OUT PULONG);
