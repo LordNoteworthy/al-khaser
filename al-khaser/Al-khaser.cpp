@@ -18,6 +18,7 @@ int main(void)
 	BOOL	ENABLE_XEN_CHECKS = TRUE;
 	BOOL	ENABLE_WINE_CHECKS = TRUE;
 	BOOL	ENABLE_PARALLELS_CHECKS = TRUE;
+	BOOL	ENABLE_HYPERV_CHECKS = TRUE;
 	BOOL	ENABLE_CODE_INJECTIONS = FALSE;
 	BOOL	ENABLE_TIMING_ATTACKS = TRUE;
 	BOOL	ENABLE_DUMPING_CHECK = TRUE;
@@ -231,6 +232,12 @@ int main(void)
 		print_category(TEXT("Paralles Detection"));
 		parallels_process();
 		exec_check(&parallels_check_mac, TEXT("Checking Mac Address start with 08:1C:42 "));
+	}
+
+	if (ENABLE_HYPERV_CHECKS) {
+		print_category(TEXT("Hyper-V Detection"));
+		exec_check(&check_hyperv_driver_objects, TEXT("Checking for Hyper-V driver objects "));
+		exec_check(&check_hyperv_global_objects, TEXT("Checking for Hyper-V global objects "));
 	}
 
 	/* Code injections techniques */
