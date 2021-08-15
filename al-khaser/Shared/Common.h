@@ -13,6 +13,9 @@ VOID print_results(int result, TCHAR* szMsg);
 VOID _print_check_text(const TCHAR* szMsg);
 VOID _print_check_result(int result, const TCHAR* szMsg);
 
+// amount of detections
+extern int _detections;
+
 VOID exec_check(int(*callback)(), const TCHAR* szMsg);
 
 // this must be defined in this header file
@@ -27,6 +30,11 @@ VOID exec_check(int(*callback)(T param), T param, const TCHAR* szMsg)
 	int result = callback(param);
 
 	/* Print / Log the result */
-	if (szMsg)
+	if (szMsg) {
 		_print_check_result(result, szMsg);
+
+		// if the result was [BAD] it will add to our detections.
+		if (result == 1)
+			_detections++;
+	}
 }

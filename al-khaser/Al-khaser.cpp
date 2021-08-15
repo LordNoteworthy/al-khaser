@@ -299,6 +299,7 @@ int main(void)
 	}
 
 	_tprintf(_T("\n\nAnalysis done, I hope you didn't get red flags :)"));
+	_tprintf(_T("\nDetections: %d\n"), _detections); 
 
 	getchar();
 	return 0;
