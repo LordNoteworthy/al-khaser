@@ -80,8 +80,6 @@ VOID print_results(int result, TCHAR* szMsg)
 	_print_check_result(result, szMsg);
 }
 
-int _detections = 0;
-
 // note: templated version of this function is in Common.h
 VOID exec_check(int(*callback)(), const TCHAR* szMsg)
 {
@@ -94,9 +92,9 @@ VOID exec_check(int(*callback)(), const TCHAR* szMsg)
 	/* Print / Log the result */
 	if (szMsg) {
 		_print_check_result(result, szMsg);
-
+		
 		// if the result was [BAD] it will add to our detections.
-		if (result == 1)
+		if(result == 1)
 			_detections++;
 	}
 }

@@ -54,14 +54,14 @@ BOOL IsParentExplorerExe()
 				CloseHandle(hParent);
 
 				// get path to X:\Windows\explorer.exe
-				auto expectedPath = std::experimental::filesystem::path(winDir);
+				auto expectedPath = std::filesystem::path(winDir);
 				expectedPath = expectedPath.append("explorer.exe");
 
 				// get path to parent process
-				auto actualPath = std::experimental::filesystem::path(parentProcessPath);
+				auto actualPath = std::filesystem::path(parentProcessPath);
 
 				// if the paths are equivalent, no detection.
-				return std::experimental::filesystem::equivalent(expectedPath, actualPath) ? FALSE : TRUE;
+				return std::filesystem::equivalent(expectedPath, actualPath) ? FALSE : TRUE;
 			}
 			CloseHandle(hParent);
 		}

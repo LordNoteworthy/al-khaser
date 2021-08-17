@@ -14,7 +14,7 @@ VOID _print_check_text(const TCHAR* szMsg);
 VOID _print_check_result(int result, const TCHAR* szMsg);
 
 // amount of detections
-extern int _detections;
+inline int _detections = 0;
 
 VOID exec_check(int(*callback)(), const TCHAR* szMsg);
 

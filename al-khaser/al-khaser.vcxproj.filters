@@ -286,6 +286,7 @@
     <ClInclude Include="AntiDebug\LowFragmentationHeap.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiVM\HyperV.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -470,6 +471,7 @@
     <ClCompile Include="AntiDebug\LowFragmentationHeap.cpp">
       <Filter>AntiDebug\Source</Filter>
     </ClCompile>
+    <ClCompile Include="AntiVM\HyperV.cpp" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="AntiDebug\int2d_x86.asm">
@@ -489,7 +491,6 @@
     </MASM>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="..\README.md" />
     <None Include="..\CHANGELOG.md" />
   </ItemGroup>
