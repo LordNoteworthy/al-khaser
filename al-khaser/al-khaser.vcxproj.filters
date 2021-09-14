@@ -286,6 +286,12 @@
     <ClInclude Include="AntiDebug\LowFragmentationHeap.h">
       <Filter>AntiDebug\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiVM\KVM.h">
+      <Filter>AntiVM\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiVM\HyperV.h">
+      <Filter>AntiVM\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -469,6 +475,12 @@
     </ClCompile>
     <ClCompile Include="AntiDebug\LowFragmentationHeap.cpp">
       <Filter>AntiDebug\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiVM\KVM.cpp">
+      <Filter>AntiVM\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiVM\HyperV.cpp">
+      <Filter>AntiVM\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
