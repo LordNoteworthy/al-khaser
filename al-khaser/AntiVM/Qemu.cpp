@@ -36,7 +36,9 @@ Check for process list
 VOID qemu_processes()
 {
 	const TCHAR *szProcesses[] = {
-		_T("qemu-ga.exe"),
+		_T("qemu-ga.exe"),		// QEMU guest agent.
+		_T("vdagent.exe"),		// SPICE guest tools.
+		_T("vdservice.exe"),	// SPICE guest tools.
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);
@@ -45,6 +47,39 @@ VOID qemu_processes()
 		TCHAR msg[256] = _T("");
 		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking qemu processes %s "), szProcesses[i]);
 		if (GetProcessIdFromName(szProcesses[i]))
+			print_results(TRUE, msg);
+		else
+			print_results(FALSE, msg);
+	}
+}
+
+/*
+Check against blacklisted directories.
+*/
+VOID qemu_dir()
+{
+	TCHAR szProgramFile[MAX_PATH];
+	TCHAR szPath[MAX_PATH] = _T("");
+
+	const TCHAR* szDirectories[] = {
+	_T("qemu-ga"),	// QEMU guest agent.
+	_T("SPICE Guest Tools"), // SPICE guest tools.
+	};
+
+	WORD iLength = sizeof(szDirectories) / sizeof(szDirectories[0]);
+	for (int i = 0; i < iLength; i++)
+	{
+		TCHAR msg[256] = _T("");
+
+		if (IsWoW64())
+			ExpandEnvironmentStrings(_T("%ProgramW6432%"), szProgramFile, ARRAYSIZE(szProgramFile));
+		else
+			SHGetSpecialFolderPath(NULL, szProgramFile, CSIDL_PROGRAM_FILES, FALSE);
+
+		PathCombine(szPath, szProgramFile, szDirectories[i]);
+
+		_stprintf_s(msg, sizeof(msg) / sizeof(TCHAR), _T("Checking QEMU directory %s "), szPath);
+		if (is_DirectoryExists(szPath))
 			print_results(TRUE, msg);
 		else
 			print_results(FALSE, msg);

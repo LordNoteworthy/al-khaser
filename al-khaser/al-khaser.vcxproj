@@ -210,6 +210,7 @@
     <ClInclude Include="AntiDump\SizeOfImage.h" />
     <ClInclude Include="AntiVM\Generic.h" />
     <ClInclude Include="AntiVM\HyperV.h" />
+    <ClInclude Include="AntiVM\KVM.h" />
     <ClInclude Include="AntiVM\Parallels.h" />
     <ClInclude Include="AntiVM\pch.h" />
     <ClInclude Include="AntiVM\Qemu.h" />
@@ -282,6 +283,7 @@
     <ClCompile Include="AntiDump\SizeOfImage.cpp" />
     <ClCompile Include="AntiVM\Generic.cpp" />
     <ClCompile Include="AntiVM\HyperV.cpp" />
+    <ClCompile Include="AntiVM\KVM.cpp" />
     <ClCompile Include="AntiVM\Parallels.cpp" />
     <ClCompile Include="AntiVM\Qemu.cpp" />
     <ClCompile Include="AntiVM\Services.cpp" />

@@ -1,4 +1,4 @@
-## Al-Khaser v0.80
+## Al-Khaser v0.81
 
 ![Logo](https://www.mindmeister.com/files/avatars/0035/8332/original/avatar.jpg)
 
@@ -78,7 +78,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Page exception breakpoint detection
 - API hook detection (module bounds based)
 
-
 ### Anti-injection
 - Enumerate modules with EnumProcessModulesEx (32-bit, 64-bit, and all options)
 - Enumerate modules with ToolHelp32  
@@ -90,8 +89,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 ### Anti-Dumping
 - Erase PE header from memory
 - SizeOfImage
-
-
 
 ### Timing Attacks [Anti-Sandbox]
 - RDTSC (with CPUID to force a VM Exit)
@@ -108,11 +105,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - CreateTimerQueueTimer
 - Big crypto loops (todo)
 
-
-
 ### Human Interaction / Generic [Anti-Sandbox]
 - Mouse movement
-- File names like `sample.exe` or sandbox.exe`.
+- File names like `sample.exe` or `sandbox.exe`.
 - Total Physical memory (GlobalMemoryStatusEx)
 - Disk size using DeviceIoControl (IOCTL_DISK_GET_LENGTH_INFO)
 - Disk size using GetDiskFreeSpaceEx (TotalNumberOfBytes)
@@ -126,7 +121,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Keyboard layout (Win32/Banload) (todo)
 - Genuine Windows installation.
 - Known Sandbox hostnames and usernames
-
 
 ### Anti-Virtualization / Full-System Emulation
 - **Registry key value artifacts**
@@ -184,7 +178,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - "system32\\drivers\\vmmouse.sys"
   - "system32\\drivers\\vmrawdsk.sys"
   - "system32\\drivers\\vmusbmouse.sys"
-
 
 - **Directories artifacts**
   - "%PROGRAMFILES%\\oracle\\virtualbox guest additions\\"
@@ -293,7 +286,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - ImportREC / PETools / LordPE
   - JoeBox Sandbox
 
-
 ### Anti-Disassembly
 - Jump with constant condition
 - Jump instruction with same target
@@ -301,13 +293,9 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - Function Pointers
 - Return Pointer Abuse
 
-
 ### Macro malware attacks
 - Document_Close / Auto_Close.
 - Application.RecentFiles.Count 
-
-
-
 
 ### Code/DLL Injections techniques
 - CreateRemoteThread 
@@ -316,9 +304,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - RtlCreateUserThread
 - APC (QueueUserAPC / NtQueueApcThread)
 - RunPE (GetThreadContext / SetThreadContext)
-
-
-
 
 ## Authors
 - [mrexodia](http://mrexodia.cf): Main developer of [x64dbg](http://x64dbg.com/)

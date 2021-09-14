@@ -1,6 +1,17 @@
 #### 0.81
 
 - Add anti-debug trick: Low Fragmentation Heap.
+- Add known hostname / username checks from malware thanks to @recvfrom.
+- Add Anti-VM disk enum registry checks thanks to @recvfrom.
+- Fix Patching int2d check.
+- Fix wrong comment in CheckRemoteDebuggerPresent check thanks to @SpriteOvO.
+- Bug fixes and new checks in ThreadHideFromDebugger.
+- Improve parent process check to avoid false positives.
+- Fix ScanForModules_MemoryWalk_Hidden and add new .NET structure scan.
+- Add github action to build and upload binaries thanks to @graysuit.
+- Add Hyper-V object checks.
+- Add QEMU directory check (guest agent and SPICE tools).
+- Add KVM checks (virtio reg keys, files and directory).
 
 #### 0.80
 

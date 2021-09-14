@@ -115,6 +115,7 @@
 #include "AntiVM/VirtualPC.h"
 #include "AntiVM/QEMU.h"
 #include "AntiVM/Xen.h"
+#include "AntiVM/KVM.h"
 #include "AntiVM/Parallels.h"
 #include "AntiVM/Services.h"
 #include "AntiVM/HyperV.h"

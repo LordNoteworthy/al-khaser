@@ -15,6 +15,7 @@ int main(void)
 	BOOL	ENABLE_VMWARE_CHECKS = TRUE;
 	BOOL	ENABLE_VPC_CHECKS = TRUE;
 	BOOL	ENABLE_QEMU_CHECKS = TRUE;
+	BOOL	ENABLE_KVM_CHECKS = TRUE;
 	BOOL	ENABLE_XEN_CHECKS = TRUE;
 	BOOL	ENABLE_WINE_CHECKS = TRUE;
 	BOOL	ENABLE_PARALLELS_CHECKS = TRUE;
@@ -29,7 +30,7 @@ int main(void)
 	resize_console_window();
 
 	/* Display general informations */
-	_tprintf(_T("[al-khaser version 0.80]"));
+	_tprintf(_T("[al-khaser version 0.81]"));
 
 	print_category(TEXT("Initialisation"));
 	API::Init();
@@ -208,8 +209,10 @@ int main(void)
 		print_category(TEXT("QEMU Detection"));
 		qemu_reg_key_value();
 		qemu_processes();
+		qemu_dir();
 		exec_check(&qemu_firmware_SMBIOS, TEXT("Checking SMBIOS firmware  "));
 		exec_check(&qemu_firmware_ACPI, TEXT("Checking ACPI tables  "));
+
 	}
 
 	/* Xen Detection */
@@ -217,7 +220,14 @@ int main(void)
 		print_category(TEXT("Xen Detection"));
 		xen_process();
 		exec_check(&xen_check_mac, TEXT("Checking Mac Address start with 08:16:3E "));
+	}
 
+	/* KVM Detection */
+	if (ENABLE_KVM_CHECKS) {
+		print_category(TEXT("Xen Detection"));
+		kvm_files();
+		kvm_reg_keys();
+		exec_check(&kvm_dir, TEXT("Checking KVM virio directory "));
 	}
 
 	/* Wine Detection */
@@ -278,7 +288,6 @@ int main(void)
 
 	/* Anti disassembler tricks */
 	if (ENABLE_ANTI_DISASSM_CHECKS) {
-
 		_tprintf(_T("Begin AntiDisassmConstantCondition\n"));
 		AntiDisassmConstantCondition();
 		_tprintf(_T("Begin AntiDisassmAsmJmpSameTarget\n"));
