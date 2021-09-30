@@ -21,7 +21,7 @@ int main(void)
 	BOOL	ENABLE_PARALLELS_CHECKS = TRUE;
 	BOOL	ENABLE_HYPERV_CHECKS = TRUE;
 	BOOL	ENABLE_CODE_INJECTIONS = FALSE;
-	BOOL	ENABLE_TIMING_ATTACKS = TRUE;
+	BOOL	ENABLE_TIMING_ATTACKS = FALSE;
 	BOOL	ENABLE_DUMPING_CHECK = TRUE;
 	BOOL	ENABLE_ANALYSIS_TOOLS_CHECK = TRUE;
 	BOOL	ENABLE_ANTI_DISASSM_CHECKS = TRUE;
@@ -298,6 +298,10 @@ int main(void)
 		AntiDisassmFunctionPointer();
 		_tprintf(_T("Begin AntiDisassmReturnPointerAbuse\n"));
 		AntiDisassmReturnPointerAbuse();
+#ifndef _WIN64
+		_tprintf(_T("Begin AntiDisassmSEHMisuse\n"));
+		AntiDisassmSEHMisuse();
+#endif
 	}
 
 	/* Anti Dumping */

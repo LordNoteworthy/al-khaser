@@ -5,3 +5,4 @@ VOID AntiDisassmAsmJmpSameTarget();
 VOID AntiDisassmImpossibleDiasassm();
 VOID AntiDisassmFunctionPointer();
 VOID AntiDisassmReturnPointerAbuse();
+VOID AntiDisassmSEHMisuse();
