@@ -90,10 +90,12 @@ func3 proc
 	mov dword ptr fs:[0], eax
 	ASSUME FS:ERROR
 	add esp, 8
-	ret
+	pop ebp
+	retn
  func3 endp
 
 __AsmSEHMisuse proc
+	push ebp
 	mov eax, offset func3
 	push eax
 	ASSUME FS:NOTHING
@@ -103,7 +105,7 @@ __AsmSEHMisuse proc
 	xor ecx, ecx
 	div ecx
 	call func2
-	ret
+	retn
 __AsmSEHMisuse endp
 
 end
