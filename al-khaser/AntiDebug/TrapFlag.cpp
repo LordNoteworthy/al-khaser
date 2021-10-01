@@ -27,8 +27,6 @@ static LONG CALLBACK VectoredHandler(
 		//Increase EIP/RIP to continue execution.
 #ifdef _WIN64
 		ExceptionInfo->ContextRecord->Rip++;
-#else
-		ExceptionInfo->ContextRecord->Eip++;
 #endif
 		return EXCEPTION_CONTINUE_EXECUTION;
 	}
