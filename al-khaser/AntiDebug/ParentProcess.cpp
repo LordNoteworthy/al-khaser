@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "ParentProcess.h"
 
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#include <experimental/filesystem>
+
 DWORD GetExplorerPIDbyShellWindow()
 {
 	DWORD dwProcessId = 0;
