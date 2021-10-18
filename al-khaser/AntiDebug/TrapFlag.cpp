@@ -6,7 +6,7 @@
 	This technique is similar to exceptions based debugger detections.
 	You enable the trap flag in the current process and check whether
 	an exception is raised or not. If an exception is not raised, you
-	can assume that a debugger has “swallowed” the exception for us,
+	can assume that a debugger has â€œswallowedâ€ the exception for us,
 	and that the program is being traced. The beauty of this approach
 	is that it detects every debugger, user mode or kernel mode,
 	because they all use the trap flag for tracing a program.
@@ -22,14 +22,10 @@ static LONG CALLBACK VectoredHandler(
 )
 {
 	SwallowedException = FALSE;
+	
 	if (ExceptionInfo->ExceptionRecord->ExceptionCode == EXCEPTION_SINGLE_STEP)
-	{
-		//Increase EIP/RIP to continue execution.
-#ifdef _WIN64
-		ExceptionInfo->ContextRecord->Rip++;
-#endif
 		return EXCEPTION_CONTINUE_EXECUTION;
-	}
+		
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 
