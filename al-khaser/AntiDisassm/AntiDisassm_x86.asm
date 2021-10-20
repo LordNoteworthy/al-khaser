@@ -78,6 +78,34 @@ __AsmReturnPointerAbuse proc
 	retn
 __AsmReturnPointerAbuse endp
 
+; another dummy function
+func3 proc 
+	mov esp, [esp+8]
+	ASSUME FS:NOTHING
+	mov eax, dword ptr fs:[0]
+	ASSUME FS:ERROR
+	mov eax, [eax]
+	mov eax, [eax]
+	ASSUME FS:NOTHING
+	mov dword ptr fs:[0], eax
+	ASSUME FS:ERROR
+	add esp, 8
+	pop ebp
+	retn
+ func3 endp
 
+__AsmSEHMisuse proc
+	push ebp
+	mov eax, offset func3
+	push eax
+	ASSUME FS:NOTHING
+	push dword ptr fs:[0]
+	mov dword ptr fs:[0], esp
+	ASSUME FS:ERROR
+	xor ecx, ecx
+	div ecx
+	call func2
+	retn
+__AsmSEHMisuse endp
 
 end

@@ -298,6 +298,10 @@ int main(void)
 		AntiDisassmFunctionPointer();
 		_tprintf(_T("Begin AntiDisassmReturnPointerAbuse\n"));
 		AntiDisassmReturnPointerAbuse();
+#ifndef _WIN64
+		_tprintf(_T("Begin AntiDisassmSEHMisuse\n"));
+		AntiDisassmSEHMisuse();
+#endif
 	}
 
 	/* Anti Dumping */

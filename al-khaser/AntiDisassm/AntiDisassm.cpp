@@ -8,6 +8,9 @@ extern "C" void __AsmJmpSameTarget();
 extern "C" void __AsmImpossibleDisassm();
 extern "C" void __AsmFunctionPointer(DWORD);
 extern "C" void __AsmReturnPointerAbuse(DWORD64);
+#ifndef _WIN64
+extern "C" void __AsmSEHMisuse();
+#endif
 
 /*
 	This technique is composed of a single conditional jump instruction placed where the condition
@@ -62,3 +65,10 @@ VOID AntiDisassmReturnPointerAbuse()
 {
 	__AsmReturnPointerAbuse(666);
 }
+
+#ifndef _WIN64
+VOID AntiDisassmSEHMisuse()
+{
+	__AsmSEHMisuse();
+}
+#endif
