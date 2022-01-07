@@ -53,3 +53,71 @@ VOID analysis_tools_process()
 			print_results(FALSE, msg);
 	}
 }
+
+int HijackParentProcess() {
+
+	DWORD dwProcessId = 0;
+	STARTUPINFOEX sie = { 0 };
+	PROCESS_INFORMATION pi = { 0 };
+	SIZE_T cbAttributeListSize = 0;
+	PPROC_THREAD_ATTRIBUTE_LIST pAttributeList = NULL;
+	HANDLE hParentProcess = NULL;
+
+	/* Get Process ID from Process name */
+	dwProcessId = GetProcessIdFromName(_T("notepad.exe"));
+	if (dwProcessId == NULL) {
+		return FALSE;
+	}
+	_tprintf(_T("\t[+] Getting proc id: %u\n"), dwProcessId);
+
+	/* Get the size of the thread attribute list */
+	InitializeProcThreadAttributeList(NULL, 1, 0, &cbAttributeListSize);
+	pAttributeList = (PPROC_THREAD_ATTRIBUTE_LIST)HeapAlloc(GetProcessHeap(), 0, cbAttributeListSize);
+	if (NULL == pAttributeList)
+	{
+		print_last_error(_T("HeapAlloc"));
+		goto Cleanup;
+	}
+
+	/* Make another call to effectively initialize the thread attribute list */
+	if (!InitializeProcThreadAttributeList(pAttributeList, 1, 0, &cbAttributeListSize))
+	{
+		print_last_error(_T("InitializeProcThreadAttributeList error"));
+		goto Cleanup;
+	}
+
+	/* Obtain debug privileges */
+	SetPrivilege(GetCurrentProcess(), SE_DEBUG_NAME, TRUE);
+	
+	/* Obtain a handle the process */
+	hParentProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);
+	if (NULL == hParentProcess)
+	{
+		print_last_error(_T("OpenProcess"));
+		goto Cleanup;
+	}
+
+	if (!UpdateProcThreadAttribute(pAttributeList, 0, PROC_THREAD_ATTRIBUTE_PARENT_PROCESS,
+			&hParentProcess, sizeof(HANDLE), NULL, NULL))
+	{
+		print_last_error(_T("UpdateProcThreadAttribute"));
+		goto Cleanup;
+	}
+
+	sie.lpAttributeList = pAttributeList;
+
+	if (!CreateProcess(NULL, (LPWSTR)_T("calc.exe"), NULL, NULL, FALSE,
+			EXTENDED_STARTUPINFO_PRESENT, NULL, NULL, &sie.StartupInfo, &pi))
+	{
+		print_last_error(_T("CreateProcess"));
+		goto Cleanup;
+	}
+
+	_tprintf(_T("Process created: %d\n"), pi.dwProcessId);
+
+Cleanup:
+	if (pAttributeList) DeleteProcThreadAttributeList(pAttributeList);
+	if (hParentProcess) CloseHandle(hParentProcess);
+	
+	return 0;
+}

@@ -1,6 +1,7 @@
 #pragma once
 
 VOID analysis_tools_process();
+int HijackParentProcess();
 
 /*
 
