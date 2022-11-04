@@ -26,6 +26,47 @@ typedef DWORD(WINAPI * pRtlCreateUserThread)(
 	OUT LPVOID					ClientID
 	);
 typedef NTSTATUS(WINAPI* pNtClose)(HANDLE);
+typedef enum _SYSDBG_COMMAND {
+	SysDbgQueryModuleInformation,
+	SysDbgQueryTraceInformation,
+	SysDbgSetTracepoint,
+	SysDbgSetSpecialCall,
+	SysDbgClearSpecialCalls,
+	SysDbgQuerySpecialCalls,
+	SysDbgBreakPoint,
+	SysDbgQueryVersion,
+	SysDbgReadVirtual,
+	SysDbgWriteVirtual,
+	SysDbgReadPhysical,
+	SysDbgWritePhysical,
+	SysDbgReadControlSpace,
+	SysDbgWriteControlSpace,
+	SysDbgReadIoSpace,
+	SysDbgWriteIoSpace,
+	SysDbgReadMsr,
+	SysDbgWriteMsr,
+	SysDbgReadBusData,
+	SysDbgWriteBusData,
+	SysDbgCheckLowMemory,
+	SysDbgEnableKernelDebugger,
+	SysDbgDisableKernelDebugger,
+	SysDbgGetAutoKdEnable,
+	SysDbgSetAutoKdEnable,
+	SysDbgGetPrintBufferSize,
+	SysDbgSetPrintBufferSize,
+	SysDbgGetKdUmExceptionEnable,
+	SysDbgSetKdUmExceptionEnable,
+	SysDbgGetTriageDump,
+	SysDbgGetKdBlockEnable,
+	SysDbgSetKdBlockEnable,
+} SYSDBG_COMMAND, * PSYSDBG_COMMAND;
+typedef NTSTATUS(NTAPI* pNtSystemDebugControl)(
+	IN SYSDBG_COMMAND Command,
+	IN PVOID InputBuffer,
+	IN ULONG InputBufferLength,
+	OUT PVOID OutputBuffer,
+	IN ULONG OutputBufferLength,
+	OUT PULONG ReturnLength);
 typedef NTSTATUS(WINAPI *pNtCreateDebugObject)(OUT PHANDLE, IN ACCESS_MASK, IN POBJECT_ATTRIBUTES, IN ULONG);
 typedef NTSTATUS(WINAPI *pNtCreateThreadEx)(
 	OUT PHANDLE ThreadHandle,

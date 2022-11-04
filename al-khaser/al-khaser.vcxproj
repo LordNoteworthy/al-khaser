@@ -23,32 +23,32 @@
     <ProjectGuid>{77AEFBC3-0ECE-46AD-A113-966AAAA838E1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>alkhaser</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -187,6 +187,7 @@
     <ClInclude Include="AntiDebug\NtQueryObject_ObjectInformation.h" />
     <ClInclude Include="AntiDebug\NtQuerySystemInformation_SystemKernelDebuggerInformation.h" />
     <ClInclude Include="AntiDebug\NtSetInformationThread_ThreadHideFromDebugger.h" />
+    <ClInclude Include="AntiDebug\NtSystemDebugControl.h" />
     <ClInclude Include="AntiDebug\NtYieldExecution.h" />
     <ClInclude Include="AntiDebug\OutputDebugStringAPI.h" />
     <ClInclude Include="AntiDebug\PageExceptionBreakpointCheck.h" />
@@ -263,6 +264,7 @@
     <ClCompile Include="AntiDebug\NtQueryObject_ObjectTypeInformation.cpp" />
     <ClCompile Include="AntiDebug\NtQuerySystemInformation_SystemKernelDebuggerInformation.cpp" />
     <ClCompile Include="AntiDebug\NtSetInformationThread_ThreadHideFromDebugger.cpp" />
+    <ClCompile Include="AntiDebug\NtSystemDebugControl.cpp" />
     <ClCompile Include="AntiDebug\NtYieldExecution.cpp" />
     <ClCompile Include="AntiDebug\OutputDebugStringAPI.cpp" />
     <ClCompile Include="AntiDebug\PageExceptionBreakpointCheck.cpp" />

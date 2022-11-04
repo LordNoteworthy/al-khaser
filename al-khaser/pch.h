@@ -78,6 +78,7 @@
 #include "AntiDebug/NtQueryInformationProcess_ProcessDebugObject.h"
 #include "AntiDebug/NtSetInformationThread_ThreadHideFromDebugger.h"
 #include "AntiDebug/CloseHandle_InvalidHandle.h"
+#include "AntiDebug/NtSystemDebugControl.h"
 #include "AntiDebug/UnhandledExceptionFilter_Handler.h"
 #include "AntiDebug/OutputDebugStringAPI.h"
 #include "AntiDebug/HardwareBreakpoints.h"

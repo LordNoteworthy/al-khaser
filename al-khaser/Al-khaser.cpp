@@ -68,6 +68,7 @@ int main(void)
 		exec_check(&WUDF_IsUserDebuggerPresent, TEXT("Checking WudfIsUserDebuggerPresent API "));
 		exec_check(&NtSetInformationThread_ThreadHideFromDebugger, TEXT("Checking NtSetInformationThread with ThreadHideFromDebugger "));
 		exec_check(&CloseHandle_InvalideHandle, TEXT("Checking CloseHandle with an invalide handle "));
+		exec_check(&NtSystemDebugControl_Command, TEXT("Checking NtSystemDebugControl"));
 		exec_check(&UnhandledExcepFilterTest, TEXT("Checking UnhandledExcepFilterTest "));
 		exec_check(&OutputDebugStringAPI, TEXT("Checking OutputDebugString "));
 		exec_check(&HardwareBreakpoints, TEXT("Checking Hardware Breakpoints "));
