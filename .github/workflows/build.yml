@@ -2,7 +2,7 @@ name: Build
 on: [pull_request, push]
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
     - uses: actions/checkout@v2
