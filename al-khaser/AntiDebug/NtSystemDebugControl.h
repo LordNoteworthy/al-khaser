@@ -1,0 +1,1 @@
+BOOL NtSystemDebugControl_Command();

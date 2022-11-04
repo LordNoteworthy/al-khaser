@@ -292,6 +292,7 @@
     <ClInclude Include="AntiVM\HyperV.h">
       <Filter>AntiVM\Header</Filter>
     </ClInclude>
+    <ClInclude Include="AntiDebug\NtSystemDebugControl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="al-khaser.cpp" />
@@ -482,6 +483,7 @@
     <ClCompile Include="AntiVM\HyperV.cpp">
       <Filter>AntiVM\Source</Filter>
     </ClCompile>
+    <ClCompile Include="AntiDebug\NtSystemDebugControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="AntiDebug\int2d_x86.asm">
@@ -501,7 +503,6 @@
     </MASM>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="..\README.md" />
     <None Include="..\CHANGELOG.md" />
   </ItemGroup>
