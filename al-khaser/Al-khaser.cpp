@@ -242,7 +242,7 @@ int main(void)
 	if (ENABLE_PARALLELS_CHECKS) {
 		print_category(TEXT("Paralles Detection"));
 		parallels_process();
-		exec_check(&parallels_check_mac, TEXT("Checking Mac Address start with 08:1C:42 "));
+		exec_check(&parallels_check_mac, TEXT("Checking Mac Address start with 00:1C:42 "));
 	}
 
 	if (ENABLE_HYPERV_CHECKS) {
