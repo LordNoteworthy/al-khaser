@@ -306,7 +306,6 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - RunPE (GetThreadContext / SetThreadContext)
 
 ## Authors
-- [mrexodia](http://mrexodia.cf): Main developer of [x64dbg](http://x64dbg.com/)
 - [Mattiwatti](https://github.com/Mattiwatti): Matthijs Lavrijsen
 - [gsuberland](https://twitter.com/gsuberland): Graham Sutherland
 - [hFireF0x](https://github.com/hfiref0x): hfiref0x
