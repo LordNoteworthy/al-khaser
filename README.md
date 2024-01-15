@@ -99,7 +99,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 - SetTimer (Standard Windows Timers)
 - timeSetEvent (Multimedia Timers)
 - WaitForSingleObject -> WaitForSingleObjectEx -> NtWaitForSingleObject
-- WaitForMultipleObjects -> WaitForMultipleObjectsEx -> NtWaitForMultipleObjects (todo)
+- WaitForMultipleObjects -> WaitForMultipleObjectsEx -> NtWaitForMultipleObjects
 - IcmpSendEcho (CCleaner Malware)
 - CreateWaitableTimer
 - CreateTimerQueueTimer
@@ -279,13 +279,14 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
 
 ### Anti-Analysis
 - **Processes**
-  - OllyDBG / ImmunityDebugger / WinDbg / IDA Pro / X64dbg / Cheat Enigne
+  - OllyDBG / ImmunityDebugger / WinDbg / IDA Pro / X64dbg / Cheat Engine
   - SysInternals Suite Tools (Process Explorer / Process Monitor / Regmon / Filemon, TCPView, Autoruns)
   - Wireshark / Dumpcap / Fiddler / Http Debugger
   - ProcessHacker / SysAnalyzer / HookExplorer / SysInspector
   - ImportREC / PETools / LordPE
   - JoeBox Sandbox
   - Resource Hacker
+  - Frida
 
 ### Anti-Disassembly
 - Jump with constant condition

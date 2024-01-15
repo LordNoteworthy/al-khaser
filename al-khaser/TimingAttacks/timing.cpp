@@ -117,6 +117,35 @@ BOOL timing_WaitForSingleObject(UINT delayInMillis)
 	return FALSE;
 }
 
+BOOL timing_WaitForMultipleObjects(UINT delayInMillis) {
+	HANDLE hThread;
+	DWORD i, dwEvent, dwThreadID;
+
+	// Create two event objects
+
+	for (i = 0; i < 2; i++)
+	{
+		ghEvents[i] = CreateEvent(
+			NULL,  // default security attributes
+			FALSE, // auto-reset event object
+			FALSE, // initial state is nonsignaled
+			NULL); // unnamed object
+
+		if (ghEvents[i] == NULL)
+		{
+			print_last_error(_T("CreateEvent"));
+			return TRUE;
+		}
+	}
+
+	dwEvent = WaitForMultipleObjects(
+		2,        // number of objects in array
+		ghEvents, // array of objects
+		FALSE,    // wait for any object
+		delayInMillis);    // delay in milliseconds
+
+	return FALSE;
+}
 
 BOOL timing_sleep_loop (UINT delayInMillis)
 {
