@@ -4,6 +4,7 @@ BOOL timing_SetTimer(UINT delayInMillis);
 BOOL timing_NtDelayexecution(UINT delayInMillis);
 BOOL timing_timeSetEvent(UINT delayInMillis);
 BOOL timing_WaitForSingleObject(UINT delayInMillis);
+BOOL timing_WaitForMultipleObjects(UINT delayInMillis);
 BOOL timing_sleep_loop(UINT delayInMillis);
 BOOL rdtsc_diff_locky();
 BOOL rdtsc_diff_vmexit();
