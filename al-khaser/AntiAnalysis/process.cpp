@@ -43,6 +43,8 @@ VOID analysis_tools_process()
 		_T("cheatengine-i386.exe"),				// Cheat Engine
 		_T("cheatengine-x86_64.exe"),			// Cheat Engine
 		_T("cheatengine-x86_64-SSE4-AVX2.exe"), // Cheat Engine
+		_T("frida-helper-32.exe"),				// Frida
+		_T("frida-helper-64.exe"),				// Frida
 	};
 
 	WORD iLength = sizeof(szProcesses) / sizeof(szProcesses[0]);

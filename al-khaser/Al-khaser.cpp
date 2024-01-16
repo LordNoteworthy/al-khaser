@@ -328,6 +328,7 @@ int main(int argc, char* argv[])
 		exec_check(timing_SetTimer, delayInMillis, TEXT("Delaying execution using SetTimer ..."));
 		exec_check(timing_timeSetEvent, delayInMillis, TEXT("Delaying execution using timeSetEvent ..."));
 		exec_check(timing_WaitForSingleObject, delayInMillis, TEXT("Delaying execution using WaitForSingleObject ..."));
+		exec_check(timing_WaitForMultipleObjects, delayInMillis, TEXT("Delaying execution using WaitForMultipleObjects ..."));
 		exec_check(timing_IcmpSendEcho, delayInMillis, TEXT("Delaying execution using IcmpSendEcho ..."));
 		exec_check(timing_CreateWaitableTimer, delayInMillis, TEXT("Delaying execution using CreateWaitableTimer ..."));
 		exec_check(timing_CreateTimerQueueTimer, delayInMillis, TEXT("Delaying execution using CreateTimerQueueTimer ..."));
