@@ -119,6 +119,7 @@ BOOL timing_WaitForSingleObject(UINT delayInMillis)
 
 BOOL timing_WaitForMultipleObjects(UINT delayInMillis) {
 	HANDLE hThread;
+	HANDLE ghEvents[2];
 	DWORD i, dwEvent, dwThreadID;
 
 	// Create two event objects
