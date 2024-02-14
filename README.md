@@ -215,6 +215,7 @@ Please, if you encounter any of the anti-analysis tricks which you have seen in 
   - SMBIOS string checks (VirtualBox)
   - SMBIOS string checks (VMWare)
   - SMBIOS string checks (Qemu)
+  - SMBIOS number of tables (Qemu, VirtualBox)
   - ACPI string checks (VirtualBox)
   - ACPI string checks (VMWare)
   - ACPI string checks (Qemu)
