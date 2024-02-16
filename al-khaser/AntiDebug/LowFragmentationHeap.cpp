@@ -12,7 +12,7 @@ Routine Description:
 	Originally found by Souhail Hammou:
 	http://rce4fun.blogspot.com/2014/02/anti-debugging-trick-checking-for-low.html
 	Under a debugger, the process does not have a Low Fragmentation Heap (LFH)
-	The routine simply checks weather the nt!_HEAP.FrontEndHeap is NULL.
+	The routine simply checks whether the nt!_HEAP.FrontEndHeap is NULL.
 
 Arguments:
 
