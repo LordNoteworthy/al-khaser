@@ -49,3 +49,4 @@ BOOL cim_voltagesensor_wmi();
 BOOL pirated_windows();
 BOOL registry_services_disk_enum();
 BOOL registry_disk_enum();
+BOOL number_SMBIOS_tables();

@@ -1927,3 +1927,88 @@ BOOL registry_disk_enum()
 	}
 	return bFound;
 }
+
+BOOL handle_one_table(BYTE* currentPosition, UINT& bias, BYTE* smBiosTableBoundary)
+{
+	struct SmbiosTableHeader
+	{
+		BYTE type;       // Table type
+		BYTE length;     // Length of the table
+		WORD handle;     // Handle of the table
+	};
+
+	SmbiosTableHeader* tableHeader = reinterpret_cast<SmbiosTableHeader*>(currentPosition);
+	SmbiosTableHeader* tableBoundary = reinterpret_cast<SmbiosTableHeader*>(smBiosTableBoundary);
+
+	const BYTE lastEntry = 127;
+	if (tableHeader->type == lastEntry) {
+		// End of tables reached
+		return TRUE;
+	}
+
+	currentPosition += tableHeader->length * sizeof(BYTE);
+	UINT i = 0;
+	// Find the end of the table
+	while (!(currentPosition[i] == 0 && currentPosition[i + 1] == 0)
+		&& (currentPosition[i + 1] < smBiosTableBoundary[0]))
+	{
+		i++;
+	}
+	//pair of terminal zeros
+	i += 2;
+	bias = i + tableHeader->length;
+
+	return FALSE;
+}
+
+BOOL check_tables_number(const PBYTE smbios)
+{
+	struct RawSMBIOSData
+	{
+		BYTE    method;           // Access method(obsolete)
+		BYTE    mjVer;            // Major part of the SMB version(major)
+		BYTE    mnVer;            // Minor part of the SMB version(minor)
+		BYTE    dmiRev;           // DMI version(obsolete)
+		DWORD   length;           // Data table size
+		BYTE    tableData[];      // Table data
+	};
+
+	RawSMBIOSData* smBiosData = reinterpret_cast<RawSMBIOSData*>(smbios);
+	BYTE* smBiosTableBoundary = smBiosData->tableData + smBiosData->length;
+	BYTE* currentPosition = smBiosData->tableData;
+	UINT tableNumber = 0;
+
+	while (currentPosition < smBiosTableBoundary) {
+		UINT biasNewTable = 0;
+		tableNumber++;
+		if (handle_one_table(currentPosition, biasNewTable, smBiosTableBoundary))
+		{
+			break;
+		}
+		currentPosition += biasNewTable * sizeof(BYTE);
+	}
+
+	const UINT tableMinReal = 40;
+	if (tableNumber <= tableMinReal)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*
+Check for SMBIOS tables number
+*/
+BOOL number_SMBIOS_tables()
+{
+	BOOL result = FALSE;
+
+	DWORD smbiosSize = 0;
+	PBYTE smbios = get_system_firmware(static_cast<DWORD>('RSMB'), 0x0000, &smbiosSize);
+	if (smbios != NULL)
+	{
+		result = check_tables_number(smbios);
+		free(smbios);
+	}
+	return result;
+}
