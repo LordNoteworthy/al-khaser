@@ -2,7 +2,7 @@
 
 
  /* 
- APIs making user of the ZwClose syscall (such as CloseHandle, indirectly) 
+ APIs making use of the ZwClose syscall (such as CloseHandle, indirectly) 
  can be used to detect a debugger. When a process is debugged, calling ZwClose 
  with an invalid handle will generate a STATUS_INVALID_HANDLE (0xC0000008) exception.
  As with all anti-debugs that rely on information made directly available.
