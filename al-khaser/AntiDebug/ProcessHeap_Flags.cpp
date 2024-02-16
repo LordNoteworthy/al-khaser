@@ -3,7 +3,7 @@
 #include "ProcessHeap_Flags.h"
 
 /* 
-When a program is run under a debugger, and is created using the debug process creation flags. The heap flags are changed.
+When a program is run under a debugger, and is created using the debug process creation flags, the heap flags are changed.
 These Flags exit at a different location depending upon the version of the operating system.
 On Windows XP, these flags exist at 0x0C offset from heap base in 32bit system and offset 0x14 in 64bits
 On Windows 7, these flags exist at 0x40 offset from heap base in 32bit system and offset 0x70 in 64bits. 
