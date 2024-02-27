@@ -2012,3 +2012,16 @@ BOOL number_SMBIOS_tables()
 	}
 	return result;
 }
+
+/*
+Check Win32_PerfRawData_Counters_ThermalZoneInformation for entries
+*/
+BOOL perf_raw_data_counters_thermalzoneinfo_wmi()
+{
+	int count = wmi_query_count(_T("SELECT * FROM Win32_PerfRawData_Counters_ThermalZoneInformation"));
+	if (count == 0)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
