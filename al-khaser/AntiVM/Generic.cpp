@@ -512,6 +512,33 @@ BOOL number_cores_wmi()
 	return bFound;
 }
 
+/*
+Filter for removable disk, CD-ROM, network drive or RAM disk
+*/
+BOOL checkDriveType(IWbemClassObject* pclsObj)
+{
+	if (!pclsObj)
+		return FALSE;
+
+	BOOL res = FALSE;
+	VARIANT vtDriveType;
+	HRESULT hResDriveType;
+
+	hResDriveType = pclsObj->Get(_T("DriveType"), 0, &vtDriveType, NULL, 0);
+	if (SUCCEEDED(hResDriveType) && V_VT(&vtDriveType) != VT_NULL)
+	{
+		if (vtDriveType.uintVal == 2 // removable disk (USB)
+			|| vtDriveType.uintVal == 4 // network drive
+			|| vtDriveType.uintVal == 5 // CD-ROM
+			|| vtDriveType.uintVal == 6 // RAM disk
+			)
+		{
+			res = TRUE;
+		}
+		VariantClear(&vtDriveType);
+	}
+	return res;
+}
 
 /*
 Check hard disk size using WMI
@@ -542,11 +569,16 @@ BOOL disk_size_wmi()
 			// Iterate over our enumator
 			while (pEnumerator)
 			{
-				BOOL detectedRealDisk = FALSE;
 				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
-
+				
+				// Don`t check removable disk, network drive CD-ROM and RAM disk
+				if (checkDriveType(pclsObj)) {
+					pclsObj->Release();
+					continue;
+				}
+				
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("Size"), 0, &vtProp, NULL, 0);
 				if (SUCCEEDED(hRes)) {
@@ -562,11 +594,7 @@ BOOL disk_size_wmi()
 							if (diskSizeBytes < minHardDiskSize) { // Less than 80GB
 								bFound = TRUE;
 							}
-							else { // Detect real disk
-								detectedRealDisk = TRUE;
-							}
-						}
-
+							
 						// release the current result object
 						VariantClear(&vtProp);
 					}
@@ -576,7 +604,7 @@ BOOL disk_size_wmi()
 				pclsObj->Release();
 
 				// break from while
-				if (bFound || detectedRealDisk)
+				if (bFound)
 					break;
 			}
 
