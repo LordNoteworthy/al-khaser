@@ -542,6 +542,7 @@ BOOL disk_size_wmi()
 			// Iterate over our enumator
 			while (pEnumerator)
 			{
+				BOOL detectedRealDisk = FALSE;
 				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
@@ -561,6 +562,9 @@ BOOL disk_size_wmi()
 							if (diskSizeBytes < minHardDiskSize) { // Less than 80GB
 								bFound = TRUE;
 							}
+							else { // Detect real disk
+								detectedRealDisk = TRUE;
+							}
 						}
 
 						// release the current result object
@@ -572,7 +576,7 @@ BOOL disk_size_wmi()
 				pclsObj->Release();
 
 				// break from while
-				if (bFound)
+				if (bFound || detectedRealDisk)
 					break;
 			}
 
