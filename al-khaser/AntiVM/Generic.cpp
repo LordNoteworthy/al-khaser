@@ -594,7 +594,7 @@ BOOL disk_size_wmi()
 							if (diskSizeBytes < minHardDiskSize) { // Less than 80GB
 								bFound = TRUE;
 							}
-							
+						}	
 						// release the current result object
 						VariantClear(&vtProp);
 					}
