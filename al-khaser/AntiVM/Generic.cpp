@@ -572,13 +572,13 @@ BOOL disk_size_wmi()
 				hRes = pEnumerator->Next(WBEM_INFINITE, 1, &pclsObj, &uReturn);
 				if (0 == uReturn)
 					break;
-				
+
 				// Don`t check removable disk, network drive CD-ROM and RAM disk
 				if (checkDriveType(pclsObj)) {
 					pclsObj->Release();
 					continue;
 				}
-				
+
 				// Get the value of the Name property
 				hRes = pclsObj->Get(_T("Size"), 0, &vtProp, NULL, 0);
 				if (SUCCEEDED(hRes)) {
@@ -594,31 +594,31 @@ BOOL disk_size_wmi()
 							if (diskSizeBytes < minHardDiskSize) { // Less than 80GB
 								bFound = TRUE;
 							}
-							
-						// release the current result object
-						VariantClear(&vtProp);
+
+							// release the current result object
+							VariantClear(&vtProp);
+						}
 					}
+
+					// release class object
+					pclsObj->Release();
+
+					// break from while
+					if (bFound)
+						break;
 				}
 
-				// release class object
-				pclsObj->Release();
-
-				// break from while
-				if (bFound)
-					break;
+				// Cleanup
+				pEnumerator->Release();
+				pSvc->Release();
+				pLoc->Release();
+				CoUninitialize();
 			}
-
-			// Cleanup
-			pEnumerator->Release();
-			pSvc->Release();
-			pLoc->Release();
-			CoUninitialize();
 		}
+
+		return bFound;
 	}
-
-	return bFound;
 }
-
 
 /*
 DeviceIoControl works with disks directly rather than partitions (GetDiskFreeSpaceEx)
