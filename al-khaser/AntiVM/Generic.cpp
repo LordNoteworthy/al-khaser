@@ -1978,11 +1978,11 @@ BOOL handle_one_table(BYTE* currentPosition, UINT& bias, BYTE* smBiosTableBounda
 		return TRUE;
 	}
 
-	currentPosition += tableHeader->length * sizeof(BYTE);
+	currentPosition += tableHeader->length;
 	UINT i = 0;
 	// Find the end of the table
 	while (!(currentPosition[i] == 0 && currentPosition[i + 1] == 0)
-		&& (currentPosition[i + 1] < smBiosTableBoundary[0]))
+		&& (currentPosition + i + 1 < smBiosTableBoundary))
 	{
 		i++;
 	}
@@ -2017,7 +2017,7 @@ BOOL check_tables_number(const PBYTE smbios)
 		{
 			break;
 		}
-		currentPosition += biasNewTable * sizeof(BYTE);
+		currentPosition += biasNewTable;
 	}
 
 	const UINT tableMinReal = 40;
