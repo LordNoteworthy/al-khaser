@@ -27,9 +27,7 @@ It performs a bunch of common malware tricks with the goal of seeing if you stay
 
 ## Download
 
-~~You can download the latest release here: [x86](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser_x86.exe?raw=true) | [x64](https://github.com/LordNoteworthy/al-khaser/blob/master/al-khaser_x64.exe?raw=true).~~
-
-**Sorry, binaries have been removed for now as they were triggering Google's Safe Browsing heuristics.**
+You can download built binaries (x86, x64) from this project's [releases page](https://github.com/LordNoteworthy/al-khaser/releases). The password for the 7zs can be found [here](https://github.com/LordNoteworthy/al-khaser/blob/master/.github/workflows/release.yml#L25).
 
 
 ## Possible uses
