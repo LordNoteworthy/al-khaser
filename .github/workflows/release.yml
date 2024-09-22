@@ -1,5 +1,7 @@
-name: Build Pull Request Artifacts
-on: [pull_request]
+name: Build Release Artifacts
+on:
+  release:
+    types: [published]
 jobs:
   build:
     runs-on: windows-2022
@@ -24,15 +26,9 @@ jobs:
 
     - name: Zip x64 Binaries
       run: 7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=32m -mhe=on -p"yug69gG89T98HGUY8y" al-khaser_x64.7z al-khaser_x64.exe
-        
-    - name: Upload x86 Binaries
-      uses: actions/upload-artifact@v4
-      with:
-          name: x86
-          path: "al-khaser_x86.7z"
 
-    - name: Upload x64 Binaries
-      uses: actions/upload-artifact@v4
+    - name: Attach Binaries to release
+      uses: AButler/upload-release-assets@v3.0
       with:
-          name: x64
-          path: "al-khaser_x64.7z"
+        files: "al-khaser_x*.7z"
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
