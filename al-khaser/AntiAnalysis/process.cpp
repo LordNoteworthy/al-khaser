@@ -10,6 +10,7 @@ VOID analysis_tools_process()
 {
 	const TCHAR *szProcesses[] = {
 		_T("ollydbg.exe"),						// OllyDebug debugger
+		_T("ollyice.exe"),						// OllyICE debugger
 		_T("ProcessHacker.exe"),				// Process Hacker
 		_T("tcpview.exe"),						// Part of Sysinternals Suite
 		_T("autoruns.exe"),						// Part of Sysinternals Suite
@@ -33,7 +34,6 @@ VOID analysis_tools_process()
 		_T("sniff_hit.exe"),					// Part of SysAnalyzer iDefense
 		_T("windbg.exe"),						// Microsoft WinDbg
 		_T("joeboxcontrol.exe"),				// Part of Joe Sandbox
-		_T("joeboxserver.exe"),					// Part of Joe Sandbox
 		_T("joeboxserver.exe"),					// Part of Joe Sandbox
 		_T("ResourceHacker.exe"),				// Resource Hacker
 		_T("x32dbg.exe"),						// x32dbg
