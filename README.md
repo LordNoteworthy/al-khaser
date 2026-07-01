@@ -45,6 +45,7 @@ Options:
                         HYPERV           (Hyper-V detection)
                         CODE_INJECTIONS  (Additional code injection techniques)
                         TIMING_ATTACKS   (Timing/sleep-based sandbox evasion)
+                        VMEXIT_LATENCY   (Measure VM-exit latency)
                         DUMPING_CHECK    (Dumping memory/process checks)
                         ANALYSIS_TOOLS   (Analysis tools detection)
                         ANTI_DISASSM     (Anti-disassembly checks)
