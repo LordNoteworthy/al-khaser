@@ -22,30 +22,30 @@ static LONG CALLBACK VectoredHandler(
 )
 {
 	SwallowedException = FALSE;
-	
-	if (ExceptionInfo->ExceptionRecord->ExceptionCode == EXCEPTION_SINGLE_STEP)
-		return EXCEPTION_CONTINUE_EXECUTION;
-		
+	if (ExceptionInfo->ExceptionRecord->ExceptionCode == EXCEPTION_SINGLE_STEP) 
+	{
+		// Check if the exception address is correctly set (VMProtect antidebug & antivm check)
+		uint8_t mem_val = *static_cast<uint8_t *>(
+			ExceptionInfo->ExceptionRecord->ExceptionAddress);
+		if (mem_val == 0x90)
+			return EXCEPTION_CONTINUE_EXECUTION;
+	}
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 
-
-
+// Disable optimization for the following function 
+// otherwise when building in release mode the compiler removes the nops
+#pragma optimize("", off)
 BOOL TrapFlag()
 {
 	PVOID Handle = AddVectoredExceptionHandler(1, VectoredHandler);
 	SwallowedException = TRUE;
-
-#ifdef _WIN64
-	UINT64 eflags = __readeflags();
-#else
-	UINT eflags = __readeflags();
-#endif
-
-	//  Set the trap flag
-	eflags |= 0x100;
-	__writeeflags(eflags);
+	
+	__writeeflags(__readeflags() | 0x100);
+	__nop();
+	__nop();
 
 	RemoveVectoredExceptionHandler(Handle);
 	return SwallowedException;
 }
+#pragma optimize("", on)
